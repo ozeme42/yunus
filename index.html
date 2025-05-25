@@ -3,66 +3,1017 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Okul Ana Sayfası</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Eğlenceli Etkinlikler</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Genel fontu Inter olarak ayarla */
+        /* Genel Sayfa ve Konteyner Stilleri */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Açık gri arka plan */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-image: url('https://placehold.co/1920x1080/E0F2F7/2C5282?text=Eglenceli+Etkinlikler'); /* Rastgele bir arka plan görseli */
+            color: #333;
+            overflow: hidden; /* İçerik taşmasını engelle */
+        }
+
+        .main-container {
+            background-color: rgba(255, 255, 255, 0.95); /* Yarı şeffaf beyaz kutu */
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            max-width: 900px; /* Genişlik ayarı */
+            width: 100%;
+            height: 90vh; /* Yüksekliği ekranın %90'ı yap */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden; /* İçerik taşmasını engelle */
+        }
+
+        .section {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+            position: absolute; /* Bölümlerin üst üste binmesini sağlar */
+            top: 0;
+            left: 0;
+            padding: 2rem; /* İç padding */
+            box-sizing: border-box;
+        }
+
+        /* Başlık Stilleri */
+        h1, h2 {
+            color: #2c5282;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+        }
+        h2 {
+            font-size: 1.8rem;
+            color: #4a5568;
+        }
+
+        /* Buton Stilleri (Ortak) */
+        .link-button, .main-menu-button, .action-button, .back-button {
+            display: inline-block;
+            background-color: #4299e1;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0.5rem;
+            cursor: pointer;
+            text-align: center;
+        }
+        .link-button:hover, .main-menu-button:hover, .action-button:hover, .back-button:hover {
+            background-color: #3182ce;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .link-button:active, .main-menu-button:active, .action-button:active, .back-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ana Menüye Dön Butonu (Genel) */
+        .back-to-main-button {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: #60a5fa;
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        .back-to-main-button:hover {
+            background-color: #3b82f6;
+            transform: translateY(-1px);
+        }
+        .back-to-main-button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Ünite Kartları (Ortak) */
+        .unit-card {
+            background-color: #ebf8ff;
+            border: 1px solid #bee3f8;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            text-align: center;
+            flex: 1 1 calc(33% - 1.5rem);
+            max-width: calc(33% - 1.5rem);
+            box-sizing: border-box;
+        }
+        .unit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        .unit-card.selected {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+            background-color: #cce7ff;
+        }
+
+        /* Soru Bloğu (5. Sınıf Quiz) */
+        .question-block {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-top: 1.5rem;
+            text-align: left;
+            width: 100%;
+        }
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .option-button {
+            background-color: #edf2f7;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        .option-button:hover {
+            background-color: #e2e8f0;
+            border-color: #a0aec0;
+        }
+        .option-button.correct {
+            background-color: #c6f6d5;
+            border-color: #68d391;
+            color: #276749;
+        }
+        .option-button.wrong {
+            background-color: #fed7d7;
+            border-color: #fc8181;
+            color: #9b2c2c;
+        }
+
+        /* Aksiyon Butonları (5. Sınıf Quiz) */
+        .action-button {
+            background-color: #38a169;
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            margin-top: 1.5rem;
+        }
+        .next-button { background-color: #4299e1; }
+        .next-button:hover { background-color: #3182ce; }
+        .reset-button { background-color: #f6ad55; }
+        .reset-button:hover { background-color: #ed8936; }
+        .return-button { background-color: #a0aec0; }
+        .return-button:hover { background-color: #718096; }
+
+        /* Geri Bildirim Mesajları (5. Sınıf Quiz) */
+        .feedback-message {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+        }
+        .feedback-message.correct {
+            color: #276749;
+            background-color: #d4edda;
+        }
+        .feedback-message.wrong {
+            color: #9b2c2c;
+            background-color: #f8d7da;
+        }
+
+        /* Zamanlayıcı ve Açıklama (5. Sınıf Quiz) */
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e53e3e;
+            margin-bottom: 1rem;
+            text-align: center;
+            width: 100%;
+        }
+        .detailed-explanation-container {
+            background-color: #fff;
+            border-left: 5px solid #4299e1;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 0.5rem;
+            color: #2d3748;
+        }
+        .detailed-explanation-container h3 {
+            color: #2c5282;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .detailed-explanation-container p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin-top: 2rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Kavram Kartları (Kavram Quiz) */
+        .concept-card {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            margin: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .concept-card h3 {
+            color: #2c5282;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .concept-card p {
+            color: #4a5568;
+            font-size: 0.95rem;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 90%;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        /* Yardımcı Sınıflar */
+        .hidden {
+            display: none !important;
+        }
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Custom Alert Modal */
+        #customAlertModal {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+        }
+        #customAlertModal > div {
+            animation: popIn 0.3s ease-out forwards;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Responsive Ayarlar */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+                height: 95vh;
+            }
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .link-button, .main-menu-button, .action-button, .back-button {
+                font-size: 1.1rem;
+                padding: 0.8rem 1.5rem;
+                width: 90%;
+            }
+            .unit-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+            .question-text {
+                font-size: 1.2rem;
+            }
+            .option-button {
+                font-size: 1rem;
+                padding: 0.8rem 1rem;
+            }
+            .detailed-explanation-container h3 {
+                font-size: 1.1rem;
+            }
+            .detailed-explanation-container p {
+                font-size: 0.9rem;
+            }
+            .back-to-main-button {
+                top: 0.5rem;
+                left: 0.5rem;
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            .grid-container {
+                max-width: 95%;
+                gap: 1rem;
+            }
+            .concept-card {
+                padding: 0.8rem 1rem;
+                font-size: 1rem;
+            }
+            .concept-card h3 {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-    <div class="container mx-auto p-4 md:p-8">
+<body>
+    <div class="main-container">
+        <button id="backToMainMenuBtn" class="back-to-main-button hidden">
+            &larr; Ana Sayfaya Dön
+        </button>
 
-        <header class="bg-blue-600 text-white p-6 rounded-lg shadow-md mb-8">
-            <h1 class="text-4xl font-bold text-center">Yunus Emre Ortaokulu</h1>
-            <p class="text-xl text-center mt-2">Bilgiye Açılan Kapınız</p>
-        </header>
+        <div id="main-menu-section" class="section">
+            <h1>Eğlenceli Etkinlikler</h1>
+            <button id="openQuiz5SinifBtn" class="link-button">5. Sınıf Bilgi Yarışması</button>
+            <button id="openKavramQuizBtn" class="link-button">Kavram Bilgi Yarışması</button>
+        </div>
 
-        <nav class="bg-white p-4 rounded-lg shadow-md mb-8 flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold text-lg transition duration-300 ease-in-out">Ana Sayfa</a>
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold text-lg transition duration-300 ease-in-out">Hakkımızda</a>
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold text-lg transition duration-300 ease-in-out">İletişim</a>
-        </nav>
-
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col">
-                <h3 class="text-2xl font-bold text-green-700 mb-3">5. Sınıf</h3>
-                <div class="flex flex-col space-y-3 mt-4">
-                    <a href="#" class="bg-green-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-green-600 transition duration-300 ease-in-out shadow-md">5.Sınıf Bilgi Yarışması.html</a>
-                    <a href="#" class="bg-green-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-green-600 transition duration-300 ease-in-out shadow-md">Kavram Bilgisayarı.html</a>
-                    <a href="#" class="text-green-600 hover:text-green-800 font-semibold text-center mt-2">Daha Fazlasını Keşfet &rarr;</a>
-                </div>
+        <div id="quiz-5-sinif-section" class="section hidden">
+            <div id="sinif5-main-menu-screen" class="w-full flex flex-col items-center">
+                <h1 class="text-3xl lg:text-4xl">Din Kültürü ve Ahlak Bilgisi 5. Sınıf Ünite Etkinlikleri</h1>
+                <h2 class="text-xl lg:text-2xl text-gray-600 mb-6">Lütfen bir ünite seçin:</h2>
+                <div id="sinif5-unit-selection-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full justify-center">
+                    </div>
+                <button id="sinif5-start-game-button" class="main-menu-button hidden">Oyuna Başla</button>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col">
-                <h3 class="text-2xl font-bold text-purple-700 mb-3">6. Sınıf</h3>
-                <div class="flex flex-col space-y-3 mt-4">
-                    <a href="#" class="bg-purple-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-purple-600 transition duration-300 ease-in-out shadow-md">ÖZET</a>
-                    <a href="#" class="bg-purple-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-purple-600 transition duration-300 ease-in-out shadow-md">ETKİNLİK</a>
-                    <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold text-center mt-2">Daha Fazlasını Keşfet &rarr;</a>
+            <div id="sinif5-quiz-screen" class="hidden w-full flex flex-col items-center">
+                <div id="sinif5-quiz-content" class="w-full flex flex-col items-center">
+                    <div id="sinif5-quiz-header" class="w-full text-center mb-4">
+                        <div id="sinif5-timer-display" class="timer-display hidden"></div>
+                        <div id="sinif5-current-question-container" class="question-block">
+                        </div>
+                    </div>
+                    <div id="sinif5-current-question-feedback" class="feedback-message"></div>
+                    <div class="button-group">
+                        <button id="sinif5-next-turn-button" class="action-button next-button hidden">Sonraki Oyuncu</button>
+                        <button id="sinif5-return-to-main-menu-button" class="action-button return-button">Ana Menüye Dön</button>
+                    </div>
+                    <div id="sinif5-loading-spinner" class="loading-spinner"></div>
+                    <div id="sinif5-detailed-explanation-container" class="detailed-explanation-container hidden"></div>
+                    <div id="sinif5-question-screen-instruction-message" class="text-center text-md font-medium text-gray-700 mt-2 hidden"></div>
+                </div>
+
+                <div id="sinif5-final-score-container" class="hidden">
+                    <div id="sinif5-overall-result" class="feedback-message"></div>
+                    <button id="sinif5-reset-game-button" class="action-button reset-button">Yeniden Başla</button>
+                    <button id="sinif5-return-to-main-menu-from-final-button" class="action-button return-button mt-4">Ana Menüye Dön</button>
                 </div>
             </div>
+        </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col">
-                <h3 class="text-2xl font-bold text-red-700 mb-3">7. Sınıf</h3>
-                <div class="flex flex-col space-y-3 mt-4">
-                    <a href="#" class="bg-red-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-red-600 transition duration-300 ease-in-out shadow-md">ÖZET</a>
-                    <a href="#" class="bg-red-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-red-600 transition duration-300 ease-in-out shadow-md">7.Sınıf Kavramlar.html</a>
-                    <a href="#" class="text-red-600 hover:text-red-800 font-semibold text-center mt-2">Daha Fazlasını Keşfet &rarr;</a>
-                </div>
+        <div id="quiz-kavram-section" class="section hidden">
+            <div id="kavram-main-menu-screen" class="w-full flex flex-col items-center">
+                <h1 class="text-3xl lg:text-4xl">Kavram Bilgi Yarışması</h1>
+                <h2 class="text-xl lg:text-2xl text-gray-600 mb-6">Lütfen bir ünite seçin:</h2>
+                <div id="kavram-unit-selection-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full justify-center">
+                    </div>
+                <button id="kavram-start-concept-quiz-button" class="main-menu-button hidden">Kavram Bilgi Yarışmasını Başlat</button>
+                <button id="kavram-view-all-concepts-button" class="main-menu-button hidden">Tüm Kavramları Görüntüle</button>
             </div>
-        </section>
 
-        <footer class="bg-gray-800 text-white p-6 rounded-lg shadow-md text-center">
-            <p>&copy; 2025 Yunus Emre Ortaokulu. Tüm Hakları Saklıdır.</p>
-            <p class="mt-2 text-sm">Adres: Okulunuzun Adresi, Şehir</p>
-            <p class="text-sm">Telefon: (000) 123 45 67 | E-posta: info@okuladiniz.com</p>
-        </footer>
+            <div id="kavram-main-quiz-content" class="hidden w-full flex flex-col items-center">
+                <h2 id="kavram-quiz-title" class="text-2xl lg:text-3xl">Ünite Adı Bilgi Yarışması</h2>
+                <div id="kavram-quiz-area" class="w-full max-w-xl bg-white p-6 rounded-lg shadow-md mb-4">
+                    <div id="kavram-question-display" class="text-xl font-medium mb-4 text-gray-800"></div>
+                    <div id="kavram-options-display" class="grid grid-cols-1 gap-3"></div>
+                    <div id="kavram-feedback" class="text-lg font-semibold mt-4"></div>
+                </div>
+                <div class="flex space-x-4">
+                    <button id="kavram-next-question-button" class="main-menu-button">Sonraki Soru</button>
+                    <button id="kavram-reset-quiz-button" class="main-menu-button bg-red-500 hover:bg-red-700">Yarışmayı Sıfırla</button>
+                </div>
+                <button id="kavram-return-to-unit-selection" class="back-button">Ünite Seçimine Geri Dön</button>
+            </div>
 
+            <div id="kavram-all-concepts-display" class="hidden w-full flex flex-col items-center">
+                <h2 class="text-2xl lg:text-3xl mb-4">Tüm Kavramlar</h2>
+                <div id="kavram-concepts-grid" class="grid-container">
+                    </div>
+                <button id="kavram-return-from-concepts" class="back-button">Ana Menüye Geri Dön</button>
+            </div>
+        </div>
+
+        <div id="customAlertModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+                <p id="customAlertMessage" class="text-lg font-semibold mb-4 text-gray-800"></p>
+                <button id="customAlertCloseBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    Tamam
+                </button>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Custom Alert Function - Tarayıcı alert() yerine kullanılır
+        function showCustomAlert(message) {
+            const customAlertModal = document.getElementById('customAlertModal');
+            const customAlertMessage = document.getElementById('customAlertMessage');
+            const customAlertCloseBtn = document.getElementById('customAlertCloseBtn');
+
+            customAlertMessage.textContent = message;
+            customAlertModal.classList.remove('hidden');
+
+            customAlertCloseBtn.onclick = () => {
+                customAlertModal.classList.add('hidden');
+            };
+        }
+
+        // Ortak HTML Elemanları
+        const mainMenuSection = document.getElementById('main-menu-section');
+        const quiz5SinifSection = document.getElementById('quiz-5-sinif-section');
+        const quizKavramSection = document.getElementById('quiz-kavram-section');
+        const backToMainMenuBtn = document.getElementById('backToMainMenuBtn');
+        const openQuiz5SinifBtn = document.getElementById('openQuiz5SinifBtn');
+        const openKavramQuizBtn = document.getElementById('openKavramQuizBtn');
+
+        // Bölümler Arası Geçiş Fonksiyonu
+        function showSection(sectionId) {
+            // Tüm bölümleri gizle
+            mainMenuSection.classList.add('hidden');
+            quiz5SinifSection.classList.add('hidden');
+            quizKavramSection.classList.add('hidden');
+
+            // İstenen bölümü göster
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            // Ana sayfaya dön butonunun görünürlüğünü ayarla
+            if (sectionId === 'main-menu-section') {
+                backToMainMenuBtn.classList.add('hidden');
+            } else {
+                backToMainMenuBtn.classList.remove('hidden');
+            }
+        }
+
+        // Ana Menü Buton Dinleyicileri
+        openQuiz5SinifBtn.addEventListener('click', () => {
+            showSection('quiz-5-sinif-section');
+            sinif5_initGame(); // 5. Sınıf Quiz'ini başlat
+        });
+
+        openKavramQuizBtn.addEventListener('click', () => {
+            showSection('quiz-kavram-section');
+            kavram_initGame(); // Kavram Quiz'ini başlat
+        });
+
+        backToMainMenuBtn.addEventListener('click', () => {
+            showSection('main-menu-section');
+            // Oyunları sıfırlamak için ilgili fonksiyonları çağır
+            sinif5_resetGame();
+            kavram_resetQuiz();
+        });
+
+        /* --- 5. Sınıf Bilgi Yarışması Kodları --- */
+
+        // HTML Elemanları
+        const sinif5_unitSelectionContainer = document.getElementById('sinif5-unit-selection-container');
+        const sinif5_mainMenuScreen = document.getElementById('sinif5-main-menu-screen');
+        const sinif5_quizScreen = document.getElementById('sinif5-quiz-screen');
+        const sinif5_currentQuestionContainer = document.getElementById('sinif5-current-question-container');
+        const sinif5_currentQuestionFeedback = document.getElementById('sinif5-current-question-feedback');
+        const sinif5_nextTurnButton = document.getElementById('sinif5-next-turn-button');
+        const sinif5_loadingSpinner = document.getElementById('sinif5-loading-spinner');
+        const sinif5_finalScoreContainer = document.getElementById('sinif5-final-score-container');
+        const sinif5_overallResult = document.getElementById('sinif5-overall-result');
+        const sinif5_resetGameButton = document.getElementById('sinif5-reset-game-button');
+        const sinif5_detailedExplanationContainer = document.getElementById('sinif5-detailed-explanation-container');
+        const sinif5_questionScreenInstructionMessage = document.getElementById('sinif5-question-screen-instruction-message');
+        const sinif5_startGameButton = document.getElementById('sinif5-start-game-button');
+        const sinif5_returnToMainMenuButton = document.getElementById('sinif5-return-to-main-menu-button');
+        const sinif5_returnToMainMenuFromFinalButton = document.getElementById('sinif5-return-to-main-menu-from-final-button');
+        const sinif5_timerDisplay = document.getElementById('sinif5-timer-display');
+
+
+        // Değişkenler
+        let sinif5_selectedUnitId = null;
+        let sinif5_questions = [];
+        let sinif5_currentQuestionIndex = 0;
+        let sinif5_timerInterval;
+        let sinif5_timeLeft = 10;
+        let sinif5_currentPlayers = [];
+        let sinif5_currentPlayerIndex = 0;
+        let sinif5_maxScorePerQuestion = 10;
+
+        // Ünite ve Soru Verileri
+        let sinif5_units = [
+            { id: 'unit1', name: 'Kader İnancı', questions: [
+                {
+                    question: "Kader inancıyla ilgili aşağıdaki ifadelerden hangisi yanlıştır?",
+                    options: ["Kader, Allah’ın her şeyi önceden bilmesidir.", "Kader, insanın iradesi olmadan gerçekleşen olaylardır.", "Kader, cüzi irade ile tercih edilen fiillerin Allah tarafından yaratılmasıdır.", "Kader, evrende hiçbir şeyin tesadüfen olmadığını gösterir."],
+                    answer: "Kader, insanın iradesi olmadan gerçekleşen olaylardır.",
+                    explanation: "Kader, sadece insanın iradesi dışında gerçekleşen olaylar değildir. İnsanın cüzi iradesiyle yaptığı tercihlerin Allah tarafından yaratılması da kaderin bir parçasıdır."
+                },
+                {
+                    question: "“Her can ölümü tadacaktır.” ayeti kaderin hangi yönünü vurgular?",
+                    options: ["İrade", "Rızık", "Ömür", "Sorumluluk"],
+                    answer: "Ömür",
+                    explanation: "Bu ayet, her canlının belli bir ömrü olduğunu ve bu ömrün sonunda ölümün geleceğini, yani ömür kavramının kaderle ilişkisini vurgular."
+                },
+                {
+                    question: "Aşağıdakilerden hangisi kader ve kaza ile ilgili doğru bir ifadedir?",
+                    options: ["Kaza, Allah’ın her şeyi önceden bilmesi; kader, bu bilginin gerçekleşmesidir.", "Kader, Allah’ın her şeyi önceden bilmesi ve planlaması; kaza, bu planın zamanı gelince gerçekleşmesidir.", "Kader ve kaza tamamen aynı anlamda kullanılan kelimelerdir.", "Kaza, insanın kendi tercihleri sonucunda meydana gelen olaylardır."],
+                    answer: "Kader, Allah’ın her şeyi önceden bilmesi ve planlaması; kaza, bu planın zamanı gelince gerçekleşmesidir.",
+                    explanation: "Kader, Allah’ın olacak şeyleri önceden takdir etmesi, kaza ise bu takdirin zamanı gelince gerçekleşmesidir."
+                }
+            ]},
+            { id: 'unit2', name: 'Zekat ve Sadaka', questions: [
+                {
+                    question: "Zekat kimlere verilmez?",
+                    options: ["Fakirlere", "Borçlulara", "Torunlara", "Yoksullara"],
+                    answer: "Torunlara",
+                    explanation: "Zekat, usul ve füru (ana-baba, dede-nine, çocuk ve torunlar) dışındaki fakir ve miskinlere verilir."
+                },
+                {
+                    question: "Aşağıdakilerden hangisi sadaka çeşidi değildir?",
+                    options: ["Fıtır sadakası", "Cari sadaka", "Zekat", "Fitre"],
+                    answer: "Zekat",
+                    explanation: "Zekat, İslam'ın beş şartından biri olan ve belirli mallardan belirli oranlarda fakirlere verilen farz bir ibadettir. Diğerleri sadaka çeşitleridir."
+                }
+            ]}
+        ];
+
+        // Fonksiyonlar
+        function sinif5_renderUnitCards() {
+            sinif5_unitSelectionContainer.innerHTML = '';
+            sinif5_units.forEach(unit => {
+                const unitCard = document.createElement('div');
+                unitCard.classList.add('unit-card', 'cursor-pointer');
+                unitCard.setAttribute('data-unit-id', unit.id);
+                unitCard.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-2">${unit.name}</h3>
+                    <p class="text-gray-600">Bu ünite ${unit.questions.length} soru içeriyor.</p>
+                `;
+                unitCard.addEventListener('click', () => sinif5_selectUnit(unit.id));
+                sinif5_unitSelectionContainer.appendChild(unitCard);
+            });
+        }
+
+        function sinif5_selectUnit(unitId) {
+            const prevSelected = document.querySelector('#quiz-5-sinif-section .unit-card.selected');
+            if (prevSelected) {
+                prevSelected.classList.remove('selected');
+            }
+            const currentSelected = document.querySelector(`#quiz-5-sinif-section .unit-card[data-unit-id="${unitId}"]`);
+            if (currentSelected) {
+                currentSelected.classList.add('selected');
+                sinif5_selectedUnitId = unitId;
+                sinif5_startGameButton.classList.remove('hidden');
+            }
+        }
+
+        function sinif5_startGame() {
+            if (sinif5_selectedUnitId) {
+                const selectedUnit = sinif5_units.find(unit => unit.id === sinif5_selectedUnitId);
+                if (selectedUnit) {
+                    sinif5_questions = [...selectedUnit.questions];
+                    sinif5_questions.sort(() => Math.random() - 0.5);
+                    sinif5_currentQuestionIndex = 0;
+                    sinif5_currentPlayers = [{ name: 'Oyuncu 1', score: 0 }, { name: 'Oyuncu 2', score: 0 }];
+                    sinif5_currentPlayerIndex = 0;
+
+                    sinif5_mainMenuScreen.classList.add('hidden');
+                    sinif5_quizScreen.classList.remove('hidden');
+                    sinif5_displayQuestion();
+                }
+            } else {
+                showCustomAlert('Lütfen önce bir ünite seçin!');
+            }
+        }
+
+        function sinif5_displayQuestion() {
+            if (sinif5_currentQuestionIndex < sinif5_questions.length) {
+                const question = sinif5_questions[sinif5_currentQuestionIndex];
+                sinif5_currentQuestionContainer.innerHTML = `
+                    <p class="text-gray-800 text-lg mb-2 text-center">Sıra: <span class="font-bold">${sinif5_currentPlayers[sinif5_currentPlayerIndex].name}</span> (Puan: ${sinif5_currentPlayers[sinif5_currentPlayerIndex].score})</p>
+                    <p class="question-text">${question.question}</p>
+                    <div class="options-grid">
+                        ${question.options.map((option, index) => `<button class="option-button" data-index="${index}">${option}</button>`).join('')}
+                    </div>
+                `;
+                sinif5_currentQuestionFeedback.innerHTML = '';
+                sinif5_nextTurnButton.classList.add('hidden');
+                sinif5_detailedExplanationContainer.classList.add('hidden');
+                sinif5_questionScreenInstructionMessage.classList.add('hidden');
+
+                document.querySelectorAll('#sinif5-current-question-container .option-button').forEach(button => {
+                    button.addEventListener('click', (e) => sinif5_checkAnswer(e.target, question.answer, question.explanation));
+                });
+                sinif5_startTimer();
+            } else {
+                sinif5_showFinalScore();
+            }
+        }
+
+        function sinif5_startTimer() {
+            sinif5_timeLeft = 10;
+            sinif5_timerDisplay.classList.remove('hidden');
+            sinif5_timerDisplay.textContent = `Kalan Süre: ${sinif5_timeLeft}s`;
+
+            clearInterval(sinif5_timerInterval);
+            sinif5_timerInterval = setInterval(() => {
+                sinif5_timeLeft--;
+                sinif5_timerDisplay.textContent = `Kalan Süre: ${sinif5_timeLeft}s`;
+                if (sinif5_timeLeft <= 0) {
+                    clearInterval(sinif5_timerInterval);
+                    sinif5_timerDisplay.textContent = "Süre Doldu!";
+                    sinif5_currentQuestionFeedback.innerHTML = `<span class="feedback-message wrong">Süre doldu! Doğru cevap: ${sinif5_questions[sinif5_currentQuestionIndex].answer}</span>`;
+                    sinif5_detailedExplanationContainer.innerHTML = `<h3>Açıklama:</h3><p>${sinif5_questions[sinif5_currentQuestionIndex].explanation}</p>`;
+                    sinif5_detailedExplanationContainer.classList.remove('hidden');
+                    sinif5_disableOptions();
+                    sinif5_nextTurnButton.classList.remove('hidden');
+                }
+            }, 1000);
+        }
+
+        function sinif5_checkAnswer(selectedButton, correctAnswer, explanation) {
+            clearInterval(sinif5_timerInterval);
+            const options = document.querySelectorAll('#sinif5-current-question-container .option-button');
+            options.forEach(button => {
+                button.disabled = true;
+                if (button.textContent === correctAnswer) {
+                    button.classList.add('correct');
+                }
+            });
+
+            if (selectedButton.textContent === correctAnswer) {
+                sinif5_currentQuestionFeedback.innerHTML = '<span class="feedback-message correct">Doğru cevap!</span>';
+                sinif5_currentPlayers[sinif5_currentPlayerIndex].score += sinif5_maxScorePerQuestion;
+            } else {
+                selectedButton.classList.add('wrong');
+                sinif5_currentQuestionFeedback.innerHTML = `<span class="feedback-message wrong">Yanlış cevap! Doğru cevap: ${correctAnswer}</span>`;
+            }
+
+            sinif5_detailedExplanationContainer.innerHTML = `<h3>Açıklama:</h3><p>${explanation}</p>`;
+            sinif5_detailedExplanationContainer.classList.remove('hidden');
+            sinif5_nextTurnButton.classList.remove('hidden');
+        }
+
+        function sinif5_disableOptions() {
+            document.querySelectorAll('#sinif5-current-question-container .option-button').forEach(button => {
+                button.disabled = true;
+            });
+        }
+
+        function sinif5_moveToNextTurn() {
+            sinif5_currentPlayerIndex = (sinif5_currentPlayerIndex + 1) % sinif5_currentPlayers.length;
+            sinif5_currentQuestionIndex++;
+            sinif5_displayQuestion();
+        }
+
+        function sinif5_showFinalScore() {
+            sinif5_quizScreen.classList.add('hidden');
+            sinif5_finalScoreContainer.classList.remove('hidden');
+            let resultText = "Oyun Bitti! Skorlar:\n";
+            sinif5_currentPlayers.forEach(player => {
+                resultText += `${player.name}: ${player.score} puan\n`;
+            });
+            sinif5_overallResult.textContent = resultText;
+        }
+
+        function sinif5_resetGame() {
+            sinif5_finalScoreContainer.classList.add('hidden');
+            sinif5_mainMenuScreen.classList.remove('hidden');
+            sinif5_quizScreen.classList.add('hidden'); // Quiz ekranını da gizle
+            sinif5_currentQuestionIndex = 0;
+            sinif5_selectedUnitId = null;
+            sinif5_startGameButton.classList.add('hidden');
+            document.querySelector('#quiz-5-sinif-section .unit-card.selected')?.classList.remove('selected');
+            sinif5_currentPlayers.forEach(player => player.score = 0);
+            sinif5_currentPlayerIndex = 0;
+            sinif5_renderUnitCards();
+            clearInterval(sinif5_timerInterval); // Zamanlayıcıyı sıfırla
+            sinif5_timerDisplay.classList.add('hidden'); // Zamanlayıcıyı gizle
+        }
+
+        // 5. Sınıf Quiz'ini Başlatma Fonksiyonu
+        function sinif5_initGame() {
+            sinif5_resetGame(); // Her başlangıçta oyunu sıfırla
+            sinif5_mainMenuScreen.classList.remove('hidden');
+            sinif5_quizScreen.classList.add('hidden');
+            sinif5_renderUnitCards();
+        }
+
+        // 5. Sınıf Quiz Buton Dinleyicileri
+        sinif5_startGameButton.addEventListener('click', sinif5_startGame);
+        sinif5_nextTurnButton.addEventListener('click', sinif5_moveToNextTurn);
+        sinif5_resetGameButton.addEventListener('click', sinif5_resetGame);
+        sinif5_returnToMainMenuButton.addEventListener('click', () => {
+            sinif5_resetGame(); // Oyunun kendi içindeki ana menüye dönüşü
+            showSection('main-menu-section'); // Ana uygulamanın ana menüsüne dön
+        });
+        sinif5_returnToMainMenuFromFinalButton.addEventListener('click', () => {
+            sinif5_resetGame(); // Oyunun kendi içindeki ana menüye dönüşü
+            showSection('main-menu-section'); // Ana uygulamanın ana menüsüne dön
+        });
+
+
+        /* --- Kavram Bilgi Yarışması Kodları --- */
+
+        // HTML Elemanları
+        const kavram_unitSelectionContainer = document.getElementById('kavram-unit-selection-container');
+        const kavram_mainMenuScreen = document.getElementById('kavram-main-menu-screen');
+        const kavram_mainQuizContent = document.getElementById('kavram-main-quiz-content');
+        const kavram_allConceptsDisplay = document.getElementById('kavram-all-concepts-display');
+        const kavram_quizTitle = document.getElementById('kavram-quiz-title');
+        const kavram_questionDisplay = document.getElementById('kavram-question-display');
+        const kavram_optionsDisplay = document.getElementById('kavram-options-display');
+        const kavram_feedback = document.getElementById('kavram-feedback');
+        const kavram_nextQuestionButton = document.getElementById('kavram-next-question-button');
+        const kavram_resetQuizButton = document.getElementById('kavram-reset-quiz-button');
+        const kavram_returnToUnitSelectionButton = document.getElementById('kavram-return-to-unit-selection');
+        const kavram_conceptsGrid = document.getElementById('kavram-concepts-grid');
+        const kavram_returnFromConceptsButton = document.getElementById('kavram-return-from-concepts');
+        const kavram_startConceptQuizButton = document.getElementById('kavram-start-concept-quiz-button');
+        const kavram_viewAllConceptsButton = document.getElementById('kavram-view-all-concepts-button');
+
+        // Değişkenler
+        let kavram_selectedUnitId = null;
+        let kavram_currentConcepts = [];
+        let kavram_currentConceptIndex = 0;
+
+        // Ünite ve Kavram Verileri
+        let kavram_units = [
+            {
+                id: 'kavram_unit1',
+                name: 'Kader İnancı',
+                concepts: [
+                    { term: 'Kader', definition: 'Allah’ın, evrende olacak her şeyi önceden takdir etmesi, planlaması.' },
+                    { term: 'Kaza', definition: 'Allah’ın takdir ettiği şeylerin zamanı gelince gerçekleşmesidir.' },
+                    { term: 'İrade (Cüzi İrade)', definition: 'İnsana verilen sınırlı seçme ve tercih etme yeteneği.' },
+                    { term: 'Külli İrade', definition: 'Allah’ın sınırsız, mutlak ve kudretli iradesi.' },
+                    { term: 'Sorumluluk', definition: 'İnsanın kendi iradesiyle yaptığı tercihlerin sonuçlarına katlanması.' },
+                    { term: 'Ecel', definition: 'Her canlının ömrünün sonu, ölüm anı.' },
+                    { term: 'Rızık', definition: 'Allah’ın canlılara yaşamaları için verdiği her türlü nimet.' },
+                    { term: 'Tevekkül', definition: 'Bir iş için tüm çabayı gösterdikten sonra, sonucunu Allah’a bırakmak.' },
+                    { term: 'Hastalık', definition: 'Bedenin veya zihnin normal işleyişinde meydana gelen bozukluk.' },
+                    { term: 'Afet', definition: 'Doğal olaylar veya insan kaynaklı felaketler.' }
+                ]
+            },
+            {
+                id: 'kavram_unit2',
+                name: 'Zekat ve Sadaka',
+                concepts: [
+                    { term: 'Zekat', definition: 'İslam’ın beş şartından biri olan, zengin Müslümanların mallarının belirli bir kısmını fakirlere vermesi farz olan ibadet.' },
+                    { term: 'Sadaka', definition: 'Allah rızası için yapılan her türlü iyilik ve yardımdır. Farz veya vacip değildir.' },
+                    { term: 'Fıtır Sadakası (Fitre)', definition: 'Ramazan Bayramı öncesinde verilen, oruçlunun orucunu eksikliklerden arındıran vacip sadaka.' },
+                    { term: 'Cari Sadaka (Sadaka-i Cariye)', definition: 'Kişi vefat ettikten sonra da sevabı devam eden sürekli hayır işleri (örneğin, cami, okul, çeşme yaptırmak).' },
+                    { term: 'Nisap Miktarı', definition: 'Zekat vermek için bir malın ulaşması gereken asgari zenginlik ölçüsü.' },
+                    { term: 'Miskîn', definition: 'Hiçbir malı olmayan, fakirden daha kötü durumda olan kişi.' },
+                    { term: 'Fakir', definition: 'Nisap miktarı malı olmayan, ihtiyacını karşılayamayan kişi.' },
+                    { term: 'Borçlu', definition: 'Borcunu ödeyemeyen kişi.' },
+                    { term: 'Yolcu', definition: 'Memleketinde malı olsa dahi yolda kalmış, parasız kalmış kişi.' }
+                ]
+            }
+        ];
+
+        // Fonksiyonlar
+        function kavram_renderUnitCards() {
+            kavram_unitSelectionContainer.innerHTML = '';
+            kavram_units.forEach(unit => {
+                const unitCard = document.createElement('div');
+                unitCard.classList.add('unit-card');
+                unitCard.setAttribute('data-unit-id', unit.id);
+                unitCard.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-2">${unit.name}</h3>
+                    <p class="text-gray-600">Bu ünite ${unit.concepts.length} kavram içeriyor.</p>
+                `;
+                unitCard.addEventListener('click', () => kavram_selectUnit(unit.id));
+                kavram_unitSelectionContainer.appendChild(unitCard);
+            });
+        }
+
+        function kavram_selectUnit(unitId) {
+            const prevSelected = document.querySelector('#quiz-kavram-section .unit-card.selected');
+            if (prevSelected) {
+                prevSelected.classList.remove('selected');
+            }
+            const currentSelected = document.querySelector(`#quiz-kavram-section .unit-card[data-unit-id="${unitId}"]`);
+            if (currentSelected) {
+                currentSelected.classList.add('selected');
+                kavram_selectedUnitId = unitId;
+                kavram_startConceptQuizButton.classList.remove('hidden');
+                kavram_viewAllConceptsButton.classList.remove('hidden'); // Tüm kavramları görüntüle butonunu da göster
+            }
+        }
+
+        function kavram_startConceptQuiz() {
+            if (!kavram_selectedUnitId) {
+                showCustomAlert('Lütfen önce bir ünite seçin!');
+                return;
+            }
+            const selectedUnit = kavram_units.find(unit => unit.id === kavram_selectedUnitId);
+            kavram_currentConcepts = [...selectedUnit.concepts];
+            kavram_currentConcepts.sort(() => Math.random() - 0.5);
+            kavram_currentConceptIndex = 0;
+
+            kavram_quizTitle.textContent = `${selectedUnit.name} Kavram Bilgi Yarışması`;
+            kavram_mainMenuScreen.classList.add('hidden');
+            kavram_mainQuizContent.classList.remove('hidden');
+            kavram_displayConceptQuestion();
+        }
+
+        function kavram_displayConceptQuestion() {
+            if (kavram_currentConceptIndex < kavram_currentConcepts.length) {
+                const concept = kavram_currentConcepts[kavram_currentConceptIndex];
+                kavram_questionDisplay.textContent = `Bu kavramın anlamı nedir: "${concept.term}"`;
+                kavram_feedback.textContent = '';
+                kavram_optionsDisplay.innerHTML = '';
+
+                let options = [concept.definition];
+                let otherConcepts = kavram_units.flatMap(unit => unit.concepts).filter(c => c.term !== concept.term);
+                for (let i = 0; options.length < 4 && i < 100; i++) {
+                    const randomConcept = otherConcepts[Math.floor(Math.random() * otherConcepts.length)];
+                    if (randomConcept && !options.includes(randomConcept.definition)) {
+                        options.push(randomConcept.definition);
+                    }
+                }
+                options.sort(() => Math.random() - 0.5);
+
+                options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.classList.add('main-menu-button', 'text-sm', 'md:text-base', 'py-2', 'px-3', 'w-full', 'bg-blue-200', 'text-blue-800', 'hover:bg-blue-300', 'transition-colors');
+                    button.textContent = option;
+                    button.onclick = () => kavram_checkConceptAnswer(option, concept.definition);
+                    kavram_optionsDisplay.appendChild(button);
+                });
+                kavram_nextQuestionButton.classList.add('hidden'); // Sonraki soru butonunu gizle
+            } else {
+                kavram_questionDisplay.textContent = 'Yarışma Bitti! Tüm kavramları tamamladınız.';
+                kavram_optionsDisplay.innerHTML = '';
+                kavram_feedback.textContent = '';
+                kavram_nextQuestionButton.classList.add('hidden');
+                kavram_resetQuizButton.classList.remove('hidden');
+            }
+        }
+
+        function kavram_checkConceptAnswer(selectedAnswer, correctAnswer) {
+            const buttons = kavram_optionsDisplay.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.disabled = true;
+                if (button.textContent === correctAnswer) {
+                    button.classList.add('bg-green-500', 'text-white', 'hover:bg-green-600');
+                } else if (button.textContent === selectedAnswer) {
+                    button.classList.add('bg-red-500', 'text-white', 'hover:bg-red-600');
+                }
+            });
+
+            if (selectedAnswer === correctAnswer) {
+                kavram_feedback.textContent = 'Doğru!';
+                kavram_feedback.classList.remove('text-red-600');
+                kavram_feedback.classList.add('text-green-600');
+            } else {
+                kavram_feedback.textContent = `Yanlış! Doğru cevap: "${correctAnswer}"`;
+                kavram_feedback.classList.remove('text-green-600');
+                kavram_feedback.classList.add('text-red-600');
+            }
+            kavram_nextQuestionButton.classList.remove('hidden');
+        }
+
+        function kavram_viewAllConcepts() {
+            kavram_mainMenuScreen.classList.add('hidden');
+            kavram_allConceptsDisplay.classList.remove('hidden');
+            kavram_conceptsGrid.innerHTML = '';
+            kavram_units.forEach(unit => {
+                const unitTitle = document.createElement('h3');
+                unitTitle.classList.add('col-span-full', 'text-left', 'text-xl', 'font-bold', 'mt-4', 'mb-2', 'text-blue-700');
+                unitTitle.textContent = unit.name;
+                kavram_conceptsGrid.appendChild(unitTitle);
+
+                unit.concepts.forEach(concept => {
+                    const card = document.createElement('div');
+                    card.classList.add('concept-card');
+                    card.innerHTML = `
+                        <h3>${concept.term}</h3>
+                        <p>${concept.definition}</p>
+                    `;
+                    kavram_conceptsGrid.appendChild(card);
+                });
+            });
+        }
+
+        function kavram_resetQuiz() {
+            kavram_selectedUnitId = null;
+            kavram_currentConcepts = [];
+            kavram_currentConceptIndex = 0;
+            kavram_resetQuizButton.classList.add('hidden');
+            kavram_nextQuestionButton.classList.remove('hidden');
+            kavram_mainQuizContent.classList.add('hidden');
+            kavram_mainMenuScreen.classList.remove('hidden');
+            kavram_renderUnitCards();
+            kavram_startConceptQuizButton.classList.add('hidden');
+            kavram_viewAllConceptsButton.classList.add('hidden');
+            document.querySelector('#quiz-kavram-section .unit-card.selected')?.classList.remove('selected');
+        }
+
+        // Kavram Quiz'ini Başlatma Fonksiyonu
+        function kavram_initGame() {
+            kavram_resetQuiz(); // Her başlangıçta oyunu sıfırla
+            kavram_mainMenuScreen.classList.remove('hidden');
+            kavram_mainQuizContent.classList.add('hidden');
+            kavram_allConceptsDisplay.classList.add('hidden');
+            kavram_renderUnitCards();
+        }
+
+        // Kavram Quiz Buton Dinleyicileri
+        kavram_startConceptQuizButton.addEventListener('click', kavram_startConceptQuiz);
+        kavram_viewAllConceptsButton.addEventListener('click', kavram_viewAllConcepts);
+        kavram_nextQuestionButton.addEventListener('click', () => {
+            kavram_currentConceptIndex++;
+            kavram_displayConceptQuestion();
+        });
+        kavram_resetQuizButton.addEventListener('click', kavram_resetQuiz);
+        kavram_returnToUnitSelectionButton.addEventListener('click', () => {
+            kavram_mainQuizContent.classList.add('hidden');
+            kavram_mainMenuScreen.classList.remove('hidden');
+            kavram_resetQuiz();
+        });
+        kavram_returnFromConceptsButton.addEventListener('click', () => {
+            kavram_allConceptsDisplay.classList.add('hidden');
+            kavram_mainMenuScreen.classList.remove('hidden');
+            kavram_resetQuiz();
+        });
+
+        // Sayfa yüklendiğinde ana menüyü göster
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('main-menu-section');
+        });
+    </script>
 </body>
 </html>
-
