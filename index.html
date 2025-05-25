@@ -3,1856 +3,550 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peygamber Kıssaları Bilgi Yarışması</title>
+    <title>7. Sınıf DKAB İnfografik</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Application Structure Plan: 
+        - Üstbilgi (Header): Uygulama başlığını ve kısa bir açıklama içerir.
+        - Ana Navigasyon (Unit Navigation): Her ünite için bir buton/sekme içeren yapışkan (sticky) bir navigasyon çubuğu.
+        - İçerik Alanı (Content Area): 
+            - Giriş Bölümü: Uygulama ilk açıldığında genel bir karşılama mesajı.
+            - Ünite Detay Bölümü: Navigasyondan bir ünite seçildiğinde, o üniteye ait "Tema", "Anahtar Kavramlar", "Detaylı Özet", "Neden Önemli?" başlıkları ve içerikleri, ayrıca üniteyle ilgili basit bir grafik (anahtar kavram sayısı gibi) gösterilir. Her ünite için farklı bir vurgu rengi kullanılacaktır.
+        - Kullanıcı Akışı: Kullanıcı ana sayfada karşılanır. Üstteki navigasyon çubuğundan bir ünite seçer. Seçilen ünitenin detayları (afiş benzeri bir yapıda) ana içerik alanında belirir. Farklı bir üniteye tıklayarak diğer ünite içeriklerini keşfedebilir. Bu yapı, raporun "afiş" formatındaki içeriğini interaktif bir şekilde sunmayı ve kullanıcıların üniteler arasında kolayca geçiş yapmasını hedefler. Amaç, bilgiyi çekici ve anlaşılır kılmaktır.
+    -->
+    <!-- Visualization & Content Choices: 
+        - Ünite Başlığı ve Teması: Goal: Inform. Method: Büyük, dikkat çekici başlık ve tema metni. Interaction: Yok. Justification: Ünitenin ana fikrini vurgulamak.
+        - Anahtar Kavramlar: Goal: Organize/Inform. Method: Madde imli liste veya stilize edilmiş kutucuklar. Interaction: Yok. Justification: Önemli terimleri net bir şekilde sunmak.
+        - Detaylı Özet: Goal: Inform. Method: Kapsamlı metin blokları, başlıklar ve maddelerle yapılandırılmış, arasına görseller eklenmiş. Interaction: Okuma, kaydırma. Justification: Ünitenin tüm içeriğini derinlemesine ve görsel destekle sunmak.
+        - Neden Önemli?: Goal: Inform. Method: Açıklayıcı paragraf. Interaction: Yok. Justification: Ünitenin bağlamını ve önemini açıklamak.
+        - Anahtar Kavram Sayısı Grafiği: Goal: Compare (basit düzeyde). Method: Her ünite için Anahtar Kavram sayısını gösteren dikey bar grafik (Chart.js). Interaction: Tooltip ile detay görme. Justification: Üniteler arasında basit bir nicel karşılaştırma sunmak ve Chart.js kullanımını göstermek. Library: Chart.js (Canvas). NO SVG/Mermaid.
+        - Genel Yapı: Her ünite içeriği, raporun "afiş" formatını yansıtacak şekilde ayrı bir kart/bölüm içinde sunulacaktır. Bu kartlar, seçilen üniteye göre dinamik olarak güncellenecektir.
+    -->
     <style>
-        /* Ensure html and body take full height */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align to start to allow scrolling if content overflows */
-            min-height: 100vh; /* Use min-height to ensure it takes full height */
-            padding: 2rem 1rem;
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
-            /* Arka plan görseli burada JS ile ayarlanacak */
-            background-size: cover; /* Görselin tüm alanı kaplamasını sağlar */
-            background-position: center; /* Görseli ortalar */
-            background-repeat: no-repeat; /* Görselin tekrarlanmasını engeller */
-            background-attachment: fixed; /* Görselin sabit kalmasını sağlar */
-            font-size: 1.25rem; /* Genel yazı boyutu biraz daha büyütüldü */
-            transition: background-image 1s ease-in-out; /* Arka plan geçiş efekti */
+            background-color: #FFF8E1; /* Light Cream Background */
         }
-        .container {
-            width: 100%;
-            max-width: 900px; /* Increased max-width for the main container */
-            padding: 2rem;
-            background-color: #e6f0f5; /* Beyaz arka plan rengi değiştirildi */
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: #073B4C; /* Dark Blue Nav Background */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-button {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .nav-button:hover {
+            transform: translateY(-2px);
+        }
+        .nav-button.active {
+            background-color: #FF6B6B; /* Red for active */
+            color: white;
+        }
+        .unit-card {
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            flex-grow: 1; /* Allow container to grow within the flex parent */
-            display: flex; /* Use flex for internal layout of container */
-            flex-direction: column; /* Stack children vertically */
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
         }
-        h1 {
-            color: #2c3e50;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2.8rem; /* Başlık boyutu büyütüldü */
+        .unit-card:hover {
+            transform: translateY(-5px);
         }
-        .score-board {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            background-color: #e0f7fa;
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px; 
+            max-height: 350px; 
             padding: 1rem;
+            background-color: #ffffff;
             border-radius: 8px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        .player-score-box {
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        .player-score-box.active-player-score {
-            background-color: #c7d2fe; /* Light blue for active player */
-            border-color: #4f46e5; /* Darker blue border */
-            color: #4f46e5;
-            font-weight: 700;
-            transform: scale(1.05);
-        }
-        .player-score-box.inactive-player-score {
-            background-color: #e0f7fa;
-            color: #00796b;
-        }
-        .score-board div {
-            text-align: center;
-            font-weight: 600;
-            color: #00796b;
-            font-size: 1.35rem; /* Skor panosu metin boyutu büyütüldü */
-        }
-        .current-turn {
-            font-size: 1.5rem; /* Sıra metin boyutu büyütüldü */
-            font-weight: 700;
-            color: #6366f1;
-        }
-        .question-area {
-            min-height: 180px; /* Minimum height for the question area increased */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 0; /* Boşluk kaldırıldı */
-            flex-grow: 1; /* Allow question area to grow */
-        }
-        .question-block {
-            padding: 2rem; /* Increased padding for question block */
-            background-color: #e3f2fd; /* New color for the question area */
-            border-radius: 8px;
-            border: 1px solid #90caf9; /* More distinct border */
-            width: 100%;
-            box-sizing: border-box;
-            /* Added for "box-opening" effect */
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            margin-bottom: 1.5rem; /* Added margin to separate from feedback */
-        }
-        .question-block.question-block-closed {
-            opacity: 0;
-            transform: scale(0.8);
-        }
-        .question-text {
-            font-size: 1.6rem; /* Soru metni boyutu daha da büyütüldü */
-            margin-bottom: 1.8rem;
-            font-weight: 500;
-            line-height: 1.8;
-        }
-        .options-container {
-            display: flex;
-            flex-direction: row; /* Options side-by-side */
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            justify-content: center; /* Center options horizontally */
-            gap: 1.2rem; /* Space between boxes increased */
-            margin-top: 1.5rem;
-        }
-        .option-label {
-            display: flex; /* Keep flex for centering content within the box */
-            align-items: center;
-            justify-content: center; /* Center text and radio button */
-            cursor: pointer;
-            padding: 1.2rem 1.8rem; /* Increased padding for box feel */
-            border-radius: 10px; /* More rounded corners */
-            transition: all 0.2s ease-in-out; /* Smooth transition for hover/active */
-            flex-basis: calc(50% - 0.6rem); /* Exactly half minus half the gap */
-            max-width: calc(50% - 0.6rem); /* Ensures no more than two per row */
-            min-width: 200px; /* Minimum width for each option box increased */
-            box-sizing: border-box;
-            font-size: 1.35rem; /* Cevap metni boyutu daha da büyütüldü */
-            font-weight: 500;
-            text-align: center; /* Ensure text is centered */
-            border: 2px solid transparent; /* Default transparent border */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
-        }
-        .option-label:hover {
-            transform: translateY(-3px); /* Lift effect on hover */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-        }
-        .option-label input[type="radio"] {
-            /* Visually hide the radio button, but keep it functional */
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-            pointer-events: none; /* Ensure clicks go through to the label */
-        }
-
-        /* New classes for option box colors */
-        .option-color-1 { background-color: #dbeafe; border-color: #93c5fd; color: #1e40af; } /* Blue */
-        .option-color-2 { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; } /* Green */
-        .option-color-3 { background-color: #ffe4e6; border-color: #fca5a5; color: #be123c; } /* Red */
-        .option-color-4 { background-color: #fffbeb; border-color: #fcd34d; color: #92400e; } /* Yellow */
-
-        /* Adjust correct/incorrect highlights for new box style */
-        .option-label.correct-option-highlight {
-            background-color: #a7f3d0 !important; /* Brighter green for correct */
-            border-color: #065f46 !important; /* Darker green border */
-            color: #065f46 !important;
-            transform: none; /* No lift on highlight */
-            box-shadow: 0 4px 10px rgba(6, 95, 70, 0.2);
-        }
-        .option-label.incorrect-selected-option {
-            background-color: #fecaca !important; /* Light red for incorrect selected */
-            border-color: #991b1b !important; /* Darker red border */
-            color: #991b1b !important;
-            transform: none; /* No lift on highlight */
-            box-shadow: 0 4px 10px rgba(153, 27, 27, 0.2);
-        }
-
-        /* Ensure the text is visible and centered */
-        .option-label span {
-            display: block;
-            width: 100%;
-        }
-
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 640px) {
-            .option-label {
-                max-width: 100%; /* Full width on small screens */
-                min-width: unset;
-                flex-basis: 100%; /* Full width on small screens */
+         @media (min-width: 768px) {
+            .chart-container {
+                height: 320px;
             }
         }
-        .button-group {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 0; /* Boşluk kaldırıldı */
+        .detailed-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
         }
-        .action-button {
-            padding: 0.9rem 2.2rem; /* Buton paddingi büyütüldü */
-            background-color: #6366f1;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.3rem; /* Buton metin boyutu büyütüldü */
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        }
-        .action-button:hover {
-            background-color: #4f46e5;
-            transform: translateY(-2px);
-        }
-        .action-button:active {
-            transform: translateY(0);
-        }
-        .action-button:disabled {
-            background-color: #a7a7a7;
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none;
-        }
-        .feedback-message {
-            text-align: center;
-            margin-top: 1.5rem; /* Ensure space from the question block */
-            font-size: 1.3rem; /* Geri bildirim metin boyutu büyütüldü */
-            font-weight: 600;
-            padding: 0.9rem; /* Geri bildirim paddingi büyütüldü */
-            border-radius: 8px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            display: flex; /* Use flex to center content */
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem; /* Space between icon and text */
-        }
-        .feedback-message.show {
-            opacity: 1;
-        }
-        .feedback-message.incorrect {
-            background-color: #fee2e2; /* Light Red */
-            color: #b91c1c; /* Darker Red */
-            border: 1px solid #fca5a5;
-        }
-        .explanation-text {
-            font-size: 1.1rem; /* Açıklama metin boyutu büyütüldü */
-            font-weight: 400;
-            margin-top: 0.6rem;
-            color: #4a5568;
-        }
-        .score-display {
-            text-align: center;
-            font-size: 1.6rem; /* Skor göstergesi metin boyutu büyütüldü */
-            font-weight: 700;
-            margin-top: 2rem;
-            padding: 1.1rem;
-            background-color: #e0f2fe;
-            border-radius: 8px;
-            color: #0c4a6e;
-        }
-        .question-counter {
-            font-size: 1.2rem; /* Soru sayacı metin boyutu büyütüldü */
-            font-weight: 500;
-            color: #555;
-            margin-bottom: 1.1rem;
-        }
-        .question-navigation {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.9rem; /* Space between boxes increased */
-            margin-bottom: 2.2rem;
-            padding: 1.2rem;
-            background-color: #e0f2fe;
-            border-radius: 8px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
-        }
-        .question-nav-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px; /* Box width increased */
-            height: 50px; /* Box height increased */
-            border-radius: 8px; /* More rounded corners */
-            background-color: #bfdbfe;
-            color: #1e40af;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            text-decoration: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            font-size: 1.2rem; /* Soru navigasyon öğesi metin boyutu büyütüldü */
-        }
-        .question-nav-item:hover {
-            background-color: #93c5fd;
-            transform: translateY(-2px);
-        }
-        .question-nav-item.active-question {
-            background-color: #3b82f6;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
-            transform: translateY(-2px);
-        }
-        .question-nav-item.answered-correctly {
-            background-color: #a7f3d0; /* Green-200 */
-            color: #065f46; /* Green-800 */
-        }
-        .question-nav-item.answered-incorrectly {
-            background-color: #fecaca; /* Red-200 */
-            color: #991b1b; /* Red-800 */
-        }
-        .question-nav-item.disabled-selection {
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-        .return-button {
-            background-color: #10b981; /* Green color for return button */
-        }
-        .return-button:hover {
-            background-color: #059669;
-        }
-        .next-button { /* Style for the new "Next Question" button */
-            background-color: #3b82f6; /* Blue color */
-        }
-        .next-button:hover {
-            background-color: #2563eb;
-        }
-        .reset-button {
-            background-color: #ef4444;
-        }
-        .reset-button:hover {
-            background-color: #dc2626;
-        }
-        .hidden {
-            display: none;
-        }
-        .feedback-icon {
-            font-size: 1.3em;
-            margin-right: 0.4em;
-        }
-        .timer-display {
-            font-size: 1.3rem; /* Zamanlayıcı metin boyutu büyütüldü */
-            font-weight: 600;
-            color: #ef4444; /* Red color for timer */
-            margin-bottom: 1.1rem;
-            text-align: center;
-        }
-        .timer-display.warning {
-            color: #f59e0b; /* Orange for warning */
-        }
-        .timer-display.critical {
-            color: #dc2626; /* Darker red for critical */
-        }
-        .player-selection-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            gap: 2.2rem;
-            text-align: center;
-        }
-        .player-selection-screen h2 {
-            font-size: 2.5rem; /* Oyuncu seçimi başlık boyutu büyütüldü */
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        .player-selection-screen .action-button {
-            min-width: 220px;
-        }
-        /* New styles for LLM explanation */
-        .detailed-explanation-container {
-            margin-top: 1.8rem;
-            padding: 1.2rem;
-            background-color: #f0f9ff;
-            border: 1px solid #a5d8ff;
-            border-radius: 8px;
-            font-size: 1.1rem; /* Detaylı açıklama metin boyutu büyütüldü */
-            color: #2c3e50;
-            line-height: 1.6;
-            text-align: left;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .loading-spinner {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 28px; /* Spinner boyutu büyütüldü */
-            height: 28px; /* Spinner boyutu büyütüldü */
-            animation: spin 1s linear infinite;
-            margin: 1.2rem auto;
-            display: none; /* Hidden by default */
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Fullscreen overlay for question */
-        #fullscreen-overlay {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-            z-index: 40;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        #fullscreen-overlay.show {
-            opacity: 1;
-        }
-
-        /* Fullscreen question container */
-        #quiz-content.fullscreen-active {
-            position: fixed;
-            top: 0;
+        .detailed-list li::before {
+            content: '•';
+            position: absolute;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 50;
-            background-color: #e6f0f5; /* Match container background */
-            border-radius: 0; /* No rounded corners for full screen */
-            box-shadow: none; /* No shadow for full screen */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start; /* Content starts from top */
-            padding: 2.5rem 1.5rem; /* Responsive padding increased */
-            overflow-y: auto; /* Enable scrolling for long questions */
-            transition: all 0.5s ease-in-out;
+            color: currentColor; /* Inherit color from parent */
+            font-weight: bold;
         }
-
-        #quiz-content.fullscreen-active #timer-display {
-            margin-top: 1.2rem; /* Space from top of the screen */
-            margin-bottom: 1.2rem; /* Space before question block */
-            font-size: 2rem; /* Timer font size in fullscreen */
+        .summary-image {
             width: 100%;
-            text-align: center;
-            color: #ef4444; /* Keep timer color */
-        }
-
-        #quiz-content.fullscreen-active .question-area {
-            flex-grow: 1; /* Take available space */
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* Vertically center content if space allows */
-            align-items: center;
-            width: 100%;
-            max-width: 900px; /* Max width for the question content increased */
-            margin: 0 auto; /* Center the question content horizontally */
-        }
-
-        #quiz-content.fullscreen-active .question-block {
-            width: 100%; /* Ensure question block fills its parent */
-            padding: 2rem; /* Increased padding for question block in fullscreen */
-            box-sizing: border-box; /* Include padding in width */
-            background-color: #e3f2fd;
-            border-radius: 8px;
-            border: 1px solid #90caf9;
-            /* Keep the opening animation styles */
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            margin-bottom: 1.5rem; /* Added margin to separate from feedback */
-        }
-
-        #quiz-content.fullscreen-active .button-group {
-            margin-top: 2.5rem; /* Increased margin-top for buttons in fullscreen */
-            width: 100%; /* Ensure buttons are centered in the fullscreen view */
-            max-width: 900px; /* Max width for buttons in fullscreen */
-        }
-        .question-screen-instruction-message {
-            text-align: center;
-            font-size: 1.1rem; /* Adjusted for consistency */
-            font-weight: 500;
-            color: #555;
-            margin-top: 1rem; /* Increased margin for better spacing */
+            max-width: 400px; /* Adjust max width for images within summary */
+            height: auto;
+            margin: 1.5rem auto;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: block; /* Ensures centering with mx-auto */
         }
     </style>
-    <script type="module">
-        console.log("Script module started.");
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+</head>
+<body class="text-gray-800">
 
-        // Global Firebase variables
-        window.firebaseApp = null;
-        window.auth = null;
-        window.userId = null; // Still needed for authentication context
+    <header class="bg-sky-700 text-white p-6 text-center shadow-lg">
+        <h1 class="text-4xl font-extrabold">7. Sınıf Din Kültürü ve Ahlak Bilgisi</h1>
+        <p class="mt-2 text-lg">Ünite Özetleri İnteraktif İnfografik</p>
+    </header>
 
-        // Game state variables
-        window.player1Score = 0;
-        window.player2Score = 0;
-        window.currentPlayer = 0; // 0 means no player selected yet, 1 or 2 for active player
-        window.currentQuestionIndex = 0;
-        window.answeredQuestions = {}; // { questionId: { isCorrect: boolean, userAnswer: string, answeredBy: number } }
-        let timer = 40; // Initial timer value in seconds
-        let timerInterval; // To store the interval ID
-        let shuffledQuestions = []; // Will hold the shuffled questions for the current game
-        // Removed gameMode variable as quick mode is removed
+    <nav id="unit-navigation" class="sticky-nav flex flex-wrap justify-center p-3 space-x-1 md:space-x-2">
+    </nav>
 
-        // Background themes mapping
-        const backgroundThemes = {
-            'nuh': 'url("https://placehold.co/1920x1080/81D4FA/000000?text=Hz.+Nuh+Tufan")',
-            'ibrahim': 'url("https://placehold.co/1920x1080/FFCDD2/000000?text=Hz.+Ibrahim+Ates")',
-            'musa': 'url("https://placehold.co/1920x1080/B3E5FC/000000?text=Hz.+Musa+Kizildeniz")',
-            'isa': 'url("https://placehold.co/1920x1080/C8E6C9/000000?text=Hz.+Isa+Dogum")',
-            'yusuf': 'url("https://placehold.co/1920x1080/FFF9C4/000000?text=Hz.+Yusuf+Kuyu")',
-            'eyyub': 'url("https://placehold.co/1920x1080/D1C4E9/000000?text=Hz.+Eyyub+Sabir")',
-            'yunus': 'url("https://placehold.co/1920x1080/A7FFEB/000000?text=Hz.+Yunus+Balik")',
-            'suleyman': 'url("https://placehold.co/1920x1080/FFECB3/000000?text=Hz.+Suleyman+Hayvanlar")',
-            'davut': 'url("https://placehold.co/1920x1080/C5CAE9/000000?text=Hz.+Davut+Zebur")',
-            'zekeriya': 'url("https://placehold.co/1920x1080/E1BEE7/000000?text=Hz.+Zekeriya+Dogum")',
-            'lokman': 'url("https://placehold.co/1920x1080/B2DFDB/000000?text=Hz.+Lokman+Hikmet")',
-            'suayb': 'url("https://placehold.co/1920x1080/FFCCBC/000000?text=Hz.+Suayb+Ticaret")',
-            'adem': 'url("https://placehold.co/1920x1080/DCEDC8/000000?text=Hz.+Adem+Cennet")',
-            'muhammed': 'url("https://placehold.co/1920x1080/CFD8DC/000000?text=Hz.+Muhammed+Son+Peygamber")',
-            'general': 'url("https://placehold.co/1920x1080/E0F2F7/000000?text=Quiz+Background")'
+    <main class="container mx-auto px-4 py-8">
+        <div id="content-area">
+            <div id="home-content" class="text-center p-8 bg-white rounded-xl shadow-xl">
+                <h2 class="text-3xl font-bold text-sky-600 mb-4">Hoş Geldiniz!</h2>
+                <p class="text-xl text-slate-700 mb-6">Bu interaktif infografik, 7. Sınıf Din Kültürü ve Ahlak Bilgisi ders kitabının ünite özetlerini keşfetmenize yardımcı olmak için tasarlanmıştır.</p>
+                <p class="text-lg text-slate-600">Başlamak için yukarıdaki ünite başlıklarından birini seçin.</p>
+                <div class="mt-8 text-5xl">📚✨🕌</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 mt-12 bg-slate-800 text-slate-300">
+        <p>&copy; 2024 - 7. Sınıf DKAB Ünite Afişleri Raporundan Uyarlanmıştır.</p>
+    </footer>
+
+    <script>
+        const reportData = {
+            units: [
+                {
+                    id: "unite1",
+                    title: "1. ÜNİTE: MELEK VE AHİRET İNANCI",
+                    theme: "😇 GÖRÜNENİN ÖTESİNDE BİR YAŞAM VE SONSUZ DÖNÜŞ 😇",
+                    keyConcepts: ["Gayb Âlemi", "Melekler", "Ahiret", "Hesap ve Mizan", "Cennet & Cehennem"],
+                    detailedSummary: `<h3>Gayb Âlemi:</h3>
+                    <ul class="detailed-list">
+                        <li>Beş duyu organımızla doğrudan algılayamadığımız, ancak varlığı Kur'an ve Sünnetle bildirilen varlık alanıdır. Bu varlıklar, insan aklının ve duyularının ötesindedir.</li>
+                        <li>Melekler, cinler ve ruhlar bu âlemin bir parçasıdır. Cinler ve şeytanlar irade sahibi iken, melekler iradesizdir ve sadece Allah'ın emirlerini yerine getirirler.</li>
+                        <li>İnanmak, bu görünmeyen gerçeklikleri Allah'ın bildirdiği şekilde kabul etmektir. Bu, imanın önemli bir boyutudur.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/ADD8E6/000000?text=Gayb+Alemi" alt="Gayb Alemi Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                    <h3>Melekler:</h3>
+                    <ul class="detailed-list">
+                        <li>Nurdan yaratılmış, irade sahibi olmayan, tamamen Allah'ın emirlerini yerine getiren, günahsız varlıklardır. Onlar, Allah'ın mutlak kudretinin bir tecellisidir.</li>
+                        <li>**Cebrail (as):** Vahiy meleği olup, peygamberlere Allah'ın mesajlarını iletmekle görevlidir.</li>
+                        <li>**Mikail (as):** Doğa olaylarını (yağmur, rüzgar, bitkilerin büyümesi vb.) düzenlemekle görevlidir.</li>
+                        <li>**İsrafil (as):** Kıyamet günü sura üflemekle görevlidir. İlk üfleyişte her şey yok olacak, ikincisinde ise yeniden diriliş gerçekleşecektir.</li>
+                        <li>**Azrail (as):** Can almakla görevli melektir. O, Allah'ın emriyle canlıların ruhlarını alır.</li>
+                        <li>**Kiramen Katibin:** Her insanın sağ ve sol omzunda bulunan, iyilik ve kötülüklerini yazan meleklerdir.</li>
+                        <li>Onlara iman, İslam'ın temel inanç esaslarındandır ve Kur'an ile hadislerde sıkça zikredilirler.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/87CEEB/000000?text=Melekler" alt="Melekler Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                    <h3>Ahiret:</h3>
+                    <ul class="detailed-list">
+                        <li>Dünya hayatının sona ermesiyle başlayan ve sonsuza dek sürecek olan ikinci yaşamdır. Bu, insanın ebedi hayatının başlangıcıdır.</li>
+                        <li>Ölüm, bir yok oluş değil, dünya hayatından ahiret hayatına geçişin bir kapısıdır. Her canlı ölümü tadacaktır.</li>
+                        <li>Ahiret inancı, insanın hayatına anlam katar, dünya hayatının bir imtihan olduğu bilincini güçlendirir ve sorumluluk bilincini geliştirir.</li>
+                    </ul>
+                    <h3>Hesap ve Mizan:</h3>
+                    <ul class="detailed-list">
+                        <li>Ahiret gününde tüm insanların dünya hayatında yaptıkları amellerin (iyi ve kötü) Allah katında değerlendirilmesidir. Bu, ilahi adaletin tecelli edeceği gündür.</li>
+                        <li>Mizan, bu amellerin adaletle tartılacağı ilahi terazidir. Zerre kadar iyilik veya kötülük karşılıksız kalmayacaktır.</li>
+                        <li>Bu hesap ve tartı sonucuna göre insanların akıbeti (cennet veya cehennem) belirlenir.</li>
+                    </ul>
+                    <h3>Cennet & Cehennem:</h3>
+                    <ul class="detailed-list">
+                        <li>Hesap ve mizan sonucunda iyi amelleri ağır gelen müminlerin sonsuz mutluluk ve nimetlerle ödüllendirileceği yer cennet; kötü amelleri ağır gelen veya inkâr edenlerin sonsuz azap göreceği yer ise cehennemdir.</li>
+                        <li>Her ikisi de Allah'ın adaletinin ve rahmetinin tecellisidir. Cennet, müminler için sonsuz huzur ve nimetler diyarıyken, cehennem inkârcılar ve günahkârlar için bir cezalandırma yeridir.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/FFA07A/000000?text=Ahiret+Hayatı" alt="Ahiret Hayatı Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">`,
+                    whyImportant: "Bu ünite, İslam inancının temel direklerinden olan görünmeyen varlıkları ve ölümden sonraki sonsuz hayatı anlamamızı sağlar. Ahiret inancı, insanı dünya hayatında daha sorumlu, bilinçli ve ahlaklı davranmaya teşvik eder. İyilik yapmaya yönlendirir, kötülüklerden sakındırır ve hayata anlam katarak umut ve teselli kaynağı olur.",
+                    color: "#118AB2", // Blue
+                    textColor: "text-white"
+                },
+                {
+                    id: "unite2",
+                    title: "2. ÜNİTE: HAC VE KURBAN",
+                    theme: "🕋 KUTSAL YOLCULUK, İBADET VE PAYLAŞIMIN RUHU 🐑",
+                    keyConcepts: ["Hac", "Kâbe", "Arafat", "Kurban", "Dayanışma"],
+                    detailedSummary: `<h3>Hac:</h3>
+                    <ul class="detailed-list">
+                        <li>İslam'ın beş şartından biri olan, belirli şartları taşıyan Müslümanların, belirli bir zamanda (Zilhicce ayında) Mekke'deki Kâbe ve çevresindeki kutsal mekânları (Arafat, Müzdelife, Mina) usulüne uygun olarak ziyaret etmesidir.</li>
+                        <li>Ömürde bir kez farzdır ve mali gücü ile sağlığı yerinde olan her Müslümana farz kılınmıştır.</li>
+                        <li>Hac ibadeti, Müslümanları coğrafi ve kültürel farklılıkları aşarak bir araya getirir, eşitlik ve birlik bilincini güçlendirir.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/ADD8E6/000000?text=Hac+İbadeti" alt="Hac İbadeti Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                    <h3>Kâbe:</h3>
+                    <ul class="detailed-list">
+                        <li>Mekke'de bulunan, Müslümanların namaz kılarken yöneldikleri ve hac ibadetinin merkezi olan kutsal yapıdır.</li>
+                        <li>Hz. İbrahim ve oğlu Hz. İsmail tarafından Allah'ın emriyle yeniden inşa edildiğine inanılır.</li>
+                        <li>Tavaf ibadeti Kâbe etrafında yapılır.</li>
+                    </ul>
+                    <h3>Arafat:</h3>
+                    <ul class="detailed-list">
+                        <li>Hac ibadetinin en önemli rüknü olan "vakfe"nin yapıldığı, Mekke yakınlarındaki kutsal dağ ve ovadır.</li>
+                        <li>Arefe günü (Zilhicce'nin 9. günü) burada bulunmak haccın geçerliliği için şarttır. Bu, haccın zirvesidir.</li>
+                    </ul>
+                    <h3>Kurban:</h3>
+                    <ul class="detailed-list">
+                        <li>Belirli niteliklere sahip bir hayvanın (koyun, keçi, sığır, deve), belirli günlerde (Kurban Bayramı günleri) ibadet niyetiyle kesilmesidir.</li>
+                        <li>Allah'a yaklaşma (kurbiyet) amacı taşır ve O'nun verdiği nimetlere şükür ifadesidir.</li>
+                        <li>Kurbanın tarihi kökeni, Hz. İbrahim'in oğlu İsmail'i kurban etme kıssasına dayanır. Allah, İsmail yerine bir koç göndermiştir.</li>
+                        <li>**Adak Kurbanı:** Bir dileğin gerçekleşmesi halinde kesilen kurban.</li>
+                        <li>**Akika Kurbanı:** Yeni doğan çocuk için şükür amacıyla kesilen kurban.</li>
+                        <li>**Şükür Kurbanı:** Herhangi bir nimete kavuşma veya beladan kurtulma sebebiyle kesilen kurban.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/DA70D6/000000?text=Kurban+İbadeti" alt="Kurban İbadeti Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                    <h3>Dayanışma:</h3>
+                    <ul class="detailed-list">
+                        <li>Kurban ibadetiyle kesilen etlerin bir kısmının ihtiyaç sahiplerine, akrabalara ve komşulara dağıtılması, toplumsal yardımlaşma ve kardeşlik duygularını pekiştirir.</li>
+                        <li>Hac ibadeti de farklı coğrafyalardan gelen Müslümanları bir araya getirerek evrensel bir dayanışma ve eşitlik ruhu oluşturur. Tüm hacılar ihramda eşitlenir.</li>
+                    </ul>`,
+                    whyImportant: "Hac ve Kurban ibadetleri, İslam'ın toplumsal boyutunu ve evrensel kardeşlik ruhunu pekiştiren en önemli ibadetlerdendir. Hac, Müslümanları coğrafi ve kültürel farklılıkları aşarak bir araya getirir, eşitlik ve birlik bilincini güçlendirir. Kurban ise fedakârlık, paylaşma ve ihtiyaç sahiplerine yardım etme değerlerini öğretir, toplumsal adalete katkıda bulunur.",
+                    color: "#06D6A0", // Green
+                    textColor: "text-slate-800"
+                },
+                {
+                    id: "unite3",
+                    title: "3. ÜNİTE: AHLAKİ DAVRANIŞLAR",
+                    theme: "🤝 GÜZEL AHLAKLA YAŞAMAK: BİREY VE TOPLUM İÇİN ERDEMLER 💖",
+                    keyConcepts: ["Adalet", "Dostluk & Dürüstlük", "Öz Denetim", "Sabır", "Saygı & Sevgi", "Sorumluluk", "Vatanseverlik", "Yardımseverlik"],
+                    detailedSummary: `<h3>Adalet:</h3>
+                    <ul class="detailed-list">
+                        <li>Doğruluk, hakkaniyet, her şeyi yerli yerine koyma ve hak sahibine hakkını verme ilkesidir.</li>
+                        <li>Bireysel ve toplumsal yaşamın temelini oluşturur, haksızlığı önler ve eşitliği sağlar. Herkesin hakkına riayet etmek, adaletin gereğidir.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/C0C0C0/000000?text=Adalet" alt="Adalet Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                    <h3>Dostluk & Dürüstlük:</h3>
+                    <ul class="detailed-list">
+                        <li><b>Dostluk:</b> Birbirinin iyiliğini isteyen, gönülden seven ve güven bağı olan kişiler arasındaki samimi ilişkidir. Gerçek dostluk, karşılıklı fedakârlık ve anlayış üzerine kurulur.</li>
+                        <li><b>Dürüstlük:</b> Sözde ve eylemde doğru, güvenilir, tutarlı ve şeffaf olma halidir. Hem bireysel karakterin hem de toplumsal güvenin temelidir. Dürüst insan, sözüne sadık kalır.</li>
+                    </ul>
+                    <h3>Öz Denetim:</h3>
+                    <ul class="detailed-list">
+                        <li>Kişinin kendi duygu, düşünce ve davranışlarını kontrol etme, disipline etme ve yönetme becerisidir.</li>
+                        <li>Anlık heveslere kapılmadan, uzun vadeli hedeflere odaklanarak bilinçli kararlar almayı sağlar. Öz denetimli birey, nefsine hâkim olabilir.</li>
+                    </ul>
+                    <h3>Sabır:</h3>
+                    <ul class="detailed-list">
+                        <li>Hoşa gitmeyen olaylar, zorluklar, musibetler ve sıkıntılar karşısında kişinin Allah'a güvenerek direnç göstermesi, şikâyet etmeden dayanması ve metanetini korumasıdır.</li>
+                        <li>Başarıya ulaşmada ve olgunlaşmada önemli bir erdemdir. Sabır, acıya katlanmaktan çok, bir amaca ulaşmak için sebat etmektir.</li>
+                    </ul>
+                    <h3>Saygı & Sevgi:</h3>
+                    <ul class="detailed-list">
+                        <li><b>Saygı:</b> Bir başkasına veya bir değere karşı gösterilen hürmet, incelik, özen ve ölçülü davranıştır. Bireyler arası ilişkilerde hoşgörü ve uyumu sağlar. Yaşlılara, büyüklere, farklı düşüncelere saygı önemlidir.</li>
+                        <li><b>Sevgi:</b> Bir kimseden veya bir şeyden hoşnut olma, ona karşı derin bir ilgi ve bağlılık hissetme durumudur. İnsanları birbirine yaklaştıran, toplumsal bağları güçlendiren ve yaşama anlam katan temel duygudur. Sevgi, tüm güzel ahlakların kaynağıdır.</li>
+                    </ul>
+                    <h3>Sorumluluk:</h3>
+                    <ul class="detailed-list">
+                        <li>Kişinin kendi tutum ve davranışlarının sonuçlarını üstlenmesi, görevlerini yerine getirme yükümlülüğüdür.</li>
+                        <li>İnsan, akıl ve irade sahibi olduğu için dünya ve ahiret hayatında yaptıklarından sorumludur. Aileye, çevreye, topluma karşı sorumluluklarımız vardır.</li>
+                    </ul>
+                    <h3>Vatanseverlik:</h3>
+                    <ul class="detailed-list">
+                        <li>Doğduğu, yaşadığı ve bağımsız olarak varlığını sürdürdüğü toprağa (vatana) karşı duyulan derin sevgi, bağlılık ve onu koruma bilincidir.</li>
+                        <li>Vatanın bağımsızlığı ve refahı için çaba göstermeyi içerir. Vatanı sevmek, onu korumak ve geliştirmekle olur.</li>
+                    </ul>
+                    <h3>Yardımseverlik:</h3>
+                    <ul class="detailed-list">
+                        <li>İhtiyaç sahibi olanlara maddi veya manevi destek olma, zor durumda olanlara el uzatma eylemidir.</li>
+                        <li>İslam'da zekât, sadaka, kurban gibi ibadetlerle teşvik edilen önemli bir ahlaki görevdir. Yardımseverlik, toplumsal adaleti ve merhameti artırır.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/8B8682/000000?text=Yardımseverlik" alt="Yardımseverlik Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">`,
+                    whyImportant: "Bu ünite, bireyin ve toplumun huzuru, barışı ve gelişimi için vazgeçilmez olan ahlaki değerleri öğretir. İslam'ın ahlak anlayışı, sadece bireysel iyiliği değil, toplumsal adaleti, dayanışmayı ve huzuru da hedefler. Bu değerler, iyi bir insan, sorumlu bir vatandaş ve erdemli bir Müslüman olmanın yollarını gösterir.",
+                    color: "#FFD166", // Yellow
+                    textColor: "text-slate-800"
+                },
+                {
+                    id: "unite4",
+                    title: "4. ÜNİTE: ALLAH'IN KULU VE ELÇİSİ: HZ. MUHAMMED",
+                    theme: "👤 ÖRNEK İNSAN, SON PEYPEYGAMBER VE EVRENSEL REHBER ✨",
+                    keyConcepts: ["Beşer", "Peygamber", "Sıfatları (Sıdk, Emanet, Fetanet, İsmet, Tebliğ)", "Sünnet", "Örnek Kişilik"],
+                    detailedSummary: `<h3>Beşer:</h3>
+                    <ul class="detailed-list">
+                        <li>Hz. Muhammed'in (sav) diğer insanlar gibi doğan, büyüyen, yiyen, içen, evlenen, çocuk sahibi olan ve vefat eden insani yönüdür.</li>
+                        <li>O, bir insan olarak tüm insani özelliklere sahiptir ve bu yönüyle ümmetine örnek olmuştur. Peygamberler de insan olmaları yönüyle bizim gibi yaşarlar.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/F4A460/000000?text=Hz.+Muhammed" alt="Hz. Muhammed Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                    <h3>Peygamber:</h3>
+                    <ul class="detailed-list">
+                        <li>Allah tarafından seçilmiş, vahiy alan ve bu vahyi insanlara eksiksiz bir şekilde tebliğ etmekle görevlendirilmiş kişidir.</li>
+                        <li>Hz. Muhammed (sav), peygamberlerin sonuncusu ve evrensel peygamberdir. Onunla peygamberlik mührü tamamlanmıştır.</li>
+                    </ul>
+                    <h3>Sıfatları:</h3>
+                    <ul class="detailed-list">
+                        <li><b>Sıdk (Doğruluk):</b> Söz ve davranışlarında her zaman doğru olması. Hiçbir zaman yalan söylememiştir.</li>
+                        <li><b>Emanet (Güvenilirlik):</b> Güvenilir olması, kendisine emanet edilen her şeyi koruması. Mekkeliler ona "el-Emin" lakabını vermişlerdir.</li>
+                        <li><b>Fetanet (Üstün Zeka):</b> Akıllı, zeki ve anlayışlı olması, insanları ikna etme yeteneği. En zor durumlarda bile en doğru kararları vermiştir.</li>
+                        <li><b>İsmet (Günahtan Korunmuşluk):</b> Allah tarafından günah işlemekten korunmuş olması. Peygamberler, günah işlemekten masumdur.</li>
+                        <li><b>Tebliğ (Vahyi Bildirme):</b> Allah'tan aldığı vahiyleri eksiksiz ve olduğu gibi insanlara ulaştırması. Hiçbir şeyi gizlememiş, her şeyi açıkça bildirmiştir.</li>
+                    </ul>
+                    <h3>Sünnet:</h3>
+                    <ul class="detailed-list">
+                        <li>Hz. Muhammed'in (sav)'in Kur'an'dan sonra İslam'ın ikinci temel kaynağı olan sözleri (kavli sünnet), fiilleri (fiili sünnet) ve başkalarının yaptığı bir şeye karşı sessiz kalıp onaylaması (takriri sünnet)dır.</li>
+                        <li>Sünnet, Kur'an'ı açıklayıcı ve tamamlayıcı niteliktedir. İslam'ın nasıl yaşanacağını pratik olarak gösterir.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/BDB76B/000000?text=Sünnet" alt="Sünnet Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                    <h3>Örnek Kişilik:</h3>
+                    <ul class="detailed-list">
+                        <li>Hz. Muhammed (sav), tüm hayatıyla Müslümanlar için en güzel örnektir (Üsve-i Hasene).</li>
+                        <li>Ahlakı, adaleti, merhameti, sabrı, hoşgörüsü ve liderliğiyle insanlığa rehberlik etmiştir. Onun ahlakı Kur'an ahlakıydı.</li>
+                    </ul>`,
+                    whyImportant: "Bu ünite, Hz. Muhammed'i (sav) hem bir insan hem de Allah'ın elçisi olarak tanımamızı sağlar. Onun hayatı, sözleri ve davranışları (Sünnet), tüm Müslümanlar için Kur'an'ı anlama, İslam'ı yaşama ve güzel ahlak edinme konusunda en büyük rehberdir. Peygamberimizi doğru tanımak, İslam'ı doğru anlamanın ve yaşamanın anahtarıdır.",
+                    color: "#FF6B6B", // Red
+                    textColor: "text-white"
+                },
+                {
+                    id: "unite5",
+                    title: "5. ÜNİTE: İSLAM DÜŞÜNCESİNDE YORUMLAR",
+                    theme: "🧠 ANLAYIŞTA ZENGİNLİK, DÜŞÜNCEDE ÇEŞİTLİLİK VE HOŞGÖRÜ 📚",
+                    keyConcepts: ["Din Anlayışı", "Yorum Farklılıklarının Sebepleri", "Mezhep", "Fıkhi Yorumlar", "Akaid Yorumları", "Tasavvuf"],
+                    detailedSummary: `<h3>Din Anlayışı:</h3>
+                    <ul class="detailed-list">
+                        <li>İnsanların Kur'an ve Sünneti kendi bilgi birikimleri, çevreleri ve zamanın şartlarına göre anlama, yorumlama ve yaşama biçimleridir.</li>
+                        <li>Din (İslam) bir ve tek iken, din anlayışları farklılık gösterebilir. Bu farklılıklar, dinin özüne zarar vermez, aksine zenginlik katabilir.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/FFFACD/000000?text=Yorum+Farklılıkları" alt="Yorum Farklılıkları Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                    <h3>Yorum Farklılıklarının Sebepleri:</h3>
+                    <ul class="detailed-list">
+                        <li>İslam düşüncesindeki yorum farklılıkları çeşitli faktörlerden kaynaklanır:</li>
+                        <li><b>Coğrafi ve Kültürel Faktörler:</b> Farklı bölgelerin gelenekleri, yaşam tarzları ve iklim koşulları, dini uygulamaların yorumlanmasında etkili olabilir.</li>
+                        <li><b>İnsan Yapısı:</b> İnsanların anlama, algılama ve düşünme yeteneklerindeki farklılıklar, aynı metni farklı yorumlamalarına yol açabilir.</li>
+                        <li><b>Siyasi ve Sosyal Sebepler:</b> Tarihi olaylar, siyasi gelişmeler ve toplumsal ihtiyaçlar, dini düşüncenin farklılaşmasına zemin hazırlayabilir.</li>
+                        <li><b>Farklı Bilim Dallarıyla İlişki:</b> Kelam (inanç), fıkıh (hukuk), tefsir (Kur'an yorumu), hadis (Peygamber sözleri) gibi ilimlerin farklı metodolojileri ve öncelikleri, yorum farklılıklarına neden olabilir.</li>
+                        <li><b>Dil ve Anlam Farklılıkları:</b> Arapça metinlerin (Kur'an ve Hadis) farklı dilbilgisel ve anlamsal yorumlara açık olması.</li>
+                    </ul>
+                    <h3>Mezhep:</h3>
+                    <ul class="detailed-list">
+                        <li>Dinin inanç esaslarını (akaid) veya pratik hükümlerini (fıkıh) anlama ve yorumlamada kendine özgü yöntemleri ve görüşleri olan düşünce sistemleridir.</li>
+                        <li>İslam'da mezhepler, dinin özünü değiştirmeyen, farklı yorum zenginlikleridir. Bunlar, dinin kolaylaştırıcı yönünü gösterir.</li>
+                    </ul>
+                    <h3>Fıkhi Yorumlar (Ameli Mezhepler):</h3>
+                    <ul class="detailed-list">
+                        <li>İbadetler (namaz, oruç, hac, zekât) ve günlük hayata dair hukuki hükümlerin (muamelat) yorumlanmasıyla ortaya çıkan ekollerdir.</li>
+                        <li>Başlıcaları: **Hanefilik** (İmam-ı Azam Ebu Hanife), **Şafilik** (İmam Şafi), **Malikilik** (İmam Malik), **Hanbelilik** (İmam Ahmed b. Hanbel).</li>
+                    </ul>
+                    <h3>Akaid Yorumları (İtikadi Mezhepler):</h3>
+                    <ul class="detailed-list">
+                        <li>İslam'ın inanç esaslarını (Allah'a iman, peygamberlere iman, kitaplara iman vb.) anlama ve açıklama biçimleridir.</li>
+                        <li>Başlıcaları: **Eşarilik** (Ebu'l-Hasan el-Eş'ari), **Maturidilik** (Ebu Mansur el-Maturidi).</li>
+                    </ul>
+                    <h3>Tasavvuf:</h3>
+                    <ul class="detailed-list">
+                        <li>İslam'ın ahlaki ve manevi yönünü öne çıkaran, kalp temizliğini, Allah sevgisini, dünya malına düşkün olmamayı ve nefsi terbiye etmeyi amaçlayan bir ilim ve yaşam biçimidir.</li>
+                        <li>Tasavvufi yorumlar, bireyin manevi olgunluğa erişmesini hedefler.</li>
+                        <li>Mevlevilik, Nakşibendilik, Kadirilik gibi farklı tarikatlar bu alanda gelişmiştir. Bu ekoller, zikir, ibadet ve ahlak eğitimine önem verirler.</li>
+                    </ul>
+                    <img src="https://placehold.co/400x200/E0FFFF/000000?text=Tasavvuf" alt="Tasavvuf Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">`,
+                    whyImportant: "Bu ünite, İslam düşüncesinin zenginliğini, çeşitliliğini ve farklı yorumların neden ortaya çıktığını açıklar. Mezheplerin ve tasavvufi ekollerin, dinin özüne zarar vermeden, farklı anlayış ve yaşayış biçimleri sunduğunu gösterir. Bu bilgi, Müslümanlar arasında hoşgörü, karşılıklı saygı ve farklılıklara değer verme bilincini geliştirmek açısından büyük önem taşır.",
+                    color: "#745296", // A custom purple, as #073B4C is too dark for a vibrant card
+                    textColor: "text-white"
+                }
+            ]
         };
 
-        function setGameBackground(themeKey) {
-            const imageUrl = backgroundThemes[themeKey] || backgroundThemes['general'];
-            document.body.style.backgroundImage = imageUrl;
-        }
+        const unitNavigation = document.getElementById('unit-navigation');
+        const contentArea = document.getElementById('content-area');
+        const homeContent = document.getElementById('home-content');
+        let currentChart = null;
 
-        // All questions are collected in a single array
-        window.allQuestions = [
-            // True/False questions (25 items)
-            { id: 'tf1', type: 'trueFalse', question: "Peygamberler, Allah'ın (cc) insanlar için seçtiği öğretmenlerdir.", answer: "D", explanation: "Peygamberler, Allah'ın insanlara doğru yolu göstermesi için gönderdiği elçiler ve rehberlerdir.", theme: 'general' },
-            { id: 'tf2', type: 'trueFalse', question: "İnsan aklıyla ahiret konularını tam olarak kavrayabilir.", answer: "Y", explanation: "İnsan aklı evrenin yaratıcısını anlayabilir ancak yaratılış amacı, Allah'a karşı görevler ve ahiret gibi konularda peygamberlerin rehberliğine ihtiyaç duyar.", theme: 'general' },
-            { id: 'tf3', type: 'trueFalse', question: "Ülülazm, inkârcılara karşı büyük mücadeleler ve sabır göstermiş beş büyük peygamberlere verilen isimdir.", answer: "D", explanation: "Ülülazm peygamberler, Hz. Nuh, Hz. İbrahim, Hz. Musa, Hz. İsa ve Hz. Muhammed (sav)'dir.", theme: 'general' },
-            { id: 'tf4', type: 'trueFalse', question: "Hz. Nuh'un kavmi onun davetini hemen kabul etmiştir.", answer: "Y", explanation: "Hz. Nuh'un kavmi onun davetini reddetmiş, alay etmiş ve inanmamakta direnmiştir.", theme: 'nuh' },
-            { id: 'tf5', type: 'trueFalse', question: "Hz. İbrahim, ateşe atıldığında Allah'ın (cc) emriyle ateş ona zarar vermiştir.", answer: "Y", explanation: "Allah'ın (cc) emriyle ateş Hz. İbrahim'e zarar vermemiştir.", theme: 'ibrahim' },
-            { id: 'tf6', type: 'trueFalse', question: "Hz. Musa, İsrailoğullarına gönderilmiş bir peygamberdir ve ona İncil indirilmiştir.", answer: "Y", explanation: "Hz. Musa'ya Tevrat indirilmiştir. İncil ise Hz. İsa'ya indirilmiştir.", theme: 'musa' },
-            { id: 'tf7', type: 'trueFalse', question: "Kureyş Suresi, Kureyş kabilesinin Kâbe'nin bakımını üstlenmesi ve ziyaretçilere hizmet etmesini konu alır.", answer: "D", explanation: "Kureyş Suresi, Kureyş kabilesine verilen nimetleri ve Kâbe'ye olan hizmetlerini vurgular.", theme: 'muhammed' },
-            { id: 'tf8', type: 'trueFalse', question: "Peygamber kıssalarında iyilik ve kötülüğün ne olduğu anlatılarak insanlar doğru yola teşvik edilir.", answer: "D", explanation: "Peygamber kıssaları, insanlara öğüt vermek ve doğru yola teşvik etmek amacıyla anlatılır.", theme: 'general' },
-            { id: 'tf9', type: 'trueFalse', question: "Peygamberler, insanlara güzel ahlakı kendi hayatlarında uygulayarak örnek olmuşlardır.", answer: "D", explanation: "Peygamberler, dürüstlük, adalet, yardımseverlik gibi ahlaki ilkeleri bizzat yaşayarak insanlara örnek olmuşlardır.", theme: 'general' },
-            { id: 'tf10', type: 'trueFalse', question: "Peygamber göndermek, Allah'ın (cc) insanlara olan merhametini göstermez.", answer: "Y", explanation: "Allah'ın (cc) insanlara rehber olarak peygamber göndermesi, O'nun sevgi ve merhametini gösterir.", theme: 'general' },
-            { id: 'tf11', type: 'trueFalse', question: "Peygamberler, sadece bu dünyada mutlu olmanın yollarını bildirirler.", answer: "Y", explanation: "Peygamberler, insanlara hem bu dünyada hem de ahirette mutluluğa ve huzura kavuşmanın yollarını bildirirler.", theme: 'general' },
-            { id: 'tf12', type: 'trueFalse', question: "Kur'an-ı Kerim'deki peygamber kıssalarının amacı, sadece geçmiş olayları anlatmaktır.", answer: "Y", explanation: "Peygamber kıssalarının amacı, insanlara öğüt vermek ve ders çıkarmalarını sağlamaktır.", theme: 'general' },
-            { id: 'tf13', type: 'trueFalse', question: "Ülülazm peygamberler, inkârcılara karşı büyük mücadeleler vermişlerdir.", answer: "D", explanation: "Ülülazm, büyük mücadeleler ve sabır göstermiş peygamberlere verilen isimdir.", theme: 'general' },
-            { id: 'tf14', type: 'trueFalse', question: "Hz. Nuh, kavmini yalnızca Allah'a (cc) inanmaya davet etmiştir.", answer: "D", explanation: "Hz. Nuh'un temel görevi, kavmini tevhit inancına davet etmekti.", theme: 'nuh' },
-            { id: 'tf15', type: 'trueFalse', question: "Hz. Nuh'un kavmi onun davetini kabul etmeyince, Allah (cc) onlara büyük bir tufan göndermiştir.", answer: "D", explanation: "Kavminin inkârda direnmesi üzerine tufan gerçekleşmiştir.", theme: 'nuh' },
-            { id: 'tf16', type: 'trueFalse', question: "Hz. İbrahim, putlara tapan Babil halkına gönderilmiştir.", answer: "D", explanation: "Hz. İbrahim, putperest Babil halkını tevhide davet etmiştir.", theme: 'ibrahim' },
-            { id: 'tf17', type: 'trueFalse', question: "Hz. İbrahim, putları kırdıktan sonra suçu en küçük puta atmıştır.", answer: "Y", explanation: "Hz. İbrahim, baltayı en büyük putun boynuna asmıştır.", theme: 'ibrahim' },
-            { id: 'tf18', type: 'trueFalse', question: "Hz. İbrahim, Kâbe'yi tek başına inşa etmiştir.", answer: "Y", explanation: "Hz. İbrahim, oğlu Hz. İsmail ile birlikte Kâbe'yi yeniden inşa etmiştir.", theme: 'ibrahim' },
-            { id: 'tf19', type: 'trueFalse', question: "Hz. Musa, Firavun'un sarayında büyümüştür.", answer: "D", explanation: "Allah (cc), Hz. Musa'nın annesine onu nehre bırakmasını ilham etmiş ve Firavun'un sarayında büyümesi sağlanmıştır.", theme: 'musa' },
-            { id: 'tf20', type: 'trueFalse', question: "Hz. Harun, Hz. Musa'ya yardımcı olarak peygamber olarak görevlendirilmiştir.", answer: "D", explanation: "Hz. Harun, Hz. Musa'nın kardeşi ve yardımcısı olarak peygamberlik yapmıştır.", theme: 'musa' },
-            { id: 'tf21', type: 'trueFalse', question: "Firavun ve ordusu, Kızıldeniz'i geçerek Hz. Musa'yı yakalamıştır.", answer: "Y", explanation: "Firavun ve ordusu Kızıldeniz'de boğulmuştur.", theme: 'musa' },
-            { id: 'tf22', type: 'trueFalse', question: "Hz. İsa, İsrailoğullarına gönderilmiş bir peygamberdir.", answer: "D", explanation: "Hz. İsa, İsrailoğullarına gönderilen peygamberlerden biridir.", theme: 'isa' },
-            { id: 'tf23', type: 'trueFalse', question: "Hz. İsa, kendisinden sonra Hz. Muhammed'in (sav) peygamber olacağını müjdelemiştir.", answer: "D", explanation: "Hz. İsa, son peygamberin geleceğini haber vermiştir.", theme: 'isa' },
-            { id: 'tf24', type: 'trueFalse', question: "Kureyş Suresi, Kureyş kabilesinin Kâbe'nin bakımını üstlenmesi ve ziyaretçilere hizmet etmesini konu alır.", answer: "D", explanation: "Kureyş Suresi, Kureyş kabilesine verilen nimetleri ve Kâbe'ye olan hizmetlerini vurgular.", theme: 'muhammed' },
-            { id: 'tf25', type: 'trueFalse', question: "Kureyş kabilesi, Kâbe'nin asıl sahibinin Yüce Allah olduğunu unutmuşlardır.", answer: "Y", explanation: "Kureyş Suresi, Kâbe'nin asıl sahibinin Yüce Allah olduğu hatırlatılarak tevhit inancına vurgu yapar.", theme: 'muhammed' },
-            // Additional True/False questions for 99 total
-            { id: 'tf26', type: 'trueFalse', question: "Peygamberler, insanlara sadece dini konularda rehberlik etmişlerdir.", answer: "Y", explanation: "Peygamberler, dini konuların yanı sıra sosyal, ahlaki ve hukuki konularda da rehberlik etmişlerdir.", theme: 'general' },
-            { id: 'tf27', type: 'trueFalse', question: "Her peygambere mutlaka bir kitap indirilmiştir.", answer: "Y", explanation: "Bazı peygamberlere kitap değil, sahifeler indirilmiştir veya önceki peygamberlerin kitaplarını tasdik etmişlerdir.", theme: 'general' },
-            { id: 'tf28', type: 'trueFalse', question: "Hz. Adem, ilk insan ve ilk peygamberdir.", answer: "D", explanation: "Hz. Adem, insanlığın babası ve Allah'ın ilk peygamberidir.", theme: 'adem' },
-            { id: 'tf29', type: 'trueFalse', question: "Peygamberlerin hepsi aynı kavme gönderilmiştir.", answer: "Y", explanation: "Peygamberler farklı zamanlarda, farklı kavimlere veya tüm insanlığa gönderilmiştir.", theme: 'general' },
-            { id: 'tf30', type: 'trueFalse', question: "Hz. İdris, terzilikle uğraşan bir peygamberdir.", answer: "D", explanation: "Hz. İdris'in terziliğin mucidi olduğuna inanılır.", theme: 'general' },
-            { id: 'tf31', type: 'trueFalse', question: "Hz. Salih'in mucizesi, kayadan deve çıkarmasıdır.", answer: "D", explanation: "Hz. Salih'in kavmi Semud'a gösterdiği en büyük mucizesi, kayadan bir dişi deve çıkarmasıdır.", theme: 'general' },
-            { id: 'tf32', type: 'trueFalse', question: "Hz. Lut, Hz. İbrahim'in yeğenidir.", answer: "D", explanation: "Hz. Lut, Hz. İbrahim'in yeğeni olup, Lut kavmine peygamber olarak gönderilmiştir.", theme: 'general' },
-            { id: 'tf33', type: 'trueFalse', question: "Hz. Yakup'un diğer adı İsrail'dir.", answer: "D", explanation: "Hz. Yakup'un lakabı İsrail'dir ve İsrailoğulları onun soyundan gelmektedir.", theme: 'general' },
-            { id: 'tf34', type: 'trueFalse', question: "Hz. Yusuf'un kıssası, sabır ve tevekkülün önemini vurgular.", answer: "D", explanation: "Hz. Yusuf'un hayatı, zorluklar karşısında sabretmenin ve Allah'a güvenmenin güzel bir örneğidir.", theme: 'yusuf' },
-            { id: 'tf35', type: 'trueFalse', question: "Hz. Eyyub'un hastalığı, onun peygamberliğini kaybetmesine neden olmuştur.", answer: "Y", explanation: "Hz. Eyyub'un hastalığı, onun sabrını ve Allah'a olan bağlılığını artırmıştır.", theme: 'eyyub' },
-            { id: 'tf36', type: 'trueFalse', question: "Hz. Yunus, kavmini terk ettikten sonra hemen affedilmiştir.", answer: "Y", explanation: "Hz. Yunus, balığın karnında tövbe edip Allah'a yalvarmış, sonra affedilmiştir.", theme: 'yunus' },
-            { id: 'tf37', type: 'trueFalse', question: "Hz. Zekeriya'nın duası, Allah'ın (cc) kudretinin bir göstergesidir.", answer: "D", explanation: "Yaşlılık ve kısırlık durumunda çocuk istemesi ve buna karşılık verilmesi Allah'ın kudretini gösterir.", theme: 'zekeriya' },
-            { id: 'tf38', type: 'trueFalse', question: "Hz. Süleyman, sadece insanlara hükmetmiştir.", answer: "Y", explanation: "Hz. Süleyman, insanlara, cinlere ve hayvanlara hükmetme mucizesine sahipti.", theme: 'suleyman' },
-            { id: 'tf39', type: 'trueFalse', question: "Hz. Davut'a demiri yumuşatma mucizesi verilmiştir.", answer: "D", explanation: "Hz. Davut, demiri elinde hamur gibi yoğurabilme yeteneğine sahipti.", theme: 'davut' },
-            { id: 'tf40', type: 'trueFalse', question: "Hz. Lokman, bir peygamberdir.", answer: "Y", explanation: "Hz. Lokman, Kur'an'da adı geçen hikmet sahibi bir kişidir, ancak peygamber değildir.", theme: 'lokman' },
-            { id: 'tf41', type: 'trueFalse', question: "Hz. Şuayb'ın kavminde, ölçü ve tartıda hile yapmaktaydı.", answer: "D", explanation: "Hz. Şuayb, Medyen halkını ticaretteki hilelerinden dolayı uyarmıştır.", theme: 'suayb' },
-            { id: 'tf42', type: 'trueFalse', question: "Peygamberlerin hepsi aynı mucizeye sahiptir.", answer: "Y", explanation: "Her peygambere, kendi dönemlerinin ve kavimlerinin ihtiyaçlarına göre farklı mucizeler verilmiştir.", theme: 'general' },
-            { id: 'tf43', type: 'trueFalse', question: "Peygamberler, insanüstü varlıklardır ve hiç hata yapmazlar.", answer: "Y", explanation: "Peygamberler de insandır, ancak Allah tarafından korunurlar ve büyük günah işlemezler.", theme: 'general' },
-            { id: 'tf44', type: 'trueFalse', question: "Kur'an-ı Kerim'de adı geçen tüm peygamberlerin kıssaları detaylıca anlatılmıştır.", answer: "Y", explanation: "Kur'an'da bazı peygamberlerin kıssaları detaylıca anlatılırken, bazılarının sadece isimleri zikredilmiştir.", theme: 'general' },
-            { id: 'tf45', type: 'trueFalse', question: "Peygamberlerin tebliğ ettiği dinin özü her zaman tevhit olmuştur.", answer: "D", explanation: "Tüm peygamberler, Allah'ın birliği ve O'na kulluk etme mesajını getirmişlerdir.", theme: 'general' },
-            { id: 'tf46', type: 'trueFalse', question: "Peygamberler, insanlara sadece korku yoluyla tebliğde bulunmuşlardır.", answer: "Y", explanation: "Peygamberler, insanlara hem müjdeleyici hem de uyarıcı olarak gönderilmişlerdir.", theme: 'general' },
-            { id: 'tf47', type: 'trueFalse', question: "Hz. Muhammed (sav), son peygamberdir.", answer: "D", explanation: "Hz. Muhammed (sav), peygamberlerin sonuncusu ve hatemü'l-enbiyadır.", theme: 'muhammed' },
-            { id: 'tf48', type: 'trueFalse', question: "Peygamberlerin hepsi erkeklerden seçilmiştir.", answer: "D", explanation: "Kur'an'da adı geçen tüm peygamberler erkektir.", theme: 'general' },
-            { id: 'tf49', type: 'trueFalse', question: "Peygamberlerin gönderilme amacı, insanların kendi başlarına bulamayacakları bilgileri onlara ulaştırmaktır.", answer: "D", explanation: "Peygamberler, vahiy yoluyla insanlara ahiret, ibadet ve ahlak gibi konularda rehberlik ederler.", theme: 'general' },
-            { id: 'tf50', type: 'trueFalse', question: "Peygamberler, insanlara sadece ibadet etmeyi öğretmişlerdir.", answer: "Y", explanation: "Peygamberler, ibadetlerin yanı sıra sosyal ilişkiler, adalet ve güzel ahlak gibi konularda da öğretiler sunmuşlardır.", theme: 'general' },
-            { id: 'tf51', type: 'trueFalse', question: "Hz. İsa, babasız dünyaya gelmiştir.", answer: "D", explanation: "Hz. İsa, Allah'ın (cc) mucizesi olarak babasız dünyaya gelmiştir.", theme: 'isa' },
-            { id: 'tf52', type: 'trueFalse', question: "Peygamberler, insanlara örnek olmaları için gönderilmişlerdir.", answer: "D", explanation: "Peygamberler, sözleri ve davranışlarıyla insanlara rehberlik eden en güzel örneklerdir.", theme: 'general' },
-            { id: 'tf53', type: 'trueFalse', question: "Hz. Adem'in eşi Havva, cennette yasak ağacın meyvesinden yediği için cennetten çıkarılmıştır.", answer: "D", explanation: "Hz. Adem ve Havva'nın cennetten çıkarılma sebebi, yasak ağacın meyvesinden yemeleridir.", theme: 'adem' },
-            { id: 'tf54', type: 'trueFalse', question: "Nuh tufanı sadece Hz. Nuh'un yaşadığı bölgeyi etkilemiştir.", answer: "Y", explanation: "Nuh tufanı, yeryüzünün tamamını veya büyük bir kısmını etkileyen evrensel bir olaydır.", theme: 'nuh' },
-            { id: 'tf55', type: 'trueFalse', question: "Hz. İbrahim, putları kırdıktan sonra ateşe atılmıştır.", answer: "D", explanation: "Hz. İbrahim, putperestliğe karşı mücadelesi nedeniyle ateşe atılmıştır.", theme: 'ibrahim' },
-            { id: 'tf56', type: 'trueFalse', question: "Hz. Musa'nın asası, yılanlara dönüşme mucizesine sahipti.", answer: "D", explanation: "Hz. Musa'nın asası, Firavun'un sihirbazlarına karşı yılanlara dönüşerek mucize göstermiştir.", theme: 'musa' },
-            { id: 'tf57', type: 'trueFalse', question: "Hz. Davut, sesi çok güzel bir peygamberdi.", answer: "D", explanation: "Hz. Davut'a güzel ses ve Zebur'u okurken dağların ve kuşların ona eşik etmesi mucizesi verilmiştir.", theme: 'davut' },
-            { id: 'tf58', type: 'trueFalse', question: "Hz. Süleyman, karıncalarla konuşabilirdi.", answer: "D", explanation: "Hz. Süleyman'a hayvanların dilini anlama mucizesi verilmişti ve karıncalarla konuşabilirdi.", theme: 'suleyman' },
-            { id: 'tf59', type: 'trueFalse', question: "Hz. Eyyub, sabrı sayesinde tüm hastalıklarından kurtulmuştur.", answer: "D", explanation: "Hz. Eyyub, sabrı ve duası sayesinde Allah'ın izniyle şifa bulmuştur.", theme: 'eyyub' },
-            { id: 'tf60', type: 'trueFalse', question: "Peygamberlerin hepsi zengin ve güçlü kişilerdi.", answer: "Y", explanation: "Peygamberler arasında fakir olanlar da vardı. Önemli olan maddi durumları değil, Allah katındaki dereceleriydi.", theme: 'general' },
-            { id: 'tf61', type: 'trueFalse', question: "Hz. Yunus, balığın karnında iken tövbe etmiştir.", answer: "D", explanation: "Hz. Yunus, balığın karnında iken yaptığı hatadan dolayı pişman olup tövbe etmiştir.", theme: 'yunus' },
-            { id: 'tf62', type: 'trueFalse', question: "Hz. İbrahim'in babası da bir peygamberdi.", answer: "Y", explanation: "Hz. İbrahim'in babası putperest idi ve Hz. İbrahim onu tevhide davet etmiştir.", theme: 'ibrahim' },
-            { id: 'tf63', type: 'trueFalse', question: "Peygamberlerin sayısı Kur'an-ı Kerim'de açıkça belirtilmiştir.", answer: "Y", explanation: "Kur'an-ı Kerim'de sadece bazı peygamberlerin isimleri zikredilmiştir, toplam sayıları belirtilmemiştir.", theme: 'general' },
-            { id: 'tf64', type: 'trueFalse', question: "Hz. Yusuf, Mısır'da vezir olmuştur.", answer: "D", explanation: "Hz. Yusuf, Mısır'da büyük bir makama yükselerek vezir olmuştur.", theme: 'yusuf' },
-            { id: 'tf65', type: 'trueFalse', question: "Peygamberler, insanlara sadece mucizelerle inanmalarını sağlamışlardır.", answer: "Y", explanation: "Peygamberler, mucizelerin yanı sıra tebliğ, güzel ahlak ve örnek davranışlarıyla da insanları etkilemişlerdir.", theme: 'general' },
-            { id: 'tf66', type: 'trueFalse', question: "Hz. Nuh, gemisine sadece ailesini almıştır.", answer: "Y", explanation: "Hz. Nuh, ailesinin yanı sıra inananları ve her canlıdan birer çifti de gemiye almıştır.", theme: 'nuh' },
-
-            // Fill-in-the-blanks questions (25 items) - Now with 4 options
-            { id: 'fb1', type: 'fillInTheBlanks', question: "Peygamberler, Yüce Allah'tan ........................ getiren kimselerdir.", answer: "haber", options: ["haber", "para", "hediye", "emir"], explanation: "Peygamberler, Allah'ın vahyini insanlara ulaştıran elçileridir.", theme: 'general' },
-            { id: 'fb2', type: 'fillInTheBlanks', question: "Peygamberlik, Allah (cc) ile insanlar arasındaki bir ........................ görevidir.", answer: "elçilik", options: ["elçilik", "krallık", "ticaret", "öğretmenlik"], explanation: "Peygamberlik, Allah'ın mesajlarını insanlara iletme görevidir.", theme: 'general' },
-            { id: 'fb3', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'de Nebi ve Resul kelimeleri ........................ demektir.", answer: "peygamber", options: ["peygamber", "kitap", "melek", "mucize"], explanation: "Bu iki kelime, Kur'an'da peygamber anlamında kullanılır.", theme: 'general' },
-            { id: 'fb4', type: 'fillInTheBlanks', question: "Peygamberler, insanlara hem bu dünyada hem de ahirette ........................ ve huzura kavuşmanın yollarını bildirirler.", answer: "mutluluğa", options: ["mutluluğa", "zenginliğe", "güce", "şöhrete"], explanation: "Peygamberler, insanların dünya ve ahiret saadetini amaçlayan rehberlerdir.", theme: 'general' },
-            { id: 'fb5', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'deki peygamber kıssalarının amacı, insanlara öğüt vermek ve ........................ sağlamaktır.", answer: "ders çıkarmalarını", options: ["ders çıkarmalarını", "eğlenmelerini", "uyumalarını", "savaşmalarını"], explanation: "Kıssalar, geçmişten ibret almayı ve doğru yolu bulmayı hedefler.", theme: 'general' },
-            { id: 'fb6', type: 'fillInTheBlanks', question: "Ülülazm, inkârcılara karşı büyük mücadeleler ve ........................ göstermiş beş büyük peygambere verilen isimdir.", answer: "sabır", options: ["sabır", "öfke", "korku", "hırs"], explanation: "Ülülazm peygamberler, zorluklara karşı gösterdikleri sabırla bilinirler.", theme: 'general' },
-            { id: 'fb7', type: 'fillInTheBlanks', question: "Hz. Nuh, ........................ inancından uzaklaşan kavmini doğru yola davet etmekle görevlendirilmiştir.", answer: "tevhit", options: ["tevhit", "putperestlik", "şirk", "büyücülük"], explanation: "Hz. Nuh'un ana görevi, kavmini Allah'ın birliğine inanmaya çağırmaktı.", theme: 'nuh' },
-            { id: 'fb8', type: 'fillInTheBlanks', question: "Hz. Nuh ve ona inananlarla birlikte her hayvandan birer çift ........................ binmiştir.", answer: "gemiye", options: ["gemiye", "dağa", "ağaca", "mağaraya"], explanation: "Tufandan kurtulmak için gemiye binmeleri emredilmiştir.", theme: 'nuh' },
-            { id: 'fb9', type: 'fillInTheBlanks', question: "Tufan sona erince gemi ........................ Dağı'na oturmuştur.", answer: "Cudi", options: ["Cudi", "Arafat", "Sina", "Uhud"], explanation: "Gemi, tufan sonrası Cudi Dağı'na yerleşmiştir.", theme: 'nuh' },
-            { id: 'fb10', type: 'fillInTheBlanks', question: "Hz. İbrahim, putlara ve yıldızlara tapan ........................ halkını tevhit inancına davet etmekle görevlendirilmiştir.", answer: "Babil", options: ["Babil", "Mısır", "Medine", "Kudüs"], explanation: "Hz. İbrahim, Babil'deki putperest halka gönderilmiştir.", theme: 'ibrahim' },
-            { id: 'fb11', type: 'fillInTheBlanks', question: "Hz. İbrahim, oğlu Hz. İsmail'le birlikte ........................ yeniden inşa etmiştir.", answer: "Kâbe'yi", options: ["Kâbe'yi", "tapınağı", "sarayı", "piramiti"], explanation: "Kâbe, Hz. İbrahim ve Hz. İsmail tarafından yeniden inşa edilmiştir.", theme: 'ibrahim' },
-            { id: 'fb12', type: 'fillInTheBlanks', question: "Hz. İbrahim kıssasından çıkarılabilecek hisselerden biri, insanın inandığı değerleri savunurken ........................ ve kararlı olması gerektiğidir.", answer: "cesur", options: ["cesur", "korkak", "pasif", "çekingen"], explanation: "Hz. İbrahim'in putlara karşı mücadelesi cesaret örneğidir.", theme: 'ibrahim' },
-            { id: 'fb13', type: 'fillInTheBlanks', question: "Hz. Musa, ........................ gönderilmiş bir peygamberdir.", answer: "İsrailoğullarına", options: ["İsrailoğullarına", "Kureyş'e", "Ad kavmine", "Semud kavmine"], explanation: "Hz. Musa, İsrailoğulları'nın peygamberidir.", theme: 'musa' },
-            { id: 'fb14', type: 'fillInTheBlanks', question: "Hz. Musa'nın doğduğu dönemde Mısır'ı ........................ yönetmekteydi.", answer: "Firavun", options: ["Firavun", "Nemrut", "Karun", "Haman"], explanation: "Firavun, Hz. Musa zamanında Mısır'ın zalim hükümdarıydı.", theme: 'musa' },
-            { id: 'fb15', type: 'fillInTheBlanks', question: "Hz. Musa'ya ........................ indirilmiştir.", answer: "Tevrat", options: ["Tevrat", "İncil", "Zebur", "Suhuf"], explanation: "Tevrat, Hz. Musa'ya vahyedilen kutsal kitaptır.", theme: 'musa' },
-            { id: 'fb16', type: 'fillInTheBlanks', question: "Firavun ve ordusu, Hz. Musa ve halkını takip ederken ........................ yarılmış ve İsrailoğulları karşıya geçmiştir.", answer: "Kızıldeniz", options: ["Kızıldeniz", "Akdeniz", "Nil Nehri", "Fırat Nehri"], explanation: "Kızıldeniz mucizesi, Hz. Musa kıssasının önemli bir olayıdır.", theme: 'musa' },
-            { id: 'fb17', type: 'fillInTheBlanks', question: "Hz. Musa kıssasından çıkarılabilecek hisselerden biri, insanlara doğru ve güzel olanı anlatırken ........................ ve nazik bir üslup kullanılması gerektiğidir.", answer: "yumuşak", options: ["yumuşak", "sert", "kaba", "agresif"], explanation: "Tebliğde yumuşak ve nazik olmak önemlidir.", theme: 'musa' },
-            { id: 'fb18', type: 'fillInTheBlanks', question: "Hz. İsa, Hz. ........................'nın oğludur.", answer: "Meryem", options: ["Meryem", "Havva", "Asiye", "Fatıma"], explanation: "Hz. İsa, annesi Hz. Meryem'den dünyaya gelmiştir.", theme: 'isa' },
-            { id: 'fb19', type: 'fillInTheBlanks', question: "Allah (cc) Hz. İsa'ya ........................'i göndermiştir.", answer: "İncil", options: ["İncil", "Tevrat", "Zebur", "Kur'an"], explanation: "İncil, Hz. İsa'ya vahyedilen kutsal kitaptır.", theme: 'isa' },
-            { id: 'fb20', type: 'fillInTheBlanks', question: "Hz. İsa, kendisinden sonra Hz. ........................ (sav) peygamber olacağını müjdelemiştir.", answer: "Muhammed'in", options: ["Muhammed'in", "Musa'nın", "İbrahim'in", "Nuh'un"], explanation: "Hz. İsa, son peygamberin geleceğini haber vermiştir.", theme: 'isa' },
-            { id: 'fb21', type: 'fillInTheBlanks', question: "Peygamber kıssalarında peygamberlerin insanları ........................ daveti temel konudur.", answer: "tevhide", options: ["tevhide", "şirke", "putperestliğe", "büyücülüğe"], explanation: "Tüm peygamberlerin ortak daveti, Allah'ın birliğine inanmaktır.", theme: 'general' },
-            { id: 'fb22', type: 'fillInTheBlanks', question: "Allah (cc), peygamberleri desteklemek için ........................ göndermiştir.", answer: "mucizeler", options: ["mucizeler", "savaşlar", "zenginlik", "binalar"], explanation: "Mucizeler, peygamberlerin hakikatini ispatlayan ilahi yardımlardır.", theme: 'general' },
-            { id: 'fb23', type: 'fillInTheBlanks', question: "Kureyş kabilesi, ........................'nin bakımını üstlenmiş ve ziyaretçilere hizmet etmiştir.", answer: "Kâbe", options: ["Kâbe", "Mescid-i Aksa", "Medine", "Şam"], explanation: "Kureyş kabilesi, Kâbe'nin hizmetinden sorumluydu.", theme: 'muhammed' },
-            { id: 'fb24', type: 'fillInTheBlanks', question: "Kureyş Suresi, Kureyş kabilesinin geçimini ........................ yolculuklarla sağladığına dikkat çeker.", answer: "ticari", options: ["ticari", "tarımsal", "hayvansal", "askeri"], explanation: "Kureyş kabilesi, ticari faaliyetlerle geçimini sağlıyordu.", theme: 'muhammed' },
-            { id: 'fb25', type: 'fillInTheBlanks', question: "Kureyş halkının, Kâbe'nin sahibi olan Allah'a (cc) ........................ etmeye davet edilmesi Kureyş Suresi'nin temel konularındandır.", answer: "kulluk", options: ["kulluk", "isyan", "inkâr", "red"], explanation: "Sure, Kureyş'i Allah'a kulluk etmeye çağırır.", theme: 'muhammed' },
-            // Additional Fill-in-the-blanks questions for 99 total
-            { id: 'fb26', type: 'fillInTheBlanks', question: "Hz. Yusuf'un rüyası, ........................ ve on bir yıldızın kendisine secde etmesidir.", answer: "güneşin", options: ["güneşin", "ayın", "gezegenin", "dünyanın"], explanation: "Hz. Yusuf'un rüyası, ilerideki yüce makamına işaret etmektedir.", theme: 'yusuf' },
-            { id: 'fb27', type: 'fillInTheBlanks', question: "Hz. Eyyub, ........................ ve sabrıyla bilinen bir peygamberdir.", answer: "imtihanlara", options: ["imtihanlara", "zenginliğe", "güce", "hızlılığa"], explanation: "Hz. Eyyub, büyük hastalıklara ve kayıplara karşı gösterdiği sabırla örnek olmuştur.", theme: 'eyyub' },
-            { id: 'fb28', type: 'fillInTheBlanks', question: "Hz. Yunus, balığın karnında ........................ Allah'a (cc) dua etmiştir.", answer: "pişmanlıkla", options: ["pişmanlıkla", "sevinçle", "öfkeyle", "korkuyla"], explanation: "Hz. Yunus, hatasını anlayıp balığın karnında Allah'tan af dilemiştir.", theme: 'yunus' },
-            { id: 'fb29', type: 'fillInTheBlanks', question: "Hz. Zekeriya ve Hz. Yahya kıssası, Allah'ın (cc) ........................ her şeye kadir olduğunu gösterir.", answer: "dilemesiyle", options: ["dilemesiyle", "istemesiyle", "yapmasıyla", "olmasıyla"], explanation: "Yaşlılıklarında çocuk sahibi olmaları, Allah'ın kudretini gösterir.", theme: 'zekeriya' },
-            { id: 'fb30', type: 'fillInTheBlanks', question: "Hz. Süleyman, ........................ ve cinlere hükmeden bir peygamberdir.", answer: "hayvanlara", options: ["hayvanlara", "insanlara", "bitkilere", "dağlara"], explanation: "Hz. Süleyman'a hayvanların ve cinlerin dilini anlama mucizesi verilmiştir.", theme: 'suleyman' },
-            { id: 'fb31', type: 'fillInTheBlanks', question: "Hz. Davut, ........................ ve adaletle hükmeden bir peygamberdir.", answer: "hikmetle", options: ["hikmetle", "güçle", "zenginlikle", "hızla"], explanation: "Hz. Davut'a hikmet ve adaletle hükmetme yeteneği verilmiştir.", theme: 'davut' },
-            { id: 'fb32', type: 'fillInTheBlanks', question: "Hz. Lokman'ın oğluna verdiği öğütler, ........................ ve ahlaki değerlere vurgu yapar.", answer: "bilgeliğe", options: ["bilgeliğe", "zenginliğe", "güce", "şöhrete"], explanation: "Lokman Suresi'nde yer alan öğütler, ahlaki ve manevi değerlere odaklanır.", theme: 'lokman' },
-            { id: 'fb33', type: 'fillInTheBlanks', question: "Hz. Şuayb, ........................ halkına gönderilmiş bir peygamberdir.", answer: "Medyen", options: ["Medyen", "Ad", "Semud", "Lut"], explanation: "Hz. Şuayb, Medyen ve Eyke halkına gönderilmiştir.", theme: 'suayb' },
-            { id: 'fb34', type: 'fillInTheBlanks', question: "Hz. İbrahim'in ateşe atılmasına rağmen yanmaması, Allah'ın (cc) ........................ bir mucizesidir.", answer: "kudretinin", options: ["kudretinin", "zayıflığının", "korkusunun", "öfkesinin"], explanation: "Ateşin yakmaması, Allah'ın sınırsız gücünü gösterir.", theme: 'ibrahim' },
-            { id: 'fb35', type: 'fillInTheBlanks', question: "Hz. Musa'nın asası, ........................ dönüşerek Firavun'un sihirbazlarını mağlup etmiştir.", answer: "yılana", options: ["yılana", "kuşa", "taşa", "ağaca"], explanation: "Asanın yılana dönüşmesi, Hz. Musa'nın en bilinen mucizelerindendir.", theme: 'musa' },
-            { id: 'fb36', type: 'fillInTheBlanks', question: "Hz. İsa'nın mucizelerinden biri, ........................ diriltmesidir.", answer: "ölüleri", options: ["ölüleri", "taşları", "ağaçları", "hayvanları"], explanation: "Hz. İsa, Allah'ın izniyle ölüleri diriltme mucizesine sahipti.", theme: 'isa' },
-            { id: 'fb37', type: 'fillInTheBlanks', question: "Peygamberlerin hepsi Allah'tan (cc) ........................ almışlardır.", answer: "vahiy", options: ["vahiy", "para", "hediye", "güç"], explanation: "Tüm peygamberler, Allah'tan vahiy yoluyla mesaj almışlardır.", theme: 'general' },
-            { id: 'fb38', type: 'fillInTheBlanks', question: "Hz. Nuh tufanı, ........................ inanmayanları helak etmiştir.", answer: "Allah'a", options: ["Allah'a", "peygambere", "kitaba", "meleklere"], explanation: "Tufan, Allah'ın birliğini inkâr edenleri cezalandırmak için gönderilmiştir.", theme: 'nuh' },
-            { id: 'fb39', type: 'fillInTheBlanks', question: "Hz. Yusuf'un kıssası, ........................ ve sabrın önemini vurgular.", answer: "tevekkülün", options: ["tevekkülün", "hırsın", "öfkenin", "korkunun"], explanation: "Hz. Yusuf'un hayatı, Allah'a güvenmenin ve sabretmenin önemini gösterir.", theme: 'yusuf' },
-            { id: 'fb40', type: 'fillInTheBlanks', question: "Hz. Eyyub, ........................ ile örnek olan bir peygamberdir.", answer: "sabrıyla", options: ["sabrıyla", "zenginliğiyle", "gücüyle", "hızıyla"], explanation: "Hz. Eyyub, zorluklar karşısında gösterdiği sabırla anılır.", theme: 'eyyub' },
-            { id: 'fb41', type: 'fillInTheBlanks', question: "Hz. Yunus, ........................ halkına gönderilmiştir.", answer: "Ninova", options: ["Ninova", "Mekke", "Medine", "Babil"], explanation: "Hz. Yunus, Ninova halkına peygamber olarak gönderilmiştir.", theme: 'yunus' },
-            { id: 'fb42', type: 'fillInTheBlanks', question: "Hz. Zekeriya, ........................ peygamberidir.", answer: "Hz. Yahya'nın babası", options: ["Hz. Yahya'nın babası", "Hz. İsa'nın babası", "Hz. Musa'nın babası", "Hz. İbrahim'in babası"], explanation: "Hz. Zekeriya, Hz. Yahya'nın babasıdır.", theme: 'zekeriya' },
-            { id: 'fb43', type: 'fillInTheBlanks', question: "Hz. Süleyman'ın en büyük mucizelerinden biri, ........................ ve cinlere hükmetmesidir.", answer: "rüzgara", options: ["rüzgara", "ateşe", "suya", "toprağa"], explanation: "Hz. Süleyman'a rüzgara ve cinlere hükmetme yeteneği verilmiştir.", theme: 'suleyman' },
-            { id: 'fb44', type: 'fillInTheBlanks', question: "Hz. Davut, ........................ ile düşmanlarını yenmiştir.", answer: "sapanıyla", options: ["sapanıyla", "kılıcıyla", "okuyla", "mızrağıyla"], explanation: "Hz. Davut, Calut'u sapanıyla yenerek mucize göstermiştir.", theme: 'davut' },
-            { id: 'fb45', type: 'fillInTheBlanks', question: "Hz. Lokman, ........................ öğütleriyle bilinir.", answer: "hikmetli", options: ["hikmetli", "sert", "kaba", "korkutucu"], explanation: "Hz. Lokman'ın öğütleri, derin bilgelik içerir.", theme: 'lokman' },
-            { id: 'fb46', type: 'fillInTheBlanks', question: "Hz. Şuayb'ın kavmi, ........................ ve tartıda hile yapmaktan men edilmiştir.", answer: "ölçüde", options: ["ölçüde", "yemekte", "giyside", "binalarda"], explanation: "Hz. Şuayb, Medyen halkını ticari hilelerden sakındırmıştır.", theme: 'suayb' },
-            { id: 'fb47', type: 'fillInTheBlanks', question: "Peygamberler, insanlara doğru yolu göstermek için Allah (cc) tarafından ........................ seçilmişlerdir.", answer: "özel olarak", options: ["özel olarak", "rastgele", "kendi istekleriyle", "toplum tarafından"], explanation: "Peygamberler, ilahi bir seçimle görevlendirilmişlerdir.", theme: 'general' },
-            { id: 'fb48', type: 'fillInTheBlanks', question: "Peygamberlerin getirdiği mesajlar, insanların ........................ ve ahiret hayatlarını düzenler.", answer: "dünya", options: ["dünya", "savaş", "ticaret", "eğlence"], explanation: "Peygamberler, hem dünya hem de ahiret için rehberlik ederler.", theme: 'general' },
-            { id: 'fb49', type: 'fillInTheBlanks', question: "Peygamberler, ........................ ve dürüstlük gibi ahlaki değerlere önem vermişlerdir.", answer: "adalet", options: ["adalet", "kurnazlık", "hırs", "korku"], explanation: "Peygamberler, yüksek ahlaki değerlere sahip olmuşlardır.", theme: 'general' },
-            { id: 'fb50', type: 'fillInTheBlanks', question: "Hz. Adem ve Havva, ........................ ağacın meyvesinden yedikleri için cennetten çıkarılmışlardır.", answer: "yasak", options: ["yasak", "elma", "hurma", "üzüm"], explanation: "Yasak ağacın meyvesi, onların cennetten çıkarılma sebebi olmuştur.", theme: 'adem' },
-            { id: 'fb51', type: 'fillInTheBlanks', question: "Hz. Nuh'un gemisi, ........................ Dağı'na oturmuştur.", answer: "Cudi", options: ["Cudi", "Arafat", "Sina", "Uhud"], explanation: "Tufan sonrası gemi Cudi Dağı'na yerleşmiştir.", theme: 'nuh' },
-            { id: 'fb52', type: 'fillInTheBlanks', question: "Hz. İbrahim, ........................ ve yıldızlara tapan kavmini tevhide davet etmiştir.", answer: "putlara", options: ["putlara", "insanlara", "hayvanlara", "bitkilere"], explanation: "Hz. İbrahim, putperestliğe karşı mücadele etmiştir.", theme: 'ibrahim' },
-            { id: 'fb53', type: 'fillInTheBlanks', question: "Hz. Musa, ........................'dan İsrailoğullarını kurtarmıştır.", answer: "Firavun'un zulmünden", options: ["Firavun'un zulmünden", "açlıktan", "savaştan", "hastalıktan"], explanation: "Hz. Musa, İsrailoğullarını Firavun'un köleliğinden kurtarmıştır.", theme: 'musa' },
-            { id: 'fb54', type: 'fillInTheBlanks', question: "Hz. İsa, Allah'ın (cc) ........................ ile babasız dünyaya gelmiştir.", answer: "mucizesiyle", options: ["mucizesiyle", "isteğiyle", "emriyle", "kudretiyle"], explanation: "Hz. İsa'nın doğumu, ilahi bir mucizedir.", theme: 'isa' },
-            { id: 'fb55', type: 'fillInTheBlanks', question: "Hz. Muhammed (sav), ........................ peygamberdir.", answer: "son", options: ["son", "ilk", "ortanca", "ikinci"], explanation: "Hz. Muhammed (sav), peygamberlerin sonuncusudur.", theme: 'muhammed' },
-            { id: 'fb56', type: 'fillInTheBlanks', question: "Peygamberlerin hayatları, Müslümanlar için ........................ bir örnektir.", answer: "güzel", options: ["güzel", "kötü", "sıradan", "önemsiz"], explanation: "Peygamberler, tüm insanlık için örnek alınacak şahsiyetlerdir.", theme: 'general' },
-            { id: 'fb57', type: 'fillInTheBlanks', question: "Peygamberler, insanlara ........................ ve ahiret konularında rehberlik etmişlerdir.", answer: "dünya", options: ["dünya", "savaş", "ticaret", "eğlence"], explanation: "Peygamberler, hem dünya hem de ahiret hayatı için yol göstermişlerdir.", theme: 'general' },
-            { id: 'fb58', type: 'fillInTheBlanks', question: "Peygamberler, ........................ ve dürüstlük gibi ahlaki değerlere önem vermişlerdir.", answer: "adalet", options: ["adalet", "kurnazlık", "hırs", "korku"], explanation: "Peygamberler, yüksek ahlaki değerlere sahip olmuşlardır.", theme: 'general' },
-            { id: 'fb59', type: 'fillInTheBlanks', question: "Hz. Nuh'un gemisi, ........................ ve inananları kurtarmıştır.", answer: "ailesini", options: ["ailesini", "düşmanlarını", "hayvanları", "bitkileri"], explanation: "Gemi, Hz. Nuh'un ailesini ve inananları tufandan kurtarmıştır.", theme: 'nuh' },
-            { id: 'fb60', type: 'fillInTheBlanks', question: "Hz. İbrahim, ........................ ve İsmail ile birlikte Kâbe'yi inşa etmiştir.", answer: "oğlu", options: ["oğlu", "babası", "kardeşi", "amcası"], explanation: "Kâbe, Hz. İbrahim ve oğlu İsmail tarafından inşa edilmiştir.", theme: 'ibrahim' },
-            { id: 'fb61', type: 'fillInTheBlanks', question: "Hz. Musa, ........................'ya karşı mücadele etmiştir.", answer: "Firavun'a", options: ["Firavun'a", "Nemrut'a", "Karun'a", "Haman'a"], explanation: "Hz. Musa, zalim Firavun'a karşı mücadele etmiştir.", theme: 'musa' },
-            { id: 'fb62', type: 'fillInTheBlanks', question: "Hz. İsa, ........................'nın oğludur.", answer: "Meryem", options: ["Meryem", "Havva", "Asiye", "Fatıma"], explanation: "Hz. İsa, Hz. Meryem'in oğludur.", theme: 'isa' },
-            { id: 'fb63', type: 'fillInTheBlanks', question: "Hz. Yusuf, kardeşleri tarafından ........................ atılmıştır.", answer: "kuyuya", options: ["kuyuya", "denize", "nehre", "göle"], explanation: "Hz. Yusuf, kıskanç kardeşleri tarafından kuyuya atılmıştır.", theme: 'yusuf' },
-            { id: 'fb64', type: 'fillInTheBlanks', question: "Hz. Eyyub, ........................ ve tevekkülü ile örnek olmuştur.", answer: "sabrı", options: ["sabrı", "gücü", "zenginliği", "hızı"], explanation: "Hz. Eyyub, sabrı ve Allah'a tevekkülü ile bilinir.", theme: 'eyyub' },
-            { id: 'fb65', type: 'fillInTheBlanks', question: "Hz. Yunus, ........................ karnında iken tövbe etmiştir.", answer: "balığın", options: ["balığın", "köpeğin", "kedinin", "aslanın"], explanation: "Hz. Yunus, balığın karnında iken Allah'a yönelmiştir.", theme: 'yunus' },
-            { id: 'fb66', type: 'fillInTheBlanks', question: "Hz. Süleyman, ........................ ve cinlere hükmetme mucizesine sahipti.", answer: "kuşlara", options: ["kuşlara", "köpeklere", "kedilere", "aslanlara"], explanation: "Hz. Süleyman'a kuşların dilini anlama mucizesi verilmiştir.", theme: 'suleyman' },
-
-            // Multiple-choice questions (25 items)
-            {
-                id: 'mc1', type: 'multipleChoice',
-                question: "Aşağıdakilerden hangisi peygamberlerin görevlerinden biri değildir?",
-                options: ["Allah'ın (cc) mesajlarını bildirmek", "Emirleri açıklamak", "Sadece kendi çıkarları için çalışmak", "Örnek olmak"],
-                answer: "Sadece kendi çıkarları için çalışmak",
-                explanation: "Peygamberler, insanlara rehberlik etmek ve Allah'ın emirlerini bildirmekle görevlidirler, kendi çıkarları için çalışmazlar.", theme: 'general'
-            },
-            {
-                id: 'mc2', type: 'multipleChoice',
-                question: "İnsan aklıyla tam olarak kavranamayan konular arasında aşağıdakilerden hangisi bulunur?",
-                options: ["Yemek pişirme yöntemleri", "Evrenin yaratıcısı", "Ahiret konuları", "Matematik problemleri"],
-                answer: "Ahiret konuları",
-                explanation: "İnsan aklı, ahiret gibi gaybi konuları peygamberlerin rehberliği olmadan tam olarak kavrayamaz.", theme: 'general'
-            },
-            {
-                id: 'mc3', type: 'multipleChoice',
-                question: "Aşağıdaki peygamberlerden hangisi Ülülazm peygamberlerden biri değildir?",
-                options: ["Hz. Nuh", "Hz. İbrahim", "Hz. Yusuf", "Hz. Musa"],
-                answer: "Hz. Yusuf",
-                explanation: "Ülülazm peygamberler Hz. Nuh, Hz. İbrahim, Hz. Musa, Hz. İsa ve Hz. Muhammed (sav)'dir. Hz. Yusuf bu gruba dahil değildir.", theme: 'general'
-            },
-            {
-                id: 'mc4', type: 'multipleChoice',
-                question: "Hz. Nuh kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?",
-                options: ["İnsanlar arasında ayrımcılık yapılması gerektiği", "Allah'a (cc) hiçbir şey şirk koşulmaması gerektiği", "Peygamberlerin görevlerini yaparken karşılık beklemesi gerektiği", "İnsanın yaptığı işte azimli ve kararlı olmaması gerektiği"],
-                answer: "Allah'a (cc) hiçbir şey şirk koşulmaması gerektiği",
-                explanation: "Hz. Nuh'un tevhit mücadelesi, Allah'a ortak koşmamanın önemini gösterir.", theme: 'nuh'
-            },
-            {
-                id: 'mc5', type: 'multipleChoice',
-                question: "Hz. Nuh'un gemisine kimler binmiştir?",
-                options: ["Sadece Hz. Nuh", "Hz. Nuh ve inananlar", "Hz. Nuh, inananlar ve her hayvandan birer çift", "Sadece inkarcılar"],
-                answer: "Hz. Nuh, inananlar ve her canlı türünden birer çift",
-                explanation: "Tufan sırasında gemiye Hz. Nuh, ona inananlar ve her canlı türünden birer çift binmiştir.", theme: 'nuh'
-            },
-            {
-                id: 'mc6', type: 'multipleChoice',
-                question: "Hz. İbrahim'in putları kırmasından sonra halkın putların konuşamayacağını itiraf etmesi hangi hisseyi vurgular?",
-                options: ["Ataların körü körüne taklit edilmesi gerektiği", "Putlara tapmanın anlamsızlığını", "Hz. İbrahim'in zayıf olduğunu", "Halkın putlara daha çok inanması gerektiğini"],
-                answer: "Putlara tapmanın anlamsızlığını",
-                explanation: "Bu olay, putların acizliğini ve onlara tapmanın boşluğunu ortaya koymuştur.", theme: 'ibrahim'
-            },
-            {
-                id: 'mc7', type: 'multipleChoice',
-                question: "Hz. İbrahim ve oğlu Hz. İsmail'in birlikte inşa ettiği yapı aşağıdakilerden hangisidir?",
-                options: ["Mescid-i Aksa", "Kâbe", "Kudüs Tapınağı", "Babil Kulesi"],
-                answer: "Kâbe",
-                explanation: "Kâbe, Hz. İbrahim ve Hz. İsmail tarafından yeniden inşa edilen kutsal bir yapıdır.", theme: 'ibrahim'
-            },
-            {
-                id: 'mc8', type: 'multipleChoice',
-                question: "Yüce Allah dilerse imkansız görünen şeylerin gerçekleşebileceği",
-                options: ["İnsanın inandığı değerleri savunurken korkak olması gerektiği", "En yakınlar şirke bulaşmış olsa bile bunun en büyük günah olmadığı", "Yüce Allah dilerse imkansız görünen şeylerin gerçekleşebileceği", "Ataların her zaman doğru yolda olduğu"],
-                answer: "Yüce Allah dilerse imkansız görünen şeylerin gerçekleşebileceği",
-                explanation: "Ateşin Hz. İbrahim'e zarar vermemesi, Allah'ın kudretinin bir göstergesidir.", theme: 'ibrahim'
-            },
-            {
-                id: 'mc9', type: 'multipleChoice',
-                question: "Hz. Musa'ya hangi kutsal kitap indirilmiştir?",
-                options: ["İncil", "Zebur", "Tevrat", "Kur'an-ı Kerim"],
-                answer: "Tevrat",
-                explanation: "Tevrat, Hz. Musa'ya vahyedilen ilahi kitaptır.", theme: 'musa'
-            },
-            {
-                id: 'mc10', type: 'multipleChoice',
-                question: "Hz. Musa'nın doğduğu dönemde Mısır'ı yöneten zalim yönetici kimdir?",
-                options: ["Nemrut", "Firavun", "Karun", "Ebu Cehil"],
-                answer: "Firavun",
-                explanation: "Firavun, İsrailoğullarına zulmeden Mısır hükümdarıydı.", theme: 'musa'
-            },
-            {
-                id: 'mc11', type: 'multipleChoice',
-                question: "Hz. Musa ve İsrailoğulları Firavun'dan kaçarken hangi deniz yarılmıştır?",
-                options: ["Akdeniz", "Karadeniz", "Kızıldeniz", "Marmara Denizi"],
-                answer: "Kızıldeniz",
-                explanation: "Kızıldeniz'in yarılması, Hz. Musa'nın mucizelerinden biridir.", theme: 'musa'
-            },
-            {
-                id: 'mc12', type: 'multipleChoice',
-                question: "Hz. Musa kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?",
-                options: ["İnsanlara sert bir üslupla yaklaşılması gerektiği", "Allah'ın (cc) zulüm ve haksızlık edenleri cezalandıracağı", "Peygamberlerin toplumlara öncülük etmemesi gerektiği", "Firavun'un doğru yolda olduğu"],
-                answer: "Allah'ın (cc) zulüm ve haksızlık edenleri cezalandıracağı",
-                explanation: "Firavun'un boğulması, zalimlerin akıbetine bir örnektir.", theme: 'musa'
-            },
-            {
-                id: 'mc13', type: 'multipleChoice',
-                question: "Hz. İsa'ya hangi kutsal kitap indirilmiştir?",
-                options: ["Tevrat", "Zebur", "İncil", "Kur'an-ı Kerim"],
-                answer: "İncil",
-                explanation: "İncil, Hz. İsa'ya vahyedilen kutsal kitaptır.", theme: 'isa'
-            },
-            {
-                id: 'mc14', type: 'multipleChoice',
-                question: "Hz. İsa'nın annesi kimdir?",
-                options: ["Hz. Hatice", "Hz. Ayşe", "Hz. Meryem", "Hz. Fatıma"],
-                answer: "Hz. Meryem",
-                explanation: "Hz. İsa, Hz. Meryem'in oğludur.", theme: 'isa'
-            },
-            {
-                id: 'mc15', type: 'multipleChoice',
-                question: "Hz. İsa kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?",
-                options: ["Peygamberlerin tehditlere boyun eğmesi gerektiği", "İnsanın görevini yerine getirirken sabırsız olması gerektiği", "İnanmayanların tehditlerine aldırmamak gerektiği", "Hz. İsa'nın bir tanrı olduğu"],
-                answer: "İnanmayanların tehditlerine aldırmamak gerektiği",
-                explanation: "Peygamberler, görevlerini yerine getirirken tehditlere aldırış etmezler.", theme: 'isa'
-            },
-            {
-                id: 'mc16', type: 'multipleChoice',
-                question: "Kureyş Suresi ismini nereden almıştır?",
-                options: ["Hz. Muhammed'in doğduğu şehirden", "Hz. Muhammed'in ailesinin mensup olduğu kabileden", "Kâbe'nin bulunduğu yerden", "Ticaret yollarından"],
-                answer: "Hz. Muhammed'in ailesinin mensup olduğu kabileden",
-                explanation: "Sure, Hz. Muhammed'in de mensup olduğu Kureyş kabilesine ithafen isimlendirilmiştir.", theme: 'muhammed'
-            },
-            {
-                id: 'mc17', type: 'multipleChoice',
-                question: "Kureyş kabilesinin temel görevlerinden biri aşağıdakilerden hangisidir?",
-                options: ["Savaşlar düzenlemek", "Kâbe'nin bakımını üstlenmek", "Ticari tekel oluşturmak", "Putlara tapmayı yaymak"],
-                answer: "Kâbe'nin bakımını üstlenmek",
-                explanation: "Kureyş kabilesi, Kâbe'nin hizmetinden sorumluydu.", theme: 'muhammed'
-            },
-            {
-                id: 'mc18', type: 'multipleChoice',
-                question: "Kureyş Suresi'ni okuyan bir Müslüman, nimet verenin yalnızca kim olduğunu bilir?	Peygamberler	İnsanlar	Allah (cc)	Melekler",
-                answer: "Allah (cc)",
-                explanation: "Sure, tüm nimetlerin Allah'tan geldiğini hatırlatır.", theme: 'muhammed'
-            },
-            {
-                id: 'mc19', type: 'multipleChoice',
-                question: "Peygamber kıssalarında verilen mesajlardan biri aşağıdakilerden hangisidir?",
-                options: ["Geçmiş toplumların hatalarının tekrarlanması gerektiği", "Peygamberlerin insanları tevhide daveti temel konu değildir", "Kıssalarda iyilik ve kötülüğün ne olduğu anlatılmaz", "Müslümanlar, peygamberlerin çabalarını örnek alabilirler"],
-                answer: "Müslümanlar, peygamberlerin çabalarını örnek alabilirler",
-                explanation: "Peygamberlerin hayatları, Müslümanlar için güzel bir örnektir.", theme: 'general'
-            },
-            {
-                id: 'mc20', type: 'multipleChoice',
-                question: "Peygamberlerin insanlara rehber olarak gönderilmesi Allah'ın hangi sıfatını gösterir?",
-                options: ["Kudret", "İrade", "Sevgi ve Merhamet", "Yaratıcılık"],
-                answer: "Sevgi ve Merhamet",
-                explanation: "Peygamber göndermek, Allah'ın insanlara olan sevgisinin ve merhametinin bir göstergesidir.", theme: 'general'
-            },
-            {
-                id: 'mc21', type: 'multipleChoice',
-                question: "Peygamberlerin söz ve davranışlarını öğrenip uygulayarak neye sahip olunabilir?",
-                options: ["Zenginliğe", "Güzel ahlaka", "Güce", "Ün şöhrete"],
-                answer: "Güzel ahlaka",
-                explanation: "Peygamberlerin ahlakı, insanlara güzel ahlak edinme yolunda rehberlik eder.", theme: 'general'
-            },
-            {
-                id: 'mc22', type: 'multipleChoice',
-                question: "Kur'an-ı Kerim'deki peygamber kıssalarının amacı nedir?",
-                options: ["Sadece tarihi olayları anlatmak", "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak", "Peygamberlerin üstünlüklerini göstermek", "İnsanları korkutmak"],
-                answer: "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak",
-                explanation: "Kıssalar, ibret almak ve doğru yolu bulmak için anlatılır.", theme: 'general' },
-            {
-                id: 'mc23', type: 'multipleChoice',
-                question: "Peygamberlerin dürüstlük, adalet gibi ahlaki ilkeleri kendi hayatlarında uygulamaları ne anlama gelir?",
-                options: ["Sadece kendileri için yaşadıkları", "İnsanlara örnek oldukları", "Bu ilkelerin sadece peygamberlere özel olduğu", "Bu ilkelerin önemsiz olduğu"],
-                answer: "İnsanlara örnek oldukları",
-                explanation: "Peygamberler, ahlaki değerleri yaşayarak insanlara yol gösterirler.", theme: 'general'
-            },
-            {
-                id: 'mc24', 'type': 'multipleChoice',
-                question: "Kureyş Suresi'nin temel konularından biri Kureyş'in geçimini nasıl sağladığına dikkat çekmesidir. Bu geçim şekli nedir?",
-                options: ["Tarım", "Hayvancılık", "Ticari yolculuklar", "Balıkçılık"],
-                answer: "Ticari yolculuklar",
-                explanation: "Kureyş kabilesi, yaz ve kış ticari yolculuklar yaparak geçimini sağlamıştır.", theme: 'muhammed'
-            },
-            {
-                id: 'mc25', type: 'multipleChoice',
-                question: "Peygamberlerin de sıkıntılar yaşadığının anlaşılması, Müslümanlara ne kazandırır?",
-                options: ["İnanç uğruna mücadele etmemeyi", "Cesaret ve sabırla mücadele etmeyi", "Sıkıntılardan kaçınmayı", "Peygamberlere isyan etmeyi"],
-                answer: "Cesaret ve sabırla mücadele etmeyi",
-                explanation: "Peygamberlerin yaşadığı zorluklar, Müslümanlara inanç uğruna sabır ve cesaretle mücadele etme ilhamı verir.", theme: 'general'
-            },
-            // Additional Multiple-choice questions for 99 total
-            {
-                id: 'mc26', type: 'multipleChoice',
-                question: "Hz. Yusuf'un kardeşleri onu nereye atmışlardır?",
-                options: ["Denize", "Kuyuya", "Mağaraya", "Çöle"],
-                answer: "Kuyuya",
-                explanation: "Hz. Yusuf'un kardeşleri onu kıskançlıklarından dolayı bir kuyuya atmışlardır.", theme: 'yusuf'
-            },
-            {
-                id: 'mc27', type: 'multipleChoice',
-                question: "Hz. Eyyub'un sabrı hangi konuda örnek teşkil eder?",
-                options: ["Zenginlikte", "Sağlıkta ve mal kaybında", "Güç ve iktidarda", "Bilimde"],
-                answer: "Sağlıkta ve mal kaybında",
-                explanation: "Hz. Eyyub, büyük hastalıklara ve mal kaybına karşı gösterdiği sabırla bilinir.", theme: 'eyyub'
-            },
-            {
-                id: 'mc28', type: 'multipleChoice',
-                question: "Hz. Yunus'u yutan balık hangi balıktır?",
-                options: ["Köpekbalığı", "Balina", "Yunus balığı", "Bilinmiyor"],
-                answer: "Bilinmiyor",
-                explanation: "Kur'an'da balığın türü belirtilmemiştir, ancak büyük bir balık olduğu ifade edilir.", theme: 'yunus'
-            },
-            {
-                id: 'mc29', type: 'multipleChoice',
-                question: "Hz. Zekeriya'nın mucizevi bir şekilde çocuk sahibi olması hangi peygamberin doğuşuna vesile olmuştur?",
-                options: ["Hz. İsa", "Hz. Yahya", "Hz. İbrahim", "Hz. Musa"],
-                answer: "Hz. Yahya",
-                explanation: "Hz. Zekeriya'ya yaşlılık döneminde Hz. Yahya isminde bir oğul müjdelenmiştir.", theme: 'zekeriya' },
-            {
-                id: 'mc30', type: 'multipleChoice',
-                question: "Hz. Süleyman'ın en bilinen mucizelerinden biri aşağıdakilerden hangisidir?",
-                options: ["Denizi yarması", "Kuşlarla konuşması", "Ateşe girmesi", "Ölüleri diriltmesi"],
-                answer: "Kuşlarla konuşması",
-                explanation: "Hz. Süleyman'a kuşların dilini anlama ve onlarla konuşma yeteneği verilmiştir.", theme: 'suleyman'
-            },
-            {
-                id: 'mc31', type: 'multipleChoice',
-                question: "Hz. Davut'a indirilen kutsal kitap hangisidir?",
-                options: ["Tevrat", "İncil", "Zebur", "Kur'an-ı Kerim"],
-                answer: "Zebur",
-                explanation: "Zebur, Hz. Davut'a vahyedilen ilahi kitaptır.", theme: 'davut'
-            },
-            {
-                id: 'mc32', type: 'multipleChoice',
-                question: "Hz. Lokman'ın oğluna verdiği öğütler hangi surenin içinde yer alır?",
-                options: ["Bakara Suresi", "Yasin Suresi", "Lokman Suresi", "Fatiha Suresi"],
-                answer: "Lokman Suresi",
-                explanation: "Lokman Suresi, Hz. Lokman'ın oğluna verdiği öğütleri içerir.", theme: 'lokman'
-            },
-            {
-                id: 'mc33', type: 'multipleChoice',
-                question: "Hz. Şuayb'ın kavminde hangi konuda hile yapmaktaydı?",
-                options: ["Ticarette ölçü ve tartıda hile", "Savaşta hile", "Yemek yapmada hile", "İbadette hile"],
-                answer: "Ticarette ölçü ve tartıda hile",
-                explanation: "Hz. Şuayb, Medyen halkını ölçü ve tartıda adaletsizlik yapmaktan men etmiştir.", theme: 'suayb'
-            },
-            {
-                id: 'mc34', type: 'multipleChoice',
-                question: "Peygamberlerin insanlara gönderilmesinin temel amacı nedir?",
-                options: ["Sadece mucize göstermek", "İnsanları eğlendirmek", "Doğru yolu göstermek ve rehberlik etmek", "Dünya malı kazandırmak"],
-                answer: "Doğru yolu göstermek ve rehberlik etmek",
-                explanation: "Peygamberler, Allah'ın mesajlarını insanlara ulaştırarak onlara dünya ve ahiret için rehberlik ederler.", theme: 'general'
-            },
-            {
-                id: 'mc35', type: 'multipleChoice',
-                question: "Hz. Adem ve Havva'nın cennetten çıkarılma sebebi nedir?",
-                options: ["Allah'a isyan etmeleri", "Yasak ağacın meyvesinden yemeleri", "Birbirleriyle kavga etmeleri", "Cennetten sıkılmaları"],
-                answer: "Yasak ağacın meyvesinden yemeleri",
-                explanation: "Allah'ın yasakladığı ağacın meyvesinden yemeleri, cennetten çıkarılmalarına sebep olmuştur.", theme: 'adem'
-            },
-            {
-                id: 'mc36', type: 'multipleChoice',
-                question: "Nuh tufanından kimler kurtulmuştur?",
-                options: ["Tüm insanlar", "Sadece Hz. Nuh ve ailesi", "Hz. Nuh, inananlar ve her canlıdan birer çift", "Sadece hayvanlar"],
-                answer: "Hz. Nuh, inananlar ve her canlıdan birer çift",
-                explanation: "Tufan sırasında gemiye Hz. Nuh, ona inananlar ve her canlı türünden birer çift binmiştir.", theme: 'nuh'
-            },
-            {
-                id: 'mc37', type: 'multipleChoice',
-                question: "Hz. İbrahim'in ateşe atılmasına rağmen yanmaması hangi özelliği vurgular?",
-                options: ["Hz. İbrahim'in gücü", "Ateşin zayıflığı", "Allah'ın (cc) kudreti", "İnsanların inançsızlığı"],
-                answer: "Allah'ın (cc) kudreti",
-                explanation: "Ateşin Hz. İbrahim'e zarar vermemesi, Allah'ın sınırsız gücünün ve mucizesinin bir göstergesidir.", theme: 'ibrahim'
-            },
-            {
-                id: 'mc38', type: 'multipleChoice',
-                question: "Hz. Musa'nın Firavun'a karşı gösterdiği en bilinen mucizelerden biri nedir?",
-                options: ["Ölüleri diriltmek", "Ayı ikiye bölmek", "Asasının yılana dönüşmesi", "Kuşlarla konuşmak"],
-                answer: "Asasının yılana dönüşmesi",
-                explanation: "Hz. Musa'nın asasının yılana dönüşmesi, Firavun'un sihirbazlarına karşı gösterdiği en büyük mucizelerdendir.", theme: 'musa'
-            },
-            {
-                id: 'mc39', type: 'multipleChoice',
-                question: "Hz. Davut'un en belirgin özelliklerinden biri nedir?",
-                options: ["Çok zengin olması", "Çok hızlı koşması", "Çok güzel sesi olması", "Çok uzun boylu olması"],
-                answer: "Çok güzel sesi olması",
-                explanation: "Hz. Davut'a güzel ses ve Zebur'u okurken dağların ve kuşların ona eşlik etmesi mucizesi verilmiştir.", theme: 'davut'
-            },
-            {
-                id: 'mc40', type: 'multipleChoice',
-                question: "Hz. Süleyman'a verilen özel yeteneklerden biri nedir?",
-                options: ["Denizde yürüme", "Zamanı durdurma", "Hayvanların dilini anlama", "Geleceği görme"],
-                answer: "Hayvanların dilini anlama",
-                explanation: "Hz. Süleyman'a hayvanların dilini anlama ve onlarla konuşma yeteneği verilmiştir.", theme: 'suleyman'
-            },
-            {
-                id: 'mc41', type: 'multipleChoice',
-                question: "Hz. Eyyub'un kıssasından çıkarılan en önemli ders nedir?",
-                options: ["Zenginliğin önemi", "Sabrın ve tevekkülün önemi", "Gücün önemi", "Hızlı kararlar almanın önemi"],
-                answer: "Sabrın ve tevekkülün önemi",
-                explanation: "Hz. Eyyub'un hayatı, zorluklar karşısında sabretmenin ve Allah'a güvenmenin en güzel örneğidir.", theme: 'eyyub'
-            },
-            {
-                id: 'mc42', type: 'multipleChoice',
-                question: "Hz. Yunus'un balığın karnında iken yaptığı dua neyi ifade eder?",
-                options: ["Öfkesini", "Korkusunu", "Pişmanlığını ve tövbesini", "Sevinçini"],
-                answer: "Pişmanlığını ve tövbesini",
-                explanation: "Hz. Yunus, balığın karnında iken yaptığı hatadan dolayı pişman olup Allah'a tövbe etmiştir.", theme: 'yunus'
-            },
-            {
-                id: 'mc43', type: 'multipleChoice',
-                question: "Peygamberlerin insanlara rehberlik etmesinin amacı nedir?",
-                options: ["İnsanları köleleştirmek", "İnsanları korkutmak", "İnsanları dünya hayatında zengin etmek", "İnsanlara doğru yolu göstermek ve onları kurtuluşa erdirmek"],
-                answer: "İnsanlara doğru yolu göstermek ve onları kurtuluşa erdirmek",
-                explanation: "Peygamberler, Allah'ın emir ve yasaklarını bildirerek onları hem dünya hem de ahiret saadetine ulaştırırlar.", theme: 'general'
-            },
-            {
-                id: 'mc44', type: 'multipleChoice',
-                question: "Hz. Zekeriya'nın yaşlılıkta çocuk sahibi olması hangi ilahi sıfatı gösterir?",
-                options: ["Adalet", "Kudret", "Hikmet", "İrade"],
-                answer: "Kudret",
-                explanation: "Yaşlılık ve kısırlık durumunda çocuk sahibi olması, Allah'ın sınırsız kudretinin bir göstergesidir.", theme: 'zekeriya'
-            },
-            {
-                id: 'mc45', type: 'multipleChoice',
-                question: "Hz. Lokman'ın oğluna verdiği öğütlerin temel konusu nedir?",
-                options: ["Ticaret yapma yolları", "Savaş stratejileri", "Ahlaki değerler ve Allah'a kulluk", "Zengin olma yolları"],
-                answer: "Ahlaki değerler ve Allah'a kulluk",
-                explanation: "Lokman Suresi'nde yer alan öğütler, tevhit, şükür, sabır ve güzel ahlak gibi konulara odaklanır.", theme: 'lokman'
-            },
-            {
-                id: 'mc46', type: 'multipleChoice',
-                question: "Hz. Şuayb'ın kavmi Medyen'in temel günahı nedir?",
-                options: ["Putlara tapmaları", "Hırsızlık yapmaları", "Ölçü ve tartıda hile yapmak", "Yalan söylemek"],
-                answer: "Ölçü ve tartıda hile yapmak",
-                explanation: "Hz. Şuayb, Medyen halkını ticaretteki hilelerinden ve adaletsizliklerinden dolayı uyarmıştır.", theme: 'suayb'
-            },
-            {
-                id: 'mc47', type: 'multipleChoice',
-                question: "Peygamberlerin insanlara örnek olmaları ne anlama gelir?",
-                options: ["Sadece sözleriyle öğretmeleri", "Sadece mucizeleriyle etkilemeleri", "Hem sözleriyle hem de davranışlarıyla rehberlik etmeleri", "Sadece dini konularda örnek olmaları"],
-                answer: "Hem sözleriyle hem de davranışlarıyla rehberlik etmeleri",
-                explanation: "Peygamberler, hayatlarının her alanında insanlara örnek teşkil etmişlerdir.", theme: 'general'
-            },
-            {
-                id: 'mc48', type: 'multipleChoice',
-                question: "Hz. Muhammed (sav)'in peygamberliği hangi özelliği taşır?",
-                options: ["Sadece Araplara özgü olması", "Belirli bir zaman dilimiyle sınırlı olması", "Evrensel ve son peygamber olması", "Sadece erkeklere hitap etmesi"],
-                answer: "Evrensel ve son peygamber olması",
-                explanation: "Hz. Muhammed (sav), tüm insanlığa gönderilen son peygamberdir.", theme: 'muhammed'
-            },
-            {
-                id: 'mc49', type: 'multipleChoice',
-                question: "Peygamber kıssalarının en önemli faydalarından biri nedir?",
-                options: ["Geçmişi merak gidermek", "Tarih bilgisi vermek", "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak", "Eğlence sunmak"],
-                answer: "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak",
-                explanation: "Peygamber kıssaları, insanlara ibret alacakları ve hayatlarına uygulayacakları dersler sunar.", theme: 'general'
-            },
-            {
-                id: 'mc50', type: 'multipleChoice',
-                question: "Peygamberlerin tebliğ ettiği dinin özü nedir?",
-                options: ["Çok tanrılı inanç", "Putperestlik", "Allah'ın birliği (Tevhit)", "Doğaüstü güçlere inanma"],
-                answer: "Allah'ın birliği (Tevhit)",
-                explanation: "Tüm peygamberlerin ortak mesajı, Allah'ın birliği ve sadece O'na kulluk etmektir.", theme: 'general'
-            },
-            {
-                id: 'mc51', type: 'multipleChoice',
-                question: "Peygamberler, insanlara hangi konularda rehberlik etmişlerdir?",
-                options: ["Sadece ibadet", "Sadece ahlak", "Sadece hukuk", "Dini, ahlaki, sosyal ve hukuki tüm konularda"],
-                answer: "Dini, ahlaki, sosyal ve hukuki tüm konularda",
-                explanation: "Peygamberler, insan hayatının her alanında rehberlik etmişlerdir.", theme: 'general'
-            },
-            {
-                id: 'mc52', type: 'multipleChoice',
-                question: "Hz. İsa'nın babasız doğumu hangi kavramla açıklanır?",
-                options: ["Doğal olay", "Bilimsel açıklama", "Mucize", "Tesadüf"],
-                answer: "Mucize",
-                explanation: "Hz. İsa'nın babasız doğumu, Allah'ın (cc) kudretinin bir mucizesidir.", theme: 'isa' },
-            {
-                id: 'mc53', type: 'multipleChoice',
-                question: "Peygamberlerin insanlara karşı tutumları genellikle nasıldı?",
-                options: ["Sert ve acımasız", "Korkutucu ve tehditkar", "Şefkatli, merhametli ve sabırlı", "Kaygısız ve umursamaz"],
-                answer: "Şefkatli, merhametli ve sabırlı",
-                explanation: "Peygamberler, kavimlerine karşı her zaman şefkat ve merhametle yaklaşmışlardır.", theme: 'general'
-            },
-            {
-                id: 'mc54', type: 'multipleChoice',
-                question: "Hz. Adem ve Havva'nın cennetten çıkarıldıktan sonraki pişmanlıkları neyi gösterir?",
-                options: ["Allah'a isyan etmeyi", "Günahın affedilebilirliğini", "Sadece kendi hatalarını", "Cennete geri dönemeyeceklerini"],
-                answer: "Günahın affedilebilirliğini",
-                explanation: "Tövbe ve pişmanlıkları, Allah'ın (cc) affedici olduğunu ve tövbeleri kabul ettiğini gösterir.", theme: 'adem'
-            },
-            {
-                id: 'mc55', type: 'multipleChoice',
-                question: "Hz. Nuh'un gemisinin Cudi Dağı'na oturması neyi simgeler?",
-                options: ["Tufanın sona erdiğini", "Yeni bir başlangıcı", "Allah'ın (cc) rahmetini", "Hepsi"],
-                answer: "Hepsi",
-                explanation: "Cudi Dağı'na oturması, tufanın sona erdiğini, yeni bir hayatın başladığını ve Allah'ın rahmetini simgeler.", theme: 'nuh'
-            },
-            {
-                id: 'mc56', type: 'multipleChoice',
-                question: "Hz. İbrahim'in putlara karşı mücadelesi hangi inancın temelini oluşturur?",
-                options: ["Putperestlik", "Şirk", "Tevhit", "Ateizm"],
-                answer: "Tevhit",
-                explanation: "Hz. İbrahim'in mücadelesi, Allah'ın birliği (tevhit) inancının önemini vurgular.", theme: 'ibrahim'
-            },
-            {
-                id: 'mc57', type: 'multipleChoice',
-                question: "Hz. Musa'nın Kızıldeniz'i yarması hangi ilahi sıfatı gösterir?",
-                options: ["Adalet", "Hikmet", "Kudret", "İrade"],
-                answer: "Kudret",
-                explanation: "Kızıldeniz'in yarılması, Allah'ın (cc) sınırsız gücünün ve mucizesinin bir göstergesidir.", theme: 'musa'
-            },
-            {
-                id: 'mc58', type: 'multipleChoice',
-                question: "Hz. Davut'un Calut'u yenmesi neyi simgeler?",
-                options: ["Güçlünün her zaman kazanacağını", "Maddi gücün önemini", "Küçük bir gücün Allah'ın yardımıyla büyük bir gücü yenebileceğini", "Savaşın kaçınılmazlığını"],
-                answer: "Küçük bir gücün Allah'ın yardımıyla büyük bir gücü yenebileceğini",
-                explanation: "Hz. Davut'un Calut'u yenmesi, Allah'ın yardımıyla zayıfın güçlüye karşı zafer kazanabileceğini gösterir.", theme: 'davut'
-            },
-            {
-                id: 'mc59', type: 'multipleChoice',
-                question: "Hz. Süleyman'ın cinlere hükmetme yeteneği neyi ifade eder?",
-                options: ["İnsanüstü bir varlık olduğunu", "Sihirbaz olduğunu", "Allah'ın (cc) ona verdiği özel bir mucize olduğunu", "Korkutucu olduğunu"],
-                answer: "Allah'ın (cc) ona verdiği özel bir mucize olduğunu",
-                explanation: "Hz. Süleyman'a verilen bu yetenek, Allah'ın (cc) ona bahşettiği özel bir mucizedir.", theme: 'suleyman'
-            },
-            {
-                id: 'mc60', type: 'multipleChoice',
-                question: "Hz. Eyyub'un sabrı, Müslümanlara hangi konuda ilham verir?",
-                options: ["Kolay yoldan zengin olma", "Zorluklar karşısında direnme ve Allah'a güvenme", "Hastalıkta şikayet etme", "Başkalarına bağımlı olma"],
-                answer: "Zorluklar karşısında direnme ve Allah'a güvenme",
-                explanation: "Hz. Eyyub'un sabrı, Müslümanlara hayatın zorlukları karşısında Allah'a tevekkül etme ve direnme gücü verir.", theme: 'eyyub'
-            },
-            {
-                id: 'mc61', type: 'multipleChoice',
-                question: "Hz. Yunus'un balığın karnında iken yaptığı tövbe neye yol açmıştır?",
-                options: ["Ölümüne", "Daha büyük bir belaya", "Kurtuluşuna ve kavmine geri dönmesine", "Unutulmasına"],
-                answer: "Kurtuluşuna ve kavmine geri dönmesine",
-                explanation: "Hz. Yunus'un tövbesi, Allah tarafından kabul edilmiş ve balığın karnından kurtularak kavmine geri dönmüştür.", theme: 'yunus' },
-            {
-                id: 'mc62', type: 'multipleChoice',
-                question: "Peygamberlerin hepsi hangi dine davet etmişlerdir?",
-                options: ["Hristiyanlık", "Yahudilik", "İslam", "Tevhit inancına"],
-                answer: "Tevhit inancına",
-                explanation: "Tüm peygamberler, temelde Allah'ın birliği ve O'na kulluk etme (tevhit) inancına davet etmişlerdir.", theme: 'general'
-            },
-            {
-                id: 'mc63', type: 'multipleChoice',
-                question: "Hz. Yusuf kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?",
-                options: ["Kıskançlığın iyi bir duygu olduğu", "Zorlukların insanı güçlendirdiği ve Allah'a yakınlaştırdığı", "Ailenin her zaman düşman olduğu", "İntikam almanın önemli olduğu"],
-                answer: "Zorlukların insanı güçlendirdiği ve Allah'a yakınlaştırdığı",
-                explanation: "Hz. Yusuf'un hayatındaki zorluklar, onun karakterini güçlendirmiş ve Allah'a olan bağlılığını artırmıştır.", theme: 'yusuf'
-            },
-            {
-                id: 'mc64', type: 'multipleChoice',
-                question: "Hz. Zekeriya'nın duası, Allah'ın (cc) hangi özelliğini gösterir?",
-                options: ["Acizliğini", "Unutkanlığını", "Dualara icabet ettiğini ve her şeye gücünün yettiğini", "Sadece gençlere yardım ettiğini"],
-                answer: "Dualara icabet ettiğini ve her şeye gücünün yettiğini",
-                explanation: "Hz. Zekeriya'nın duasına icabet edilmesi, Allah'ın (cc) duaları kabul ettiğini ve sınırsız kudret sahibi olduğunu gösterir.", theme: 'zekeriya'
-            },
-            {
-                id: 'mc65', type: 'multipleChoice',
-                question: "Hz. Şuayb'ın kavminin helak olma sebebi nedir?",
-                options: ["Putlara tapmaları", "Hırsızlık yapmaları", "Ölçü ve tartıda hile yapmaları ve peygamberi yalanlamaları", "Savaşmaları"],
-                answer: "Ölçü ve tartıda hile yapmaları ve Hz. Şuayb'ı yalanlamaları",
-                explanation: "Medyen halkı, ticaretteki hileleri ve Hz. Şuayb'ı yalanlamaları nedeniyle helak olmuştur.", theme: 'suayb'
-            },
-            {
-                id: 'mc66', type: 'multipleChoice',
-                question: "Peygamberlerin insanlara gönderilmesi, Allah'ın (cc) hangi sıfatının bir tecellisidir?",
-                options: ["Kudret", "İrade", "Rahmet ve Hikmet", "Yaratıcılık"],
-                answer: "Rahmet ve Hikmet",
-                explanation: "Peygamberlerin gönderilmesi, Allah'ın insanlara olan rahmetinin ve her şeyi bir hikmetle yaratmasının bir göstergesidir.", theme: 'general'
-            }
-        ];
-
-        // Initialize Firebase
-        async function initFirebase() {
-            try {
-                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-                if (Object.keys(firebaseConfig).length === 0) {
-                    console.error("Firebase config is missing. Cannot initialize Firebase.");
-                    return;
-                }
-
-                window.firebaseApp = initializeApp(firebaseConfig);
-                window.auth = getAuth(window.firebaseApp);
-                
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(window.auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(window.auth);
-                }
-                window.userId = window.auth.currentUser?.uid || crypto.randomUUID();
-                console.log("Firebase initialized. User ID:", window.userId);
-            } catch (e) {
-                console.error("Error initializing Firebase or authenticating:", e);
-            }
-        }
-
-        initFirebase(); // Call initFirebase when the script loads
-
-        // DOM elements (declared globally but assigned in onload)
-        let playerSelectionScreen; // New screen for player selection
-        let gamePanel;
-        let scoreBoard;
-        let player1ScoreDisplay;
-        let player2ScoreDisplay;
-        let currentPlayerTurnDisplay;
-        let quizContentContainer;
-        let questionContainer;
-        let feedbackDiv;
-        let nextTurnButton; 
-        let detailedExplanationContainer; 
-        let loadingSpinner; 
-        let finalScoreContainer;
-        let overallResultDiv;
-        let resetGameButton; 
-        let questionCounterDisplay;
-        let questionNavigationContainer;
-        let timerDisplay;
-        let player1ScoreBox; 
-        let player2ScoreBox; 
-        let gridInstructionMessage; 
-        let questionScreenInstructionMessage; 
-        let fullscreenOverlay; // New element for fullscreen overlay
-        
-        // Game specific functions
-        window.selectStartingPlayer = function(playerNum) { // Removed mode parameter
-            console.log(`selectStartingPlayer called. Player ${playerNum} selected.`);
-            window.currentPlayer = playerNum;
-            // gameMode is no longer used
-            playerSelectionScreen.classList.add('hidden');
-            gamePanel.classList.remove('hidden');
-            startGame(); // Initialize game state and show question grid
-        };
-
-        window.startGame = function() {
-            console.log("startGame called.");
-            window.player1Score = 0;
-            window.player2Score = 0;
-            // currentPlayer is already set by selectStartingPlayer
-            window.currentQuestionIndex = 0;
-            window.answeredQuestions = {};
-            // Shuffle and slice to get exactly 99 questions
-            shuffledQuestions = shuffleArray([...window.allQuestions]).slice(0, 99); 
-            
-            quizContentContainer.classList.add('hidden'); // Start from question grid
-            finalScoreContainer.classList.add('hidden');
-            questionNavigationContainer.classList.remove('hidden'); // Show question grid
-            
-            updateScoreBoard();
-            renderQuestionNumbers(); // Render question numbers for the initial grid view
-            gridInstructionMessage.classList.remove('hidden'); // Show grid instruction on game start
-            questionScreenInstructionMessage.classList.add('hidden'); // Hide question instruction
-            // Ensure question counter is visible when starting the game and showing the grid
-            if (questionCounterDisplay) {
-                questionCounterDisplay.classList.remove('hidden'); 
-            }
-            setGameBackground('general'); // Set default background for the grid
-            console.log("Game started. Showing question grid for Player", window.currentPlayer, "in normal mode.");
-        };
-
-        function updateScoreBoard() {
-            console.log("updateScoreBoard called. Current Player:", window.currentPlayer, "Player 1 Score:", window.player1Score, "Player 2 Score:", window.player2Score);
-            if (player1ScoreDisplay && player2ScoreDisplay && currentPlayerTurnDisplay && player1ScoreBox && player2ScoreBox) {
-                player1ScoreDisplay.textContent = `Oyuncu 1: ${window.player1Score}`;
-                player2ScoreDisplay.textContent = `Oyuncu 2: ${window.player2Score}`;
-                currentPlayerTurnDisplay.textContent = `Sıra: Oyuncu ${window.currentPlayer}`;
-
-                // Add/remove active class for visual highlight
-                if (window.currentPlayer === 1) {
-                    player1ScoreBox.classList.add('active-player-score');
-                    player1ScoreBox.classList.remove('inactive-player-score');
-                    player2ScoreBox.classList.remove('active-player-score');
-                    player2ScoreBox.classList.add('inactive-player-score');
-                } else {
-                    player2ScoreBox.classList.add('active-player-score');
-                    player2ScoreBox.classList.remove('inactive-player-score');
-                    player1ScoreBox.classList.remove('active-player-score');
-                    player1ScoreBox.classList.add('inactive-player-score');
-                }
-            }
-            if (gridInstructionMessage) {
-                gridInstructionMessage.textContent = `Sıra Oyuncu ${window.currentPlayer}'da. Henüz cevaplanmamış bir soru seçin.`;
-            }
-        }
-
-        // Renders the current question on the screen
-        function renderCurrentQuestion() {
-            console.log("renderCurrentQuestion called. Current Question Index:", window.currentQuestionIndex);
-            // Hide question counter when a specific question is displayed
-            if (questionCounterDisplay) {
-                questionCounterDisplay.classList.add('hidden'); 
-            }
-
-            // Clear previous content
-            feedbackDiv.classList.remove('show', 'correct', 'incorrect');
-            feedbackDiv.innerHTML = '';
-            detailedExplanationContainer.innerHTML = ''; // Clear previous detailed explanation
-            detailedExplanationContainer.classList.add('hidden'); // Hide detailed explanation container
-            
-            // Stop any existing timer
-            clearInterval(timerInterval);
-            timerDisplay.classList.add('hidden'); // Hide timer initially
-            questionScreenInstructionMessage.classList.add('hidden'); // Hide instruction when new question loads
-            nextTurnButton.classList.add('hidden'); // Hide next turn button initially
-
-            // Check if all questions are answered before rendering a specific question
-            const allAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id]);
-            if (allAnswered) {
-                showFinalScore();
+        function displayUnitContent(unitId) {
+            const unit = reportData.units.find(u => u.id === unitId);
+            if (!unit) {
+                contentArea.innerHTML = `<div id="home-content" class="text-center p-8 bg-white rounded-xl shadow-xl">
+                                            <h2 class="text-3xl font-bold text-sky-600 mb-4">Hoş Geldiniz!</h2>
+                                            <p class="text-xl text-slate-700 mb-6">Bu interaktif infografik, 7. Sınıf Din Kültürü ve Ahlak Bilgisi ders kitabının ünite özetlerini keşfetmenize yardımcı olmak için tasarlanmıştır.</p>
+                                            <p class="text-lg text-slate-600">Başlamak için yukarıdaki ünite başlıklarından birini seçin.</p>
+                                            <div class="mt-8 text-5xl">📚✨🕌</div>
+                                         </div>`;
                 return;
             }
-
-            const q = shuffledQuestions[window.currentQuestionIndex];
-            setGameBackground(q.theme); // Set background based on question theme
-            // The questionCounterDisplay element is hidden, but its text content is still updated internally.
-            questionCounterDisplay.textContent = `Soru ${window.currentQuestionIndex + 1} / ${shuffledQuestions.length}`;
             
-            // Add the 'question-block-closed' class before updating content to prepare for animation
-            questionContainer.classList.add('question-block-closed');
+            homeContent.style.display = 'none';
 
-            let questionHtml = `<p class="question-text">${q.question}</p>`;
+            let conceptsHTML = unit.keyConcepts.map(concept => 
+                `<li class="mb-2 p-3 bg-white/20 rounded-md shadow-sm">${concept}</li>`
+            ).join('');
 
-            // Shuffle and display options for all question types
-            let optionsHtml = '<div class="options-container">';
-            let optionsToShuffle = [];
+            contentArea.innerHTML = `
+                <div class="unit-card ${unit.textColor}" style="background-color: ${unit.color};">
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-3 text-center">${unit.title}</h2>
+                    <p class="text-xl md:text-2xl font-semibold mb-6 text-center">${unit.theme}</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 items-start">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3 border-b-2 pb-2" style="border-color: ${unit.textColor === 'text-white' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'};">Anahtar Kavramlar</h3>
+                            <ul class="list-none pl-0 space-y-1 text-lg">
+                                ${conceptsHTML}
+                            </ul>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="unitChart"></canvas>
+                        </div>
+                    </div>
 
-            if (q.type === 'trueFalse') {
-                optionsToShuffle = ["Doğru", "Yanlış"]; // Fixed options for True/False
-            } else if (q.type === 'fillInTheBlanks' || q.type === 'multipleChoice') {
-                optionsToShuffle = [...q.options]; // Use existing options
-            }
-            
-            const shuffledOptions = shuffleArray(optionsToShuffle);
-            // Define a set of distinct colors for the option boxes
-            const optionColors = ['option-color-1', 'option-color-2', 'option-color-3', 'option-color-4'];
+                    <div class="mt-8">
+                        <h3 class="text-2xl font-bold mb-3 border-b-2 pb-2" style="border-color: ${unit.textColor === 'text-white' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'};">Detaylı Özet</h3>
+                        <div class="text-lg leading-relaxed">${unit.detailedSummary}</div>
+                    </div>
 
-            shuffledOptions.forEach((option, optIndex) => {
-                // Apply a color class based on index (cyclically)
-                const colorClass = optionColors[optIndex % optionColors.length];
-                optionsHtml += `
-                    <label class="option-label ${colorClass}">
-                        <input type="radio" name="${q.id}" value="${option}" onchange="checkCurrentAnswer()">
-                        <span>${option}</span>
-                    </label>
-                `;
-            });
-            optionsHtml += '</div>';
-            questionHtml += optionsHtml;
-            
-            questionContainer.innerHTML = questionHtml;
-            
-            // Trigger the "opening" animation after a short delay
-            setTimeout(() => {
-                questionContainer.classList.remove('question-block-closed');
-            }, 50); // Small delay to ensure the browser registers the initial state
-
-            console.log("Question container updated with new question.");
-
-            // --- Button visibility logic update ---
-            if (window.answeredQuestions[q.id]) {
-                // Question was previously answered (review mode)
-                const currentAnswerState = window.answeredQuestions[q.id];
-                nextTurnButton.classList.add('hidden'); // Hide "Sonraki Oyuncu" in review
-                
-                const selectedRadio = document.querySelector(`input[name="${q.id}"][value="${currentAnswerState.userAnswer}"]`);
-                if (selectedRadio) {
-                    selectedRadio.checked = true;
-                    // Apply incorrect-selected-option if it was incorrect
-                    if (!currentAnswerState.isCorrect) {
-                        const selectedLabel = selectedRadio.closest('label');
-                        if (selectedLabel) {
-                            selectedLabel.classList.add('incorrect-selected-option');
-                        }
-                    }
-                }
-                // Disable all radio buttons
-                document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
-
-                // Display feedback
-                displayFeedback(currentAnswerState.isCorrect, q.answer, currentAnswerState.userAnswer, q.explanation);
-
-                // Highlight correct answer if it was incorrect
-                if (!currentAnswerState.isCorrect) {
-                    let actualAnswerValue = q.answer;
-                    if (q.type === 'trueFalse') {
-                        actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-                    }
-                    const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
-                    if (correctRadio) {
-                        const correctLabel = correctRadio.closest('label');
-                        if (correctLabel) {
-                            correctLabel.classList.add('correct-option-highlight');
-                        }
-                    }
-                }
-                console.log("Question was previously answered. Displaying feedback and disabling controls.");
-            } else {
-                // New, unanswered question (active game mode)
-                nextTurnButton.classList.add('hidden'); // Hide next button until answered
-                startTimer(); // Start timer
-                console.log("Question not answered yet. Starting timer.");
-            }
-
-            updateScoreBoard(); // Update score board
-            renderQuestionNumbers(); // Update question numbers (to highlight active question)
-        }
-
-        // Starts the countdown timer
-        function startTimer() {
-            timer = 40; // Timer is always 40 seconds now
-            timerDisplay.classList.remove('hidden');
-            timerDisplay.classList.remove('warning', 'critical');
-            timerDisplay.textContent = `Kalan Süre: ${timer} saniye`;
-            console.log("Timer started for normal mode.");
-
-            timerInterval = setInterval(() => {
-                timer--;
-                timerDisplay.textContent = `Kalan Süre: ${timer} saniye`;
-
-                if (timer <= 10 && timer > 5) {
-                    timerDisplay.classList.add('warning');
-                    timerDisplay.classList.remove('critical');
-                } else if (timer <= 5) {
-                    timerDisplay.classList.add('critical');
-                    timerDisplay.classList.remove('warning');
-                } else {
-                    timerDisplay.classList.remove('warning', 'critical');
-                }
-
-                if (timer <= 0) {
-                    handleTimeout();
-                }
-            }, 1000);
-        }
-
-        // Handles timer running out
-        function handleTimeout() {
-            console.log("Timer timed out.");
-            clearInterval(timerInterval);
-            timerDisplay.classList.add('hidden'); // Hide timer after timeout
-
-            const q = shuffledQuestions[window.currentQuestionIndex];
-            // Mark as incorrect if not already answered
-            if (!window.answeredQuestions[q.id]) {
-                window.answeredQuestions[q.id] = { isCorrect: false, userAnswer: 'Süre Doldu', answeredBy: window.currentPlayer };
-            }
-            
-            // Disable all radio buttons
-            document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
-
-            displayFeedback(false, q.answer, 'Süre Doldu', q.explanation);
-
-            // Highlight correct answer if it was incorrect (due to timeout)
-            let actualAnswerValue = q.answer;
-            if (q.type === 'trueFalse') {
-                actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-            }
-            const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
-            if (correctRadio) {
-                const correctLabel = correctRadio.closest('label');
-                if (correctLabel) {
-                    correctLabel.classList.add('correct-option-highlight');
-                }
-            }
-
-            renderQuestionNumbers(); // Update status in question grid
-            questionScreenInstructionMessage.textContent = `Süreyi kullandınız. Sırayı Oyuncu ${window.currentPlayer === 1 ? 2 : 1}'a geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
-            questionScreenInstructionMessage.classList.remove('hidden');
-            nextTurnButton.classList.remove('hidden'); // Show next turn button
-        }
-
-
-        // Checks the answer and provides feedback
-        window.checkCurrentAnswer = function() {
-            console.log("checkCurrentAnswer called.");
-            clearInterval(timerInterval); // Stop timer when answer is checked
-            timerDisplay.classList.add('hidden'); // Hide timer
-
-            const q = shuffledQuestions[window.currentQuestionIndex];
-            let userAnswer;
-            let isCorrect = false;
-
-            const selected = document.querySelector(`input[name="${q.id}"]:checked`);
-            userAnswer = selected ? selected.value : '';
-            
-            // Convert True/False answers for comparison if stored as 'D' or 'Y'
-            let actualAnswer = q.answer;
-            if (q.type === 'trueFalse') {
-                actualAnswer = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-            }
-
-            isCorrect = (userAnswer === actualAnswer);
-
-            // Update score for current player
-            if (isCorrect) {
-                if (window.currentPlayer === 1) {
-                    window.player1Score++;
-                } else {
-                    window.player2Score++;
-                }
-            }
-
-            window.answeredQuestions[q.id] = { isCorrect: isCorrect, userAnswer: userAnswer, answeredBy: window.currentPlayer };
-            
-            displayFeedback(isCorrect, q.answer, userAnswer, q.explanation);
-
-            // Disable all radio buttons after answering
-            document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
-
-            // Apply incorrect-selected-option if it was incorrect
-            if (!isCorrect) {
-                const selectedLabel = selected.closest('label');
-                if (selectedLabel) {
-                    selectedLabel.classList.add('incorrect-selected-option');
-                }
-            }
-            // Highlight correct answer (whether correct or incorrect)
-            let correctOptionValue = q.answer;
-            if (q.type === 'trueFalse') {
-                correctOptionValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-            }
-            const correctRadio = document.querySelector(`input[name="${q.id}"][value="${correctOptionValue}"]`);
-            if (correctRadio) {
-                const correctLabel = correctRadio.closest('label');
-                if (correctLabel) {
-                    correctLabel.classList.add('correct-option-highlight');
-                }
-            }
-
-            updateScoreBoard(); // Update score board immediately after answer
-            renderQuestionNumbers(); // Update question numbers (to reflect answer status)
-            questionScreenInstructionMessage.textContent = `Cevaplandı. Sırayı Oyuncu ${window.currentPlayer === 1 ? 2 : 1}'a geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
-            questionScreenInstructionMessage.classList.remove('hidden');
-            nextTurnButton.classList.remove('hidden'); // Show next turn button
-            console.log("Answer checked. Is correct:", isCorrect, "Player 1 Score:", window.player1Score, "Player 2 Score:", window.player2Score);
-        }
-
-        // Moves to the next turn/question
-        window.moveToNextTurn = function() {
-            console.log("moveToNextTurn called.");
-            // Clear detailed explanation when moving to next turn
-            detailedExplanationContainer.innerHTML = '';
-            detailedExplanationContainer.classList.add('hidden');
-
-            // Check if all questions are answered
-            const allAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id]);
-
-            if (allAnswered) {
-                console.log("All questions answered. Showing final score.");
-                showFinalScore();
-                return;
-            }
-
-            const previousPlayer = window.currentPlayer;
-            window.currentPlayer = (window.currentPlayer === 1 ? 2 : 1); // Switch player
-            console.log(`Player turn switched from ${previousPlayer} to ${window.currentPlayer}.`); // Explicit log for player switch
-            updateScoreBoard(); // Update scoreboard immediately after player switch
-            returnToQuestionsGrid(); // Go back to the grid for the new player to choose a question
-            console.log("Moved to next turn. Returning to question grid for new player to select.");
-        }
-
-
-        // Displays the feedback message
-        function displayFeedback(isCorrect, correctAnswer, userAnswer, explanation) {
-            console.log("displayFeedback called. Is correct:", isCorrect);
-            // Removed the checkmark icon for correct answers and also removed the 'show' class and any content
-            if (isCorrect) {
-                feedbackDiv.classList.remove('show', 'correct', 'incorrect'); // Ensure no feedback message is shown
-                feedbackDiv.innerHTML = ``; // No text or icon for correct answers
-            } else {
-                feedbackDiv.classList.add('show', 'incorrect');
-                feedbackDiv.classList.remove('correct');
-                let icon = '❌';
-                feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Yanlış.`;
-                if (explanation) {
-                    feedbackDiv.innerHTML += `<p class="explanation-text">${explanation}</p>`;
-                }
-            }
-        }
-
-        // Creates and updates question numbers
-        function renderQuestionNumbers() {
-            console.log("renderQuestionNumbers called.");
-            questionNavigationContainer.innerHTML = '';
-            shuffledQuestions.forEach((q, index) => {
-                const navItem = document.createElement('span');
-                navItem.classList.add('question-nav-item');
-                navItem.textContent = index + 1;
-                navItem.onclick = () => selectQuestion(index); 
-
-                // Add active-question class only if it's the current question AND we are on the quiz content screen
-                if (index === window.currentQuestionIndex && !quizContentContainer.classList.contains('hidden')) {
-                    navItem.classList.add('active-question');
-                } else {
-                    navItem.classList.remove('active-question');
-                }
-
-                // Add answered status classes
-                if (window.answeredQuestions[q.id]) {
-                    if (window.answeredQuestions[q.id].isCorrect) {
-                        navItem.classList.add('answered-correctly');
-                        navItem.classList.remove('answered-incorrectly');
-                    } else {
-                        navItem.classList.add('answered-incorrectly');
-                        navItem.classList.remove('answered-correctly');
-                    }
-                    navItem.classList.add('disabled-selection'); // Visually disable answered questions
-                } else {
-                    navItem.classList.remove('answered-correctly', 'answered-incorrectly', 'disabled-selection');
-                }
-                questionNavigationContainer.appendChild(navItem);
-            });
-        }
-
-        // Selects a question and shows the quiz content (for review or current turn)
-        window.selectQuestion = function(index) {
-            console.log("selectQuestion called for index:", index);
-            const q = shuffledQuestions[index];
-
-            // If the question is already answered, allow review but don't start a new turn
-            if (window.answeredQuestions[q.id]) {
-                window.currentQuestionIndex = index; // Set index for displaying the reviewed question
-                quizContentContainer.classList.remove('hidden'); // Show quiz content
-                questionNavigationContainer.classList.add('hidden'); // Hide question numbers
-                renderCurrentQuestion(); // Render the selected question (will show feedback and disabled radios)
-                hideFinalScore(); // Hide final score if visible
-                nextTurnButton.classList.add('hidden'); // Hide next button for answered questions
-                gridInstructionMessage.classList.add('hidden'); // Hide grid instruction
-                questionScreenInstructionMessage.classList.add('hidden'); // Hide question instruction
-                detailedExplanationContainer.innerHTML = ''; // Clear previous detailed explanation
-                detailedExplanationContainer.classList.add('hidden'); // Hide detailed explanation container
-                fullscreenOverlay.classList.add('hidden'); // Hide overlay in review mode
-                fullscreenOverlay.classList.remove('show');
-                quizContentContainer.classList.remove('fullscreen-active'); // Not fullscreen in review mode
-                console.log(`Question ${index + 1} already answered. Entering review mode.`);
-                return; // Exit function, no turn change or new attempt
-            }
-
-            // If the question is NOT answered, this is a new turn for the current player
-            window.currentQuestionIndex = index; // Set current index to selected question for display
-            quizContentContainer.classList.remove('hidden'); // Show quiz content
-            questionNavigationContainer.classList.add('hidden'); // Hide question numbers
-            
-            // Activate fullscreen overlay and quiz content
-            fullscreenOverlay.classList.remove('hidden');
-            setTimeout(() => fullscreenOverlay.classList.add('show'), 10); // Fade in overlay
-            quizContentContainer.classList.add('fullscreen-active');
-
-            renderCurrentQuestion(); // Render the selected question (will start timer, show check button)
-            hideFinalScore(); // Hide final score if visible
-            gridInstructionMessage.classList.add('hidden'); // Hide grid instruction
-            questionScreenInstructionMessage.classList.add('hidden'); // Hide question instruction
-            detailedExplanationContainer.innerHTML = ''; // Clear previous detailed explanation
-            detailedExplanationContainer.classList.add('hidden'); // Hide detailed explanation container
-            console.log(`Question ${index + 1} selected by Player ${window.currentPlayer}. Starting turn.`);
-        }
-
-        // Returns to the questions grid
-        window.returnToQuestionsGrid = function() {
-            console.log("returnToQuestionsGrid called.");
-            quizContentContainer.classList.add('hidden'); // Hide quiz content
-            questionNavigationContainer.classList.remove('hidden'); // Show question numbers
-            // Show question counter when returning to grid
-            if (questionCounterDisplay) {
-                questionCounterDisplay.classList.remove('hidden'); 
-            }
-            renderQuestionNumbers(); // Re-render question numbers to update states
-            hideFinalScore(); // Ensure final score is hidden
-            clearInterval(timerInterval); // Stop timer when returning to grid
-            timerDisplay.classList.add('hidden'); // Hide timer
-            nextTurnButton.classList.add('hidden'); // Hide next question button on grid
-            detailedExplanationContainer.innerHTML = ''; // Clear previous detailed explanation
-            detailedExplanationContainer.classList.add('hidden'); // Hide detailed explanation container
-            updateScoreBoard(); // Update score board to show current player's turn on the grid
-            gridInstructionMessage.classList.remove('hidden'); // Show grid instruction
-            questionScreenInstructionMessage.classList.add('hidden'); // Hide question instruction
-            setGameBackground('general'); // Set default background for the grid
-
-            // Deactivate fullscreen overlay and quiz content
-            fullscreenOverlay.classList.remove('show');
-            setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300); // Fade out then hide
-            quizContentContainer.classList.remove('fullscreen-active');
-            console.log("Returned to question grid.");
-        }
-
-        // Shows the final score
-        function showFinalScore() {
-            console.log("showFinalScore called.");
-            quizContentContainer.classList.add('hidden'); // Hide quiz content
-            questionNavigationContainer.classList.add('hidden'); // Hide question navigation
-            clearInterval(timerInterval); // Stop timer when showing final score
-            timerDisplay.classList.add('hidden'); // Hide timer
-            detailedExplanationContainer.innerHTML = ''; // Clear previous detailed explanation
-            detailedExplanationContainer.classList.add('hidden'); // Hide detailed explanation container
-
-            finalScoreContainer.classList.remove('hidden');
-            resetGameButton.classList.remove('hidden');
-            nextTurnButton.classList.add('hidden'); // Ensure next button is hidden
-            gridInstructionMessage.classList.add('hidden'); // Hide grid instruction
-            questionScreenInstructionMessage.classList.add('hidden'); // Hide question instruction
-            setGameBackground('general'); // Set default background for final score screen
-
-            // Deactivate fullscreen overlay and quiz content
-            fullscreenOverlay.classList.remove('show');
-            setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300); // Fade out then hide
-            quizContentContainer.classList.remove('fullscreen-active');
-
-            let winnerMessage = '';
-            if (window.player1Score > window.player2Score) {
-                winnerMessage = `Oyuncu 1 kazandı! 🎉`;
-                overallResultDiv.classList.add('correct');
-                overallResultDiv.classList.remove('incorrect');
-            } else if (window.player2Score > window.player1Score) {
-                winnerMessage = `Oyuncu 2 kazandı! 🎉`;
-                overallResultDiv.classList.add('correct');
-                overallResultDiv.classList.remove('incorrect');
-            } else {
-                winnerMessage = `Berabere! 🤝`;
-                overallResultDiv.classList.remove('correct', 'incorrect');
-            }
-
-            overallResultDiv.innerHTML = `
-                <p>Oyuncu 1 Puanı: ${window.player1Score} / ${shuffledQuestions.length}</p>
-                <p>Oyuncu 2 Puanı: ${window.player2Score} / ${shuffledQuestions.length}</p>
-                <p class="mt-4 text-xl font-bold">${winnerMessage}</p>
+                    <div class="mt-8">
+                        <h3 class="text-2xl font-bold mb-3 border-b-2 pb-2" style="border-color: ${unit.textColor === 'text-white' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'};">Neden Önemli?</h3>
+                        <p class="text-lg leading-relaxed">${unit.whyImportant}</p>
+                    </div>
+                </div>
             `;
-            overallResultDiv.classList.add('show');
-            console.log("Final score displayed.");
-        }
-
-        // Hides the final score
-        function hideFinalScore() {
-            console.log("hideFinalScore called.");
-            finalScoreContainer.classList.add('hidden');
-            resetGameButton.classList.add('hidden');
-        }
-
-        // Fisher-Yates shuffle algorithm
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-            }
-            return array;
-        }
-
-        // Resets the entire game
-        window.resetGame = function() {
-            console.log("resetGame called.");
-            window.player1Score = 0;
-            window.player2Score = 0;
-            window.currentPlayer = 0; // Reset current player to 0 (unselected)
-            window.currentQuestionIndex = 0;
-            window.answeredQuestions = {};
-            clearInterval(timerInterval); // Clear any running timer
-            timerDisplay.classList.add('hidden'); // Hide timer
-            shuffledQuestions = shuffleArray([...window.allQuestions]).slice(0, 99); // Reshuffle and slice for a new game
-            // gameMode is no longer used
             
-            quizContentContainer.classList.add('hidden');
-            hideFinalScore();
-            questionNavigationContainer.classList.add('hidden'); // Hide question grid
-            gamePanel.classList.add('hidden'); // Hide game panel
-            playerSelectionScreen.classList.remove('hidden'); // Show player selection screen
-            gridInstructionMessage.classList.add('hidden'); // Hide grid instruction
-            questionScreenInstructionMessage.classList.add('hidden'); // Hide question instruction
-            detailedExplanationContainer.innerHTML = ''; // Clear previous detailed explanation
-            detailedExplanationContainer.classList.add('hidden'); // Hide detailed explanation container
-            // Ensure question counter is visible when resetting to player selection/start state
-            if (questionCounterDisplay) {
-                questionCounterDisplay.classList.remove('hidden'); 
-            }
-            setGameBackground('general'); // Set default background for reset
-
-            // Deactivate fullscreen overlay and quiz content
-            fullscreenOverlay.classList.remove('show');
-            setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300); // Fade out then hide
-            quizContentContainer.classList.remove('fullscreen-active');
-            console.log("Game fully reset. Returning to player selection screen.");
+            createOrUpdateChart(unit);
+            updateActiveButton(unitId);
         }
 
-        // Initial setup on page load
-        window.onload = async function() { 
-            console.log("Window loaded. Starting application setup.");
-
-            // Assign DOM elements here to ensure they are loaded
-            playerSelectionScreen = document.getElementById('player-selection-screen'); 
-            gamePanel = document.getElementById('game-panel');
-            scoreBoard = document.getElementById('score-board');
-            player1ScoreDisplay = document.getElementById('player1-score');
-            player2ScoreDisplay = document.getElementById('player2-score');
-            currentPlayerTurnDisplay = document.getElementById('current-player-turn');
-            quizContentContainer = document.getElementById('quiz-content');
-            questionContainer = document.getElementById('current-question-container');
-            feedbackDiv = document.getElementById('current-question-feedback');
-            nextTurnButton = document.getElementById('next-turn-button'); 
-            detailedExplanationContainer = document.getElementById('detailed-explanation-container'); 
-            loadingSpinner = document.getElementById('loading-spinner'); 
-            
-            finalScoreContainer = document.getElementById('final-score-container');
-            overallResultDiv = document.getElementById('overall-result');
-            resetGameButton = document.getElementById('reset-game-button');
-            questionCounterDisplay = document.getElementById('question-counter');
-            questionNavigationContainer = document.getElementById('question-navigation');
-            timerDisplay = document.getElementById('timer-display');
-            player1ScoreBox = document.getElementById('player1-score-box'); 
-            player2ScoreBox = document.getElementById('player2-score-box'); 
-            gridInstructionMessage = document.getElementById('grid-instruction-message'); 
-            questionScreenInstructionMessage = document.getElementById('question-screen-instruction-message'); 
-            fullscreenOverlay = document.getElementById('fullscreen-overlay'); // Assign the new overlay element
-            
-            // Log to confirm elements are found
-            const elementsToCheck = {
-                playerSelectionScreen, gamePanel, scoreBoard, player1ScoreDisplay, player2ScoreDisplay, currentPlayerTurnDisplay,
-                quizContentContainer, questionContainer, feedbackDiv, nextTurnButton,
-                detailedExplanationContainer, loadingSpinner, 
-                finalScoreContainer, overallResultDiv, resetGameButton,
-                questionCounterDisplay, questionNavigationContainer, timerDisplay,
-                player1ScoreBox, player2ScoreBox, gridInstructionMessage, questionScreenInstructionMessage, fullscreenOverlay
+        function createOrUpdateChart(currentUnit) {
+            const ctx = document.getElementById('unitChart').getContext('2d');
+            const chartData = {
+                labels: reportData.units.map(u => u.title.split(':')[0]),
+                datasets: [{
+                    label: 'Anahtar Kavram Sayısı',
+                    data: reportData.units.map(u => u.keyConcepts.length),
+                    backgroundColor: reportData.units.map(u => u.id === currentUnit.id ? currentUnit.color : '#E0E0E0'), // Highlight current unit
+                    borderColor: reportData.units.map(u => u.id === currentUnit.id ? darkenColor(currentUnit.color, 20) : '#BDBDBD'),
+                    borderWidth: 1,
+                    borderRadius: 5,
+                }]
             };
 
-            for (const key in elementsToCheck) {
-                if (elementsToCheck[key] === null) {
-                    console.error(`ERROR: DOM element '${key}' not found! This is critical for the app to function.`);
-                } else {
-                    console.log(`DOM element '${key}' found.`);
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            currentChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Kavram Sayısı',
+                                font: { size: 14, weight: 'bold' },
+                                color: '#333'
+                            },
+                            ticks: { 
+                                color: '#333',
+                                stepSize: 1 
+                            },
+                            grid: { color: '#E0E0E0' }
+                        },
+                        x: {
+                            ticks: { 
+                                color: '#333',
+                                callback: function(value, index, values) {
+                                    let label = this.getLabelForValue(value);
+                                    if (label.length > 16) {
+                                        const words = label.split(' ');
+                                        const lines = [];
+                                        let currentLine = '';
+                                        words.forEach(word => {
+                                            if ((currentLine + word).length > 16 && currentLine.length > 0) {
+                                                lines.push(currentLine.trim());
+                                                currentLine = '';
+                                            }
+                                            currentLine += word + ' ';
+                                        });
+                                        lines.push(currentLine.trim());
+                                        return lines;
+                                    }
+                                    return label;
+                                }
+                            },
+                             grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // Hiding legend as it's self-explanatory
+                        },
+                        title: {
+                            display: true,
+                            text: `Ünitelerdeki Anahtar Kavram Sayıları (${currentUnit.title.split(':')[0]} Vurgulandı)`,
+                            font: { size: 16, weight: 'bold' },
+                            color: '#073B4C',
+                            padding: { top:10, bottom: 20}
+                        },
+                        tooltip: {
+                            backgroundColor: '#073B4C',
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 12 },
+                            padding: 10,
+                            cornerRadius: 6,
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    }
+                                    return label;
+                                },
+                                label: function(context) {
+                                    return ` Kavram Sayısı: ${context.parsed.y}`;
+                                }
+                            }
+                        }
+                    }
                 }
-            }
+            });
+        }
+        
+        function darkenColor(color, percent) { // Basic function to darken hex color
+            let num = parseInt(color.slice(1), 16),
+            amt = Math.round(2.55 * percent),
+            R = (num >> 16) - amt,
+            G = (num >> 8 & 0x00FF) - amt,
+            B = (num & 0x0000FF) - amt;
+            return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255)).toString(16).slice(1);
+        }
 
-            // Initially hide game panel and show player selection screen
-            if (gamePanel) {
-                gamePanel.classList.add('hidden');
-            }
-            if (playerSelectionScreen) {
-                playerSelectionScreen.classList.remove('hidden');
-            }
-            // Ensure question counter is visible initially when the game starts (before any question is selected)
-            if (questionCounterDisplay) {
-                questionCounterDisplay.classList.remove('hidden'); 
-            }
-            setGameBackground('general'); // Set initial background
-            console.log("Application setup complete. Showing player selection screen.");
 
-            // Initialize Firebase asynchronously but don't block UI rendering
-            await initFirebase(); 
-        };
+        function updateActiveButton(activeUnitId) {
+            const buttons = unitNavigation.querySelectorAll('.nav-button');
+            buttons.forEach(button => {
+                if (button.dataset.unitId === activeUnitId) {
+                    button.classList.add('active');
+                    button.style.backgroundColor = reportData.units.find(u => u.id === activeUnitId).color;
+                    button.style.color = reportData.units.find(u => u.id === activeUnitId).textColor.includes("white") ? 'white' : '#073B4C';
+
+                } else {
+                    button.classList.remove('active');
+                    button.style.backgroundColor = '#FFD166'; // Default Yellow for inactive
+                    button.style.color = '#073B4C'; // Dark Blue text for inactive
+                }
+            });
+        }
+
+        reportData.units.forEach(unit => {
+            const button = document.createElement('button');
+            button.textContent = unit.title.split(':')[0]; // "1. ÜNİTE"
+            button.dataset.unitId = unit.id;
+            button.className = 'nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-5 m-1 rounded-lg shadow hover:shadow-md';
+            button.style.backgroundColor = '#FFD166'; 
+            button.style.color = '#073B4C';
+            button.onclick = () => {
+                displayUnitContent(unit.id);
+            };
+            unitNavigation.appendChild(button);
+        });
+        
+        displayUnitContent(null); // Show home content initially
+
     </script>
-</head>
-<body>
-    <div id="fullscreen-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden opacity-0 transition-opacity duration-300"></div>
-
-    <div class="container">
-        <h1>Peygamber Kıssaları Bilgi Yarışması</h1>
-
-        <div id="player-selection-screen" class="player-selection-screen">
-            <h2>Kim Başlasın?</h2>
-            <button class="action-button" onclick="selectStartingPlayer(1)">Oyuncu 1</button>
-            <button class="action-button" onclick="selectStartingPlayer(2)">Oyuncu 2</button>
-        </div>
-
-        <div id="game-panel" class="hidden">
-            <div id="score-board" class="score-board">
-                <div id="player1-score-box" class="player-score-box">
-                    <div id="player1-score">Oyuncu 1: 0</div>
-                </div>
-                <div id="current-player-turn" class="current-turn">Sıra: Oyuncu 1</div>
-                <div id="player2-score-box" class="player-score-box">
-                    <div id="player2-score">Oyuncu 2: 0</div>
-                </div>
-            </div>
-
-            <div id="grid-instruction-message" class="text-center text-md font-medium text-gray-700 mb-4"></div>
-            <div id="question-navigation" class="question-navigation">
-                </div>
-
-            <div id="quiz-content" class="hidden">
-                <div class="question-area">
-                    <div id="question-counter" class="question-counter"></div>
-                    <div id="timer-display" class="timer-display hidden"></div>
-                    <div id="current-question-container" class="question-block">
-                        </div>
-                </div>
-                <div id="current-question-feedback" class="feedback-message"></div>
-                <div class="button-group">
-                    <button id="next-turn-button" class="action-button next-button hidden" onclick="moveToNextTurn()">Sonraki Oyuncu</button>
-                    </div>
-                <div id="loading-spinner" class="loading-spinner"></div>
-                <div id="detailed-explanation-container" class="detailed-explanation-container hidden"></div>
-                <div id="question-screen-instruction-message" class="text-center text-md font-medium text-gray-700 mt-2 hidden"></div>
-            </div>
-
-            <div id="final-score-container" class="hidden">
-                <div id="overall-result" class="feedback-message"></div>
-                <button id="reset-game-button" class="action-button reset-button" onclick="resetGame()">Yeniden Başla</button>
-                </div>
-        </div>
 </body>
 </html>
-
