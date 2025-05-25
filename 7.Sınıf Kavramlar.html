@@ -41,7 +41,7 @@
         }
         .concept-box {
             min-width: 120px;
-            max-width: 220px;
+            max-width: 200px; /* Adjusted max-width to allow more concepts per row */
             min-height: 110px;
             display: flex;
             justify-content: center;
@@ -191,11 +191,11 @@
 
         /* Responsive grid for concept boxes */
         .concept-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Max 8 concepts, so 4 columns for 2 rows */
-            justify-content: center;
+            display: flex; /* Changed to flex for single-row preference */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            justify-content: center; /* Center items in the row */
             gap: 1rem;
-            max-width: 900px; /* Limit max width for better visual */
+            max-width: 1200px; /* Increased max-width to better accommodate 8 concepts */
             margin: 0 auto; /* Center the grid */
         }
 
@@ -234,25 +234,25 @@
         }
 
 
-        /* Media queries for responsive column reduction/expansion */
+        /* Media queries for responsive column reduction/expansion - No longer strictly grid columns */
         @media (max-width: 992px) {
             .concept-grid {
-                grid-template-columns: repeat(3, 1fr);
+                /* Flex will handle wrapping automatically */
             }
         }
         @media (max-width: 768px) {
             .concept-grid {
-                grid-template-columns: repeat(2, 1fr);
+                /* Flex will handle wrapping automatically */
             }
         }
         @media (max-width: 640px) {
             .concept-grid {
-                grid-template-columns: repeat(2, 1fr);
+                /* Flex will handle wrapping automatically */
             }
         }
         @media (max-width: 480px) {
             .concept-grid {
-                grid-template-columns: repeat(1, 1fr);
+                /* Flex will handle wrapping automatically */
             }
         }
 
@@ -862,7 +862,6 @@
                         name: 'Yorum Farklılıklarının Sebepleri',
                         color: 'bg-rose-600',
                         questions: [
-                            // { question: 'İslam düşüncesinde yorum farklılıklarının ortaya çıkış sebeplerinden üç tanesini belirtiniz.' }, // Bu soru kaldırıldı
                             { question: 'Toplumsal, kültürel, coğrafi farklılıklar, alimlerin farklı metotları ve değişen şartlar hangi duruma yol açmıştır?' },
                             { question: 'İnsan yapısı, eğitim seviyesi, örf ve âdetler, bilimsel ve teknolojik gelişmelerin din anlayışına etkisi hangi kavramla açıklanır?' }
                         ]
