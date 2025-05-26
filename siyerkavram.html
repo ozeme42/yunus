@@ -84,18 +84,38 @@
             transform: translateY(-5px) scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
+        /* Visual Feedback Styles */
         .concept-box.correct {
-            background-color: #10B981;
-            border-color: #047857;
-            box-shadow: 0 0 35px rgba(16, 185, 129, 1);
-            border-width: 5px;
-            border-style: solid;
-            transform: scale(1.08);
+            background-color: #d4edda; /* Light green */
+            border-color: #28a745; /* Darker green */
+            animation: fadeAndScaleIn .3s ease-out;
         }
+
         .concept-box.incorrect {
-            border-color: #EF4444;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+            background-color: #f8d7da; /* Light red */
+            border-color: #dc3545; /* Darker red */
+            animation: shake .3s ease-out;
         }
+
+        @keyframes fadeAndScaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
         .quiz-area {
             width: 100%;
             max-width: none;
@@ -195,18 +215,11 @@
         /* Responsive grid for concept boxes */
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* Default to 5 columns */
+            grid-template-columns: repeat(5, 1fr); /* Default to 5 columns for 10 items */
             justify-content: center;
             gap: 1rem;
             max-width: 1200px;
             margin: 0 auto;
-        }
-
-        /* Adjust for more columns on larger screens if needed, or keep 5 and let it wrap */
-        @media (min-width: 1024px) { /* Example breakpoint for wider screens */
-            .concept-grid {
-                grid-template-columns: repeat(5, 1fr); /* Still 5 columns, will wrap to 2 rows for 10 items */
-            }
         }
 
         /* Timer display style */
@@ -1071,6 +1084,11 @@
         let timerInterval;
         let timeLeft = 50; // Başlangıç süresi
 
+        // YENİ EKLENEN DEĞİŞKENLER
+        let currentIncorrectAttempts = 0; // Mevcut soru için yanlış deneme sayısı
+        const MAX_INCORRECT_ATTEMPTS = 2; // Maksimum yanlış deneme hakkı
+        // YENİ EKLENEN DEĞİŞKENLER SONU
+
         // Utility: Shuffle an array
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -1184,12 +1202,13 @@
                 }
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    feedbackDiv.textContent = 'Süre doldu! Doğru cevap: ' + currentQuestion.correctConceptName;
+                    feedbackDiv.textContent = `Süre doldu! Yanlış cevap hakkınız doldu. Sonraki soruya geçmek için "Sonraki Soru" butonuna basın.`;
                     feedbackDiv.classList.remove('success');
                     feedbackDiv.classList.add('error');
                     feedbackDiv.style.display = 'block';
                     disableConceptBoxes();
                     showAnswerBtn.disabled = true; // Süre bitince cevap göster butonu da devre dışı
+                    nextQuestionBtn.disabled = false; // Süre bitince yeni soruya geçilebilir
                 }
             }, 1000);
         }
@@ -1205,17 +1224,21 @@
             let allQuestionsInUnit = [];
             selectedUnit.concepts.forEach(concept => {
                 concept.questions.forEach((q, qIndex) => {
-                    // Her soruya benzersiz bir kimlik atıyoruz
+                    // Determine the base concept ID for unique question ID generation
+                    // If 'all-units' is selected, the concept.id is already unique (e.g., 'unit1-mekke')
+                    // If a specific unit is selected, the concept.id is just its local ID (e.g., 'mekke')
+                    const baseConceptIdForQuestion = (selectedUnitId === 'all-units') ? concept.id : `${selectedUnitId}-${concept.id}`;
+
                     allQuestionsInUnit.push({
                         question: q.question,
-                        correctConceptId: concept.id, // Bu artık benzersiz id olacak (örn: unit3-hz-ali)
+                        correctConceptId: concept.id, // This will be the concept's ID as it appears in the `selectedUnit.concepts` array
                         correctConceptName: concept.name,
-                        uniqueQuestionId: `${concept.id}-${qIndex}` // Soruya özel benzersiz id
+                        uniqueQuestionId: `${baseConceptIdForQuestion}-${qIndex}` // Soruya özel benzersiz id
                     });
                 });
             });
 
-            // Daha önce sorulmuş soruları filtrele
+            // Filter out already asked questions
             return allQuestionsInUnit.filter(q => !askedQuestionsUniqueIds.includes(q.uniqueQuestionId));
         }
 
@@ -1226,6 +1249,7 @@
             conceptBoxesDiv.innerHTML = ''; // Clear old concept boxes
             nextQuestionBtn.disabled = true; // Disable next question button initially
             showAnswerBtn.disabled = false; // Enable show answer button for new question
+            currentIncorrectAttempts = 0; // Yeni soru için yanlış denemeleri sıfırla
 
             const availableQuestions = getAvailableQuestions();
 
@@ -1242,50 +1266,57 @@
             questionText.textContent = currentQuestion.question;
 
             const selectedUnitObj = units.find(unit => unit.id === selectedUnitId);
+            let allConceptsInSelectedUnit = selectedUnitObj.concepts;
 
-            // Sadece henüz tüm soruları sorulmamış veya mevcut doğru cevap olan kavramları al
-            let conceptsEligibleForDisplay = [];
-            selectedUnitObj.concepts.forEach(concept => {
+            // Find the correct concept object
+            const correctConcept = allConceptsInSelectedUnit.find(c => c.id === currentQuestion.correctConceptId);
+            if (!correctConcept) {
+                console.error("Correct concept not found for ID:", currentQuestion.correctConceptId);
+                // Fallback or error handling
+                return;
+            }
+
+            let conceptsForDisplay = [correctConcept]; // Start with the correct concept
+
+            // Filter out concepts that are the current correct answer AND those whose all questions have been asked
+            let potentialWrongAnswers = allConceptsInSelectedUnit.filter(concept => {
+                if (concept.id === correctConcept.id) return false; // Exclude the correct concept itself
+
+                // Check if this concept has any unasked questions remaining in the current unit context
                 const hasUnaskedQuestion = concept.questions.some((q, qIndex) => {
-                    // Eğer "Tüm Üniteler" seçiliyse, concept.id zaten benzersiz (unitId-conceptId)
-                    const conceptUniqueIdForQuestionCheck = (selectedUnitId === 'all-units') ? concept.id : `${selectedUnitId}-${concept.id}`;
-                    return !askedQuestionsUniqueIds.includes(`${conceptUniqueIdForQuestionCheck}-${qIndex}`);
+                    const questionUniqueId = (selectedUnitId === 'all-units') ? `${concept.id}-${qIndex}` : `${selectedUnitId}-${concept.id}-${qIndex}`;
+                    return !askedQuestionsUniqueIds.includes(questionUniqueId);
                 });
-
-                if (hasUnaskedQuestion || concept.id === currentQuestion.correctConceptId) {
-                    conceptsEligibleForDisplay.push(concept);
-                }
+                return hasUnaskedQuestion;
             });
 
-            let conceptsForDisplay = [conceptsEligibleForDisplay.find(c => c.id === currentQuestion.correctConceptId)];
+            // Shuffle potential wrong answers
+            potentialWrongAnswers = shuffleArray(potentialWrongAnswers);
 
-            let otherConcepts = conceptsEligibleForDisplay.filter(c => c.id !== currentQuestion.correctConceptId);
-            otherConcepts = shuffleArray(otherConcepts);
-
-            // Toplam 10 kavram kutusu için 9 diğer kavramı ekle
-            for (let i = 0; i < 9 && i < otherConcepts.length; i++) {
-                conceptsForDisplay.push(otherConcepts[i]);
-            }
-
-            // Eğer hala 10 kavram yoksa ve başka seçenekler varsa, onları da ekle
-            // Bu, özellikle az kavramlı ünitelerde veya sona yaklaşırken seçenekleri doldurmak için.
-            if (conceptsForDisplay.length < 10) {
-                const allConceptsInUnit = selectedUnitObj.concepts;
-                const conceptsAlreadySelected = new Set(conceptsForDisplay.map(c => c.id));
-                const remainingConcepts = allConceptsInUnit.filter(c => !conceptsAlreadySelected.has(c.id));
-                shuffleArray(remainingConcepts);
-
-                for (let i = 0; conceptsForDisplay.length < 10 && i < remainingConcepts.length; i++) {
-                    conceptsForDisplay.push(remainingConcepts[i]);
+            // Add up to 9 other random concepts (wrong answers) that still have unasked questions
+            for (let i = 0; conceptsForDisplay.length < 10 && i < potentialWrongAnswers.length; i++) {
+                // Ensure we don't add duplicates
+                if (!conceptsForDisplay.some(c => c.id === potentialWrongAnswers[i].id)) {
+                    conceptsForDisplay.push(potentialWrongAnswers[i]);
                 }
             }
 
+            // Fallback: If we still don't have 10 concepts, add any remaining distinct concepts from the unit
+            // This can happen if most concepts have all their questions answered.
+            if (conceptsForDisplay.length < 10) {
+                const conceptsAlreadyInDisplay = new Set(conceptsForDisplay.map(c => c.id));
+                const trulyRemainingConcepts = allConceptsInSelectedUnit.filter(c => !conceptsAlreadyInDisplay.has(c.id));
+                shuffleArray(trulyRemainingConcepts);
+                for (let i = 0; conceptsForDisplay.length < 10 && i < trulyRemainingConcepts.length; i++) {
+                    conceptsForDisplay.push(trulyRemainingConcepts[i]);
+                }
+            }
 
-            conceptsForDisplay = shuffleArray(conceptsForDisplay); // Şıkların sırasını karıştır
+            conceptsForDisplay = shuffleArray(conceptsForDisplay); // Shuffle again to randomize position of correct answer
 
             conceptsForDisplay.forEach(concept => {
                 const conceptBox = document.createElement('div');
-                conceptBox.id = concept.id; // Artık bu ID benzersiz olacak (unitId-conceptId)
+                conceptBox.id = concept.id; // Use the potentially new unique ID
                 conceptBox.classList.add('concept-box', concept.color, 'cursor-pointer');
                 conceptBox.innerHTML = `<span>${concept.name}</span>`;
                 conceptBox.style.setProperty('--animation-duration', `${2 + Math.random() * 3}s`);
@@ -1301,9 +1332,6 @@
 
         function checkAnswer(selectedConceptId) {
             stopTimer(); // Stop timer when an answer is selected
-            disableConceptBoxes(); // Disable all boxes after selection
-            showAnswerBtn.disabled = true; // Disable show answer button after user attempts
-
             const selectedBox = document.getElementById(selectedConceptId);
             const correctBox = document.getElementById(currentQuestion.correctConceptId);
 
@@ -1312,15 +1340,48 @@
                 feedbackDiv.textContent = 'Doğru Cevap! Tebrikler!';
                 feedbackDiv.classList.remove('error');
                 feedbackDiv.classList.add('success');
+                disableConceptBoxes(); // Doğru cevapta kutuları devre dışı bırak
+                showAnswerBtn.disabled = true; // Cevap göster butonunu devre dışı bırak
+                nextQuestionBtn.disabled = false; // Sonraki soruya geçişi etkinleştir
+                setTimeout(() => {
+                    selectedBox.classList.remove('correct'); // Animasyon sonrası rengi kaldır
+                }, 1000);
             } else {
-                selectedBox.classList.add('incorrect');
-                correctBox.classList.add('correct'); // Highlight correct answer
-                feedbackDiv.textContent = `Yanlış cevap! Doğru cevap: ${currentQuestion.correctConceptName}`;
-                feedbackDiv.classList.remove('success');
-                feedbackDiv.classList.add('error');
+                currentIncorrectAttempts++;
+                selectedBox.classList.add('incorrect'); // Yanlış kutuyu işaretle
+
+                if (currentIncorrectAttempts < MAX_INCORRECT_ATTEMPTS) {
+                    // İlk yanlış deneme
+                    feedbackDiv.textContent = `Yanlış cevap! ${MAX_INCORRECT_ATTEMPTS - currentIncorrectAttempts} hakkınız kaldı. Tekrar deneyin.`;
+                    feedbackDiv.classList.remove('success');
+                    feedbackDiv.classList.add('success'); // Mesaj kutusu yeşil olsun
+                    setTimeout(() => {
+                        selectedBox.classList.remove('incorrect'); // Animasyon sonrası rengi kaldır
+                        startTimer(); // Süreyi tekrar başlat
+                        // Sadece yanlış seçilen kutunun click olayını tekrar etkinleştir
+                        const allConceptBoxes = document.querySelectorAll('.concept-box');
+                        allConceptBoxes.forEach(box => {
+                            box.onclick = () => checkAnswer(box.id);
+                            box.classList.add('cursor-pointer');
+                            box.style.pointerEvents = 'auto';
+                        });
+                        feedbackDiv.style.display = 'none'; // Mesajı kaldır
+                    }, 1000); // 1 saniye sonra rengi temizle ve devam et
+                } else {
+                    // İkinci yanlış deneme (haklar bitti)
+                    feedbackDiv.textContent = `Yanlış cevap hakkınız doldu! Sonraki soruya geçmek için "Sonraki Soru" butonuna basın.`; // Doğru cevabı göstermiyoruz
+                    feedbackDiv.classList.remove('success');
+                    feedbackDiv.classList.add('error');
+                    disableConceptBoxes(); // Tüm kutuları devre dışı bırak
+                    showAnswerBtn.disabled = true; // Cevabı gösterme butonunu devre dışı bırak
+                    nextQuestionBtn.disabled = false; // Sonraki soruya geçişi etkinleştir
+                    // Doğru cevabı göstermiyoruz, bu yüzden correctBox.classList.add('correct'); satırı yok.
+                    setTimeout(() => {
+                        selectedBox.classList.remove('incorrect'); // Animasyon sonrası rengi kaldır
+                    }, 1000);
+                }
             }
             feedbackDiv.style.display = 'block';
-            nextQuestionBtn.disabled = false; // Enable next question button
         }
 
         function disableConceptBoxes() {
@@ -1337,6 +1398,7 @@
             selectedUnitId = null;
             askedQuestionsUniqueIds = []; // Sorulan soruları sıfırla
             currentQuestion = null;
+            currentIncorrectAttempts = 0; // Yanlış denemeleri sıfırla
             mainQuizContent.style.display = 'none';
             mainMenuScreen.style.display = 'flex';
             mainTitle.style.display = 'block';
@@ -1355,6 +1417,7 @@
             mainTitle.style.display = 'block'; // Başlığı göster
             selectedUnitId = null; // Seçili üniteyi sıfırla
             askedQuestionsUniqueIds = []; // Cevaplanan kavramları sıfırla
+            currentIncorrectAttempts = 0; // Yanlış denemeleri sıfırla
             renderUnitCards(); // Ünite kartlarını yeniden render et (seçimi kaldırılmış olarak)
             startQuizBtn.style.display = 'none'; // Başlat butonunu gizle
             feedbackDiv.style.display = 'none'; // Geri bildirimi gizle
@@ -1386,8 +1449,10 @@
             feedbackDiv.classList.add('error'); // Consider this as an "incorrect" attempt for scoring purposes
             feedbackDiv.style.display = 'block';
             nextQuestionBtn.disabled = false; // Enable next question button
-            // Bu kısımda askedQuestionsUniqueIds'e eklemeye gerek yok, çünkü displayQuestion zaten ekliyor.
-            // Sadece doğru cevabı gösterdiğimizde, o sorunun bir daha gelmemesi için bu yeterli.
+            // Animasyon sonrası rengi kaldır
+            setTimeout(() => {
+                correctBox.classList.remove('correct');
+            }, 1000);
         });
 
         // Main Menu Logic
