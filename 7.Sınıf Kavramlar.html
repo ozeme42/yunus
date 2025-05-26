@@ -466,7 +466,7 @@
     </div>
 
     <script>
-        // Ünite ve kavram verileri (7. Sınıf Din Kültürü ve Ahlak Bilgisi müfredatına uygun olarak güncellenmiştir)
+        // Unit and concept data (updated for 7th grade Religious Culture and Moral Knowledge curriculum)
         let units = [
             {
                 id: 'unit1-7th',
@@ -1076,7 +1076,7 @@
             }
         ];
 
-        // Diğer DOM elemanları
+        // Other DOM elements
         const mainMenuScreen = document.getElementById('mainMenuScreen');
         const unitCardsContainer = document.getElementById('unitCardsContainer');
         const startQuizBtn = document.getElementById('startQuizBtn');
@@ -1090,7 +1090,7 @@
         const timerDisplay = document.getElementById('timerDisplay');
         const returnToMainMenuFromQuizBtn = document.getElementById('returnToMainMenuFromQuizBtn');
 
-        // Modal elemanları
+        // Modal elements
         const customModalOverlay = document.getElementById('customModalOverlay');
         const modalTitle = document.getElementById('modalTitle');
         const modalMessage = document.getElementById('modalMessage');
@@ -1108,6 +1108,7 @@
         let timer;
         let timeLeft;
         const INITIAL_TIME = 50; // Initial time for each question
+        let attemptsLeft = 2; // New: Number of attempts for each question
 
         let selectedUnitId = null; // To store the currently selected unit ID
 
@@ -1167,6 +1168,8 @@
             clearTimeout(timer); // Clear any existing timer
             timerDisplay.classList.remove('warning'); // Remove warning class
 
+            attemptsLeft = 2; // New: Reset attempts for each new question
+
             if (allQuestions.length === 0) {
                 questionText.textContent = 'Tebrikler! Tüm soruları tamamladınız.';
                 nextQuestionBtn.style.display = 'none';
@@ -1176,7 +1179,7 @@
             }
 
             const currentQuestion = allQuestions[currentQuestionIndex];
-            // Sadece soruyu göster, kavramı gösterme
+            // Only show the question, not the concept
             questionText.innerHTML = `<strong>Tanım:</strong> ${currentQuestion.question}`;
 
             // Start timer
@@ -1191,10 +1194,11 @@
                 }
                 if (timeLeft <= 0) {
                     clearInterval(timer);
-                    feedbackDiv.textContent = 'Süre doldu! Doğru cevap: ' + currentQuestion.correctConcept;
+                    feedbackDiv.textContent = 'Süre doldu! Cevaplama hakkınız kalmadı.'; // Updated message
                     feedbackDiv.className = 'message-box mt-4 error';
                     feedbackDiv.style.display = 'block';
                     disableConceptBoxes(true); // Disable input after time runs out
+                    // Do NOT reveal the correct answer here
                 }
             }, 1000);
         }
@@ -1269,26 +1273,57 @@
         // Check the selected answer
         function checkAnswer(selectedBox, selectedConceptId) {
             clearInterval(timer); // Stop the timer
-            disableConceptBoxes(true); // Disable further clicks
 
             const currentQuestion = allQuestions[currentQuestionIndex];
             const correctConceptId = currentQuestion.correctConceptId;
-
-            const allConceptBoxes = document.querySelectorAll('.concept-box');
-            allConceptBoxes.forEach(box => {
-                if (box.getAttribute('data-concept-id') === String(correctConceptId)) {
-                    box.classList.add('correct');
-                }
-            });
 
             if (String(selectedConceptId) === String(correctConceptId)) {
                 feedbackDiv.textContent = 'Doğru cevap! Harikasın!';
                 feedbackDiv.className = 'message-box mt-4 success';
                 answeredConceptIds.add(correctConceptId); // Add to answered concepts
+                // Highlight correct box
+                const allConceptBoxes = document.querySelectorAll('.concept-box');
+                allConceptBoxes.forEach(box => {
+                    if (box.getAttribute('data-concept-id') === String(correctConceptId)) {
+                        box.classList.add('correct');
+                    }
+                });
+                disableConceptBoxes(true); // Disable further clicks
             } else {
-                selectedBox.classList.add('incorrect');
-                feedbackDiv.textContent = 'Yanlış cevap. Doğru cevap: ' + currentQuestion.correctConcept;
-                feedbackDiv.className = 'message-box mt-4 error';
+                attemptsLeft--; // Decrement attempts
+                selectedBox.classList.add('incorrect'); // Mark the incorrect box
+
+                if (attemptsLeft > 0) {
+                    feedbackDiv.textContent = `Yanlış cevap. ${attemptsLeft} hakkınız kaldı. Tekrar deneyin!`;
+                    feedbackDiv.className = 'message-box mt-4 error';
+                    // Re-enable concept boxes for another attempt, but remove incorrect styling after a short delay
+                    setTimeout(() => {
+                        selectedBox.classList.remove('incorrect');
+                        disableConceptBoxes(false);
+                        // Restart timer for the next attempt
+                        timeLeft = INITIAL_TIME;
+                        timerDisplay.textContent = timeLeft;
+                        timer = setInterval(() => {
+                            timeLeft--;
+                            timerDisplay.textContent = timeLeft;
+                            if (timeLeft <= 10) {
+                                timerDisplay.classList.add('warning');
+                            }
+                            if (timeLeft <= 0) {
+                                clearInterval(timer);
+                                feedbackDiv.textContent = 'Süre doldu! Cevaplama hakkınız kalmadı.';
+                                feedbackDiv.className = 'message-box mt-4 error';
+                                feedbackDiv.style.display = 'block';
+                                disableConceptBoxes(true);
+                            }
+                        }, 1000);
+                    }, 500); // Short delay to show incorrect feedback
+                } else {
+                    feedbackDiv.textContent = 'Yanlış cevap. Cevaplama hakkınız kalmadı.';
+                    feedbackDiv.className = 'message-box mt-4 error';
+                    disableConceptBoxes(true); // Disable further clicks
+                    // Do NOT reveal the correct answer
+                }
             }
             feedbackDiv.style.display = 'block';
         }
@@ -1375,17 +1410,17 @@
 
         // On application load
         document.addEventListener('DOMContentLoaded', () => {
-            // "Tüm Üniteler" seçeneğinin zaten eklenip eklenmediğini kontrol et
+            // Check if "Tüm Üniteler" option already exists
             const allUnitsExist = units.some(unit => unit.id === 'all-units');
 
-            // "Ek Kavramlar" ünitesini units dizisinden kaldır (eğer varsa)
+            // Remove "Ek Kavramlar" unit from the units array (if it exists)
             units = units.filter(unit => unit.id !== 'additional-concepts-unit');
 
             if (!allUnitsExist) {
-                // units dizisindeki tüm ünitelerin kavramlarını birleştir
+                // Combine concepts from all units in the units array
                 const allConceptsCombined = units.flatMap(unit => unit.concepts);
 
-                // `units` dizisine yeni "Tüm Üniteler" birimini ekle
+                // Add a new "Tüm Üniteler" unit to the `units` array
                 units.push({
                     id: 'all-units',
                     name: 'Tüm Üniteler',
@@ -1393,12 +1428,12 @@
                 });
             }
 
-            // Başlangıçta hiçbir ünite seçili olmasın, kullanıcının seçmesini bekleyelim
+            // Initially, no unit should be selected; wait for the user to choose
             selectedUnitId = null;
 
-            renderUnitCards(); // Ana menüyü ilk göstermek için ünite kartlarını render et
-            mainQuizContent.style.display = 'none'; // Yarışma içeriğinin başlangıçta gizli olduğundan emin ol
-            mainMenuScreen.style.display = 'flex'; // Ana menünün başlangıçta görünür olduğundan emin ol
+            renderUnitCards(); // Render unit cards to display the main menu initially
+            mainQuizContent.style.display = 'none'; // Ensure quiz content is hidden initially
+            mainMenuScreen.style.display = 'flex'; // Ensure main menu is visible initially
         });
     </script>
 </body>
