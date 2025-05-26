@@ -11,44 +11,280 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        /* Yükleme göstergesi stilleri */
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            z-index: 20;
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Yeni Animasyonlar */
+        /* Başlık için açılış animasyonu */
+        @keyframes headerFadeInSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-header-load {
+            animation: headerFadeInSlideDown 0.8s ease-out forwards;
+        }
+
+        /* Kartlar için başlangıç animasyonu */
+        @keyframes cardFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-card-load {
+            animation: cardFadeInUp 0.6s ease-out forwards;
+            opacity: 0; /* Başlangıçta gizli */
+        }
+        /* Kartların gecikmeli görünmesi için */
+        .animate-card-load:nth-child(1) { animation-delay: 0.3s; }
+        .animate-card-load:nth-child(2) { animation-delay: 0.5s; }
+        .animate-card-load:nth-child(3) { animation-delay: 0.7s; }
+        /* Sanal geziler kartı kaldırıldığı için 4. child gecikmesi kaldırıldı */
+
+        /* Modal stilleri (kaldırıldığı için artık kullanılmayacak ama stil bloğunda bırakıldı) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .modal-image-loading-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1rem;
+            border-radius: 8px;
+            z-index: 10;
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 text-gray-800 min-h-screen">
     <div class="container mx-auto p-4 md:p-8">
 
-        <header class="bg-blue-600 text-white p-6 rounded-lg shadow-md mb-8">
-            <h1 class="text-4xl font-bold text-center">Yunus Emre Ortaokulu</h1>
-            <p class="text-xl text-center mt-2">Din Kültürü ve Ahlak Bilgisi-Peygamberimizin Hayatı</p>
+        <header class="bg-blue-600 text-white p-6 rounded-lg shadow-md mb-8 relative overflow-hidden animate-header-load">
+            <img id="school-image" src="https://placehold.co/1200x200/4A90E2/FFFFFF" alt="Okul Görseli" class="absolute inset-0 w-full h-full object-cover opacity-30 rounded-lg">
+            <div id="loading-indicator" class="loading-overlay">
+                <div class="spinner"></div>
+                <span class="ml-3">Görsel oluşturuluyor...</span>
+            </div>
+            <div class="relative z-10 text-center">
+                <h1 class="text-4xl font-bold">Yunus Emre Ortaokulu</h1>
+                <p class="text-xl mt-2">Din Kültürü ve Ahlak Bilgisi-Peygamberimizin Hayatı</p>
+            </div>
         </header>
         <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col">
-                <h3 class="text-2xl font-bold text-green-700 mb-3">5. Sınıf</h3>
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col transform hover:-translate-y-2 animate-card-load">
+                <h3 class="text-2xl font-bold text-green-700 mb-3 flex items-center">
+                    <i class="fas fa-graduation-cap mr-2"></i> 5. Sınıf
+                </h3>
                 <div class="flex flex-col space-y-3 mt-4">
-                    <a href="5özet.html" class="bg-green-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-green-600 transition duration-300 ease-in-out shadow-md">KONULAR</a>
-                    <a href="5.Sınıf Bilgi Yarışması.html" class="bg-green-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-green-600 transition duration-300 ease-in-out shadow-md">BİLGİ YARIŞMASI</a>
-                    <a href="Kavram Bilgisayarı.html" class="bg-green-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-green-600 transition duration-300 ease-in-out shadow-md">KAVRAM YARIŞMASI</a>
-                    <a href="5afiş.html" class="text-green-600 hover:text-green-800 font-semibold text-center mt-2">Daha Fazlasını Keşfet &rarr;</a>
+                    <a href="5özet.html" class="bg-green-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-green-600 transition duration-300 ease-in-out shadow-md flex items-center justify-center transform hover:-translate-y-0.5">
+                        <i data-lucide="book" class="w-5 h-5 mr-2"></i> KONULAR
+                    </a>
+                    <a href="5.Sınıf Bilgi Yarışması.html" class="bg-green-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-green-600 transition duration-300 ease-in-out shadow-md flex items-center justify-center">
+                        <i class="fas fa-question-circle mr-2"></i> BİLGİ YARIŞMASI
+                    </a>
+                    <a href="Kavram Bilgisayarı.html" class="bg-green-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-green-600 transition duration-300 ease-in-out shadow-md flex items-center justify-center">
+                        <i data-lucide="lightbulb" class="w-5 h-5 mr-2"></i> KAVRAM YARIŞMASI
+                    </a>
+                    <a href="5afiş.html" class="text-green-600 hover:text-green-800 font-semibold text-center mt-2 flex items-center justify-center transform hover:-translate-y-0.5 transition duration-300 ease-in-out">
+                        Daha Fazlasını Keşfet <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col">
-                <h3 class="text-2xl font-bold text-purple-700 mb-3">6. Sınıf</h3>
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col transform hover:-translate-y-2 animate-card-load">
+                <h3 class="text-2xl font-bold text-purple-700 mb-3 flex items-center">
+                    <i class="fas fa-book-open mr-2"></i> 6. Sınıf
+                </h3>
                 <div class="flex flex-col space-y-3 mt-4">
-                    <a href="#" class="bg-purple-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-purple-600 transition duration-300 ease-in-out shadow-md">KONULAR</a>
-                    <a href="#" class="bg-purple-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-purple-600 transition duration-300 ease-in-out shadow-md">ETKİNLİK 1</a>
-                    <a href="#" class="bg-purple-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-purple-600 transition duration-300 ease-in-out shadow-md">ETKİNLİK 2</a>
-                    <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold text-center mt-2">Daha Fazlasını Keşfet &rarr;</a>
+                    <a href="#" class="bg-purple-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-purple-600 transition duration-300 ease-in-out shadow-md flex items-center justify-center transform hover:-translate-y-0.5">
+                        <i data-lucide="file-text" class="w-5 h-5 mr-2"></i> KONULAR
+                    </a>
+                    <a href="#" class="bg-purple-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-purple-600 transition duration-300 ease-in-out shadow-md flex items-center justify-center">
+                        <i class="fas fa-puzzle-piece mr-2"></i> ETKİNLİK 1
+                    </a>
+                    <a href="#" class="bg-purple-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-purple-600 transition duration-300 ease-in-out shadow-md flex items-center justify-center">
+                        <i data-lucide="edit" class="w-5 h-5 mr-2"></i> ETKİNLİK 2
+                    </a>
+                    <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold text-center mt-2 flex items-center justify-center transform hover:-translate-y-0.5 transition duration-300 ease-in-out">
+                        Daha Fazlasını Keşfet <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col">
-                <h3 class="text-2xl font-bold text-red-700 mb-3">7. Sınıf</h3>
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out flex flex-col transform hover:-translate-y-2 animate-card-load">
+                <h3 class="text-2xl font-bold text-red-700 mb-3 flex items-center">
+                    <i class="fas fa-award mr-2"></i> 7. Sınıf
+                </h3>
                 <div class="flex flex-col space-y-3 mt-4">
-                    <a href="7.sınıfözet.html" class="bg-red-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-red-600 transition duration-300 ease-in-out shadow-md">KONULAR</a>
-                    <a href="7.Sınıf Kavramlar.html" class="bg-red-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-red-600 transition duration-300 ease-in-out shadow-md">KAVRAM YARIŞMASI</a>
-                    <a href="7.sınıfbilgiiyarışması.html" class="bg-red-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-red-600 transition duration-300 ease-in-out shadow-md">BİLGİ YARIŞMASI</a>
-                    <a href="#" class="text-red-600 hover:text-red-800 font-semibold text-center mt-2">Daha Fazlasını Keşfet &rarr;</a>
+                    <a href="7.sınıfözet.html" class="bg-red-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-red-600 transition duration-300 ease-in-out shadow-md flex items-center justify-center transform hover:-translate-y-0.5">
+                        <i data-lucide="notebook" class="w-5 h-5 mr-2"></i> KONULAR
+                    </a>
+                    <a href="7.Sınıf Kavramlar.html" class="bg-red-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-red-600 transition duration-300 ease-in-out shadow-md flex items-center justify-center">
+                        <i class="fas fa-lightbulb mr-2"></i> KAVRAM YARIŞMASI
+                    </a>
+                    <a href="7.sınıfbilgiiyarışması.html" class="bg-red-500 text-white py-2 px-4 rounded-md text-center font-semibold hover:bg-red-600 transition duration-300 ease-in-out shadow-md flex items-center justify-center">
+                        <i data-lucide="help-circle" class="w-5 h-5 mr-2"></i> BİLGİ YARIŞMASI
+                    </a>
+                    <a href="#" class="text-red-600 hover:text-red-800 font-semibold text-center mt-2 flex items-center justify-center transform hover:-translate-y-0.5 transition duration-300 ease-in-out">
+                        Daha Fazlasını Keşfet <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
-      
+            </div>
+            </section>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        async function generateSchoolImage() {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const schoolImage = document.getElementById('school-image');
+            loadingIndicator.style.display = 'flex';
+
+            try {
+                const payload = { instances: { prompt: "realistic school building exterior, daytime, sunny, modern architecture, green trees, clear sky" }, parameters: { "sampleCount": 1} };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error(`API hatası: ${response.status} - ${response.statusText}`, errorText);
+                    throw new Error(`API isteği başarısız oldu: ${response.status} ${response.statusText}. Detaylar: ${errorText}`);
+                }
+                
+                const result = await response.json();
+                console.log("API Yanıtı:", result);
+
+                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                    schoolImage.src = imageUrl;
+                    schoolImage.alt = "Okul Binası";
+                } else {
+                    console.error("Görsel oluşturulamadı veya beklenen formatta değil. API yanıtı:", result);
+                    schoolImage.src = "https://placehold.co/1200x200/4A90E2/FFFFFF";
+                    schoolImage.alt = "Görsel Yüklenemedi";
+                }
+            } catch (error) {
+                console.error("Görsel oluşturma sırasında hata oluştu:", error);
+                schoolImage.src = "https://placehold.co/1200x200/4A90E2/FFFFFF";
+                schoolImage.alt = "Görsel Yüklenemedi";
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Sanal Gezi Modalı ile ilgili JavaScript kodları kaldırıldı
+        // const virtualTourButton = document.getElementById('virtualTourButton');
+        // const virtualTourModal = document.getElementById('virtualTourModal');
+        // const closeButton = virtualTourModal.querySelector('.close-button');
+
+        // virtualTourButton.addEventListener('click', () => {
+        //     virtualTourModal.style.display = 'flex';
+        //     generateHolySiteImage();
+        // });
+
+        // closeButton.addEventListener('click', () => {
+        //     virtualTourModal.style.display = 'none';
+        // });
+
+        // window.addEventListener('click', (event) => {
+        //     if (event.target == virtualTourModal) {
+        //         virtualTourModal.style.display = 'none';
+        //     }
+        // });
+
+        // generateHolySiteImage fonksiyonu kaldırıldı
+        // async function generateHolySiteImage() { ... }
+
+        window.onload = generateSchoolImage;
+    </script>
 </body>
 </html>
