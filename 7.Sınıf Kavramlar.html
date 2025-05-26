@@ -424,6 +424,7 @@
             <div id="unitCardsContainer" class="unit-grid">
                 </div>
             <button id="startQuizBtn" class="action-button px-8 py-3 text-xl" style="display: none;">Yarışmayı Başlat</button>
+            <button id="returnToHomePageBtn" class="action-button bg-purple-600 hover:bg-purple-700 mt-4 px-8 py-3 text-xl">Ana Sayfaya Dön</button>
             </div>
 
         <div id="mainQuizContent" class="main-quiz-content">
@@ -1090,6 +1091,7 @@
         const timerDisplay = document.getElementById('timerDisplay');
         const returnToMainMenuFromQuizBtn = document.getElementById('returnToMainMenuFromQuizBtn');
         const mainTitle = document.getElementById('mainTitle'); // Get the main title element
+        const returnToHomePageBtn = document.getElementById('returnToHomePageBtn'); // Yeni eklenen buton
 
         // Modal elements
         const customModalOverlay = document.getElementById('customModalOverlay');
@@ -1409,6 +1411,11 @@
             answeredConceptIds.clear(); // Clear answered concepts for a fresh start
             renderUnitCards(); // Render unit cards to show selection status correctly
             mainTitle.style.display = 'block'; // Show the main title
+        });
+
+        // Event listener for the new "Return to Home Page" button
+        returnToHomePageBtn.addEventListener('click', () => {
+            window.location.href = 'https://ozeme42.github.io/yunus/index.html';
         });
 
         // On application load
