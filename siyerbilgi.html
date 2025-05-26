@@ -95,8 +95,9 @@
         }
         .question-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
+            /* Adjusted minmax to make cards smaller and fit more */
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Further reduced min-width */
+            gap: 0.5rem; /* Further reduced gap */
             margin-top: 1.5rem;
             max-width: 800px;
             margin-left: auto;
@@ -104,8 +105,8 @@
         }
         .question-card {
             background-color: #f7fafc;
-            padding: 1rem;
-            border-radius: 0.75rem;
+            padding: 0.5rem; /* Further reduced padding */
+            border-radius: 0.5rem; /* Slightly smaller border-radius for smaller size */
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
@@ -116,7 +117,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100px; /* Ensure cards have a minimum height */
+            min-height: 60px; /* Further reduced min-height */
+            font-size: 0.8rem; /* Further reduced font size */
             text-align: center;
         }
         .question-card:hover {
@@ -757,8 +759,6 @@
     const mainMenuScreen = document.getElementById('main-menu');
     const unitSelectionGrid = document.getElementById('unit-selection-grid');
     const startQuizButton = document.getElementById('start-quiz-button');
-    // Renamed returnToHomeButton to goBackToMainMenuButton to avoid confusion with the new main site button
-    const goBackToMainMenuButton = document.getElementById('return-to-home-button');
     const goToMainSiteButton = document.getElementById('go-to-main-site-button'); // New DOM element for the main site button
 
 
@@ -955,7 +955,7 @@
         } else {
             currentQuestions = questions.filter(q => q.category === currentUnit);
         }
-        shuffleArray(currentQuestions); // Shuffle questions within the selected unit
+        shuffleArray(currentQuestions); // Shuffle questions within the selected unit for new order
 
         // Display current team's turn and scores
         unitTitle.textContent = `${currentUnit === "Tüm Üniteler" ? "Tüm Üniteler" : currentUnit} - Takım ${currentTeamIndex + 1} Sırası`;
@@ -963,11 +963,15 @@
 
         // Create a unique ID for each question based on its content and category to track answered status
         currentQuestions.forEach((q, index) => {
-            const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${index}`; // Simple unique ID
+            // Use the original index from the 'questions' array for the questionId to ensure persistence
+            const originalIndex = questions.findIndex(originalQ => originalQ.question === q.question && originalQ.category === q.category);
+            const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`; // Use originalIndex for ID
+
             const questionCard = document.createElement('div');
             questionCard.className = 'question-card';
-            questionCard.textContent = `Soru ${index + 1}`;
-            questionCard.dataset.questionIndex = index;
+            // Display only the question number
+            questionCard.textContent = `${index + 1}`; // Display current shuffled order number
+            questionCard.dataset.questionIndex = index; // Store current shuffled index
             questionCard.dataset.questionId = questionId; // Store unique ID
             questionCard.onclick = () => showQuestion(index);
 
@@ -997,14 +1001,16 @@
     function returnToQuestionsGrid() {
         questionScreen.classList.add('hidden');
         questionGridScreen.classList.remove('hidden');
-        renderQuestionGrid(); // Re-render grid to show answered questions and next team's turn
+        renderQuestionGrid(); // Re-render grid to show answered questions and next team's turn, with new shuffle
     }
 
     // --- Question Screen Functions ---
     function showQuestion(index) {
         currentQuestionIndex = index;
         const currentQuestionData = currentQuestions[currentQuestionIndex];
-        const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${currentQuestionIndex}`;
+        // Use the original index from the 'questions' array for the questionId to ensure persistence
+        const originalIndex = questions.findIndex(originalQ => originalQ.question === currentQuestionData.question && originalQ.category === currentQuestionData.category);
+        const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`;
 
         if (answeredQuestions[questionId]) {
             showCustomModal('Bilgi', 'Bu soruyu zaten cevapladınız!');
@@ -1016,7 +1022,7 @@
         detailedExplanationContainer.classList.add('hidden'); // Hide explanation
         questionScreenInstructionMessage.classList.add('hidden'); // Hide instruction
 
-        currentQuestionNumberSpan.textContent = `${currentQuestionIndex + 1}`;
+        currentQuestionNumberSpan.textContent = `${index + 1}`; // Display current shuffled order number
         totalQuestionsSpan.textContent = currentQuestions.length;
         questionTextElement.textContent = currentQuestionData.question;
         currentQuestionPoints = currentQuestionData.points;
@@ -1077,7 +1083,8 @@
         disableOptions(); // Disable all options after selection
 
         const currentQuestionData = currentQuestions[currentQuestionIndex];
-        const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${currentQuestionIndex}`;
+        const originalIndex = questions.findIndex(originalQ => originalQ.question === currentQuestionData.question && originalQ.category === currentQuestionData.category);
+        const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`;
 
         if (selectedOption === correctOption) {
             selectedButton.classList.add('correct');
@@ -1087,14 +1094,9 @@
             currentQuestionAnsweredCorrectly = true;
         } else {
             selectedButton.classList.add('incorrect');
-            feedbackMessage.textContent = `Yanlış Cevap. Doğru cevap: ${correctOption}`;
+            feedbackMessage.textContent = `Yanlış Cevap.`; // Only show "Yanlış Cevap."
             feedbackMessage.className = 'feedback-message incorrect';
-            // Also highlight the correct answer
-            Array.from(optionsContainer.children).forEach(button => {
-                if (button.textContent === correctOption) {
-                    button.classList.add('correct');
-                }
-            });
+            // Do NOT highlight the correct answer or reveal it
         }
         feedbackMessage.classList.remove('hidden');
         timerDisplay.classList.add('hidden'); // Hide timer after answer
@@ -1132,7 +1134,7 @@
             if (timeLeft <= 0) {
                 clearInterval(timer);
                 disableOptions();
-                feedbackMessage.textContent = `Süre doldu! Doğru cevap: ${currentQuestions[currentQuestionIndex].answer}`;
+                feedbackMessage.textContent = `Süre doldu! Yanlış Cevap.`; // Only show "Süre doldu! Yanlış Cevap."
                 feedbackMessage.className = 'feedback-message incorrect';
                 feedbackMessage.classList.remove('hidden');
                 timerDisplay.classList.add('hidden');
@@ -1141,16 +1143,11 @@
 
                 // Mark question as answered (even if time ran out)
                 const currentQuestionData = currentQuestions[currentQuestionIndex];
-                const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${currentQuestionIndex}`;
+                const originalIndex = questions.findIndex(originalQ => originalQ.question === currentQuestionData.question && originalQ.category === currentQuestionData.category);
+                const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`;
                 answeredQuestions[questionId] = true;
 
-                // Highlight correct answer
-                Array.from(optionsContainer.children).forEach(button => {
-                    if (button.textContent === currentQuestions[currentQuestionIndex].answer) {
-                        button.classList.add('correct');
-                    }
-                });
-
+                // Do NOT highlight correct answer
                 nextTurnButton.classList.remove('hidden');
             }
         }, 1000);
@@ -1223,7 +1220,9 @@
         // Count how many questions in currentQuestions have been answered
         let answeredCount = 0;
         currentQuestions.forEach(q => {
-            const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${currentQuestions.indexOf(q)}`;
+            // Use the original index from the 'questions' array for the questionId to ensure persistence
+            const originalIndex = questions.findIndex(originalQ => originalQ.question === q.question && originalQ.category === q.category);
+            const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`;
             if (answeredQuestions[questionId]) {
                 answeredCount++;
             }
@@ -1234,10 +1233,6 @@
     // Event Listeners
     startQuizButton.addEventListener('click', showTeamSelectionScreen); // Changed to show team selection
     returnToUnitsButton.addEventListener('click', returnToMainMenu); // Renamed for clarity
-    // goBackToMainMenuButton.addEventListener('click', () => { // This button is now removed as per user request
-    //     // This button acts as a full page reload to reset everything
-    //     window.location.reload();
-    // });
     resetGameButton.addEventListener('click', resetGame);
     returnToMainMenuFromFinalButton.addEventListener('click', returnToMainMenu);
 
