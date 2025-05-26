@@ -6,6 +6,189 @@
     <title>Peygamberimizin Hayatı - Kavram Bilgi Yarışması</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, addDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global Firebase değişkenlerini tanımla
+        window.firebaseApp = null;
+        window.db = null;
+        window.auth = null;
+        window.userId = null;
+        window.userName = localStorage.getItem('quizUserName') || ''; // Kullanıcı adını yerel depolamadan al
+
+        // Özel modal (uyarı/onay) fonksiyonları
+        window.showModal = function(title, message, type, onConfirm, onCancel, input1Placeholder = '', input2Placeholder = '', textareaPlaceholder = '') {
+            const customModalOverlay = document.getElementById('customModalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalInput1 = document.getElementById('modalInput1');
+            const modalInput2 = document.getElementById('modalInput2');
+            const modalTextarea = document.getElementById('modalTextarea');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+            const modalSaveBtn = document.getElementById('modalSaveBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            modalInput1.style.display = 'none';
+            modalInput2.style.display = 'none';
+            modalTextarea.style.display = 'none';
+            modalConfirmBtn.style.display = 'none';
+            modalSaveBtn.style.display = 'none';
+            modalCancelBtn.style.display = 'inline-block';
+
+            // Reset event listeners
+            modalConfirmBtn.onclick = null;
+            modalSaveBtn.onclick = null;
+            modalCancelBtn.onclick = null;
+            modalCancelBtn.textContent = 'İptal'; // Reset text
+
+            if (type === 'alert') {
+                modalCancelBtn.textContent = 'Tamam';
+                modalCancelBtn.onclick = () => {
+                    window.hideModal();
+                    if (onConfirm) onConfirm();
+                };
+            } else if (type === 'confirm') {
+                modalConfirmBtn.style.display = 'inline-block';
+                modalCancelBtn.textContent = 'İptal';
+                modalConfirmBtn.onclick = () => {
+                    window.hideModal();
+                    if (onConfirm) onConfirm();
+                };
+                modalCancelBtn.onclick = () => {
+                    window.hideModal();
+                    if (onCancel) onCancel();
+                };
+            } else if (type === 'prompt') {
+                modalInput1.style.display = 'block';
+                modalInput1.placeholder = input1Placeholder;
+                modalInput1.value = '';
+                modalSaveBtn.style.display = 'inline-block';
+                modalCancelBtn.textContent = 'İptal';
+                modalSaveBtn.onclick = () => {
+                    window.hideModal();
+                    if (onConfirm) onConfirm(modalInput1.value);
+                };
+                modalCancelBtn.onclick = () => {
+                    window.hideModal();
+                    if (onCancel) onCancel();
+                };
+            } else if (type === 'form') {
+                modalInput1.style.display = 'block';
+                modalInput1.placeholder = input1Placeholder;
+                modalInput1.value = '';
+                modalTextarea.style.display = 'block';
+                modalTextarea.placeholder = textareaPlaceholder;
+                modalTextarea.value = '';
+                modalSaveBtn.style.display = 'inline-block';
+                modalCancelBtn.textContent = 'İptal';
+                modalSaveBtn.onclick = () => {
+                    window.hideModal();
+                    if (onConfirm) onConfirm(modalInput1.value, modalTextarea.value);
+                };
+                modalCancelBtn.onclick = () => {
+                    window.hideModal();
+                    if (onCancel) onCancel();
+                };
+            }
+
+            customModalOverlay.style.display = 'flex';
+        };
+
+        window.hideModal = function() {
+            const customModalOverlay = document.getElementById('customModalOverlay');
+            const modalInput1 = document.getElementById('modalInput1');
+            const modalInput2 = document.getElementById('modalInput2');
+            const modalTextarea = document.getElementById('modalTextarea');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+            const modalSaveBtn = document.getElementById('modalSaveBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+            customModalOverlay.style.display = 'none';
+            modalInput1.value = '';
+            modalInput2.value = '';
+            modalTextarea.value = '';
+            modalConfirmBtn.onclick = null;
+            modalSaveBtn.onclick = null;
+            modalCancelBtn.onclick = null;
+            modalCancelBtn.textContent = 'İptal';
+        };
+
+        // Kullanıcı adı isteme fonksiyonu
+        window.promptForUserName = function() {
+            window.showModal(
+                'Kullanıcı Adı Belirle',
+                'Liderlik tablosunda görünmek için bir kullanıcı adı girin:',
+                'prompt',
+                (name) => {
+                    if (name && name.trim() !== '') {
+                        window.userName = name.trim();
+                        localStorage.setItem('quizUserName', window.userName);
+                        console.log("Kullanıcı adı ayarlandı:", window.userName);
+                    } else {
+                        window.userName = 'Anonim Kullanıcı'; // Varsayılan kullanıcı adı
+                        localStorage.setItem('quizUserName', window.userName);
+                        console.log("Kullanıcı adı boş bırakıldı, varsayılan olarak ayarlandı:", window.userName);
+                    }
+                },
+                () => {
+                    window.userName = 'Anonim Kullanıcı'; // İptal edilirse varsayılan kullanıcı adı
+                    localStorage.setItem('quizUserName', window.userName);
+                    console.log("Kullanıcı adı ayarlanması iptal edildi, varsayılan olarak ayarlandı:", window.userName);
+                },
+                'Kullanıcı Adınız'
+            );
+        };
+
+        // Firebase'i başlat ve kimlik doğrulamasını yap
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+                if (Object.keys(firebaseConfig).length === 0) {
+                    console.error("Firebase yapılandırması bulunamadı. Liderlik tablosu çalışmayabilir.");
+                    return;
+                }
+
+                window.firebaseApp = initializeApp(firebaseConfig);
+                window.db = getFirestore(window.firebaseApp);
+                window.auth = getAuth(window.firebaseApp);
+
+                onAuthStateChanged(window.auth, async (user) => {
+                    if (user) {
+                        window.userId = user.uid;
+                        console.log("Firebase Auth Ready. User ID:", window.userId);
+                        // Kullanıcı adı yoksa veya varsayılan ise, kullanıcıdan iste
+                        if (!window.userName || window.userName === 'Anonim Kullanıcı') {
+                            window.promptForUserName();
+                        }
+                    } else {
+                        // Anonim olarak oturum aç
+                        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(window.auth, initialAuthToken);
+                        } else {
+                            await signInAnonymously(window.auth);
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Firebase başlatılırken hata oluştu:", error);
+                // Firebase hatası durumunda liderlik tablosu butonunu devre dışı bırak
+                const leaderboardBtn = document.getElementById('showLeaderboardBtn');
+                if (leaderboardBtn) {
+                    leaderboardBtn.disabled = true;
+                    leaderboardBtn.textContent = 'Liderlik Tablosu (Hata)'; // Yazım hatası düzeltildi
+                    leaderboardBtn.classList.add('bg-red-500', 'hover:bg-red-600');
+                }
+            }
+        });
+    </script>
     <style>
         /* Temel stil tanımlamaları */
         body {
@@ -249,6 +432,22 @@
             color: #EF4444;
         }
 
+        /* Skor göstergesi stili */
+        #scoreDisplay {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #10B981; /* Yeşil renk */
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            border-radius: 0.5rem;
+            box-shadow: none;
+            z-index: 10;
+        }
+
         /* Onay işareti stili (şu an kullanılmıyor ama gelecekteki geliştirmeler için bırakıldı) */
         .concept-box .checkmark {
             position: absolute;
@@ -362,7 +561,7 @@
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 0 3px #3b82f6;
             border-color: #3b82f6;
         }
-        .main-quiz-content {
+        .main-quiz-content, #leaderboardScreen {
             display: none;
             width: 100%;
             height: 100%;
@@ -442,6 +641,46 @@
         .modal-confirm-btn:hover {
             background-color: #da190b;
         }
+
+        /* Liderlik Tablosu Stilleri */
+        .leaderboard-list {
+            width: 100%;
+            max-width: 600px;
+            background-color: #f0f9ff;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+        .leaderboard-item span {
+            font-weight: 500;
+            color: #4a5568;
+        }
+        .leaderboard-item .score {
+            font-weight: 700;
+            color: #10B981;
+        }
+        .leaderboard-item .rank {
+            font-weight: bold;
+            color: #3b82f6;
+            width: 30px;
+            text-align: left;
+        }
+        .leaderboard-item.current-user {
+            background-color: #e0f2fe; /* Current user highlight */
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 2px solid #3b82f6;
+        }
     </style>
 </head>
 <body>
@@ -452,6 +691,7 @@
             <div id="unitCardsContainer" class="unit-grid">
                 </div>
             <button id="startQuizBtn" class="action-button px-8 py-3 text-xl" style="display: none;">Yarışmayı Başlat</button>
+            <button id="showLeaderboardBtn" class="action-button bg-blue-500 hover:bg-blue-600 mt-4 px-8 py-3 text-xl">Liderlik Tablosu</button>
             <button id="returnToHomePageBtn" class="action-button bg-purple-600 hover:bg-purple-700 mt-4 px-8 py-3 text-xl">Ana Sayfaya Dön</button>
         </div>
 
@@ -461,6 +701,7 @@
                     <p id="questionText" class="text-xl text-gray-800"></p>
                 </div>
                 <div id="timerDisplay">50</div>
+                <div id="scoreDisplay">Puan: 0</div>
                 <div id="feedback" class="message-box mt-4" style="display: none;"></div>
             </div>
 
@@ -476,7 +717,15 @@
             <button id="returnToMainMenuFromQuizBtn" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Ana Menüye Dön</button>
         </div>
 
+        <div id="leaderboardScreen" class="main-quiz-content">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Liderlik Tablosu</h2>
+            <div id="leaderboardList" class="leaderboard-list">
+                <p class="text-gray-600">Yükleniyor...</p>
+            </div>
+            <button id="returnToMainMenuFromLeaderboardBtn" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Ana Menüye Dön</button>
         </div>
+
+    </div>
 
     <div id="customModalOverlay" class="modal-overlay" style="display: none;">
         <div class="modal-content">
@@ -493,13 +742,15 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
         // Ünite ve kavram verileri (Peygamberimizin Hayatı kitabına göre güncellendi)
         let units = [
             {
                 id: 'unit1',
                 name: 'Ünite 1: Peygamberimizin Gençlik Yılları',
-                bgColor: 'bg-blue-100', // Yeni renk
+                bgColor: 'bg-blue-100',
                 concepts: [
                     { id: 'mekke', name: 'Mekke', color: 'bg-blue-600', questions: [
                         { question: 'Peygamber Efendimiz Hz. Muhammed (s.a.v)\'in Miladi 571 yılında dünyaya geldiği şehir.' },
@@ -661,7 +912,7 @@
             {
                 id: 'unit2',
                 name: 'Ünite 2: Kur\'an-ı Kerim\'de Peygamberimiz',
-                bgColor: 'bg-green-100', // Yeni renk
+                bgColor: 'bg-green-100',
                 concepts: [
                     { id: 'muhammed', name: 'Muhammed', color: 'bg-blue-600', questions: [
                         { question: 'Kur\'an-ı Kerim\'de Peygamber Efendimiz için kullanılan en yaygın isim.' },
@@ -768,7 +1019,7 @@
             {
                 id: 'unit3',
                 name: 'Ünite 3: Peygamberimiz ve Gençler',
-                bgColor: 'bg-purple-100', // Yeni renk
+                bgColor: 'bg-purple-100',
                 concepts: [
                     { id: 'genclere-onem', name: 'Gençlere Önem', color: 'bg-blue-600', questions: [
                         { question: 'Peygamber Efendimiz (s.a.v.)\'in gençleri toplumun geleceği ve dinamik gücü olarak görmesi.' },
@@ -875,7 +1126,7 @@
             {
                 id: 'unit4',
                 name: 'Ünite 4: En Güzel Örnek Peygamberimiz',
-                bgColor: 'bg-yellow-100', // Yeni renk
+                bgColor: 'bg-yellow-100',
                 concepts: [
                     { id: 'usve-i-hasene-genel', name: 'Üsve-i Hasene', color: 'bg-blue-600', questions: [
                         { question: 'Peygamberimizin hayatının her alanında Müslümanlara en güzel örnek olması.' },
@@ -982,7 +1233,7 @@
             {
                 id: 'unit5',
                 name: 'Ünite 5: Sahabenin Fazileti',
-                bgColor: 'bg-red-100', // Yeni renk
+                bgColor: 'bg-red-100',
                 concepts: [
                     { id: 'sahabe', name: 'Sahabe', color: 'bg-blue-600', questions: [
                         { question: 'Peygamberimizi gören, ona iman eden ve Müslüman olarak vefat eden kişilere verilen genel ad.' },
@@ -1102,19 +1353,23 @@
         const resetQuizBtn = document.getElementById('resetQuizBtn');
         const returnToMainMenuFromQuizBtn = document.getElementById('returnToMainMenuFromQuizBtn');
         const timerDisplay = document.getElementById('timerDisplay');
-        const showAnswerBtn = document.getElementById('showAnswerBtn'); // Cevabı göster butonu
+        const scoreDisplay = document.getElementById('scoreDisplay'); // Skor göstergesi
+        const showAnswerBtn = document.getElementById('showAnswerBtn');
+        const showLeaderboardBtn = document.getElementById('showLeaderboardBtn'); // Liderlik tablosu butonu
+        const leaderboardScreen = document.getElementById('leaderboardScreen'); // Liderlik tablosu ekranı
+        const leaderboardList = document.getElementById('leaderboardList'); // Liderlik tablosu listesi
+        const returnToMainMenuFromLeaderboardBtn = document.getElementById('returnToMainMenuFromLeaderboardBtn'); // Liderlik tablosundan ana menüye dön butonu
 
         let selectedUnitId = null;
         let currentQuestion = null;
-        let askedQuestionsUniqueIds = []; // Sorulmuş soruların benzersiz kimliklerini tutar
+        let askedQuestionsUniqueIds = [];
         let timerInterval;
-        let timeLeft = 50; // Her soru için başlangıç süresi
+        let timeLeft = 50;
+        let currentIncorrectAttempts = 0;
+        const MAX_INCORRECT_ATTEMPTS = 2;
+        let currentScore = 0; // Mevcut quiz skoru
 
-        // Yanlış deneme hakkı değişkenleri
-        let currentIncorrectAttempts = 0; // Mevcut soru için yanlış deneme sayısı
-        const MAX_INCORRECT_ATTEMPTS = 2; // Maksimum yanlış deneme hakkı
-
-        // Diziyi karıştırmak için yardımcı fonksiyon
+        // Utility: Shuffle an array
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -1123,116 +1378,33 @@
             return array;
         }
 
-        // Özel modal (uyarı/onay) fonksiyonları
-        const customModalOverlay = document.getElementById('customModalOverlay');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalMessage = document.getElementById('modalMessage');
-        const modalInput1 = document.getElementById('modalInput1');
-        const modalInput2 = document.getElementById('modalInput2');
-        const modalTextarea = document.getElementById('modalTextarea');
-        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-        const modalSaveBtn = document.getElementById('modalSaveBtn');
-        const modalCancelBtn = document.getElementById('modalCancelBtn');
-
-        function showModal(title, message, type, onConfirm, onCancel, input1Placeholder = '', input2Placeholder = '', textareaPlaceholder = '') {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-
-            modalInput1.style.display = 'none';
-            modalInput2.style.display = 'none';
-            modalTextarea.style.display = 'none';
-            modalConfirmBtn.style.display = 'none';
-            modalSaveBtn.style.display = 'none';
-            modalCancelBtn.style.display = 'inline-block'; // Varsayılan olarak iptal butonu gösterilir
-
-            if (type === 'alert') {
-                modalCancelBtn.textContent = 'Tamam';
-                modalCancelBtn.onclick = () => {
-                    hideModal();
-                    if (onConfirm) onConfirm();
-                };
-            } else if (type === 'confirm') {
-                modalConfirmBtn.style.display = 'inline-block';
-                modalCancelBtn.textContent = 'İptal';
-                modalConfirmBtn.onclick = () => {
-                    hideModal();
-                    if (onConfirm) onConfirm();
-                };
-                modalCancelBtn.onclick = () => {
-                    hideModal();
-                    if (onCancel) onCancel();
-                };
-            } else if (type === 'prompt') {
-                modalInput1.style.display = 'block';
-                modalInput1.placeholder = input1Placeholder;
-                modalInput1.value = '';
-                modalSaveBtn.style.display = 'inline-block';
-                modalCancelBtn.textContent = 'İptal';
-                modalSaveBtn.onclick = () => {
-                    hideModal();
-                    if (onConfirm) onConfirm(modalInput1.value);
-                };
-                modalCancelBtn.onclick = () => {
-                    hideModal();
-                    if (onCancel) onCancel();
-                };
-            } else if (type === 'form') {
-                modalInput1.style.display = 'block';
-                modalInput1.placeholder = input1Placeholder;
-                modalInput1.value = '';
-                modalTextarea.style.display = 'block';
-                modalTextarea.placeholder = textareaPlaceholder;
-                modalTextarea.value = '';
-                modalSaveBtn.style.display = 'inline-block';
-                modalCancelBtn.textContent = 'İptal';
-                modalSaveBtn.onclick = () => {
-                    hideModal();
-                    if (onConfirm) onConfirm(modalInput1.value, modalTextarea.value);
-                };
-                modalCancelBtn.onclick = () => {
-                    hideModal();
-                    if (onCancel) onCancel();
-                };
-            }
-
-            customModalOverlay.style.display = 'flex';
+        // Skor göstergesini güncelle
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = `Puan: ${currentScore}`;
         }
 
-        function hideModal() {
-            customModalOverlay.style.display = 'none';
-            modalInput1.value = '';
-            modalInput2.value = '';
-            modalTextarea.value = '';
-            // Buton olay dinleyicilerini sıfırla
-            modalConfirmBtn.onclick = null;
-            modalSaveBtn.onclick = null;
-            modalCancelBtn.onclick = null;
-            modalCancelBtn.textContent = 'İptal';
-        }
-
-
-        // Oyun mantığı fonksiyonları
+        // Oyun mantığı
         function startTimer() {
-            clearInterval(timerInterval); // Mevcut zamanlayıcıyı temizle
-            timeLeft = 50; // Her soru için süreyi sıfırla
+            clearInterval(timerInterval);
+            timeLeft = 50;
             timerDisplay.textContent = timeLeft;
-            timerDisplay.classList.remove('warning'); // Uyarı rengini kaldır
+            timerDisplay.classList.remove('warning');
 
             timerInterval = setInterval(() => {
                 timeLeft--;
                 timerDisplay.textContent = timeLeft;
                 if (timeLeft <= 10) {
-                    timerDisplay.classList.add('warning'); // Son 10 saniyede uyarı rengi
+                    timerDisplay.classList.add('warning');
                 }
                 if (timeLeft <= 0) {
-                    clearInterval(timerInterval); // Süre dolunca zamanlayıcıyı durdur
+                    clearInterval(timerInterval);
                     feedbackDiv.textContent = `Süre doldu! Yanlış cevap hakkınız doldu. Sonraki soruya geçmek için "Sonraki Soru" butonuna basın.`;
                     feedbackDiv.classList.remove('success');
-                    feedbackDiv.classList.add('error'); /* Hata mesajı için kırmızı stil */
+                    feedbackDiv.classList.add('error');
                     feedbackDiv.style.display = 'block';
-                    disableConceptBoxes(); // Tüm kavram kutularını devre dışı bırak
-                    showAnswerBtn.disabled = true; // Cevabı göster butonunu devre dışı bırak
-                    nextQuestionBtn.disabled = false; // Sonraki soruya geçişi etkinleştir
+                    disableConceptBoxes();
+                    showAnswerBtn.disabled = true;
+                    nextQuestionBtn.disabled = false;
                 }
             }, 1000);
         }
@@ -1248,9 +1420,7 @@
             let allQuestionsInUnit = [];
             selectedUnit.concepts.forEach(concept => {
                 concept.questions.forEach((q, qIndex) => {
-                    // Her soruya benzersiz bir kimlik atıyoruz
                     const baseConceptIdForQuestion = (selectedUnitId === 'all-units') ? concept.id : `${selectedUnitId}-${concept.id}`;
-
                     allQuestionsInUnit.push({
                         question: q.question,
                         correctConceptId: concept.id,
@@ -1260,50 +1430,48 @@
                 });
             });
 
-            // Daha önce sorulmuş soruları filtrele
             return allQuestionsInUnit.filter(q => !askedQuestionsUniqueIds.includes(q.uniqueQuestionId));
         }
 
         function displayQuestion() {
-            stopTimer(); // Mevcut zamanlayıcıyı durdur
-            feedbackDiv.style.display = 'none'; // Geri bildirimi gizle
-            feedbackDiv.textContent = ''; // Geri bildirimi temizle
-            conceptBoxesDiv.innerHTML = ''; // Eski kavram kutularını temizle
-            nextQuestionBtn.disabled = true; // Sonraki soru butonunu başlangıçta devre dışı bırak
-            showAnswerBtn.disabled = false; // Cevabı göster butonunu etkinleştir
-            currentIncorrectAttempts = 0; // Yeni soru için yanlış denemeleri sıfırla
+            stopTimer();
+            feedbackDiv.style.display = 'none';
+            feedbackDiv.textContent = '';
+            conceptBoxesDiv.innerHTML = '';
+            nextQuestionBtn.disabled = true;
+            showAnswerBtn.disabled = false;
+            currentIncorrectAttempts = 0;
 
             const availableQuestions = getAvailableQuestions();
 
             if (availableQuestions.length === 0) {
-                showModal('Yarışma Bitti!', 'Tüm soruları cevapladınız. Tebrikler!', 'alert', () => {
-                    resetQuiz();
+                // Tüm sorular cevaplandı, skoru kaydet ve liderlik tablosunu göster
+                window.showModal('Yarışma Bitti!', `Tüm soruları cevapladınız. Puanınız: ${currentScore}.`, 'alert', () => {
+                    saveScore(currentScore);
+                    showLeaderboardScreen(); // Liderlik tablosunu göster
                 });
                 return;
             }
 
-            currentQuestion = shuffleArray(availableQuestions)[0]; // Rastgele bir soru seç
-            askedQuestionsUniqueIds.push(currentQuestion.uniqueQuestionId); // Bu soruyu soruldu olarak işaretle
+            currentQuestion = shuffleArray(availableQuestions)[0];
+            askedQuestionsUniqueIds.push(currentQuestion.uniqueQuestionId);
 
             questionText.textContent = currentQuestion.question;
 
             const selectedUnitObj = units.find(unit => unit.id === selectedUnitId);
             let allConceptsInSelectedUnit = selectedUnitObj.concepts;
 
-            // Doğru kavramı bul
             const correctConcept = allConceptsInSelectedUnit.find(c => c.id === currentQuestion.correctConceptId);
             if (!correctConcept) {
-                console.error("Doğru kavram bulunamadı ID:", currentQuestion.correctConceptId);
+                console.error("Correct concept not found for ID:", currentQuestion.correctConceptId);
                 return;
             }
 
-            let conceptsForDisplay = [correctConcept]; // Doğru kavramla başla
+            let conceptsForDisplay = [correctConcept];
 
-            // Mevcut doğru cevap olmayan ve henüz tüm soruları sorulmamış kavramları filtrele
             let potentialWrongAnswers = allConceptsInSelectedUnit.filter(concept => {
-                if (concept.id === correctConcept.id) return false; // Doğru kavramı hariç tut
+                if (concept.id === correctConcept.id) return false;
 
-                // Bu kavramın mevcut ünite bağlamında henüz sorulmamış bir sorusu olup olmadığını kontrol et
                 const hasUnaskedQuestion = concept.questions.some((q, qIndex) => {
                     const questionUniqueId = (selectedUnitId === 'all-units') ? `${concept.id}-${qIndex}` : `${selectedUnitId}-${concept.id}-${qIndex}`;
                     return !askedQuestionsUniqueIds.includes(questionUniqueId);
@@ -1311,18 +1479,14 @@
                 return hasUnaskedQuestion;
             });
 
-            potentialWrongAnswers = shuffleArray(potentialWrongAnswers); // Yanlış cevapları karıştır
+            potentialWrongAnswers = shuffleArray(potentialWrongAnswers);
 
-            // Toplam 10 kavram kutusu için 9 diğer rastgele kavramı (yanlış cevapları) ekle
             for (let i = 0; conceptsForDisplay.length < 10 && i < potentialWrongAnswers.length; i++) {
-                // Tekrar edenleri eklememeye dikkat et
                 if (!conceptsForDisplay.some(c => c.id === potentialWrongAnswers[i].id)) {
                     conceptsForDisplay.push(potentialWrongAnswers[i]);
                 }
             }
 
-            // Geriye dönük: Eğer hala 10 kavram yoksa, ünitedeki kalan farklı kavramları ekle
-            // Bu, çoğu kavramın tüm sorularının cevaplandığı durumlarda olabilir.
             if (conceptsForDisplay.length < 10) {
                 const conceptsAlreadyInDisplay = new Set(conceptsForDisplay.map(c => c.id));
                 const trulyRemainingConcepts = allConceptsInSelectedUnit.filter(c => !conceptsAlreadyInDisplay.has(c.id));
@@ -1332,7 +1496,7 @@
                 }
             }
 
-            conceptsForDisplay = shuffleArray(conceptsForDisplay); // Doğru cevabın konumunu rastgele hale getirmek için tekrar karıştır
+            conceptsForDisplay = shuffleArray(conceptsForDisplay);
 
             conceptsForDisplay.forEach(concept => {
                 const conceptBox = document.createElement('div');
@@ -1347,110 +1511,193 @@
                 conceptBoxesDiv.appendChild(conceptBox);
             });
 
-            startTimer(); // Zamanlayıcıyı başlat
+            startTimer();
         }
 
         function checkAnswer(selectedConceptId) {
-            stopTimer(); // Cevap seçildiğinde zamanlayıcıyı durdur
+            stopTimer();
             const selectedBox = document.getElementById(selectedConceptId);
-            const correctBox = document.getElementById(currentQuestion.correctConceptId);
 
             if (selectedConceptId === currentQuestion.correctConceptId) {
+                currentScore += 10; // Doğru cevap için puan ekle
+                updateScoreDisplay();
                 selectedBox.classList.add('correct');
                 feedbackDiv.textContent = 'Doğru Cevap! Tebrikler!';
                 feedbackDiv.classList.remove('error');
                 feedbackDiv.classList.add('success');
-                disableConceptBoxes(); // Doğru cevapta tüm kutuları devre dışı bırak
-                showAnswerBtn.disabled = true; // Cevap göster butonunu devre dışı bırak
-                nextQuestionBtn.disabled = false; // Sonraki soruya geçişi etkinleştir
+                disableConceptBoxes();
+                showAnswerBtn.disabled = true;
+                nextQuestionBtn.disabled = false;
                 setTimeout(() => {
-                    selectedBox.classList.remove('correct'); // Animasyon sonrası rengi kaldır
+                    selectedBox.classList.remove('correct');
                 }, 1000);
             } else {
                 currentIncorrectAttempts++;
-                selectedBox.classList.add('incorrect'); // Yanlış kutuyu işaretle
+                selectedBox.classList.add('incorrect');
 
                 if (currentIncorrectAttempts < MAX_INCORRECT_ATTEMPTS) {
-                    // İlk yanlış deneme (haklar bitmediyse)
                     feedbackDiv.textContent = `Yanlış cevap! ${MAX_INCORRECT_ATTEMPTS - currentIncorrectAttempts} hakkınız kaldı. Tekrar deneyin.`;
                     feedbackDiv.classList.remove('success');
-                    feedbackDiv.classList.add('error'); /* Yanlış mesajı kırmızı stil */
+                    feedbackDiv.classList.add('error');
                     setTimeout(() => {
-                        selectedBox.classList.remove('incorrect'); // Animasyon sonrası rengi kaldır
-                        startTimer(); // Süreyi tekrar başlat
-                        // Sadece yanlış seçilen kutunun click olayını tekrar etkinleştir
+                        selectedBox.classList.remove('incorrect');
+                        startTimer();
                         const allConceptBoxes = document.querySelectorAll('.concept-box');
                         allConceptBoxes.forEach(box => {
                             box.onclick = () => checkAnswer(box.id);
                             box.classList.add('cursor-pointer');
                             box.style.pointerEvents = 'auto';
                         });
-                        feedbackDiv.style.display = 'none'; // Mesajı kaldır
-                    }, 1000); // 1 saniye sonra rengi temizle ve devam et
+                        feedbackDiv.style.display = 'none';
+                    }, 1000);
                 } else {
-                    // İkinci yanlış deneme (haklar bitti)
-                    feedbackDiv.textContent = `Yanlış cevap hakkınız doldu! Sonraki soruya geçmek için "Sonraki Soru" butonuna basın.`; // Doğru cevabı göstermiyoruz
+                    feedbackDiv.textContent = `Yanlış cevap hakkınız doldu! Sonraki soruya geçmek için "Sonraki Soru" butonuna basın.`;
                     feedbackDiv.classList.remove('success');
                     feedbackDiv.classList.add('error');
-                    disableConceptBoxes(); // Tüm kutuları devre dışı bırak
-                    showAnswerBtn.disabled = true; // Cevabı gösterme butonunu devre dışı bırak
-                    nextQuestionBtn.disabled = false; // Sonraki soruya geçişi etkinleştir
-                    // Doğru cevabı göstermiyoruz, bu yüzden correctBox.classList.add('correct'); satırı burada yok.
+                    disableConceptBoxes();
+                    showAnswerBtn.disabled = true;
+                    nextQuestionBtn.disabled = false;
                     setTimeout(() => {
-                        selectedBox.classList.remove('incorrect'); // Animasyon sonrası rengi kaldır
+                        selectedBox.classList.remove('incorrect');
                     }, 1000);
                 }
             }
             feedbackDiv.style.display = 'block';
         }
 
-        // Tüm kavram kutularını devre dışı bırakma
         function disableConceptBoxes() {
             const conceptBoxes = document.querySelectorAll('.concept-box');
             conceptBoxes.forEach(box => {
-                box.onclick = null; // Tıklama olayını kaldır
+                box.onclick = null;
                 box.classList.remove('cursor-pointer');
-                box.style.pointerEvents = 'none'; // Daha fazla tıklamayı engelle
+                box.style.pointerEvents = 'none';
             });
         }
 
-        // Yarışmayı sıfırlama
         function resetQuiz() {
             stopTimer();
+            saveScore(currentScore); // Quiz sıfırlanırken mevcut skoru kaydet
+            currentScore = 0; // Skoru sıfırla
+            updateScoreDisplay(); // Skoru güncelle
             selectedUnitId = null;
-            askedQuestionsUniqueIds = []; // Sorulan soruları sıfırla
+            askedQuestionsUniqueIds = [];
             currentQuestion = null;
-            currentIncorrectAttempts = 0; // Yanlış denemeleri sıfırla
+            currentIncorrectAttempts = 0;
             mainQuizContent.style.display = 'none';
             mainMenuScreen.style.display = 'flex';
             mainTitle.style.display = 'block';
             feedbackDiv.style.display = 'none';
             timerDisplay.textContent = '50';
             timerDisplay.classList.remove('warning');
-            startQuizBtn.style.display = 'none'; // Ünite seçilene kadar başlat butonunu gizle
+            startQuizBtn.style.display = 'none';
             renderUnitCards();
         }
 
-        // Ana menüye dönme işlevi
         function returnToMainMenuScreen() {
-            stopTimer(); // Süreyi durdur
-            mainQuizContent.style.display = 'none'; // Quiz içeriğini gizle
-            mainMenuScreen.style.display = 'flex'; // Ana menüyü göster
-            mainTitle.style.display = 'block'; // Başlığı göster
-            selectedUnitId = null; // Seçili üniteyi sıfırla
-            askedQuestionsUniqueIds = []; // Cevaplanan kavramları sıfırla
-            currentIncorrectAttempts = 0; // Yanlış denemeleri sıfırla
-            renderUnitCards(); // Ünite kartlarını yeniden render et (seçimi kaldırılmış olarak)
-            startQuizBtn.style.display = 'none'; // Başlat butonunu gizle
-            feedbackDiv.style.display = 'none'; // Geri bildirimi gizle
-            timerDisplay.textContent = '50'; // Zamanı sıfırla
-            timerDisplay.classList.remove('warning'); // Uyarı rengini kaldır
+            stopTimer();
+            saveScore(currentScore); // Ana menüye dönerken skoru kaydet
+            currentScore = 0; // Skoru sıfırla
+            updateScoreDisplay(); // Skoru güncelle
+            mainQuizContent.style.display = 'none';
+            leaderboardScreen.style.display = 'none'; // Liderlik ekranını da gizle
+            mainMenuScreen.style.display = 'flex';
+            mainTitle.style.display = 'block';
+            selectedUnitId = null;
+            askedQuestionsUniqueIds = [];
+            currentIncorrectAttempts = 0;
+            renderUnitCards();
+            startQuizBtn.style.display = 'none';
+            feedbackDiv.style.display = 'none';
+            timerDisplay.textContent = '50';
+            timerDisplay.classList.remove('warning');
         }
 
-        // Olay dinleyicileri
+        // Firebase: Skoru kaydetme fonksiyonu
+        async function saveScore(score) {
+            if (!window.db || !window.userId) {
+                console.warn("Firestore veya kullanıcı kimliği hazır değil. Skor kaydedilemedi.");
+                return;
+            }
+            if (score <= 0) { // Sadece pozitif skorları kaydet
+                console.log("Sıfır veya negatif skor kaydedilmedi.");
+                return;
+            }
+
+            const leaderboardCollectionRef = collection(window.db, `/artifacts/${window.__app_id}/public/data/leaderboard`);
+            try {
+                await addDoc(leaderboardCollectionRef, {
+                    userId: window.userId,
+                    userName: window.userName || 'Anonim Kullanıcı', // Kullanıcı adı yoksa varsayılan kullan
+                    score: score,
+                    timestamp: new Date().toISOString() // ISO formatında tarih ve saat
+                });
+                console.log("Skor başarıyla kaydedildi:", score);
+            } catch (e) {
+                console.error("Skor kaydedilirken hata oluştu: ", e);
+                window.showModal('Hata', 'Skor kaydedilirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin.', 'alert');
+            }
+        }
+
+        // Firebase: Liderlik tablosunu çekme ve gösterme fonksiyonu
+        async function fetchLeaderboard() {
+            if (!window.db) {
+                leaderboardList.innerHTML = '<p class="text-red-500">Liderlik tablosu yüklenemedi: Veritabanı hazır değil.</p>';
+                return;
+            }
+
+            leaderboardList.innerHTML = '<p class="text-gray-600">Yükleniyor...</p>'; // Yükleniyor mesajı
+            const leaderboardCollectionRef = collection(window.db, `/artifacts/${window.__app_id}/public/data/leaderboard`);
+            // Firestore'da orderBy kullanırken indeks hatası almamak için, veriyi çekip JS tarafında sıralayacağız.
+            // const q = query(leaderboardCollectionRef, orderBy("score", "desc"), limit(10)); // Bu satırı yorumladık
+            const q = query(leaderboardCollectionRef); // Tüm skorları çek
+
+            try {
+                const querySnapshot = await getDocs(q);
+                let scores = []; // let olarak tanımlandı
+                querySnapshot.forEach((doc) => {
+                    scores.push(doc.data());
+                });
+
+                // Skorları JavaScript tarafında sırala
+                scores.sort((a, b) => b.score - a.score);
+                // En yüksek 10 skoru al
+                scores = scores.slice(0, 10);
+
+                renderLeaderboard(scores);
+            } catch (e) {
+                console.error("Liderlik tablosu çekilirken hata oluştu: ", e);
+                leaderboardList.innerHTML = '<p class="text-red-500">Liderlik tablosu yüklenirken bir hata oluştu.</p>';
+            }
+        }
+
+        // Liderlik tablosunu HTML'e render et
+        function renderLeaderboard(scores) {
+            leaderboardList.innerHTML = ''; // Önceki listeyi temizle
+            if (scores.length === 0) {
+                leaderboardList.innerHTML = '<p class="text-gray-600">Henüz hiç skor kaydedilmedi.</p>';
+                return;
+            }
+
+            scores.forEach((entry, index) => {
+                const listItem = document.createElement('div');
+                listItem.classList.add('leaderboard-item');
+                if (entry.userId === window.userId) {
+                    listItem.classList.add('current-user'); // Mevcut kullanıcıyı vurgula
+                }
+                listItem.innerHTML = `
+                    <span class="rank">#${index + 1}</span>
+                    <span>${entry.userName || 'Anonim'}</span>
+                    <span class="score">${entry.score} Puan</span>
+                `;
+                leaderboardList.appendChild(listItem);
+            });
+        }
+
+
+        // Event Listeners
         nextQuestionBtn.addEventListener('click', displayQuestion);
         resetQuizBtn.addEventListener('click', () => {
-            showModal('Yarışmayı Yeniden Başlat', 'Mevcut yarışmayı sıfırlamak istediğinizden emin misiniz? Bu işlem mevcut ilerlemenizi silecektir.', 'confirm', () => {
+            window.showModal('Yarışmayı Yeniden Başlat', 'Mevcut yarışmayı sıfırlamak istediğinizden emin misiniz? Bu işlem mevcut ilerlemenizi silecektir.', 'confirm', () => {
                 resetQuiz();
             }, () => {
                 // İptal edilirse bir şey yapma
@@ -1458,48 +1705,55 @@
         });
         returnToMainMenuFromQuizBtn.addEventListener('click', returnToMainMenuScreen);
 
-
         showAnswerBtn.addEventListener('click', () => {
             stopTimer();
             disableConceptBoxes();
-            showAnswerBtn.disabled = true; // Cevap göster butonunu devre dışı bırak
+            showAnswerBtn.disabled = true;
             const correctBox = document.getElementById(currentQuestion.correctConceptId);
-            correctBox.classList.add('correct'); // Doğru cevabı vurgula
+            correctBox.classList.add('correct');
             feedbackDiv.textContent = `Doğru cevap: ${currentQuestion.correctConceptName}`;
             feedbackDiv.classList.remove('success');
-            feedbackDiv.classList.add('error'); /* Cevap gösterildiğinde hata olarak kabul edilebilir */
+            feedbackDiv.classList.add('error');
             feedbackDiv.style.display = 'block';
-            nextQuestionBtn.disabled = false; // Sonraki soruya geçişi etkinleştir
-            // Animasyon sonrası rengi kaldır
+            nextQuestionBtn.disabled = false;
             setTimeout(() => {
                 correctBox.classList.remove('correct');
             }, 1000);
         });
 
-        // Ana Menü Mantığı
+        // Liderlik Tablosu butonuna tıklama olayı
+        showLeaderboardBtn.addEventListener('click', () => {
+            mainMenuScreen.style.display = 'none';
+            mainTitle.style.display = 'none';
+            leaderboardScreen.style.display = 'flex';
+            fetchLeaderboard(); // Liderlik tablosunu çek ve göster
+        });
+
+        // Liderlik tablosundan ana menüye dön
+        returnToMainMenuFromLeaderboardBtn.addEventListener('click', returnToMainMenuScreen);
+
+
+        // Main Menu Logic
         function renderUnitCards() {
             unitCardsContainer.innerHTML = '';
             units.forEach(unit => {
                 const unitCardElement = document.createElement('div');
-                unitCardElement.classList.add('unit-card', unit.bgColor); // Arka plan rengini uygula
+                unitCardElement.classList.add('unit-card', unit.bgColor);
                 unitCardElement.textContent = unit.name;
                 unitCardElement.dataset.unitId = unit.id;
 
                 unitCardElement.addEventListener('click', () => {
-                    // Daha önce seçili karttan 'selected' sınıfını kaldır
                     const currentSelected = document.querySelector('.unit-card.selected');
                     if (currentSelected) {
                         currentSelected.classList.remove('selected');
                     }
-                    // Tıklanan karta 'selected' sınıfını ekle
                     unitCardElement.classList.add('selected');
                     selectedUnitId = unit.id;
-                    startQuizBtn.style.display = 'block'; // Başlat butonunu göster
+                    startQuizBtn.style.display = 'block';
                 });
                 unitCardsContainer.appendChild(unitCardElement);
             });
 
-            // "Tüm Üniteler" kartının her zaman sonda olmasını sağla
             const allUnitsCard = document.querySelector('.unit-card[data-unit-id="all-units"]');
             if (allUnitsCard) {
                 unitCardsContainer.appendChild(allUnitsCard);
@@ -1511,57 +1765,55 @@
                 mainMenuScreen.style.display = 'none';
                 mainTitle.style.display = 'none';
                 mainQuizContent.style.display = 'flex';
-                askedQuestionsUniqueIds = []; // Yeni quiz için sorulan soruları sıfırla
+                askedQuestionsUniqueIds = [];
+                currentScore = 0; // Yeni quiz başladığında skoru sıfırla
+                updateScoreDisplay(); // Skoru ekranda da sıfırla
                 displayQuestion();
             } else {
-                showModal('Ünite Seçilmedi', 'Lütfen bir ünite seçerek yarışmayı başlatın.', 'alert');
+                window.showModal('Ünite Seçilmedi', 'Lütfen bir ünite seçerek yarışmayı başlatın.', 'alert');
             }
         });
 
         returnToHomePageBtn.addEventListener('click', () => {
-            // Bu buton orijinal olarak dış bir sayfaya yönlendiriyordu, bu işlevselliği koruyalım.
             window.location.href = 'https://ozeme42.github.io/yunus/index.html';
         });
 
         // Uygulama yüklendiğinde
         document.addEventListener('DOMContentLoaded', () => {
-            // "Tüm Üniteler" seçeneğinin zaten var olup olmadığını kontrol et
             const allUnitsExist = units.some(unit => unit.id === 'all-units');
 
-            // "Ek Kavramlar" ünitesini diziden kaldır (varsa)
             units = units.filter(unit => unit.id !== 'additional-concepts-unit');
 
             if (!allUnitsExist) {
                 const allConceptsCombined = [];
                 units.forEach(unit => {
                     unit.concepts.forEach((concept, conceptIndex) => {
-                        // Her kavram için, tüm ünitelerde benzersiz olacak bir ID oluştur
                         const uniqueConceptId = `${unit.id}-${concept.id}`;
                         allConceptsCombined.push({
-                            ...concept, // Mevcut özellikleri kopyala
-                            id: uniqueConceptId, // Yeni benzersiz ID atama
-                            originalConceptId: concept.id, // Orijinal ID'yi referans olarak sakla
-                            unitId: unit.id // Ünite ID'sini sakla
+                            ...concept,
+                            id: uniqueConceptId,
+                            originalConceptId: concept.id,
+                            unitId: unit.id
                         });
                     });
                 });
 
-                // Yeni "Tüm Üniteler" ünitesini `units` dizisine ekle
                 units.push({
                     id: 'all-units',
                     name: 'Tüm Üniteler',
-                    concepts: shuffleArray(allConceptsCombined), // Birleştirilmiş kavramları karıştır
-                    bgColor: 'bg-gray-200' // Renk
+                    concepts: shuffleArray(allConceptsCombined),
+                    bgColor: 'bg-gray-200'
                 });
             }
 
-            // Başlangıçta hiçbir ünite seçili olmamalı; kullanıcının seçmesini bekle
             selectedUnitId = null;
 
-            renderUnitCards(); // Başlangıçta ana menüyü göstermek için ünite kartlarını render et
-            mainQuizContent.style.display = 'none'; // Quiz içeriğinin başlangıçta gizli olduğundan emin ol
-            mainMenuScreen.style.display = 'flex'; // Ana menünün başlangıçta görünür olduğundan emin ol
-            mainTitle.style.display = 'block'; // Başlığın başlangıçta görünür olduğundan emin ol
+            renderUnitCards();
+            mainQuizContent.style.display = 'none';
+            leaderboardScreen.style.display = 'none'; // Liderlik ekranını başlangıçta gizle
+            mainMenuScreen.style.display = 'flex';
+            mainTitle.style.display = 'block';
+            updateScoreDisplay(); // Başlangıçta skoru göster
         });
     </script>
 </body>
