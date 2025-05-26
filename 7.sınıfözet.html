@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Sınıf DKAB İnteraktif İnfografik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Application Structure Plan: 
+        - Üstbilgi (Header): Uygulama başlığını ve kısa bir açıklama içerir.
+        - Ana Navigasyon (Unit Navigation): Her ünite için bir buton/sekme içeren yapışkan (sticky) bir navigasyon çubuğu.
+        - İçerik Alanı (Content Area): 
+            - Giriş Bölümü: Uygulama ilk açıldığında genel bir karşılama mesajı ve ünite konularını içeren bir tablo.
+            - Ünite Detay Bölümü: Navigasyondan bir ünite seçildiğinde, o üniteye ait "Tema", "Anahtar Kavramlar", "Detaylı Özet", "Neden Önemli?" başlıkları ve içerikleri, ayrıca üniteyle ilgili basit bir grafik (anahtar kavram sayısı gibi) gösterilir. Her ünite için farklı bir vurgu rengi kullanılacaktır.
+            - Yeni: Her ünite detayında "Özet" ve "Etkinlikler" başlıkları altında butonlar olacak. Tıklanan butona göre ilgili içerik gösterilecek.
+        - Kullanıcı Akışı: Kullanıcı ana sayfada karşılanır. Üstteki navigasyon çubuğundan bir ünite seçer. Seçilen ünitenin detayları (afiş benzeri bir yapıda) ana içerik alanında belirir. Ünite içinde "Özet" veya "Etkinlikler" butonlarına tıklayarak ilgili içeriği görüntüler. Farklı bir üniteye tıklayarak diğer ünite içeriklerini keşfedebilir. Bu yapı, raporun "afiş" formatındaki içeriğini interaktif bir şekilde sunmayı ve kullanıcıların üniteler arasında kolayca geçiş yapmasını hedefler. Amaç, bilgiyi çekici ve anlaşılır kılmaktır.
+    -->
+    <!-- Visualization & Content Choices: 
+        - Ünite Başlığı ve Teması: Goal: Inform. Method: Büyük, dikkat çekici başlık ve tema metni. Interaction: Yok. Justification: Ünitenin ana fikrini vurgulamak.
+        - Anahtar Kavramlar: Goal: Organize/Inform. Method: Madde imli liste veya stilize edilmiş kutucuklar. Interaction: Yok. Justification: Önemli terimleri net bir şekilde sunmak.
+        - Detaylı Özet: Goal: Inform. Method: Kapsamlı metin blokları, başlıklar ve maddelerle yapılandırılmış, arasına görseller eklenmiş. Interaction: Okuma, kaydırma. Justification: Ünitenin tüm içeriğini derinlemesine ve görsel destekle sunmak.
+        - Etkinlikler: Goal: Engage. Method: Maddeler halinde etkinlik önerileri. Interaction: Okuma. Justification: Ünite konularını pekiştirmeye yönelik pratik öneriler sunmak.
+        - Neden Önemli?: Goal: Inform. Method: Açıklayıcı paragraf. Interaction: Yok. Justification: Ünitenin bağlamını ve önemini açıklamak.
+        - Anahtar Kavram Sayısı Grafiği: Goal: Compare (basit düzeyde). Method: Her ünite için Anahtar Kavram sayısını gösteren dikey bar grafik (Chart.js). Interaction: Tooltip ile detay görme. Justification: Üniteler arasında basit bir nicel karşılaştırma sunmak ve Chart.js kullanımını göstermek. Library: Chart.js (Canvas). NO SVG/Mermaid.
+        - Genel Yapı: Her ünite içeriği, raporun "afiş" formatını yansıtacak şekilde ayrı bir kart/bölüm içinde sunulacaktır. Bu kartlar, seçilen üniteye göre dinamik olarak güncellenecektir.
+        - Ana Sayfa Ünite Konuları Tablosu: Goal: Organize/Inform. Method: HTML tablo. Interaction: Okuma. Justification: Tüm ünitelerin ana konularına genel bir bakış sunmak.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFF8E1; /* Light Cream Background */
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: #073B4C; /* Dark Blue Nav Background */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-button {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .nav-button:hover {
+            transform: translateY(-2px);
+        }
+        .nav-button.active {
+            background-color: #FF6B6B; /* Red for active */
+            color: white;
+        }
+        .unit-card {
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .unit-card:hover {
+            transform: translateY(-5px);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px; 
+            max-height: 350px; 
+            padding: 1rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+         @media (min-width: 768px) {
+            .chart-container {
+                height: 320px;
+            }
+        }
+        .detailed-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .detailed-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: currentColor; /* Inherit color from parent */
+            font-weight: bold;
+        }
+        .summary-image {
+            width: 100%;
+            max-width: 400px; /* Adjust max width for images within summary */
+            height: auto;
+            margin: 1.5rem auto;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: block; /* Ensures centering with mx-auto */
+        }
+        .sub-nav-button {
+            @apply px-4 py-2 rounded-md font-semibold text-sm transition-colors duration-200;
+        }
+        .sub-nav-button.active-sub {
+            @apply bg-blue-500 text-white;
+        }
+        .sub-nav-button:not(.active-sub) {
+            @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-sky-700 text-white p-6 text-center shadow-lg">
+        <h1 class="text-4xl font-extrabold">7. Sınıf Din Kültürü ve Ahlak Bilgisi</h1>
+        <p class="mt-2 text-lg">Ünite Özetleri İnteraktif İnfografik</p>
+    </header>
+
+    <nav id="unit-navigation" class="sticky-nav flex flex-wrap justify-center p-3 space-x-1 md:space-x-2">
+        <button id="home-button" class="nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-5 m-1 rounded-lg shadow hover:shadow-md">
+            Ana Sayfa
+        </button>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div id="content-area">
+            <div id="home-content" class="text-center p-8 bg-white rounded-xl shadow-xl">
+                <h2 class="text-3xl font-bold text-sky-600 mb-4">Hoş Geldiniz!</h2>
+                <p class="text-xl text-slate-700 mb-6">Bu interaktif infografik, 7. Sınıf Din Kültürü ve Ahlak Bilgisi ders kitabının ünite özetlerini keşfetmenize yardımcı olmak için tasarlanmıştır.</p>
+                <p class="text-lg text-slate-600">Başlamak için yukarıdaki ünite başlıklarından birini seçin.</p>
+                <div class="mt-8 text-5xl">📚✨🕌</div>
+
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-sky-600 mb-6">Ünite Konularına Genel Bakış</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
+                                    <th class="py-3 px-6 text-left">Ünite</th>
+                                    <th class="py-3 px-6 text-left">Anahtar Kavramlar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="unit-topics-table-body" class="text-gray-600 text-sm font-light">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 mt-12 bg-slate-800 text-slate-300">
+        <p>&copy; 2024 - 7. Sınıf DKAB Ünite Afişleri Raporundan Uyarlanmıştır.</p>
+    </footer>
+
+    <script>
+        (function() { // IIFE added to encapsulate the script
+            const reportData = {
+                units: [
+                    {
+                        id: "unite1",
+                        title: "1. ÜNİTE: MELEK VE AHİRET İNANCI",
+                        theme: "😇 GÖRÜNENİN ÖTESİNDE BİR YAŞAM VE SONSUZ DÖNÜŞ 😇",
+                        keyConcepts: ["Gayb Âlemi", "Melekler", "Ahiret", "Hesap ve Mizan", "Cennet & Cehennem"],
+                        detailedSummary: `<h3>Gayb Âlemi:</h3>
+                        <ul class="detailed-list">
+                            <li>Beş duyu organımızla doğrudan algılayamadığımız, ancak varlığı Kur'an ve Sünnetle bildirilen varlık alanıdır. Bu varlıklar, insan aklının ve duyularının ötesindedir.</li>
+                            <li>Melekler, cinler ve ruhlar bu âlemin bir parçasıdır. Cinler ve şeytanlar irade sahibi iken, melekler iradesizdir ve sadece Allah'ın emirlerini yerine getirirler.</li>
+                            <li>İnanmak, bu görünmeyen gerçeklikleri Allah'ın bildirdiği şekilde kabul etmektir. Bu, imanın önemli bir boyutudur.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/ADD8E6/000000?text=Gayb+Alemi" alt="Gayb Alemi Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                        <h3>Melekler:</h3>
+                        <ul class="detailed-list">
+                            <li>Nurdan yaratılmış, irade sahibi olmayan, tamamen Allah'ın emirlerini yerine getiren, günahsız varlıklardır. Onlar, Allah'ın mutlak kudretinin bir tecellisidir.</li>
+                            <li>**Cebrail (as):** Vahiy meleği olup, peygamberlere Allah'ın mesajlarını iletmekle görevlidir.</li>
+                            <li>**Mikail (as):** Doğa olaylarını (yağmur, rüzgar, bitkilerin büyümesi vb.) düzenlemekle görevlidir.</li>
+                            <li>**İsrafil (as):** Kıyamet günü sura üflemekle görevlidir. İlk üfleyişte her şey yok olacak, ikincisinde ise yeniden diriliş gerçekleşecektir.</li>
+                            <li>**Azrail (as):** Can almakla görevli melektir. O, Allah'ın emriyle canlıların ruhlarını alır.</li>
+                            <li>**Kiramen Katibin:** Her insanın sağ ve sol omzunda bulunan, iyilik ve kötülüklerini yazan meleklerdir.</li>
+                            <li>Onlara iman, İslam'ın temel inanç esaslarındandır ve Kur'an ile hadislerde sıkça zikredilirler.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/87CEEB/000000?text=Melekler" alt="Melekler Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                        <h3>Ahiret:</h3>
+                        <ul class="detailed-list">
+                            <li>Dünya hayatının sona ermesiyle başlayan ve sonsuza dek sürecek olan ikinci yaşamdır. Bu, insanın ebedi hayatının başlangıcıdır.</li>
+                            <li>Ölüm, bir yok oluş değil, dünya hayatından ahiret hayatına geçişin bir kapısıdır. Her canlı ölümü tadacaktır.</li>
+                            <li>Ahiret inancı, insanın hayatına anlam katar, dünya hayatının bir imtihan olduğu bilincini güçlendirir ve sorumluluk bilincini geliştirir.</li>
+                        </ul>
+                        <h3>Hesap ve Mizan:</h3>
+                        <ul class="detailed-list">
+                            <li>Ahiret gününde tüm insanların dünya hayatında yaptıkları amellerin (iyi ve kötü) Allah katında değerlendirilmesidir. Bu, ilahi adaletin tecelli edeceği gündür.</li>
+                            <li>Mizan, bu amellerin adaletle tartılacağı ilahi terazidir. Zerre kadar iyilik veya kötülük karşılıksız kalmayacaktır.</li>
+                            <li>Bu hesap ve tartı sonucuna göre insanların akıbeti (cennet veya cehennem) belirlenir.</li>
+                        </ul>
+                        <h3>Cennet & Cehennem:</h3>
+                        <ul class="detailed-list">
+                            <li>Hesap ve mizan sonucunda iyi amelleri ağır gelen müminlerin sonsuz mutluluk ve nimetlerle ödüllendirileceği yer cennet; kötü amelleri ağır gelen veya inkâr edenlerin sonsuz azap göreceği yer ise cehennemdir.</li>
+                            <li>Her ikisi de Allah'ın adaletinin ve rahmetinin tecellisidir. Cennet, müminler için sonsuz huzur ve nimetler diyarıyken, cehennem inkârcılar ve günahkârlar için bir cezalandırma yeridir.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/FFA07A/000000?text=Ahiret+Hayatı" alt="Ahiret Hayatı Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">`,
+                        whyImportant: "Bu ünite, İslam inancının temel direklerinden olan görünmeyen varlıkları ve ölümden sonraki sonsuz hayatı anlamamızı sağlar. Ahiret inancı, insanı dünya hayatında daha sorumlu, bilinçli ve ahlaklı davranmaya teşvik eder. İyilik yapmaya yönlendirir, kötülüklerden sakındırır ve hayata anlam katarak umut ve teselli kaynağı olur.",
+                        color: "#118AB2", // Blue
+                        textColor: "text-white",
+                        activities: `<h3>Etkinlikler:</h3>
+                        <ul class="detailed-list">
+                            <li>**Meleklerin Görevleri Araştırması:** Her bir büyük meleğin (Cebrail, Mikail, İsrafil, Azrail) görevlerini daha detaylı araştırın ve bulgularınızı arkadaşlarınızla paylaşın.</li>
+                            <li>**Ahiret İnancının Önemi Tartışması:** Ahiret inancının insan davranışları üzerindeki etkilerini (sorumluluk, adalet, umut vb.) sınıf içinde tartışın.</li>
+                            <li>**Kıyamet Günü Senaryosu:** Kıyamet ve ahiret gününe dair Kur'an'da geçen ayetleri inceleyerek, o günün nasıl bir atmosferde geçeceğine dair kısa bir senaryo yazın.</li>
+                            <li>**Melek İsimleri ve Anlamları:** Kur'an ve hadislerde geçen farklı melek isimlerini ve bunların anlamlarını öğrenin.</li>
+                        </ul>`
+                    },
+                    {
+                        id: "unite2",
+                        title: "2. ÜNİTE: HAC VE KURBAN",
+                        theme: "🕋 KUTSAL YOLCULUK, İBADET VE PAYLAŞIMIN RUHU 🐑",
+                        keyConcepts: ["Hac", "Kâbe", "Arafat", "Kurban", "Dayanışma"],
+                        detailedSummary: `<h3>Hac:</h3>
+                        <ul class="detailed-list">
+                            <li>İslam'ın beş şartından biri olan, belirli şartları taşıyan Müslümanların, belirli bir zamanda (Zilhicce ayında) Mekke'deki Kâbe ve çevresindeki kutsal mekânları (Arafat, Müzdelife, Mina) usulüne uygun olarak ziyaret etmesidir.</li>
+                            <li>Ömürde bir kez farzdır ve mali gücü ile sağlığı yerinde olan her Müslümana farz kılınmıştır.</li>
+                            <li>Hac ibadeti, Müslümanları coğrafi ve kültürel farklılıkları aşarak bir araya getirir, eşitlik ve birlik bilincini güçlendirir.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/ADD8E6/000000?text=Hac+İbadeti" alt="Hac İbadeti Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                        <h3>Kâbe:</h3>
+                        <ul class="detailed-list">
+                            <li>Mekke'de bulunan, Müslümanların namaz kılarken yöneldikleri ve hac ibadetinin merkezi olan kutsal yapıdır.</li>
+                            <li>Hz. İbrahim ve oğlu Hz. İsmail tarafından Allah'ın emriyle yeniden inşa edildiğine inanılır.</li>
+                            <li>Tavaf ibadeti Kâbe etrafında yapılır.</li>
+                        </ul>
+                        <h3>Arafat:</h3>
+                        <ul class="detailed-list">
+                            <li>Hac ibadetinin en önemli rüknü olan "vakfe"nin yapıldığı, Mekke yakınlarındaki kutsal dağ ve ovadır.</li>
+                            <li>Arefe günü (Zilhicce'nin 9. günü) burada bulunmak haccın geçerliliği için şarttır. Bu, haccın zirvesidir.</li>
+                        </ul>
+                        <h3>Kurban:</h3>
+                        <ul class="detailed-list">
+                            <li>Belirli niteliklere sahip bir hayvanın (koyun, keçi, sığır, deve), belirli günlerde (Kurban Bayramı günleri) ibadet niyetiyle kesilmesidir.</li>
+                            <li>Allah'a yaklaşma (kurbiyet) amacı taşır ve O'nun verdiği nimetlere şükür ifadesidir.</li>
+                            <li>Kurbanın tarihi kökeni, Hz. İbrahim'in oğlu İsmail'i kurban etme kıssasına dayanır. Allah, İsmail yerine bir koç göndermiştir.</li>
+                            <li>**Adak Kurbanı:** Bir dileğin gerçekleşmesi halinde kesilen kurban.</li>
+                            <li>**Akika Kurbanı:** Yeni doğan çocuk için şükür amacıyla kesilen kurban.</li>
+                            <li>**Şükür Kurbanı:** Herhangi bir nimete kavuşma veya beladan kurtulma sebebiyle kesilen kurban.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/DA70D6/000000?text=Kurban+İbadeti" alt="Kurban İbadeti Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                        <h3>Dayanışma:</h3>
+                        <ul class="detailed-list">
+                            <li>Kurban ibadetiyle kesilen etlerin bir kısmının ihtiyaç sahiplerine, akrabalara ve komşulara dağıtılması, toplumsal yardımlaşma ve kardeşlik duygularını pekiştirir.</li>
+                            <li>Hac ibadeti de farklı coğrafyalardan gelen Müslümanları bir araya getirerek evrensel bir dayanışma ve eşitlik ruhu oluşturur. Tüm hacılar ihramda eşitlenir.</li>
+                        </ul>`,
+                        whyImportant: "Hac ve Kurban ibadetleri, İslam'ın toplumsal boyutunu ve evrensel kardeşlik ruhunu pekiştiren en önemli ibadetlerdendir. Hac, Müslümanları coğrafi ve kültürel farklılıkları aşarak bir araya getirir, eşitlik ve birlik bilincini güçlendirir. Kurban ise fedakârlık, paylaşma ve ihtiyaç sahiplerine yardım etme değerlerini öğretir, toplumsal adalete katkıda bulunur.",
+                        color: "#06D6A0", // Green
+                        textColor: "text-slate-800",
+                        activities: `<h3>Etkinlikler:</h3>
+                        <ul class="detailed-list">
+                            <li>**Hac Mekanları Sanal Turu:** İnternet üzerinden Kâbe, Arafat, Mina gibi kutsal mekanların sanal turlarını izleyerek hac ibadetinin atmosferini deneyimleyin.</li>
+                            <li>**Kurban Bayramı Geleneği:** Ailenizle veya çevrenizle Kurban Bayramı'nda yapılan gelenekleri ve bu geleneklerin önemini konuşun.</li>
+                            <li>**Yardımlaşma Projesi:** Okulunuzda veya mahallenizde ihtiyaç sahipleri için küçük bir yardımseverlik projesi (örneğin, gıda toplama) düzenleyin.</li>
+                            <li>**Hac İbadetinin Aşamaları:** Hac ibadetinin adım adım nasıl yapıldığını gösteren bir şema veya sunum hazırlayın.</li>
+                        </ul>`
+                    },
+                    {
+                        id: "unite3",
+                        title: "3. ÜNİTE: AHLAKİ DAVRANIŞLAR",
+                        theme: "🤝 GÜZEL AHLAKLA YAŞAMAK: BİREY VE TOPLUM İÇİN ERDEMLER 💖",
+                        keyConcepts: ["Adalet", "Dostluk & Dürüstlük", "Öz Denetim", "Sabır", "Saygı & Sevgi", "Sorumluluk", "Vatanseverlik", "Yardımseverlik"],
+                        detailedSummary: `<h3>Adalet:</h3>
+                        <ul class="detailed-list">
+                            <li>Doğruluk, hakkaniyet, her şeyi yerli yerine koyma ve hak sahibine hakkını verme ilkesidir.</li>
+                            <li>Bireysel ve toplumsal yaşamın temelini oluşturur, haksızlığı önler ve eşitliği sağlar. Herkesin hakkına riayet etmek, adaletin gereğidir.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/C0C0C0/000000?text=Adalet" alt="Adalet Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                        <h3>Dostluk & Dürüstlük:</h3>
+                        <ul class="detailed-list">
+                            <li><b>Dostluk:</b> Birbirinin iyiliğini isteyen, gönülden seven ve güven bağı olan kişiler arasındaki samimi ilişkidir. Gerçek dostluk, karşılıklı fedakârlık ve anlayış üzerine kurulur.</li>
+                            <li><b>Dürüstlük:</b> Sözde ve eylemde doğru, güvenilir, tutarlı ve şeffaf olma halidir. Hem bireysel karakterin hem de toplumsal güvenin temelidir. Dürüst insan, sözüne sadık kalır.</li>
+                        </ul>
+                        <h3>Öz Denetim:</h3>
+                        <ul class="detailed-list">
+                            <li>Kişinin kendi duygu, düşünce ve davranışlarını kontrol etme, disipline etme ve yönetme becerisidir.</li>
+                            <li>Anlık heveslere kapılmadan, uzun vadeli hedeflere odaklanarak bilinçli kararlar almayı sağlar. Öz denetimli birey, nefsine hâkim olabilir.</li>
+                        </ul>
+                        <h3>Sabır:</h3>
+                        <ul class="detailed-list">
+                            <li>Hoşa gitmeyen olaylar, zorluklar, musibetler ve sıkıntılar karşısında kişinin Allah'a güvenerek direnç göstermesi, şikâyet etmeden dayanması ve metanetini korumasıdır.</li>
+                            <li>Başarıya ulaşmada ve olgunlaşmada önemli bir erdemdir. Sabır, acıya katlanmaktan çok, bir amaca ulaşmak için sebat etmektir.</li>
+                        </ul>
+                        <h3>Saygı & Sevgi:</h3>
+                        <ul class="detailed-list">
+                            <li><b>Saygı:</b> Bir başkasına veya bir değere karşı gösterilen hürmet, incelik, özen ve ölçülü davranıştır. Bireyler arası ilişkilerde hoşgörü ve uyumu sağlar. Yaşlılara, büyüklere, farklı düşüncelere saygı önemlidir.</li>
+                            <li><b>Sevgi:</b> Bir kimseden veya bir şeyden hoşnut olma, ona karşı derin bir ilgi ve bağlılık hissetme durumudur. İnsanları birbirine yaklaştıran, toplumsal bağları güçlendiren ve yaşama anlam katan temel duygudur. Sevgi, tüm güzel ahlakların kaynağıdır.</li>
+                        </ul>
+                        <h3>Sorumluluk:</h3>
+                        <ul class="detailed-list">
+                            <li>Kişinin kendi tutum ve davranışlarının sonuçlarını üstlenmesi, görevlerini yerine getirme yükümlülüğüdür.</li>
+                            <li>İnsan, akıl ve irade sahibi olduğu için dünya ve ahiret hayatında yaptıklarından sorumludur. Aileye, çevreye, topluma karşı sorumluluklarımız vardır.</li>
+                        </ul>
+                        <h3>Vatanseverlik:</h3>
+                        <ul class="detailed-list">
+                            <li>Doğduğu, yaşadığı ve bağımsız olarak varlığını sürdürdüğü toprağa (vatana) karşı duyulan derin sevgi, bağlılık ve onu koruma bilincidir.</li>
+                            <li>Vatanın bağımsızlığı ve refahı için çaba göstermeyi içerir. Vatanı sevmek, onu korumak ve geliştirmekle olur.</li>
+                        </ul>
+                        <h3>Yardımseverlik:</h3>
+                        <ul class="detailed-list">
+                            <li>İhtiyaç sahibi olanlara maddi veya manevi destek olma, zor durumda olanlara el uzatma eylemidir.</li>
+                            <li>İslam'da zekât, sadaka, kurban gibi ibadetlerle teşvik edilen önemli bir ahlaki görevdir. Yardımseverlik, toplumsal adaleti ve merhameti artırır.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/8B8682/000000?text=Yardımseverlik" alt="Yardımseverlik Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">`,
+                        whyImportant: "Bu ünite, bireyin ve toplumun huzuru, barışı ve gelişimi için vazgeçilmez olan ahlaki değerleri öğretir. İslam'ın ahlak anlayışı, sadece bireysel iyiliği değil, toplumsal adaleti, dayanışmayı ve huzuru da hedefler. Bu değerler, iyi bir insan, sorumlu bir vatandaş ve erdemli bir Müslüman olmanın yollarını gösterir.",
+                        color: "#FFD166", // Yellow
+                        textColor: "text-slate-800",
+                        activities: `<h3>Etkinlikler:</h3>
+                        <ul class="detailed-list">
+                            <li>**Ahlaki Değerler Panosu:** Sınıfınızda veya evinizde öğrendiğiniz ahlaki değerleri (adalet, dürüstlük vb.) içeren bir pano hazırlayın.</li>
+                            <li>**"Bir İyilik Yap" Projesi:** Bir hafta boyunca her gün küçük bir iyilik yapmaya çalışın ve deneyimlerinizi bir günlükte toplayın.</li>
+                            <li>**Sorumluluk Zinciri:** Aile içinde veya okulda üstlendiğiniz sorumlulukları listeleyin ve bu sorumlulukların neden önemli olduğunu tartışın.</li>
+                            <li>**Öz Denetim Oyunları:** Kendi davranışlarınızı kontrol etmenize yardımcı olacak küçük oyunlar veya egzersizler geliştirin.</li>
+                        </ul>`
+                    },
+                    {
+                        id: "unite4",
+                        title: "4. ÜNİTE: ALLAH'IN KULU VE ELÇİSİ: HZ. MUHAMMED",
+                        theme: "👤 ÖRNEK İNSAN, SON PEYPEYGAMBER VE EVRENSEL REHBER ✨",
+                        keyConcepts: ["Beşer", "Peygamber", "Sıfatları (Sıdk, Emanet, Fetanet, İsmet, Tebliğ)", "Sünnet", "Örnek Kişilik"],
+                        detailedSummary: `<h3>Beşer:</h3>
+                        <ul class="detailed-list">
+                            <li>Hz. Muhammed'in (sav) diğer insanlar gibi doğan, büyüyen, yiyen, içen, evlenen, çocuk sahibi olan ve vefat eden insani yönüdür.</li>
+                            <li>O, bir insan olarak tüm insani özelliklere sahiptir ve bu yönüyle ümmetine örnek olmuştur. Peygamberler de insan olmaları yönüyle bizim gibi yaşarlar.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/F4A460/000000?text=Hz.+Muhammed" alt="Hz. Muhammed Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                        <h3>Peygamber:</h3>
+                        <ul class="detailed-list">
+                            <li>Allah tarafından seçilmiş, vahiy alan ve bu vahyi insanlara eksiksiz bir şekilde tebliğ etmekle görevlendirilmiş kişidir.</li>
+                            <li>Hz. Muhammed (sav), peygamberlerin sonuncusu ve evrensel peygamberdir. Onunla peygamberlik mührü tamamlanmıştır.</li>
+                        </ul>
+                        <h3>Sıfatları:</h3>
+                        <ul class="detailed-list">
+                            <li><b>Sıdk (Doğruluk):</b> Söz ve davranışlarında her zaman doğru olması. Hiçbir zaman yalan söylememiştir.</li>
+                            <li><b>Emanet (Güvenilirlik):</b> Güvenilir olması, kendisine emanet edilen her şeyi koruması. Mekkeliler ona "el-Emin" lakabını vermişlerdir.</li>
+                            <li><b>Fetanet (Üstün Zeka):</b> Akıllı, zeki ve anlayışlı olması, insanları ikna etme yeteneği. En zor durumlarda bile en doğru kararları vermiştir.</li>
+                            <li><b>İsmet (Günahtan Korunmuşluk):</b> Allah tarafından günah işlemekten masumdur.</li>
+                            <li><b>Tebliğ (Vahyi Bildirme):</b> Allah'tan aldığı vahiyleri eksiksiz ve olduğu gibi insanlara ulaştırması. Hiçbir şeyi gizlememiş, her şeyi açıkça bildirmiştir.</li>
+                        </ul>
+                        <h3>Sünnet:</h3>
+                        <ul class="detailed-list">
+                            <li>Hz. Muhammed'in (sav)'in Kur'an'dan sonra İslam'ın ikinci temel kaynağı olan sözleri (kavli sünnet), fiilleri (fiili sünnet) ve başkalarının yaptığı bir şeye karşı sessiz kalıp onaylaması (takriri sünnet)dır.</li>
+                            <li>Sünnet, Kur'an'ı açıklayıcı ve tamamlayıcı niteliktedir. İslam'ın nasıl yaşanacağını pratik olarak gösterir.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/BDB76B/000000?text=Sünnet" alt="Sünnet Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                        <h3>Örnek Kişilik:</h3>
+                        <ul class="detailed-list">
+                            <li>Hz. Muhammed (sav), tüm hayatıyla Müslümanlar için en güzel örnektir (Üsve-i Hasene).</li>
+                            <li>Ahlakı, adaleti, merhameti, sabrı, hoşgörüsü ve liderliğiyle insanlığa rehberlik etmiştir. Onun ahlakı Kur'an ahlakıydı.</li>
+                        </ul>`,
+                        whyImportant: "Bu ünite, Hz. Muhammed'i (sav) hem bir insan hem de Allah'ın elçisi olarak tanımamızı sağlar. Onun hayatı, sözleri ve davranışları (Sünnet), tüm Müslümanlar için Kur'an'ı anlama, İslam'ı yaşama ve güzel ahlak edinme konusunda en büyük rehberdir. Peygamberimizi doğru tanımak, İslam'ı doğru anlamanın ve yaşamanın anahtarıdır.",
+                        color: "#FF6B6B", // Red
+                        textColor: "text-white",
+                        activities: `<h3>Etkinlikler:</h3>
+                        <ul class="detailed-list">
+                            <li>**Peygamberimizin Hayatından Kesitler:** Hz. Muhammed'in (sav) hayatından örnek olayları araştırın ve bu olaylardan çıkarılabilecek dersleri sınıf arkadaşlarınızla paylaşın.</li>
+                            <li>**40 Hadis Ezberleme:** Peygamberimizin (sav) ahlak ve yaşantısına dair 40 kısa hadis ezberlemeye çalışın.</li>
+                            <li>**Sünneti Yaşama Örnekleri:** Günlük hayatınızda Peygamberimizin (sav) sünnetlerinden hangilerini uygulayabileceğinizi listeleyin ve uygulamaya çalışın.</li>
+                            <li>**Peygamberimize Mektup:** Peygamberimize (sav) duygu ve düşüncelerinizi anlatan hayali bir mektup yazın.</li>
+                        </ul>`
+                    },
+                    {
+                        id: "unite5",
+                        title: "5. ÜNİTE: İSLAM DÜŞÜNCESİNDE YORUMLAR",
+                        theme: "🧠 ANLAYIŞTA ZENGİNLİK, DÜŞÜNCEDE ÇEŞİTLİLİK VE HOŞGÖRÜ 📚",
+                        keyConcepts: ["Din Anlayışı", "Yorum Farklılıklarının Sebepleri", "Mezhep", "Fıkhi Yorumlar", "Akaid Yorumları", "Tasavvuf"],
+                        detailedSummary: `<h3>Din Anlayışı:</h3>
+                        <ul class="detailed-list">
+                            <li>İnsanların Kur'an ve Sünneti kendi bilgi birikimleri, çevreleri ve zamanın şartlarına göre anlama, yorumlama ve yaşama biçimleridir.</li>
+                            <li>Din (İslam) bir ve tek iken, din anlayışları farklılık gösterebilir. Bu farklılıklar, dinin özüne zarar vermez, aksine zenginlik katabilir.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/FFFACD/000000?text=Yorum+Farklılıkları" alt="Yorum Farklılıkları Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">
+                        <h3>Yorum Farklılıklarının Sebepleri:</h3>
+                        <ul class="detailed-list">
+                            <li>İslam düşüncesindeki yorum farklılıkları çeşitli faktörlerden kaynaklanır:</li>
+                            <li><b>Coğrafi ve Kültürel Faktörler:</b> Farklı bölgelerin gelenekleri, yaşam tarzları ve iklim koşulları, dini uygulamaların yorumlanmasında etkili olabilir.</li>
+                            <li><b>İnsan Yapısı:</b> İnsanların anlama, algılama ve düşünme yeteneklerindeki farklılıklar, aynı metni farklı yorumlamalarına yol açabilir.</li>
+                            <li><b>Siyasi ve Sosyal Sebepler:</b> Tarihi olaylar, siyasi gelişmeler ve toplumsal ihtiyaçlar, dini düşüncenin farklılaşmasına zemin hazırlayabilir.</li>
+                            <li><b>Farklı Bilim Dallarıyla İlişki:</b> Kelam (inanç), fıkıh (hukuk), tefsir (Kur'an yorumu), hadis (Peygamber sözleri) gibi ilimlerin farklı metodolojileri ve öncelikleri, yorum farklılıklarına neden olabilir.</li>
+                            <li><b>Dil ve Anlam Farklılıkları:</b> Arapça metinlerin (Kur'an ve Hadis) farklı dilbilgisel ve anlamsal yorumlara açık olması.</li>
+                        </ul>
+                        <h3>Mezhep:</h3>
+                        <ul class="detailed-list">
+                            <li>Dinin inanç esaslarını (akaid) veya pratik hükümlerini (fıkıh) anlama ve yorumlamada kendine özgü yöntemleri ve görüşleri olan düşünce sistemleridir.</li>
+                            <li>İslam'da mezhepler, dinin özünü değiştirmeyen, farklı yorum zenginlikleridir. Bunlar, dinin kolaylaştırıcı yönünü gösterir.</li>
+                        </ul>
+                        <h3>Fıkhi Yorumlar (Ameli Mezhepler):</h3>
+                        <ul class="detailed-list">
+                            <li>İbadetler (namaz, oruç, hac, zekât) ve günlük hayata dair hukuki hükümlerin (muamelat) yorumlanmasıyla ortaya çıkan ekollerdir.</li>
+                            <li>Başlıcaları: **Hanefilik** (İmam-ı Azam Ebu Hanife), **Şafilik** (İmam Şafi), **Malikilik** (İmam Malik), **Hanbelilik** (İmam Ahmed b. Hanbel).</li>
+                        </ul>
+                        <h3>Akaid Yorumları (İtikadi Mezhepler):</h3>
+                        <ul class="detailed-list">
+                            <li>İslam'ın inanç esaslarını (Allah'a iman, peygamberlere iman, kitaplara iman vb.) anlama ve açıklama biçimleridir.</li>
+                            <li>Başlıcaları: **Eşarilik** (Ebu'l-Hasan el-Eş'ari), **Maturidilik** (Ebu Mansur el-Maturidi).</li>
+                        </ul>
+                        <h3>Tasavvuf:</h3>
+                        <ul class="detailed-list">
+                            <li>İslam'ın ahlaki ve manevi yönünü öne çıkaran, kalp temizliğini, Allah sevgisini, dünya malına düşkün olmamayı ve nefsi terbiye etmeyi amaçlayan bir ilim ve yaşam biçimidir.</li>
+                            <li>Tasavvufi yorumlar, bireyin manevi olgunluğa erişmesini hedefler.</li>
+                            <li>Mevlevilik, Nakşibendilik, Kadirilik gibi farklı tarikatlar bu alanda gelişmiştir. Bu ekoller, zikir, ibadet ve ahlak eğitimine önem verirler.</li>
+                        </ul>
+                        <img src="https://placehold.co/400x200/E0FFFF/000000?text=Tasavvuf" alt="Tasavvuf Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">`,
+                        whyImportant: "Bu ünite, İslam düşüncesinin zenginliğini, çeşitliliğini ve farklı yorumların neden ortaya çıktığını açıklar. Mezheplerin ve tasavvufi ekollerin, dinin özüne zarar vermeden, farklı anlayış ve yaşayış biçimleri sunduğunu gösterir. Bu bilgi, Müslümanlar arasında hoşgörü, karşılıklı saygı ve farklılıklara değer verme bilincini geliştirmek açısından büyük önem taşır.",
+                        color: "#745296", // A custom purple, as #073B4C is too dark for a vibrant card
+                        textColor: "text-white",
+                        activities: `<h3>Etkinlikler:</h3>
+                        <ul class="detailed-list">
+                            <li>**Mezhepleri Araştırma:** Farklı fıkhi ve itikadi mezheplerin temel özelliklerini ve farklarını araştırın.</li>
+                            <li>**Hoşgörü ve Çeşitlilik Tartışması:** İslam düşüncesindeki yorum farklılıklarının neden bir zenginlik olduğunu sınıf içinde tartışın.</li>
+                            <li>**Tasavvufi Akımlar:** Mevlevilik, Nakşibendilik gibi tasavvufi akımların temel prensiplerini ve tarihçelerini inceleyin.</li>
+                            <li>**"Farklılıklarımız Zenginliğimizdir" Sloganı:** Bu sloganı kullanarak bir afiş veya kısa bir deneme hazırlayın.</li>
+                        </ul>`
+                    }
+                ]
+            };
+
+            const unitNavigation = document.getElementById('unit-navigation');
+            const contentArea = document.getElementById('content-area');
+            const homeContent = document.getElementById('home-content');
+            const unitTopicsTableBody = document.getElementById('unit-topics-table-body');
+            let currentChart = null;
+            let activeUnitId = null; // To keep track of the currently active unit
+
+            function displayUnitContent(unitId, section = 'summary') { // Default to summary
+                const unit = reportData.units.find(u => u.id === unitId);
+                activeUnitId = unitId; // Update active unit ID
+
+                if (!unit) {
+                    // Show home content if unitId is null or not found
+                    homeContent.style.display = 'block';
+                    contentArea.innerHTML = ''; // Clear previous unit content
+                    contentArea.appendChild(homeContent); // Add home content back
+                    updateActiveButton(null); // No active button for home
+                    populateHomeTable(); // Populate table on home page
+                    return;
+                }
+                
+                homeContent.style.display = 'none';
+
+                let conceptsHTML = unit.keyConcepts.map(concept => 
+                    `<li class="mb-2 p-3 bg-white/20 rounded-md shadow-sm">${concept}</li>`
+                ).join('');
+
+                // Determine which content to display
+                let mainContentHTML = '';
+                if (section === 'summary') {
+                    mainContentHTML = `
+                        <h3 class="text-2xl font-bold mb-3 border-b-2 pb-2" style="border-color: ${unit.textColor === 'text-white' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'};">Detaylı Özet</h3>
+                        <div class="text-lg leading-relaxed">${unit.detailedSummary}</div>
+                    `;
+                } else if (section === 'activities') {
+                    mainContentHTML = `
+                        <h3 class="text-2xl font-bold mb-3 border-b-2 pb-2" style="border-color: ${unit.textColor === 'text-white' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'};">Etkinlikler</h3>
+                        <div class="text-lg leading-relaxed">${unit.activities}</div>
+                    `;
+                }
+
+
+                contentArea.innerHTML = `
+                    <div class="unit-card ${unit.textColor}" style="background-color: ${unit.color};">
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-3 text-center">${unit.title}</h2>
+                        <p class="text-xl md:text-2xl font-semibold mb-6 text-center">${unit.theme}</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 items-start">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-3 border-b-2 pb-2" style="border-color: ${unit.textColor === 'text-white' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'};">Anahtar Kavramlar</h3>
+                                <ul class="list-none pl-0 space-y-1 text-lg">
+                                    ${conceptsHTML}
+                                </ul>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="unitChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex justify-center space-x-4 mb-6">
+                            <button id="summary-button" class="sub-nav-button ${section === 'summary' ? 'active-sub' : ''}">Özet</button>
+                            <button id="activities-button" class="sub-nav-button ${section === 'activities' ? 'active-sub' : ''}">Etkinlikler</button>
+                        </div>
+
+                        <div id="unit-main-content" class="mt-4">
+                            ${mainContentHTML}
+                        </div>
+
+                        <div class="mt-8">
+                            <h3 class="text-2xl font-bold mb-3 border-b-2 pb-2" style="border-color: ${unit.textColor === 'text-white' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.2)'};">Neden Önemli?</h3>
+                            <p class="text-lg leading-relaxed">${unit.whyImportant}</p>
+                        </div>
+                    </div>
+                `;
+                
+                createOrUpdateChart(unit);
+                updateActiveButton(unitId);
+
+                // Add event listeners for sub-navigation buttons
+                document.getElementById('summary-button').onclick = () => displayUnitContent(unitId, 'summary');
+                document.getElementById('activities-button').onclick = () => displayUnitContent(unitId, 'activities');
+            }
+
+            function createOrUpdateChart(currentUnit) {
+                const ctx = document.getElementById('unitChart').getContext('2d');
+                const chartData = {
+                    labels: reportData.units.map(u => u.title.split(':')[0]),
+                    datasets: [{
+                        label: 'Anahtar Kavram Sayısı',
+                        data: reportData.units.map(u => u.keyConcepts.length),
+                        backgroundColor: reportData.units.map(u => u.id === currentUnit.id ? currentUnit.color : '#E0E0E0'), // Highlight current unit
+                        borderColor: reportData.units.map(u => u.id === currentUnit.id ? darkenColor(currentUnit.color, 20) : '#BDBDBD'),
+                        borderWidth: 1,
+                        borderRadius: 5,
+                    }]
+                };
+
+                if (currentChart) {
+                    currentChart.destroy();
+                }
+
+                currentChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Kavram Sayısı',
+                                    font: { size: 14, weight: 'bold' },
+                                    color: '#333'
+                                },
+                                ticks: { 
+                                    color: '#333',
+                                    stepSize: 1 
+                                },
+                                grid: { color: '#E0E0E0' }
+                            },
+                            x: {
+                                ticks: { 
+                                    color: '#333',
+                                    callback: function(value, index, values) {
+                                        let label = this.getLabelForValue(value);
+                                        if (label.length > 16) {
+                                            const words = label.split(' ');
+                                            const lines = [];
+                                            let currentLine = '';
+                                            words.forEach(word => {
+                                                if ((currentLine + word).length > 16 && currentLine.length > 0) {
+                                                    lines.push(currentLine.trim());
+                                                    currentLine = '';
+                                                }
+                                                currentLine += word + ' ';
+                                            });
+                                            lines.push(currentLine.trim());
+                                            return lines;
+                                        }
+                                        return label;
+                                    }
+                                },
+                                 grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false // Hiding legend as it's self-explanatory
+                            },
+                            title: {
+                                display: true,
+                                text: `Ünitelerdeki Anahtar Kavram Sayıları (${currentUnit.title.split(':')[0]} Vurgulandı)`,
+                                font: { size: 16, weight: 'bold' },
+                                color: '#073B4C',
+                                padding: { top:10, bottom: 20}
+                            },
+                            tooltip: {
+                                backgroundColor: '#073B4C',
+                                titleFont: { size: 14, weight: 'bold' },
+                                bodyFont: { size: 12 },
+                                padding: 10,
+                                cornerRadius: 6,
+                                callbacks: {
+                                    title: function(tooltipItems) {
+                                        const item = tooltipItems[0];
+                                        let label = item.chart.data.labels[item.dataIndex];
+                                        if (Array.isArray(label)) {
+                                          return label.join(' ');
+                                        }
+                                        return label;
+                                    },
+                                    label: function(context) {
+                                        return ` Kavram Sayısı: ${context.parsed.y}`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            function darkenColor(color, percent) { // Basic function to darken hex color
+                let num = parseInt(color.slice(1), 16),
+                amt = Math.round(2.55 * percent),
+                R = (num >> 16) - amt,
+                G = (num >> 8 & 0x00FF) - amt,
+                B = (num & 0x0000FF) - amt;
+                return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255)).toString(16).slice(1);
+            }
+
+
+            function updateActiveButton(activeUnitId) {
+                const buttons = unitNavigation.querySelectorAll('.nav-button');
+                buttons.forEach(button => {
+                    if (button.dataset.unitId === activeUnitId) {
+                        button.classList.add('active');
+                        button.style.backgroundColor = reportData.units.find(u => u.id === activeUnitId).color;
+                        button.style.color = reportData.units.find(u => u.id === activeUnitId).textColor.includes("white") ? 'white' : '#073B4C';
+
+                    } else {
+                        button.classList.remove('active');
+                        button.style.backgroundColor = '#FFD166'; // Default Yellow for inactive
+                        button.style.color = '#073B4C'; // Dark Blue text for inactive
+                    }
+                });
+                // Handle home button active state
+                const homeButton = document.getElementById('home-button');
+                if (activeUnitId === null) {
+                    homeButton.classList.add('active');
+                    homeButton.style.backgroundColor = '#FF6B6B'; // Red for active home
+                    homeButton.style.color = 'white';
+                } else {
+                    homeButton.classList.remove('active');
+                    homeButton.style.backgroundColor = '#FFD166';
+                    homeButton.style.color = '#073B4C';
+                }
+            }
+
+            // Function to populate the table on the home page
+            function populateHomeTable() {
+                unitTopicsTableBody.innerHTML = ''; // Clear existing rows
+                reportData.units.forEach(unit => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-200 hover:bg-gray-50';
+                    row.innerHTML = `
+                        <td class="py-3 px-6 text-left whitespace-nowrap font-medium">${unit.title}</td>
+                        <td class="py-3 px-6 text-left">${unit.keyConcepts.join(', ')}</td>
+                    `;
+                    unitTopicsTableBody.appendChild(row);
+                });
+            }
+
+
+            // Add event listener for the new Home button
+            document.getElementById('home-button').onclick = () => {
+                displayUnitContent(null); // Passing null to display home content
+            };
+
+            reportData.units.forEach(unit => {
+                const button = document.createElement('button');
+                button.textContent = unit.title.split(':')[0]; // "1. ÜNİTE"
+                button.dataset.unitId = unit.id;
+                button.className = 'nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-5 m-1 rounded-lg shadow hover:shadow-md';
+                button.style.backgroundColor = '#FFD166'; 
+                button.style.color = '#073B4C';
+                button.onclick = () => {
+                    displayUnitContent(unit.id, 'summary'); // Default to summary when unit button is clicked
+                };
+                unitNavigation.appendChild(button);
+            });
+            
+            displayUnitContent(null); // Show home content initially and populate table
+            populateHomeTable(); // Ensure table is populated on initial load
+        })(); // IIFE ends
+    </script>
+</body>
+</html>
