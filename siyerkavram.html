@@ -339,12 +339,20 @@
             justify-content: center;
             cursor: pointer;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            font-size: 1.25rem;
+            font-size: 1.25rem; /* Varsayılan font boyutu */
             font-weight: 600;
             color: #333;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             border: 2px solid rgba(0,0,0,0.1);
+            overflow-wrap: break-word; /* Uzun başlıkların kelime bazında satır atlamasını sağlar */
+        }
+        /* Mobil cihazlar için ünite kartı font boyutu ayarlaması */
+        @media (max-width: 480px) {
+            .unit-card {
+                font-size: 0.95rem; /* Daha küçük ekranlarda font boyutunu küçült */
+                padding: 1rem; /* Daha küçük padding */
+            }
         }
         .unit-card:hover {
             transform: translateY(-5px) scale(1.02);
