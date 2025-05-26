@@ -10,11 +10,13 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #e0f2f7; /* Light blue background */
-            /* Removed display: flex; justify-content: center; align-items: center; */
-            min-height: 100vh; /* Ensure body takes full height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
             padding: 0;
-            box-sizing: border-box; /* Corrected from 'border' */
+            box-sizing: border;
             overflow-x: hidden;
             background-size: cover;
             background-repeat: no-repeat;
@@ -26,7 +28,7 @@
             box-shadow: none;
             max-width: 100%;
             width: 100%;
-            min-height: 100vh; /* Ensure container takes at least full height */
+            height: 100vh;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -34,9 +36,8 @@
             gap: 2rem;
             padding: 2.5rem 1rem;
             box-sizing: border-box;
-            overflow-y: auto; /* Enable scrolling for content within the container */
+            overflow-y: auto; /* Enable scrolling for editor content */
             padding-top: 2rem; /* Başlık için üstten boşluk */
-            margin: 0 auto; /* Center the container horizontally */
         }
         .concept-box {
             min-width: 120px;
@@ -374,7 +375,8 @@
             color: #333;
             margin-bottom: 0.5rem;
         }
-        .modal-content input[type="text"], .modal-content textarea {
+        .modal-content input[type="text"],
+        .modal-content textarea {
             padding: 0.75rem;
             border-radius: 0.5rem;
             border: 1px solid #ccc;
@@ -419,12 +421,13 @@
 <body>
     <div class="container">
         <h1 class="text-4xl font-bold text-gray-800 mb-6">Kavram Bilgi Yarışması</h1>
+
         <div id="mainMenuScreen">
             <div id="unitCardsContainer" class="unit-grid">
-            </div>
+                </div>
             <button id="startQuizBtn" class="action-button px-8 py-3 text-xl" style="display: none;">Yarışmayı Başlat</button>
-            <button id="returnToIndexBtn" class="action-button bg-blue-500 hover:bg-blue-700 mt-4 px-8 py-3 text-xl">Ana Sayfaya Dön</button>
-        </div>
+            </div>
+
         <div id="mainQuizContent" class="main-quiz-content">
             <div id="quizArea" class="quiz-area">
                 <div class="question-line">
@@ -434,16 +437,19 @@
                 <div id="timerDisplay">50</div>
                 <div id="feedback" class="message-box mt-4" style="display: none;"></div>
             </div>
+
             <div id="conceptBoxes" class="concept-grid w-full justify-items-center">
             </div>
+
             <div class="button-group">
                 <button id="showAnswerBtn" class="action-button bg-gray-500 hover:bg-gray-700">Cevabı Göster</button>
                 <button id="nextQuestionBtn" class="action-button">Sonraki Soru</button>
             </div>
+
             <button id="resetQuizBtn" class="reset-button">Yarışmayı Yeniden Başlat</button>
             <button id="returnToMainMenuFromQuizBtn" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Ana Menüye Dön</button>
-            <button id="returnToIndexFromQuizBtn" class="action-button bg-blue-500 hover:bg-blue-700 mt-4">Ana Sayfaya Dön</button>
         </div>
+
         <div id="editorScreen" style="display: none;"></div>
     </div>
 
@@ -470,505 +476,1117 @@
                 id: 'unit1',
                 name: 'Ünite 1: Allah İnancı',
                 concepts: [
-                    { id: 'evrendeki-mukemmel-duzen', name: 'Evrendeki Mükemmel Düzen', color: 'bg-blue-600', questions: [
-                        { question: 'Evrendeki hiçbir şeyin tesadüfen olmadığını, aksine her şeyin mükemmel bir düzen içinde gerçekleştiğini gösteren durum nedir?' },
-                        { question: 'Gezegenlerden insanlara, bitkilerden hayvanlara kadar her varlığın belirli bir düzen içinde var olması neyi gösterir?' }
-                    ]},
-                    { id: 'allahin-varligi-ve-birligi', name: 'Allah\'ın Varlığı ve Birliği (Tevhit)', color: 'bg-green-600', questions: [
-                        { question: 'İslam dininin temel inanç ilkesi olan, Allah\'ın bir ve tek olduğuna inanma prensibi nedir?' },
-                        { question: 'Allah\'ın eşi ve benzeri olmaması, O\'nun hangi özelliğini vurgular?' }
-                    ]},
-                    { id: 'esmaul-husna', name: 'Allah\'ın Güzel İsimleri (Esmaül Hüsna)', color: 'bg-yellow-600', questions: [
-                        { question: 'Allah\'ın "Her şeyi gören" anlamına gelen ismi nedir?' },
-                        { question: 'Allah\'ın "Her şeyi işiten" anlamına gelen ismi nedir?' },
-                        { question: 'Allah\'ın "Her şeye gücü yeten" anlamına gelen ismi nedir?' },
-                        { question: 'Allah\'ın "Çok merhametli" anlamına gelen ismi nedir?' },
-                        { question: 'Allah\'ın "Her şeye muhtaç olmayan, her şeyin kendisine muhtaç olduğu" anlamına gelen ismi nedir?' }
-                    ]},
-                    { id: 'ihlas-suresi', name: 'İhlas Suresi ve Anlamı', color: 'bg-red-600', questions: [
-                        { question: 'Hangi surede Allah\'ın birliği ve tekliği vurgulanır?' },
-                        { question: 'İhlas Suresi\'nde Allah\'ın "doğurmadığı ve doğmadığı" ifadesi ne anlama gelir?' }
-                    ]}
+                    {
+                        id: 'evrendeki-mukemmel-duzen',
+                        name: 'Evrendeki Mükemmel Düzen',
+                        color: 'bg-blue-600',
+                        questions: [
+                            { question: 'Evrendeki hiçbir şeyin tesadüfen olmadığını, aksine her şeyin mükemmel bir düzen içinde gerçekleştiğini gösteren durum nedir?' },
+                            { question: 'Gezegenlerden insanlara, bitkilerden hayvanlara kadar her şeyin bir uyum ve denge içinde olduğu varlıklar bütününe ne denir?' },
+                            { question: 'İnsanın varlıkların bir amaç için yaratıldığını ve kendiliğinden meydana gelemeyeceğini fark etmesi, neyin göstergesidir?' }
+                        ]
+                    },
+                    {
+                        id: 'allahin-varligi-ve-birligi',
+                        name: 'Allah\'ın Varlığı ve Birliği',
+                        color: 'bg-green-600',
+                        questions: [
+                            { question: 'Her kitabın bir yazarı, her tablonun bir ressamı olduğu gibi, kainattaki bu mükemmel düzenin de bir yaratıcısı ve sahibi olduğunu fark etmemiz, neye işaret eder?' },
+                            { question: 'Bir şeyi yoktan var etme özelliği sadece kime aittir?' },
+                            { question: 'Evrendeki birlik ve düzenin yalnızca bir ve tek olan Allah\'ın eseri olduğunu ifade eden inanç nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'tevhit-inanci',
+                        name: 'Tevhit İnancı',
+                        color: 'bg-purple-600',
+                        questions: [
+                            { question: 'Allah\'ın (c.c.) bir ve tek olduğuna, O\'nun eşi ve benzerinin olmadığına inanmak, O\'na hiçbir şeyi şirk koşmadan ibadeti yalnızca Allah (c.c.) için yapmak İslam dininde hangi kavramla adlandırılır?' },
+                            { question: 'İslam dininin temel inanç esaslarından biri ve özü olan kavram nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'esmayihusna',
+                        name: 'Esmayıhüsna',
+                        color: 'bg-red-600',
+                        questions: [
+                            { question: 'Yüce Allah\'ı en iyi şekilde tanımamıza ve anlamamıza yardımcı olan güzel isimlerine ne denir?' },
+                            { question: 'Arapça\'da "en güzel isimler" anlamına gelen ve Allah\'ın (c.c.) gücünü, mükemmelliğini ve benzersizliğini anlatan isimler bütününe ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'rahman',
+                        name: 'Rahman',
+                        color: 'bg-yellow-600',
+                        questions: [
+                            { question: 'Yaratılmış bütün varlıklara şefkat gösteren, fark gözetmeksizin insanlara merhamet eden, sürekli nimetler veren, rahmeti sonsuz olan Allah\'ın güzel ismi nedir?' },
+                            { question: 'Allah\'ın (c.c.) dünyadaki tüm varlıklara karşı gösterdiği genel merhametini ifade eden ismi nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'rahim',
+                        name: 'Rahîm',
+                        color: 'bg-indigo-600',
+                        questions: [
+                            { question: 'Yarattığı bütün varlıklara karşılık beklemeden nimetler veren, onları koruyan, esirgeyen, bağışlayan ve onlara merhamet eden Allah\'ın (c.c.), ahirette kendisine inanan kullarına şefkat etmesi ve onları ödüllendirmesi anlamına gelen ismi nedir?' },
+                            { question: 'Allah\'ın (c.c.) ahirette mümin kullarına özel olarak göstereceği merhametini ifade eden ismi nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'alim',
+                        name: 'Âlim',
+                        color: 'bg-pink-600',
+                        questions: [
+                            { question: 'Allah\'ın (c.c.), gizli ve açık ne varsa her şeyi bilmesi anlamına gelen ismi nedir?' },
+                            { question: 'Allah\'ın (c.c.) yaratılmışların bilmedikleri sırları ve gizlilikleri, bütün zaman ve mekanla sınırlı olmayacak şekilde bilmesini ifade eden ismi nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'basir',
+                        name: 'Basir',
+                        color: 'bg-teal-600',
+                        questions: [
+                            { question: 'Yüce Allah\'ın her şeyi görmesi anlamına gelen ismi nedir?' },
+                            { question: 'Allah\'ın (c.c.) görmek için herhangi bir göze ihtiyacı olmadan her şeyi eksiksiz görmesini ifade eden ismi nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'semi',
+                        name: 'Semi',
+                        color: 'bg-orange-600',
+                        questions: [
+                            { question: 'Yüce Allah\'ın her şeyi duyması anlamına gelen ismi nedir?' },
+                            { question: 'Allah\'ın (c.c.) duymak için herhangi bir kulağa ihtiyacı olmadan her sesi işitmesini ifade eden ismi nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'kadir',
+                        name: 'Kadir',
+                        color: 'bg-cyan-600',
+                        questions: [
+                            { question: 'Allah\'ın (c.c.) sonsuz kudretini ve sınırsız gücünü ifade eden, her şeye gücünün yetmesi anlamına gelen ismi nedir?' },
+                            { question: 'Allah\'ın (c.c.) istediği her şeyi kolaylıkla gerçekleştirmesini ve O\'nın gücünün sınırının olmamasını ifade eden ismi nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'ihlas-suresi',
+                        name: 'İhlas Suresi',
+                        color: 'bg-lime-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'de yer alan kısa surelerden biri olan ve Allah\'ın birliğini, eşsizliğini vurgulayan sure hangisidir?' },
+                            { question: '"Samimiyet, doğruluk, temizlik ve saflık" anlamlarına gelen, Allah\'ın (c.c.) hoşnutluğunu gözetmeyi ve ikiyüzlülükten uzak durmayı ifade eden kavramın adını taşıyan sure hangisidir?' },
+                            { question: 'Allah\'ın (c.c.) güzel isimlerinden Ehad ve Samed\'in yer aldığı sure hangisidir?' },
+                            { question: '"O, doğurmamış ve doğmamıştır. O\'nun hiçbir dengi (eşi, benzeri) yoktur." ayetlerinin yer aldığı sure hangisidir?' }
+                        ]
+                    },
+                    {
+                        id: 'ehad',
+                        name: 'Ehad',
+                        color: 'bg-emerald-600',
+                        questions: [
+                            { question: 'Allah\'ın (c.c.) bir ve tek olması anlamına gelen ismi nedir?' },
+                            { question: 'İhlas suresinde geçen ve Allah\'ın eşsizliğini vurgulayan ismi nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'samed',
+                        name: 'Samed',
+                        color: 'bg-rose-600',
+                        questions: [
+                            { question: 'Yüce Allah\'ın hiçbir şeye muhtaç olmayıp bütün varlıkların kendisine muhtaç olduğunu ifade eden güzel ismi nedir?' },
+                            { question: 'İhlas suresinde geçen ve Allah\'ın mutlak bağımsızlığını ve her şeyin O\'na muhtaç olduğunu belirten ismi nedir?' }
+                        ]
+                    }
                 ]
             },
             {
                 id: 'unit2',
                 name: 'Ünite 2: Namaz',
                 concepts: [
-                    { id: 'namazin-onemi', name: 'Namazın Önemi', color: 'bg-purple-600', questions: [
-                        { question: 'İslam\'ın temel direği olarak kabul edilen ibadet hangisidir?' },
-                        { question: 'Günde beş vakit kılınması farz olan ibadet hangisidir?' }
-                    ]},
-                    { id: 'namazin-farzlari', name: 'Namazın Farzları (Şartları ve Rükünleri)', color: 'bg-indigo-600', questions: [
-                        { question: 'Namazda ayakta durmaya ne denir?' },
-                        { question: 'Namazda Kur\'an okumaya ne denir?' },
-                        { question: 'Namazda elleri dizlere koyarak eğilmeye ne denir?' },
-                        { question: 'Namazda alnı yere koyarak kapanmaya ne denir?' },
-                        { question: 'Namaza başlarken alınan tekbirin adı nedir?' },
-                        { question: 'Namaz kılmadan önce bedenin, elbisenin ve namaz kılınacak yerin temiz olmasına ne denir?' },
-                        { question: 'Namazda Kâbe yönüne dönmeye ne denir?' }
-                    ]},
-                    { id: 'abdest-ve-onemi', name: 'Abdest ve Önemi', color: 'bg-pink-600', questions: [
-                        { question: 'Namaz kılmadan önce yapılan küçük temizliğe ne denir?' },
-                        { question: 'Suyun bulunmadığı durumlarda temiz toprakla yapılan temizliğe ne denir?' }
-                    ]}
+                    {
+                        id: 'ibadet',
+                        name: 'İbadet',
+                        color: 'bg-blue-500',
+                        questions: [
+                            { question: 'Genel anlamda Allah\'ın hoşnutluğunu kazandıracak her türlü tutum ve davranışa ne denir?' },
+                            { question: 'İnsanın yaratılış amacı ve Allah\'a teşekkür etme yolu olarak ifade edilen, Allah\'a karşı saygı ve bağlılığı gösteren davranışlar bütününe ne denir?' }
+                        ]
+                    },
+                    {
+                        id: 'namaz',
+                        name: 'Namaz',
+                        color: 'bg-green-500',
+                        questions: [
+                            { question: 'Sözlükte "yalvarmak, dua, rahmet, yardım" gibi anlamlara gelen ve dinî bir terim olarak tekbirle başlayıp selamla biten, belirli hareket ve sözlerden oluşan bedenî ibadete ne denir?' },
+                            { question: 'Hz. Muhammed (sav)\'in "Cennetin anahtarı namaz, namazın anahtarı ise abdesttir." hadisinde vurgulanan, günde beş vakit kılınan farz ibadet nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'farz',
+                        name: 'Farz',
+                        color: 'bg-red-500',
+                        questions: [
+                            { question: 'Allah\'ın (c.c.) yapılmasını kesin olarak emrettiği, terk edilmesi durumunda günah sayılan ibadetlere ne denir?' },
+                            { question: 'Ergenlik çağına gelmiş her Müslüman\'ın günde beş vakit kılması gereken namazların hükmü nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'vacip',
+                        name: 'Vacip',
+                        color: 'bg-yellow-500',
+                        questions: [
+                            { question: 'Farz kadar açık ve kesin olmamakla birlikte kılınması emredilen, terk edilmesi durumunda kınama veya azap gerektiren ibadetlere ne denir?' },
+                            { question: 'Ramazan ve Kurban Bayramlarında kılınan bayram namazları ile yatsı namazından sonra kılınan vitir namazının hükmü nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'nafile',
+                        name: 'Nafile',
+                        color: 'bg-purple-500',
+                        questions: [
+                            { question: 'Hz. Peygamber’in farz veya vacip olanlar dışında kıldığı, sevap kazanmak amacıyla yapılan ibadetlere ne denir?' },
+                            { question: 'Beş vakit farz namazın öncesinde veya sonrasında kılınan namazlar, teravih namazı ve teheccüt namazı gibi ibadetler hangi namaz çeşidine örnektir?' }
+                        ]
+                    },
+                    {
+                        id: 'abdest',
+                        name: 'Abdest',
+                        color: 'bg-indigo-500',
+                        questions: [
+                            { question: 'Namaz başta olmak üzere bazı ibadetleri yerine getirmeden önce yapılan, belirli organların yıkanmasıyla gerçekleştirilen dinî temizliğe ne denir?' },
+                            { question: 'Hz. Peygamber\'in "Cennetin anahtarı namaz, namazın anahtarı ise abdesttir." hadisinde namazın anahtarı olarak belirtilen temizlik nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'gusul',
+                        name: 'Gusül',
+                        color: 'bg-teal-500',
+                        questions: [
+                            { question: 'Vücutta kuru yer kalmayacak şekilde tepeden tırnağa yıkanarak yapılan büyük temizliğe ne denir?' },
+                            { question: 'Akıllı ve ergenlik çağına girmiş her Müslüman’ın bazı durumlarda (cünüplük, hayız, nifas gibi) alması farz olan boy abdesti nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'teyemmum',
+                        name: 'Teyemmüm',
+                        color: 'bg-orange-500',
+                        questions: [
+                            { question: 'Suyun bulunmadığı veya kullanılamadığı durumlarda, temiz toprak veya toprak cinsinden bir maddeye eller sürülerek alınan abdest yerine geçen temizliğe ne denir?' }
+                        ]
+                    },
+                    {
+                        id: 'iftitah-tekbiri',
+                        name: 'İftitah Tekbiri',
+                        color: 'bg-cyan-500',
+                        questions: [
+                            { question: 'Namaza "Allahüekber" diyerek başlamaya ne denir?' },
+                            { question: 'Namazın başlangıcında söylenen ve namaza giriş şartlarından biri olan tekbir nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'kiyam',
+                        name: 'Kıyam',
+                        color: 'bg-lime-500',
+                        questions: [
+                            { question: 'Namazda ayakta durmaya ne denir?' },
+                            { question: 'Namazın rükünlerinden biri olan ve ayakta Kur\'an okuma pozisyonunu ifade eden terim nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'kiraat',
+                        name: 'Kıraat',
+                        color: 'bg-emerald-500',
+                        questions: [
+                            { question: 'Namazda Kur\'an okumaya ne denir?' },
+                            { question: 'Namazın rükünlerinden biri olan ve Fatiha suresi ile birlikte zamm-ı sure okunmasını ifade eden terim nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'ruku',
+                        name: 'Rükû',
+                        color: 'bg-rose-500',
+                        questions: [
+                            { question: 'Namazda elleri dizlere koyarak eğilmeye ne denir?' },
+                            { question: 'Namazda kıyamdan sonra yapılan, belin bükülerek eğilme hareketine ne denir?' }
+                        ]
+                    },
+                    {
+                        id: 'secde',
+                        name: 'Secde',
+                        color: 'bg-fuchsia-500',
+                        questions: [
+                            { question: 'Alnı, burnu, avuç içlerini, dizleri ve ayak parmaklarını yere koyarak kapanmaya ne denir?' },
+                            { question: 'Namazda rükûdan sonra yapılan, Allah\'a en yakın olunan ve alnın yere konulduğu pozisyona ne denir?' }
+                        ]
+                    },
+                    {
+                        id: 'kade-i-ahire',
+                        name: 'Ka\'de-i Ahîre',
+                        color: 'bg-violet-500',
+                        questions: [
+                            { question: 'Namazın sonunda Tahiyyat duasını okuyacak kadar oturmaya ne denir?' },
+                            { question: 'Namazın son oturuşunda Tahiyyat, Salli-Barik ve Rabbena dualarının okunduğu rükün nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'cemaat',
+                        name: 'Cemaat',
+                        color: 'bg-amber-500',
+                        questions: [
+                            { question: 'Namazda imama uymak üzere bir araya gelen insan topluluğuna ne denir?' },
+                            { question: 'Hz. Muhammed (sav)\'in "Cemaatle kılınan namaz, tek başına kılınan namazdan yirmi yedi kat daha faziletlidir." hadisinde vurgulanan, birlikte namaz kılma şekli nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'teravih-namazi',
+                        name: 'Teravih Namazı',
+                        color: 'bg-sky-500',
+                        questions: [
+                            { question: 'Sadece ramazan ayında yatsı namazının son sünnetinden sonra, vitir namazından önce kılınan nafile namaza ne denir?' },
+                            { question: 'Ramazan gecelerinde kılınan, sünnet bir namaz olan ve genellikle yirmi rekattan oluşan namaz nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'tahiyyat-duasi',
+                        name: 'Tahiyyat Duası',
+                        color: 'bg-gray-500',
+                        questions: [
+                            { question: 'Selam, ikram, ihsan, hürmet ve ibadet anlamlarına gelen ve namazlarda oturduğumuz zaman okunan duaya ne denir?' },
+                            { question: 'Hz. Peygamber ile Yüce Allah arasındaki konuşmanın yer aldığı ve namazların son oturuşunda okunan dua nedir?' }
+                        ]
+                    }
                 ]
             },
             {
                 id: 'unit3',
                 name: 'Ünite 3: Kur\'an-ı Kerim',
                 concepts: [
-                    { id: 'kurani-tanima', name: 'Kur\'an-ı Kerim\'i Tanıyalım', color: 'bg-teal-600', questions: [
-                        { question: 'Allah\'ın son ilahi kitabı hangisidir?' },
-                        { question: 'Kur\'an-ı Kerim\'i baştan sona ezberleyen kişiye ne denir?' }
-                    ]},
-                    { id: 'kurani-anlama', name: 'Kur\'an-ı Kerim\'i Anlama ve Yaşama', color: 'bg-cyan-600', questions: [
-                        { question: 'Kur\'an-ı Kerim\'in indiriliş amacı nedir?' },
-                        { question: 'Kur\'an\'da yer alan geçmiş peygamberlerin ve ümmetlerinin hayatlarıyla ilgili ibret verici olaylara ne denir?' }
-                    ]}
+                    {
+                        id: 'kuran',
+                        name: 'Kur\'an',
+                        color: 'bg-blue-600',
+                        questions: [
+                            { question: 'Hz. Peygamber\'e vahiy yoluyla gelen, mushaflarda yazılı olan, değiştirilmeden nesilden nesile nakledilen, okunması ve yaşanmasıyla ibadet edilen Allah\'ın (cc) kelamına ne denir?' },
+                            { question: 'Allah\'ın (cc) peygamberler aracılığıyla insanlara gönderdiği vahyi bildiren son ilahi kitap nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'ayet',
+                        name: 'Ayet',
+                        color: 'bg-green-600',
+                        questions: [
+                            { question: 'Kur\'an surelerini oluşturan, harf, kelime veya cümlelerden meydana gelen bölümlere ne denir?' },
+                            { question: 'Kur\'an-ı Kerim\'deki her bir cümleye veya kısa pasajlara ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'sure',
+                        name: 'Sure',
+                        color: 'bg-purple-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'de ayetlerden oluşan, başı ve sonu belli olan bağımsız bölümlere ne denir?' }
+                        ]
+                    },
+                    {
+                        id: 'cuz',
+                        name: 'Cüz',
+                        color: 'bg-red-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'in yirmi sayfadan oluşan her bir bölümüne ne denir?' },
+                            { question: 'Kur\'an-ı Kerim\'in kolay okunmasını ve takip edilmesini sağlayan, otuz eşit parçadan her birine ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'hatim',
+                        name: 'Hatim',
+                        color: 'bg-yellow-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'i başından sonuna kadar okumaya ne denir?' },
+                            { question: 'Kur\'an\'ın tamamını baştan sona okuyarak bitirme eylemine ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'hafiz',
+                        name: 'Hafız',
+                        color: 'bg-indigo-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'i baştan sona ezberleyen kişiye ne denir?' },
+                            { question: 'Kur\'an\'ı ezberleyerek koruyan ve gelecek nesillere aktaran kişiye verilen unvan nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'inanc',
+                        name: 'İnanç',
+                        color: 'bg-pink-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'in ana konularından Allah\'ın varlığı ve birliği, melekler, kitaplar, peygamberler, ahiret ve kaza-kader gibi temel esasları ele alan bölüm nedir?' },
+                            { question: 'İslam\'ın altı temel esasını (imanın şartları) kapsayan konu başlığı nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'ibadet-kuran',
+                        name: 'İbadet (Kur\'an)',
+                        color: 'bg-teal-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'in ana konularından namaz, oruç, zekat, hac gibi Müslümanların yerine getirmesi gereken dinî yükümlülükleri açıklayan bölüm nedir?' },
+                            { question: 'Kur\'an\'da detayları ve hükümleri belirtilen, Allah\'a kulluk amacıyla yapılan fiiller bütününe ne denir?' }
+                        ]
+                    },
+                    {
+                        id: 'ahlak',
+                        name: 'Ahlak',
+                        color: 'bg-orange-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'in ana konularından Müslümanların birbirleriyle ilişkilerinde, toplumda ve bireysel yaşamda sergilemeleri gereken güzel davranışları ve erdemleri öğütleyen bölüm nedir?' },
+                            { question: 'Kur\'an\'ın insanlara öğrettiği iyi huylar, güzel davranışlar ve erdemler bütününe ne denir?' }
+                        ]
+                    },
+                    {
+                        id: 'sosyal-hayat',
+                        name: 'Sosyal Hayat',
+                        color: 'bg-cyan-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'in ana konularından aile ilişkileri, komşuluk hakları, alışverişte dürüstlük, adalet gibi toplumsal yaşamı düzenleyen ayetleri içeren bölüm nedir?' },
+                            { question: 'Kur\'an\'ın bireylerin toplum içindeki ilişkilerini, hak ve sorumluluklarını düzenleyen hükümleri hangi konu başlığı altında incelenir?' }
+                        ]
+                    },
+                    {
+                        id: 'kissa',
+                        name: 'Kıssa',
+                        color: 'bg-lime-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'de geçmiş peygamberler ve kavimlerle ilgili, ibret alınması amaçlanan olaylara ne denir?' },
+                            { question: 'Kur\'an\'da anlatılan, genellikle peygamberlerin ve onların ümmetlerinin başından geçen, ders çıkarılması hedeflenen hikayelere ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'kevser-suresi',
+                        name: 'Kevser Suresi',
+                        color: 'bg-emerald-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'in en kısa suresi hangisidir?' },
+                            { question: 'İhlas suresinden sonra en kısa surelerden biri olan ve Allah\'ın (c.c.) Peygamberimize verdiği bol nimetlerden bahseden sure hangisidir?' }
+                        ]
+                    },
+                    {
+                        id: 'bakara-suresi', // Yeni eklenen kavram
+                        name: 'Bakara Suresi',
+                        color: 'bg-blue-500', // Yeni renk
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'in en uzun suresi hangisidir?' }
+                        ]
+                    }
                 ]
             },
             {
                 id: 'unit4',
                 name: 'Ünite 4: Peygamber Kıssaları',
                 concepts: [
-                    { id: 'peygamber-kimdir', name: 'Peygamber Kimdir ve Görevleri', color: 'bg-orange-600', questions: [
-                        { question: 'Allah\'tan vahiy alıp insanlara ileten kişilere ne denir?' },
-                        { question: 'Peygamberlerin Allah\'tan aldıkları mesajları eksiksiz iletme görevine ne denir?' }
-                    ]},
-                    { id: 'bazi-kissalar', name: 'Bazı Peygamber Kıssaları', color: 'bg-brown-600', questions: [
-                        { question: 'Hz. Nuh\'un kavmini tufandan kurtarmak için yaptığı büyük geminin adı nedir?' },
-                        { question: 'Hz. İbrahim\'in ateşe atıldığı ancak Allah\'ın izniyle yanmadığı kıssa hangi peygamberle ilgilidir?' }
-                    ]}
+                    {
+                        id: 'peygamber',
+                        name: 'Peygamber',
+                        color: 'bg-blue-600',
+                        questions: [
+                            { question: 'Allah\'ın (c.c.) insanlara doğru yolu göstermek için seçtiği ve vahiy gönderdiği kişilere ne denir?' },
+                            { question: 'İnsanlar ve Allah (c.c.) arasındaki elçilik görevini üstlenen, ilahi mesajları insanlara ulaştıran şahsiyetlere ne ad verilir?' },
+                            { question: 'Allah\'tan aldığı vahiyleri insanlara ulaştıran, onlara doğru yolu gösteren ve örnek olan kişilere ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'kissa-peygamber',
+                        name: 'Kıssa (Peygamber)',
+                        color: 'bg-green-600',
+                        questions: [
+                            { question: 'Kur\'an-ı Kerim\'de geçmiş peygamberlerin ve ümmetlerinin hayatlarından ibret alınacak olaylara ne denir?' },
+                            { question: 'Hz. Nuh, Hz. İbrahim, Hz. Musa, Hz. İsa gibi peygamberlerin hayat hikayelerinin anlatıldığı bölümlere ne ad verilir?' },
+                            { question: 'Kur\'an\'da anlatılan, genellikle peygamberlerin ve onların ümmetlerinin başından geçen, ders çıkarılması hedeflenen hikayelere ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'hz-nuh',
+                        name: 'Hz. Nuh',
+                        color: 'bg-purple-600',
+                        questions: [
+                            { question: 'Tufan olayı ile bilinen ve kavmini uzun yıllar tevhit inancına davet eden, Allah\'ın (c.c.) emriyle büyük bir gemi inşa eden peygamber kimdir?' },
+                            { question: 'Kavmi tarafından alay edilmesine rağmen tebliğ görevine devam eden ve sonunda büyük bir tufanla helak olan kavminden kurtulan peygamber kimdir?' },
+                            { question: 'Kavminin inkarcılığına karşı sabırla mücadele eden ve tufan sonrası yeryüzünde yeni bir başlangıç yapan peygamber kimdir?' }
+                        ]
+                    },
+                    {
+                        id: 'hz-ibrahim',
+                        name: 'Hz. İbrahim',
+                        color: 'bg-red-600',
+                        questions: [
+                            { question: 'Putlara tapan kavmİne karşı tevhit mücadelesi veren, ateşe atılmasına rağmen yanmayan ve Kâbe\'yi inşa eden peygamber kimdir?' },
+                            { question: 'Allah\'ın dostu anlamına gelen "Halilullah" lakabıyla anılan ve tevhid inancının yayılmasında önemli rol oynayan peygamber kimdir?' },
+                            { question: 'Oğlunu kurban etme emrine tereddütsüz itaat eden, büyük bir teslimiyet örneği gösteren peygamber kimdir?' }
+                        ]
+                    },
+                    {
+                        id: 'hz-musa',
+                        name: 'Hz. Musa',
+                        color: 'bg-yellow-600',
+                        questions: [
+                            { question: 'Firavun\'a karşı mücadele eden, asasıyla denizi yaran ve İsrailoğullarını Mısır\'dan çıkaran peygamber kimdir?' },
+                            { question: 'Tur Dağı\'nda Allah (c.c.) ile konuşan ve kendisine Tevrat verilen peygamber kimdir?' },
+                            { question: 'Haksızlığa karşı duran ve kavmini zulümden kurtarmak için mucizeler gösteren peygamber kimdir?' }
+                        ]
+                    },
+                    {
+                        id: 'hz-isa',
+                        name: 'Hz. İsa',
+                        color: 'bg-indigo-600',
+                        questions: [
+                            { question: 'Annesi Hz. Meryem olan, beşikte konuşan, ölüleri diriltme ve hastaları iyileştirme gibi mucizeler gösteren peygamber kimdir?' },
+                            { question: 'Hristiyanlık dininin peygamberi olarak kabul edilen ve kendisine İncil verilen şahsiyet kimdir?' },
+                            { question: 'Babası olmadan dünyaya gelen ve insanlara merhamet ve sevgi mesajları getiren peygamber kimdir?' }
+                        ]
+                    },
+                    {
+                        id: 'kureys-suresi',
+                        name: 'Kureyş Suresi',
+                        color: 'bg-pink-600',
+                        questions: [
+                            { question: 'Kureyş kabilesine verilen nimetlerden ve onların güvenliğinden bahseden, onları Allah\'a ibadet etmeye çağıran sure hangisidir?' },
+                            { question: 'Kâbe\'nin korunması ve Kureyş kabilesinin kış ve yaz yolculuklarındaki ticari faaliyetlerinin güvenliği ile ilgili olan sure hangisidir?' },
+                            { question: 'Ticaret ve güvenliğin önemini vurgulayan, Kureyşlilerin Allah\'a şükretmelerini öğütleyen sure hangisidir?' }
+                        ]
+                    },
+                    {
+                        id: 'ulul-azim-peygamberler',
+                        name: 'Ulul Azm Peygamberler',
+                        color: 'bg-gray-700',
+                        questions: [
+                            { question: 'Tebliğ görevinde büyük zorluklara katlanmış, azim ve sabır sahibi peygamberlere verilen özel isim nedir?' },
+                            { question: 'Kur\'an\'da kendilerinden özel olarak bahsedilen, tebliğlerinde büyük direnişlerle karşılaşan ve üstün irade gösteren peygamberler kimlerdir?' }
+                        ]
+                    },
+                    {
+                        id: 'mucize',
+                        name: 'Mucize',
+                        color: 'bg-fuchsia-700',
+                        questions: [
+                            { question: 'Peygamberlerin, peygamberliklerini ispatlamak için Allah\'ın izniyle gösterdikleri, insanların benzerini yapmaktan aciz kaldığı olağanüstü olaylara ne denir?' },
+                            { question: 'Hz. Musa\'nın asasının yılana dönüşmesi, Hz. İsa\'nın ölüleri diriltmesi gibi peygamberlere özgü ilahi destekli olaylara ne ad verilir?' }
+                        ]
+                    }
                 ]
             },
             {
                 id: 'unit5',
-                name: 'Ünite 5: Mimari̇mi̇zde Di̇ni̇ Moti̇fler',
+                name: 'Ünite 5: Mimari ve Dinî Motifler',
                 concepts: [
-                    { id: 'islam-mimarisi', name: 'İslam Sanatı ve Mimarisi', color: 'bg-gray-600', questions: [
-                        { question: 'İslam mimarisinde camilerin üstünü örten yarım küre biçimindeki çatıya ne denir?' },
-                        { question: 'Camilerde ezan okumak için yapılan yüksek, ince kulelere ne denir?' }
-                    ]},
-                    { id: 'cami-bolumleri', color: 'bg-blueGray-600', questions: [
-                        { question: 'Camilerde imamın namaz kıldırırken durduğu, kıble yönünü gösteren yere ne denir?' },
-                        { question: 'Cuma ve bayram namazlarında hatibin hutbe okuduğu basamaklı yere ne denir?' }
-                    ]}
+                    {
+                        id: 'cami',
+                        name: 'Cami',
+                        color: 'bg-blue-600',
+                        questions: [
+                            { question: 'Müslümanların bir araya geldiği, birlikte ibadet ettiği, özellikle cuma ve bayram namazlarının kılındığı büyük ibadethanelere ne denir?' },
+                            { question: 'Sözlükte "toplayan, bir araya getiren" anlamlarına gelen ve Müslümanların ibadet mekânı olan yapı nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'mescit',
+                        name: 'Mescit',
+                        color: 'bg-green-600',
+                        questions: [
+                            { question: 'Secde edilen yer anlamına gelen ve cami ile benzer anlamda kullanılan, daha küçük boyutlu ibadethanelere ne denir?' },
+                            { question: 'Hz. Peygamber döneminde inşa edilen ve İslam\'ın ilk ibadethanelerinden biri olan yapıya ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'mihrap',
+                        name: 'Mihrap',
+                        color: 'bg-purple-600',
+                        questions: [
+                            { question: 'Camilerde Kâbe yönünü (kıble) gösteren ve imamın namaz kıldırırken durduğu, genellikle oyuk veya niş şeklinde olan yere ne denir?' },
+                            { question: 'Namaz kılanların yönünü belirleyen, caminin kıble duvarında bulunan özel bölüme ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'minber',
+                        name: 'Minber',
+                        color: 'bg-red-600',
+                        questions: [
+                            { question: 'İmamın veya hatibin cemaatin göreceği ve cemaate sesini daha iyi duyurmak için çıktığı, merdivenli yüksekçe yere ne denir?' },
+                            { question: 'Cuma ve bayram namazlarındaki hutbelerin okunduğu, caminin içinde yer alan özel yapı nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'vaaz-kursusu',
+                        name: 'Vaaz Kürsüsü',
+                        color: 'bg-yellow-600',
+                        questions: [
+                            { question: 'Camide vaaz ve dinî konularda ders vermek için imamın veya hatibin oturduğu yüksekçe yere ne denir?' },
+                            { question: 'Cami içinde dinî bilgilerin aktarıldığı, konuşmacının oturduğu veya durduğu özel platforma ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'kubbe',
+                        name: 'Kubbe',
+                        color: 'bg-indigo-600',
+                        questions: [
+                            { question: 'Yarım küre biçiminde olan ve caminin üzerini örten, genellikle büyük ve gösterişli mimari öğeye ne denir?' },
+                            { question: 'Camilerin ana ibadet alanını kapatan, mimari ve estetik açıdan önemli olan tavan yapısına ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'sadirvan',
+                        name: 'Şadırvan',
+                        color: 'bg-pink-600',
+                        questions: [
+                            { question: 'Cami avlularında bulunan, üzeri kapalı veya açık abdest alma yerine ne denir?' },
+                            { question: 'Cami külliyelerinde cemaatin abdest alması için yapılmış, genellikle ortasında fıskiyeli bir havuz bulunan yapıya ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'minare',
+                        name: 'Minare',
+                        color: 'bg-teal-600',
+                        questions: [
+                            { question: 'Müezzinin ezan okuduğu, sela verdiği, şerefesi olan yüksek ve ince yapılara ne denir?' },
+                            { question: 'Camilerin yanında yükselen, ezan okumak için kullanılan uzun, ince kulelere ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'serefe',
+                        name: 'Şerefe',
+                        color: 'bg-orange-600',
+                        questions: [
+                            { question: 'Camilerde minarenin etrafını balkon gibi saran, müezzinin ezan okuduğu bölüme ne denir?' },
+                            { question: 'Minarelerin gövdesini çevreleyen ve müezzinin ezan okuduğu platforma ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'kulliye',
+                        name: 'Külliye',
+                        color: 'bg-cyan-600',
+                        questions: [
+                            { question: 'Merkezinde cami olan ve medrese, imaret, hamam, hastane gibi farklı yapıları barındıran geniş merkezlere ne denir?' },
+                            { question: 'Osmanlı mimarisinde bir caminin etrafında toplanmış, sosyal ve kültürel hizmetler sunan yapı topluluğuna ne ad verilir?' }
+                        ]
+                    },
+                    {
+                        id: 'selatin-camileri',
+                        name: 'Selatin Camileri',
+                        color: 'bg-lime-600',
+                        questions: [
+                            { question: 'Osmanlı Dönemi’nde padişahlar ve hanedan mensupları tarafından kendi imkânlarıyla yaptırılan, genellikle birden fazla minaresi olan büyük camilere ne denir?' },
+                            { question: 'Fatih Camii, Süleymaniye Camii, Sultanahmet Camii gibi Osmanlı padişahları tarafından yaptırılan camilere verilen genel isim nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'ulu-cami',
+                        name: 'Ulu Cami',
+                        color: 'bg-emerald-600',
+                        questions: [
+                            { question: 'Cuma namazının kılındığı ve şehrin en büyük ibadethaneleri olarak inşa edilen, genellikle birden fazla minaresi ve geniş avlusu olan camilere ne denir?' },
+                            { question: 'Bursa Ulu Cami, Diyarbakır Ulu Cami gibi şehirlerin en büyük ve merkezi camilerine verilen isim nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'mescid-i-nebevi',
+                        name: 'Mescid-i Nebevi',
+                        color: 'bg-rose-600',
+                        questions: [
+                            { question: 'Medine’de Hz. Peygamber’in kabrinin de bulunduğu, İslam\'ın en kutsal mekanlarından biri olan mescide ne denir?' },
+                            { question: 'Hz. Muhammed (s.a.v.) tarafından Medine\'de inşa edilen ve onun kabrinin de yer aldığı cami nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'mescid-i-aksa',
+                        name: 'Mescid-i Aksa',
+                        color: 'bg-fuchsia-600',
+                        questions: [
+                            { question: 'Kudüs’te bulunan ve Müslümanların ilk kıblesi olan, Miraç olayının başlangıç noktası kabul edilen mescit hangisidir?' },
+                            { question: 'İslam\'ın üç büyük kutsal mescidinden biri ve Kudüs\'te yer alan yapı nedir?' }
+                        ]
+                    },
+                    {
+                        id: 'kabe',
+                        name: 'Kâbe',
+                        color: 'bg-violet-600',
+                        questions: [
+                            { question: 'Kur’an-ı Kerim’de Beytullah “Allah’ın (cc) evi” olarak anılan, Müslümanların namazda yöneldikleri ve hac ibadetinin merkezi olan yapı neresidir?' },
+                            { question: 'Mekke\'de bulunan, etrafında tavaf yapılan ve İslam\'ın en kutsal yapısı kabul edilen küp şeklindeki bina nedir?' }
+                        ]
+                    }
                 ]
             }
         ];
 
-        let selectedUnitId = null;
-        let currentConceptIndex = 0;
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let totalQuestions = 0;
-        let timerInterval;
-        const initialTimerValue = 50; // Initial timer value in seconds
-        let timer = initialTimerValue;
-
+        // DOM elements selection for Quiz
         const mainMenuScreen = document.getElementById('mainMenuScreen');
-        const mainQuizContent = document.getElementById('mainQuizContent');
         const unitCardsContainer = document.getElementById('unitCardsContainer');
         const startQuizBtn = document.getElementById('startQuizBtn');
-        const questionTextElement = document.getElementById('questionText');
-        const conceptBoxesContainer = document.getElementById('conceptBoxes');
+        const mainQuizContent = document.getElementById('mainQuizContent');
+        const questionText = document.getElementById('questionText');
+        const conceptBoxesDiv = document.getElementById('conceptBoxes');
         const feedbackDiv = document.getElementById('feedback');
-        const showAnswerBtn = document.getElementById('showAnswerBtn');
         const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+        const showAnswerBtn = document.getElementById('showAnswerBtn');
         const resetQuizBtn = document.getElementById('resetQuizBtn');
         const timerDisplay = document.getElementById('timerDisplay');
         const returnToMainMenuFromQuizBtn = document.getElementById('returnToMainMenuFromQuizBtn');
-        const mainTitle = document.querySelector('h1'); // Get the main title element
 
-        // New Home button elements
-        const returnToIndexBtn = document.getElementById('returnToIndexBtn');
-        const returnToIndexFromQuizBtn = document.getElementById('returnToIndexFromQuizBtn');
-
-        // Custom Modal Elements
+        // Custom Modal DOM elements (still needed for alerts/confirms, but not for editor specific inputs)
         const customModalOverlay = document.getElementById('customModalOverlay');
         const modalTitle = document.getElementById('modalTitle');
         const modalMessage = document.getElementById('modalMessage');
-        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-        const modalCancelBtn = document.getElementById('modalCancelBtn');
-        const modalSaveBtn = document.getElementById('modalSaveBtn');
         const modalInput1 = document.getElementById('modalInput1');
         const modalInput2 = document.getElementById('modalInput2');
-        const modalTextarea = document.getElementById('modalTextarea');
+        const modalTextarea = document = document.getElementById('modalTextarea');
+        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+        const modalSaveBtn = document.getElementById('modalSaveBtn');
+        const modalCancelBtn = document.getElementById('modalCancelBtn');
 
-        // Function to show custom modal
-        function showCustomModal(title, message, type, onConfirm, onCancel, input1Placeholder = '', input2Placeholder = '', textareaPlaceholder = '') {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            customModalOverlay.style.display = 'flex';
+        let selectedUnitConcepts = [];
+        let allQuestions = []; // Tüm soruları içerir
+        let availableQuestions = []; // Henüz sorulmamış soruları içerir
+        let answeredConceptIds = new Set(); // Tüm soruları cevaplanmış kavramların ID'lerini içerir
 
-            modalInput1.style.display = 'none';
-            modalInput2.style.display = 'none';
-            modalTextarea.style.display = 'none';
-            modalConfirmBtn.style.display = 'none';
-            modalSaveBtn.style.display = 'none';
-            modalCancelBtn.style.display = 'inline-block'; // Always show cancel for now
+        const MIN_OPTIONS_PER_QUESTION = 8; // Her soru için gösterilecek minimum seçenek sayısı
+        let currentQuestionData = null;
 
-            if (type === 'confirm') {
-                modalConfirmBtn.style.display = 'inline-block';
-                modalConfirmBtn.onclick = () => {
-                    hideCustomModal();
-                    if (onConfirm) onConfirm();
-                };
-                modalCancelBtn.onclick = () => {
-                    hideCustomModal();
-                    if (onCancel) onCancel();
-                };
-            } else if (type === 'input') {
-                modalInput1.style.display = 'block';
-                modalInput1.placeholder = input1Placeholder;
-                modalInput2.style.display = 'block';
-                modalInput2.placeholder = input2Placeholder;
-                modalSaveBtn.style.display = 'inline-block';
-                modalSaveBtn.onclick = () => {
-                    hideCustomModal();
-                    if (onConfirm) onConfirm(modalInput1.value, modalInput2.value);
-                };
-                modalCancelBtn.onclick = () => {
-                    hideCustomModal();
-                    if (onCancel) onCancel();
-                };
-            } else if (type === 'textarea') {
-                modalTextarea.style.display = 'block';
-                modalTextarea.placeholder = textareaPlaceholder;
-                modalSaveBtn.style.display = 'inline-block';
-                modalSaveBtn.onclick = () => {
-                    hideCustomModal();
-                    if (onConfirm) onConfirm(modalTextarea.value);
-                };
-                modalCancelBtn.onclick = () => {
-                    hideCustomModal();
-                    if (onCancel) onCancel();
-                };
-            } else { // 'alert' type
-                modalCancelBtn.onclick = hideCustomModal;
+        let timer;
+        let countdownInterval;
+        let incorrectAttempts = 0;
+
+        let selectedUnitId = null; // Bu, yüklemede otomatik olarak ayarlanacaktır
+
+        // Ünite kartları için gradyan renk paleti
+        const unitCardGradients = [
+            'linear-gradient(to right, #6EE7B7, #34D399)', // Yeşil tonları
+            'linear-gradient(to right, #93C5FD, #60A5FA)', // Mavi tonları
+            'linear-gradient(to right, #FDBA74, #FB923C)', // Turuncu tonları
+            'linear-gradient(to right, #C4B5FD, #A78BFA)', // Mor tonları
+            'linear-gradient(to right, #FCA5A5, #F87171)', // Kırmızı tonları
+            'linear-gradient(to right, #BEF264, #A3E635)', // Açık yeşil tonları
+            'linear-gradient(to right, #FECACA, #FCA5A5)', // Açık kırmızı tonları
+            'linear-gradient(to right, #BFDBFE, #93C5FD)', // Açık mavi tonları
+            'linear-gradient(to right, #FDE68A, #FCD34D)', // Sarı tonları
+            'linear-gradient(to right, #D8B4FE, #C084FC)'  // Açık mor tonları
+        ];
+
+        // --- Özel Modal Fonksiyonları (Normal mod için basitleştirilmiş) ---
+        let modalResolve;
+
+        function showModal(title, message, input1Config = null, input2Config = null, textareaConfig = null, isConfirm = false) {
+            return new Promise((resolve) => {
+                modalResolve = resolve;
+                modalTitle.textContent = title;
+                modalMessage.textContent = message;
+
+                // Normal mod modallarında kullanılmadığı için tüm giriş alanlarını gizle
+                modalInput1.style.display = 'none';
+                modalInput2.style.display = 'none';
+                modalTextarea.style.display = 'none';
+                modalSaveBtn.style.display = 'none';
+
+                if (isConfirm) {
+                    modalConfirmBtn.style.display = 'block';
+                } else {
+                    // Basit uyarılar için "Tamam" olarak işlev gören bir "İptal" düğmesi gösterebiliriz
+                    modalCancelBtn.textContent = 'Tamam';
+                    modalConfirmBtn.style.display = 'none';
+                }
+
+                customModalOverlay.style.display = 'flex';
+            });
+        }
+
+        modalCancelBtn.addEventListener('click', () => {
+            customModalOverlay.style.display = 'none';
+            modalCancelBtn.textContent = 'İptal'; // Düğme metnini sıfırla
+            modalResolve(null); // İptal/Tamam'da null ile çöz
+        });
+
+        modalConfirmBtn.addEventListener('click', () => {
+            customModalOverlay.style.display = 'none';
+            modalResolve(true); // Onayda true ile çöz
+        });
+
+        // --- Yarışma Fonksiyonları ---
+
+        // Ünite seçim kartlarını render et
+        function renderUnitCards() {
+            unitCardsContainer.innerHTML = '';
+            // "Tüm Üniteler" seçeneğini her zaman en sona ekle
+            const unitsForDisplay = units.filter(unit => unit.id !== 'all-units');
+            const allUnitsConcept = units.find(unit => unit.id === 'all-units');
+            if (allUnitsConcept) {
+                unitsForDisplay.push(allUnitsConcept);
+            }
+
+            unitsForDisplay.forEach((unit, index) => {
+                const unitCard = document.createElement('div');
+                unitCard.className = `unit-card ${selectedUnitId === unit.id ? 'selected' : ''}`;
+                unitCard.textContent = unit.name;
+                unitCard.dataset.unitId = unit.id;
+                
+                // Gradyan rengini ata
+                unitCard.style.background = unitCardGradients[index % unitCardGradients.length];
+
+                unitCard.addEventListener('click', () => {
+                    selectUnit(unit.id);
+                });
+                unitCardsContainer.appendChild(unitCard);
+            });
+            // Bir ünite seçiliyse yarışmayı başlat düğmesini göster
+            if (selectedUnitId) {
+                startQuizBtn.style.display = 'block';
+            } else {
+                startQuizBtn.style.display = 'none';
             }
         }
 
-        // Function to hide custom modal
-        function hideCustomModal() {
-            customModalOverlay.style.display = 'none';
-            modalInput1.value = '';
-            modalInput2.value = '';
-            modalTextarea.value = '';
+        // Bir ünite seç ve kavramlarını yarışma modu için hazırla
+        function selectUnit(unitId) {
+            selectedUnitId = unitId;
+            const unit = units.find(u => u.id === unitId);
+            selectedUnitConcepts = unit ? unit.concepts : [];
+            answeredConceptIds.clear(); // Yeni ünite seçildiğinde cevaplanmış kavramları sıfırla
+            prepareQuestions();
+            renderUnitCards(); // Seçili durumu güncellemek için yeniden render et
+            startQuizBtn.style.display = 'block'; // Düğmenin seçimden sonra görünür olduğundan emin ol
         }
 
+        // Fisher-Yates karıştırma algoritması
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
-            return array;
         }
 
-        function renderUnitCards() {
-            unitCardsContainer.innerHTML = '';
-            units.forEach(unit => {
-                const unitCard = document.createElement('div');
-                unitCard.classList.add('unit-card', 'shadow-lg', 'hover:shadow-xl');
-                unitCard.style.background = `linear-gradient(to bottom right, ${getUnitColor(unit.id, 0.7)}, ${getUnitColor(unit.id, 1)})`;
-                unitCard.textContent = unit.name;
-                unitCard.dataset.unitId = unit.id;
-
-                if (selectedUnitId === unit.id) {
-                    unitCard.classList.add('selected');
-                }
-
-                unitCard.addEventListener('click', () => {
-                    selectedUnitId = unit.id;
-                    renderUnitCards(); // Update selection visual
-                    startQuizBtn.style.display = 'block'; // Show start quiz button
+        // Tüm soruları seçilen ünitenin kavramlarından topla ve karıştır
+        function prepareQuestions() {
+            allQuestions = [];
+            selectedUnitConcepts.forEach(concept => {
+                concept.questions.forEach(q => {
+                    allQuestions.push({
+                        conceptId: concept.id,
+                        conceptName: concept.name,
+                        question: q.question
+                    });
                 });
-                unitCardsContainer.appendChild(unitCard);
             });
-        }
-
-        function getUnitColor(unitId, opacity = 1) {
-            switch (unitId) {
-                case 'unit1': return `rgba(59, 130, 246, ${opacity})`; // Blue
-                case 'unit2': return `rgba(139, 92, 246, ${opacity})`; // Purple
-                case 'unit3': return `rgba(16, 185, 129, ${opacity})`; // Teal
-                case 'unit4': return `rgba(245, 158, 11, ${opacity})`;  // Orange
-                case 'unit5': return `rgba(107, 114, 128, ${opacity})`; // Gray
-                case 'all-units': return `rgba(239, 68, 68, ${opacity})`; // Red for all units
-                default: return `rgba(100, 116, 139, ${opacity})`; // Slate
-            }
-        }
-
-        function startQuiz() {
-            if (!selectedUnitId) {
-                showCustomModal('Uyarı', 'Lütfen önce bir ünite seçin!', 'alert');
-                return;
-            }
-
-            mainMenuScreen.style.display = 'none';
-            mainTitle.style.display = 'none'; // Hide the main title when quiz starts
-            mainQuizContent.style.display = 'flex';
-            resetQuiz();
-            loadConceptsForQuiz();
-        }
-
-        function loadConceptsForQuiz() {
-            const selectedUnit = units.find(unit => unit.id === selectedUnitId);
-            if (!selectedUnit) {
-                showCustomModal('Hata', 'Seçilen ünite bulunamadı!', 'alert');
-                return;
-            }
-
-            // Combine all questions from all concepts within the selected unit
-            let allQuestions = [];
-            selectedUnit.concepts.forEach(concept => {
-                allQuestions = allQuestions.concat(concept.questions.map(q => ({
-                    ...q,
-                    conceptId: concept.id,
-                    conceptName: concept.name,
-                    conceptColor: concept.color
-                })));
-            });
-
             shuffleArray(allQuestions);
-            totalQuestions = allQuestions.length;
-            currentConceptIndex = 0; // Reset concept index for quiz flow
-            currentQuestionIndex = 0; // Reset question index for quiz flow
-
-            if (totalQuestions === 0) {
-                showCustomModal('Bilgi', 'Bu ünitede henüz soru bulunmamaktadır.', 'alert');
-                returnToMainMenu();
-                return;
-            }
-            displayQuestion();
+            updateAvailableQuestions();
         }
 
-        function displayQuestion() {
-            clearInterval(timerInterval);
-            timer = initialTimerValue;
-            timerDisplay.textContent = timer;
-            timerDisplay.classList.remove('warning');
-            timerDisplay.style.display = 'block';
+        // Sorulabilecek sorular listesini güncelle
+        function updateAvailableQuestions() {
+            // answeredConceptIds'de olmayan (yani tüm soruları cevaplanmamış) kavramlara ait soruları filtrele
+            availableQuestions = allQuestions.filter(q => !answeredConceptIds.has(q.conceptId));
+            shuffleArray(availableQuestions);
+        }
 
-            feedbackDiv.style.display = 'none';
-            showAnswerBtn.style.display = 'inline-block';
-            nextQuestionBtn.style.display = 'none';
+        /**
+         * Bir öğenin yazı tipi boyutunu belirtilen boyutlara sığacak şekilde dinamik olarak ayarlar.
+         * @param {HTMLElement} element Yazı tipi boyutu ayarlanması gereken HTML öğesi (örn. bir <span>).
+         * @param {number} maxWidth Öğenin içeriği için izin verilen maksimum genişlik piksel cinsinden.
+         */
+        function adjustFontSize(element, maxWidth) {
+            let fontSize = parseFloat(window.getComputedStyle(element).fontSize);
+            const originalFontSize = 1.05 * 16;
+            const minFontSizePx = 0.45 * 16;
 
-            const selectedUnit = units.find(unit => unit.id === selectedUnitId);
-            if (!selectedUnit || currentQuestionIndex >= totalQuestions) {
-                showCustomModal('Bilgi', `Yarışma bitti! Toplam ${totalQuestions} sorudan ${score} doğru cevap verdiniz.`, 'alert');
-                returnToMainMenu();
+            element.style.fontSize = originalFontSize + 'px';
+
+            while (element.scrollWidth > maxWidth && fontSize > minFontSizePx) {
+                fontSize -= 0.5;
+                element.style.fontSize = fontSize + 'px';
+            }
+        }
+
+        // Verilen kavramlar için kavram kutularını render et
+        function renderConcepts(conceptsToRender) {
+            conceptBoxesDiv.innerHTML = '';
+            if (conceptsToRender.length === 0) {
                 return;
             }
 
-            const currentQuestionData = selectedUnit.concepts.flatMap(c => c.questions.map(q => ({
-                ...q,
-                conceptId: c.id,
-                conceptName: c.name,
-                conceptColor: c.color
-            })))[currentQuestionIndex];
-
-            questionTextElement.textContent = currentQuestionData.question;
-            renderConceptBoxes(currentQuestionData.conceptId, currentQuestionData.conceptColor);
-
-            startTimer();
-        }
-
-        function renderConceptBoxes(correctConceptId, correctConceptColor) {
-            conceptBoxesContainer.innerHTML = '';
-            const allConcepts = units.flatMap(unit => unit.concepts);
-            const shuffledConcepts = shuffleArray(allConcepts.filter(c => c.id !== correctConceptId));
-
-            // Ensure the correct concept is always present
-            const correctConcept = allConcepts.find(c => c.id === correctConceptId);
-            if (correctConcept) {
-                shuffledConcepts.splice(Math.floor(Math.random() * (shuffledConcepts.length + 1)), 0, correctConcept);
-            }
-
-            // Limit to a maximum of 10 concepts to display at once
-            const conceptsToDisplay = shuffledConcepts.slice(0, 10);
-
-            conceptsToDisplay.forEach((concept, index) => {
+            conceptsToRender.forEach(concept => {
                 const conceptBox = document.createElement('div');
-                conceptBox.classList.add('concept-box', 'flex', 'items-center', 'justify-content', 'text-center', 'p-4', 'rounded-full', 'shadow-md', 'cursor-pointer');
-                conceptBox.style.backgroundColor = concept.color; // Use concept's specific color
-                conceptBox.style.setProperty('--animation-duration', `${2 + Math.random() * 2}s`);
-                conceptBox.style.setProperty('--animation-delay', `${Math.random() * 0.5}s`);
-                conceptBox.style.setProperty('--translate-x', `${(Math.random() - 0.5) * 10}px`);
-                conceptBox.style.setProperty('--translate-y', `${(Math.random() - 0.5) * 10}px`);
-                conceptBox.innerHTML = `<span>${concept.name}</span><svg class="checkmark" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>`;
+                const isAnswered = answeredConceptIds.has(concept.id); // Tüm soruları cevaplanmış mı?
+                conceptBox.className = `concept-box ${concept.color} p-4 shadow-md ${isAnswered ? 'correct' : ''}`;
+                conceptBox.innerHTML = `<span>${concept.name}</span>
+                                        <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
                 conceptBox.dataset.conceptId = concept.id;
+                
+                // Eğer kavramın tüm soruları cevaplanmışsa veya mevcut soru için doğru cevap değilse tıklanamaz yap
+                if (!isAnswered) { // Sadece tüm soruları cevaplanmamışsa tıklanabilir yap
+                    conceptBox.addEventListener('click', handleConceptBoxClick);
+                } else {
+                    conceptBox.classList.add('correct'); // Doğru olarak işaretli kalmalı
+                    conceptBox.style.pointerEvents = 'none';
+                    conceptBox.classList.remove('cursor-pointer');
+                }
 
-                conceptBox.addEventListener('click', () => checkAnswer(concept.id, correctConceptId, conceptBox));
-                conceptBoxesContainer.appendChild(conceptBox);
+                const randomX = (Math.random() * 20 - 10) + 'px';
+                const randomY = (Math.random() * 20 - 10) + 'px';
+                const duration = (5 + Math.random() * 3) + 's';
+                const delay = (Math.random() * 2) + 's';
+
+                conceptBox.style.setProperty('--translate-x', randomX);
+                conceptBox.style.setProperty('--translate-y', randomY);
+                conceptBox.style.setProperty('--animation-duration', duration);
+                conceptBox.style.setProperty('--animation-delay', delay);
+
+                conceptBoxesDiv.appendChild(conceptBox);
+
+                const conceptNameSpan = conceptBox.querySelector('span');
+                const availableWidth = 220 - (2 * 16);
+                adjustFontSize(conceptNameSpan, availableWidth);
             });
         }
 
-        function checkAnswer(selectedConceptId, correctConceptId, selectedBox) {
-            clearInterval(timerInterval); // Stop the timer once an answer is selected
-
-            const allConceptBoxes = document.querySelectorAll('.concept-box');
-            allConceptBoxes.forEach(box => {
-                box.style.pointerEvents = 'none'; // Disable further clicks
-                if (box.dataset.conceptId === correctConceptId) {
+        // Tüm kavram kutularının vurgularını ve durumlarını temizle
+        function clearConceptBoxStates() {
+            document.querySelectorAll('.concept-box').forEach(box => {
+                const conceptId = box.dataset.conceptId;
+                // Eğer kavramın tüm soruları cevaplanmamışsa, yanlış/doğru vurgularını kaldır
+                if (!answeredConceptIds.has(conceptId)) {
+                    box.classList.remove('correct', 'incorrect');
+                    const originalConcept = units.flatMap(u => u.concepts).find(c => c.id === conceptId); // Tüm ünitelerden orijinal rengi bul
+                    if (originalConcept) {
+                        box.classList.remove(...selectedUnitConcepts.map(c => c.color)); // Mevcut renk sınıfını kaldır
+                        box.classList.add(originalConcept.color); // Orijinal rengi ekle
+                    }
+                    box.style.pointerEvents = 'auto'; // Tıklanabilir yap
+                    box.classList.add('cursor-pointer');
+                } else {
+                    // Tüm soruları cevaplanmışsa, doğru olarak işaretli kalmalı ve tıklanamaz olmalı
                     box.classList.add('correct');
+                    box.style.pointerEvents = 'none';
+                    box.classList.remove('cursor-pointer');
                 }
             });
-
-            if (selectedConceptId === correctConceptId) {
-                feedbackDiv.textContent = 'Doğru! 🎉';
-                feedbackDiv.classList.remove('error');
-                feedbackDiv.classList.add('success');
-                score++;
-            } else {
-                feedbackDiv.textContent = 'Yanlış! Tekrar dene. 🤔';
-                feedbackDiv.classList.remove('success');
-                feedbackDiv.classList.add('error');
-                selectedBox.classList.add('incorrect');
-            }
-            feedbackDiv.style.display = 'block';
-            showAnswerBtn.style.display = 'none'; // Hide "Show Answer" button after answering
-            nextQuestionBtn.style.display = 'inline-block'; // Show "Next Question" button
         }
 
+        // Tüm kavram kutularındaki tıklamaları devre dışı bırak
+        function disableConceptBoxClicks() {
+            document.querySelectorAll('.concept-box').forEach(box => {
+                box.style.pointerEvents = 'none';
+                box.classList.remove('cursor-pointer');
+            });
+        }
+
+        // Geri sayım sayacını başlat
         function startTimer() {
-            timer = initialTimerValue;
+            clearInterval(countdownInterval);
+            timer = 50;
             timerDisplay.textContent = timer;
             timerDisplay.classList.remove('warning');
-            timerDisplay.style.display = 'block';
 
-            timerInterval = setInterval(() => {
+            countdownInterval = setInterval(() => {
                 timer--;
                 timerDisplay.textContent = timer;
+
                 if (timer <= 10) {
                     timerDisplay.classList.add('warning');
                 }
+
                 if (timer <= 0) {
-                    clearInterval(timerInterval);
-                    handleTimeout();
+                    clearInterval(countdownInterval);
+                    timerDisplay.textContent = "0";
+                    feedbackDiv.textContent = "Süreniz Doldu!";
+                    feedbackDiv.className = "message-box error";
+                    feedbackDiv.style.display = 'block';
+                    disableConceptBoxClicks();
                 }
             }, 1000);
         }
 
-        function handleTimeout() {
-            feedbackDiv.textContent = 'Süre doldu! Cevap veremediniz. ⌛';
-            feedbackDiv.classList.remove('success');
-            feedbackDiv.classList.add('error');
-            feedbackDiv.style.display = 'block';
-
-            const allConceptBoxes = document.querySelectorAll('.concept-box');
-            allConceptBoxes.forEach(box => {
-                box.style.pointerEvents = 'none'; // Disable further clicks
-                const selectedUnit = units.find(unit => unit.id === selectedUnitId);
-                const currentQuestionData = selectedUnit.concepts.flatMap(c => c.questions.map(q => ({
-                    ...q,
-                    conceptId: c.id,
-                    conceptName: c.name,
-                    conceptColor: c.color
-                })))[currentQuestionIndex];
-                if (box.dataset.conceptId === currentQuestionData.conceptId) {
-                    box.classList.add('correct'); // Highlight the correct answer
-                }
-            });
-            showAnswerBtn.style.display = 'none';
-            nextQuestionBtn.style.display = 'inline-block';
+        // Geri sayım sayacını durdur
+        function stopTimer() {
+            clearInterval(countdownInterval);
+            timerDisplay.classList.remove('warning');
         }
 
-        function showAnswer() {
-            clearInterval(timerInterval); // Stop the timer
-            timerDisplay.style.display = 'none'; // Hide the timer
-
-            const allConceptBoxes = document.querySelectorAll('.concept-box');
-            allConceptBoxes.forEach(box => {
-                box.style.pointerEvents = 'none'; // Disable further clicks
-            });
-
-            const selectedUnit = units.find(unit => unit.id === selectedUnitId);
-            const currentQuestionData = selectedUnit.concepts.flatMap(c => c.questions.map(q => ({
-                ...q,
-                conceptId: c.id,
-                conceptName: c.name,
-                conceptColor: c.color
-            })))[currentQuestionIndex];
-
-            allConceptBoxes.forEach(box => {
-                if (box.dataset.conceptId === currentQuestionData.conceptId) {
-                    box.classList.add('correct');
-                } else {
-                    box.classList.add('incorrect'); // Mark others as incorrect if not the answer
-                }
-            });
-
-            feedbackDiv.textContent = `Doğru cevap: "${currentQuestionData.conceptName}" idi.`;
-            feedbackDiv.classList.remove('success');
-            feedbackDiv.classList.add('error');
-            feedbackDiv.style.display = 'block';
-            showAnswerBtn.style.display = 'none'; // Hide "Show Answer" button
-            nextQuestionBtn.style.display = 'inline-block'; // Show "Next Question" button
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            displayQuestion();
-        }
-
-        function resetQuiz() {
-            score = 0;
-            currentQuestionIndex = 0;
-            totalQuestions = 0; // Will be recalculated in loadConceptsForQuiz
-            clearInterval(timerInterval);
-            timerDisplay.style.display = 'none';
+        // Mevcut soruyu ve seçeneklerini görüntüle
+        function displayQuestion() {
             feedbackDiv.style.display = 'none';
-            conceptBoxesContainer.innerHTML = '';
-            questionTextElement.textContent = '';
-            showAnswerBtn.style.display = 'inline-block';
-            nextQuestionBtn.style.display = 'none';
+            clearConceptBoxStates();
+            showAnswerBtn.style.display = 'block';
+            incorrectAttempts = 0; // Yeni soru için yanlış denemeleri sıfırla
+
+            if (availableQuestions.length === 0) {
+                questionText.textContent = "Tebrikler! Tüm kavramları tamamladınız.";
+                feedbackDiv.textContent = "Yarışmayı yeniden başlatmak için aşağıdaki butonu kullanın veya başka bir ünite seçin.";
+                feedbackDiv.className = "message-box success";
+                feedbackDiv.style.display = 'block';
+                disableConceptBoxClicks();
+                nextQuestionBtn.style.display = 'none';
+                showAnswerBtn.style.display = 'none';
+                stopTimer();
+                timerDisplay.style.display = 'none';
+                return;
+            }
+
+            currentQuestionData = availableQuestions[0];
+            questionText.textContent = currentQuestionData.question;
+
+            const correctConcept = selectedUnitConcepts.find(c => c.id === currentQuestionData.conceptId);
+            let optionsForCurrentQuestion = [correctConcept];
+
+            // Doğru kavramı ve tüm soruları cevaplanmış kavramları filtrele
+            let potentialIncorrectOptions = selectedUnitConcepts.filter(c =>
+                c.id !== correctConcept.id && !answeredConceptIds.has(c.id)
+            );
+
+            shuffleArray(potentialIncorrectOptions);
+
+            // MIN_OPTIONS_PER_QUESTION'a ulaşana kadar veya daha fazla potansiyel seçenek kalmayana kadar yanlış seçenekler ekle
+            for (let i = 0; optionsForCurrentQuestion.length < MIN_OPTIONS_PER_QUESTION && i < potentialIncorrectOptions.length; i++) {
+                optionsForCurrentQuestion.push(potentialIncorrectOptions[i]);
+            }
+
+            // Eğer hala MIN_OPTIONS_PER_QUESTION'dan az seçenek varsa,
+            // (yani ünitede 8'den az benzersiz, tüm soruları cevaplanmamış kavram varsa)
+            // seçenek sayısı 8'den az olabilir. Bu durumda, sadece mevcut olanları gösteririz.
+            // Kullanıcının isteği doğrultusunda, tüm soruları bitmiş kavramlar seçenek olarak görünmeyecektir.
+
+            shuffleArray(optionsForCurrentQuestion); // Son seçenekleri karıştır
+            renderConcepts(optionsForCurrentQuestion); // Oluşturulan seçenekleri renderConcepts'e gönder
+            
+            timerDisplay.style.display = 'block';
+            startTimer();
         }
 
-        function returnToMainMenu() {
+        // Kavram kutusuna tıklama olayını yönet
+        function handleConceptBoxClick(event) {
+            const clickedBox = event.currentTarget;
+            const clickedConceptId = clickedBox.dataset.conceptId;
+            const correctConceptId = currentQuestionData.conceptId;
+
+            clearConceptBoxStates(); // Şu anda render edilmiş tüm kutuların durumlarını temizle
+
+            if (clickedConceptId === correctConceptId) {
+                feedbackDiv.textContent = "Doğru cevap! 🎉";
+                feedbackDiv.className = "message-box success";
+                clickedBox.classList.remove(...selectedUnitConcepts.map(c => c.color));
+                clickedBox.classList.add('correct');
+
+                // Mevcut soruyu allQuestions'dan kaldır ki tekrar sorulmasın
+                allQuestions = allQuestions.filter(q => !(q.conceptId === correctConceptId && q.question === currentQuestionData.question));
+
+                // Bu kavram için tüm soruların bitip bitmediğini kontrol et
+                const remainingQuestionsForThisConcept = allQuestions.filter(q => q.conceptId === correctConceptId);
+                if (remainingQuestionsForThisConcept.length === 0) {
+                    answeredConceptIds.add(correctConceptId); // Kavramı tamamen cevaplanmış olarak işaretle
+                }
+                
+                disableConceptBoxClicks();
+                showAnswerBtn.style.display = 'none';
+                stopTimer();
+            } else {
+                incorrectAttempts++; // Yanlış denemeleri artır
+                feedbackDiv.textContent = `Yanlış cevap, tekrar deneyin. Kalan hak: ${2 - incorrectAttempts}`;
+                feedbackDiv.className = "message-box error";
+                clickedBox.classList.add('incorrect');
+                setTimeout(() => {
+                    clickedBox.classList.remove('incorrect');
+                }, 700);
+
+                if (incorrectAttempts >= 2) { // 2 yanlış denemeye ulaşıldıysa kontrol et
+                    stopTimer();
+                    feedbackDiv.textContent = "İki kez yanlış cevap verdiniz! Süre durduruldu. Cevabı görmek için 'Cevabı Göster' butonuna tıklayabilirsiniz.";
+                    feedbackDiv.className = "message-box error";
+                    disableConceptBoxClicks();
+                }
+            }
+            feedbackDiv.style.display = 'block';
+        }
+
+        // Cevabı Göster düğmesi mantığı
+        showAnswerBtn.addEventListener('click', () => {
+            const correctConceptId = currentQuestionData.conceptId;
+            const correctConcept = selectedUnitConcepts.find(c => c.id === correctConceptId);
+            const correctConceptName = correctConcept ? correctConcept.name : 'Bilinmiyor';
+
+            feedbackDiv.textContent = `Doğru cevap: "${correctConceptName}"`;
+            feedbackDiv.className = "message-box success";
+            feedbackDiv.style.display = 'block';
+
+            document.querySelectorAll('.concept-box').forEach(box => {
+                if (box.dataset.conceptId === correctConceptId) {
+                    const currentBgClass = Array.from(box.classList).find(cls => cls.startsWith('bg-'));
+                    if (currentBgClass) {
+                        box.classList.remove(currentBgClass);
+                    }
+                    box.classList.add('correct');
+                }
+            });
+            disableConceptBoxClicks();
+            // Cevap gösterildiğinde o kavramın tüm soruları bitmiş sayılmalı
+            // Mevcut soruyu allQuestions'dan kaldır ki tekrar sorulmasın
+            allQuestions = allQuestions.filter(q => !(q.conceptId === correctConceptId && q.question === currentQuestionData.question));
+
+            // Bu kavram için tüm soruların bitip bitmediğini kontrol et
+            const remainingQuestionsForThisConcept = allQuestions.filter(q => q.conceptId === correctConceptId);
+            if (remainingQuestionsForThisConcept.length === 0) {
+                answeredConceptIds.add(correctConceptId); // Kavramı tamamen cevaplanmış olarak işaretle
+            }
+            showAnswerBtn.style.display = 'none';
+            stopTimer();
+        });
+
+        // Sonraki soruya geç
+        nextQuestionBtn.addEventListener('click', () => {
+            updateAvailableQuestions();
+            displayQuestion();
+        });
+
+        // Yarışmayı yeniden başlat
+        resetQuizBtn.addEventListener('click', () => {
+            answeredConceptIds.clear(); // Cevaplanmış kavramları sıfırla
+            prepareQuestions(); // Tüm soruları yeniden hazırla
+            displayQuestion(); // İlk soruyu göster
+            nextQuestionBtn.style.display = 'block';
+            showAnswerBtn.style.display = 'block';
+        });
+
+        // --- Ekran Geçişleri ---
+
+        // "Yarışmayı Başlat" tıklandığında bu fonksiyon çağrılır
+        function startQuizFromMenu() {
+            if (selectedUnitId) {
+                mainMenuScreen.style.display = 'none';
+                mainQuizContent.style.display = 'flex';
+                resetQuizBtn.click(); // Seçilen ünite için yarışmayı başlat
+            } else {
+                showModal('Uyarı', 'Lütfen bir ünite seçin!', null, null, null, false);
+            }
+        }
+
+        // "Yarışmayı Başlat" düğmesi için olay dinleyicisi
+        startQuizBtn.addEventListener('click', startQuizFromMenu);
+
+        // Yarışmadan ana menüye dönmek için olay dinleyicisi
+        returnToMainMenuFromQuizBtn.addEventListener('click', () => {
+            stopTimer();
             mainQuizContent.style.display = 'none';
             mainMenuScreen.style.display = 'flex';
-            mainTitle.style.display = 'block'; // Show the main title again
-            selectedUnitId = null; // Clear selected unit
-            startQuizBtn.style.display = 'none'; // Hide start quiz button
-            renderUnitCards(); // Render unit cards to show selection status correctly
-        }
-
-        // New function to return to index.html
-        function returnToIndex() {
-            window.location.href = 'https://ozeme42.github.io/yunus/'; // Changed to the specified URL
-        }
-
-        // Event Listeners
-        startQuizBtn.addEventListener('click', startQuiz);
-        showAnswerBtn.addEventListener('click', showAnswer);
-        nextQuestionBtn.addEventListener('click', nextQuestion);
-        resetQuizBtn.addEventListener('click', resetQuiz);
-        returnToMainMenuFromQuizBtn.addEventListener('click', () => {
-            showCustomModal('Onay', 'Ana menüye dönmek istediğinizden emin misiniz? Mevcut ilerlemeniz kaybolacaktır.', 'confirm', returnToMainMenu, () => {});
+            selectedUnitId = null; // Seçili üniteyi temizle
+            answeredConceptIds.clear(); // Yarışma başlangıcı için temizle
+            renderUnitCards(); // Seçim durumunu doğru göstermek için ünite kartlarını yeniden render et
         });
 
-        // New Event Listeners for Home buttons
-        returnToIndexBtn.addEventListener('click', returnToIndex);
-        returnToIndexFromQuizBtn.addEventListener('click', () => {
-            showCustomModal('Onay', 'Ana sayfaya dönmek istediğinizden emin misiniz? Mevcut ilerlemeniz kaybolacaktır.', 'confirm', returnToIndex, () => {});
-        });
-
-
-        // On application load
+        // Yüklemede ilk render
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if "Tüm Üniteler" option already exists
+            // "Tüm Üniteler" seçeneğinin zaten eklenip eklenmediğini kontrol et
             const allUnitsExist = units.some(unit => unit.id === 'all-units');
 
-            // Remove "Ek Kavramlar" unit from the units array (if it exists)
+            // "Ek Kavramlar" ünitesini units dizisinden kaldır
             units = units.filter(unit => unit.id !== 'additional-concepts-unit');
 
             if (!allUnitsExist) {
-                // Combine concepts from all units in the units array
+                // units dizisindeki tüm ünitelerin kavramlarını birleştir
                 const allConceptsCombined = units.flatMap(unit => unit.concepts);
 
-                // Add a new "Tüm Üniteler" unit to the `units` array
+                // `units` dizisine yeni "Tüm Üniteler" birimini ekle
                 units.push({
                     id: 'all-units',
                     name: 'Tüm Üniteler',
@@ -976,13 +1594,12 @@
                 });
             }
 
-            // Initially, no unit should be selected; wait for the user to choose
+            // Başlangıçta hiçbir ünite seçili olmasın, kullanıcının seçmesini bekleyelim
             selectedUnitId = null;
 
-            renderUnitCards(); // Render unit cards to display the main menu initially
-            mainQuizContent.style.display = 'none'; // Ensure quiz content is hidden initially
-            mainMenuScreen.style.display = 'flex'; // Ensure main menu is visible initially
-            mainTitle.style.display = 'block'; // Ensure title is visible on initial load
+            renderUnitCards(); // Ana menüyü ilk göstermek için ünite kartlarını render et
+            mainQuizContent.style.display = 'none'; // Yarışma içeriğinin başlangıçta gizli olduğundan emin ol
+            mainMenuScreen.style.display = 'flex'; // Ana menünün başlangıçta görünür olduğundan emin ol
         });
     </script>
 </body>
