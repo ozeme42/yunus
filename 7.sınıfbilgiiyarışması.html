@@ -876,8 +876,7 @@
             clearInterval(timerInterval);
             timerDisplay.classList.remove('hidden'); // Timer display is now visible
             questionScreenInstructionMessage.classList.add('hidden');
-            nextTurnButton.classList.add('hidden'); // Hide the button until answer is given
-
+            
             const allAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id]);
             if (allAnswered) {
                 showFinalScore();
@@ -922,8 +921,11 @@
             }, 50);
 
             if (window.answeredQuestions[q.id]) {
+                // Soru cevaplanmışsa
+                nextTurnButton.classList.remove('hidden'); // Sonraki Oyuncu butonu görünür
+                returnToQuestionGridFromQuizButton.classList.add('hidden'); // Soru Ekranına Dön butonu gizli
+                
                 const currentAnswerState = window.answeredQuestions[q.id]; 
-                nextTurnButton.classList.remove('hidden');
                 
                 const selectedRadio = document.querySelector(`input[name="${q.id}"][value="${currentAnswerState.userAnswer}"]`);
                 if (selectedRadio) {
@@ -962,7 +964,9 @@
                 questionScreenInstructionMessage.classList.remove('hidden');
 
             } else {
-                nextTurnButton.classList.add('hidden');
+                // Soru henüz cevaplanmamışsa
+                nextTurnButton.classList.add('hidden'); // Sonraki Oyuncu butonu gizli
+                returnToQuestionGridFromQuizButton.classList.remove('hidden'); // Soru Ekranına Dön butonu görünür
                 startTimer();
             }
 
@@ -1024,7 +1028,8 @@
             renderQuestionNumbers();
             
             // Update button text and instruction message for timeout
-            nextTurnButton.classList.remove('hidden');
+            nextTurnButton.classList.remove('hidden'); // Sonraki Oyuncu butonu görünür
+            returnToQuestionGridFromQuizButton.classList.add('hidden'); // Soru Ekranına Dön butonu gizli
             if (window.numTeams === 1) {
                 nextTurnButton.textContent = 'Soru Ekranına Dön';
                 questionScreenInstructionMessage.textContent = `Süreyi kullandınız. Soru ekranına dönmek için butona tıklayın.`;
@@ -1085,7 +1090,8 @@
             renderQuestionNumbers();
             
             // Update button text and instruction message after answering
-            nextTurnButton.classList.remove('hidden');
+            nextTurnButton.classList.remove('hidden'); // Sonraki Oyuncu butonu görünür
+            returnToQuestionGridFromQuizButton.classList.add('hidden'); // Soru Ekranına Dön butonu gizli
             if (window.numTeams === 1) {
                 nextTurnButton.textContent = 'Soru Ekranına Dön';
                 questionScreenInstructionMessage.textContent = `Cevaplandı. Soru ekranına dönmek için butona tıklayın.`;
