@@ -23,7 +23,7 @@
         - Etkinlikler: Goal: Engage. Method: Maddeler halinde etkinlik önerileri. Interaction: Okuma. Justification: Ünite konularını pekiştirmeye yönelik pratik öneriler sunmak.
         - Neden Önemli?: Goal: Inform. Method: Açıklayıcı paragraf. Interaction: Yok. Justification: Ünitenin bağlamını ve önemini açıklamak.
         - Anahtar Kavram Sayısı Grafiği: Goal: Compare (basit düzeyde). Method: Her ünite için Anahtar Kavram sayısını gösteren dikey bar grafik (Chart.js). Interaction: Tooltip ile detay görme. Justification: Üniteler arasında basit bir nicel karşılaştırma sunmak ve Chart.js kullanımını göstermek. Library: Chart.js (Canvas). NO SVG/Mermaid.
-        - Genel Yapı: Her ünite içeriği, raporun "afiş" formatını yansıtacak şekilde ayrı bir kart/bölüm içinde sunulacaktır. Bu kartlar, seçilen üniteye göre dinamik olarak güncellenecektir.
+        - Genel Yapı: Her ünite içeriği, raporın "afiş" formatını yansıtacak şekilde ayrı bir kart/bölüm içinde sunulacaktır. Bu kartlar, seçilen üniteye göre dinamik olarak güncellenecektir.
         - Ana Sayfa Ünite Konuları Tablosu: Goal: Organize/Inform. Method: HTML tablo. Interaction: Okuma. Justification: Tüm ünitelerin ana konularına genel bir bakış sunmak.
     -->
     <style>
@@ -44,10 +44,7 @@
         .nav-button:hover {
             transform: translateY(-2px);
         }
-        .nav-button.active {
-            background-color: #FF6B6B; /* Red for active */
-            color: white;
-        }
+        /* .nav-button.active CSS kuralı kaldırıldı, çünkü renkler JS ile yönetiliyor */
         .unit-card {
             border-radius: 12px;
             padding: 2rem;
@@ -106,6 +103,22 @@
         .sub-nav-button:not(.active-sub) {
             @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
         }
+        /* New style for clickable table rows */
+        .clickable-row {
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+        .clickable-row:hover {
+            opacity: 0.9; /* Hover effect: slightly reduce opacity */
+        }
+        .color-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -116,6 +129,9 @@
     </header>
 
     <nav id="unit-navigation" class="sticky-nav flex flex-wrap justify-center p-3 space-x-1 md:space-x-2">
+        <button id="back-to-site-button" class="nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-5 m-1 rounded-lg shadow hover:shadow-md">
+            Siteye Geri Dön
+        </button>
         <button id="home-button" class="nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-5 m-1 rounded-lg shadow hover:shadow-md">
             Ana Sayfa
         </button>
@@ -124,13 +140,7 @@
     <main class="container mx-auto px-4 py-8">
         <div id="content-area">
             <div id="home-content" class="text-center p-8 bg-white rounded-xl shadow-xl">
-                <h2 class="text-3xl font-bold text-sky-600 mb-4">Hoş Geldiniz!</h2>
-                <p class="text-xl text-slate-700 mb-6">Bu interaktif infografik, 7. Sınıf Din Kültürü ve Ahlak Bilgisi ders kitabının ünite özetlerini keşfetmenize yardımcı olmak için tasarlanmıştır.</p>
-                <p class="text-lg text-slate-600">Başlamak için yukarıdaki ünite başlıklarından birini seçin.</p>
-                <div class="mt-8 text-5xl">📚✨🕌</div>
-
                 <div class="mt-12">
-                    <h3 class="text-2xl font-bold text-sky-600 mb-6">Ünite Konularına Genel Bakış</h3>
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                             <thead>
@@ -160,7 +170,7 @@
                         id: "unite1",
                         title: "1. ÜNİTE: MELEK VE AHİRET İNANCI",
                         theme: "😇 GÖRÜNENİN ÖTESİNDE BİR YAŞAM VE SONSUZ DÖNÜŞ 😇",
-                        keyConcepts: ["Gayb Âlemi", "Melekler", "Ahiret", "Hesap ve Mizan", "Cennet & Cehennem"],
+                        keyConcepts: ["Gayb Âlemi", "Melekler", "Ahiret", "Hesap ve Mizan", "Cennet & Cehenennem"],
                         detailedSummary: `<h3>Gayb Âlemi:</h3>
                         <ul class="detailed-list">
                             <li>Beş duyu organımızla doğrudan algılayamadığımız, ancak varlığı Kur'an ve Sünnetle bildirilen varlık alanıdır. Bu varlıklar, insan aklının ve duyularının ötesindedir.</li>
@@ -198,7 +208,7 @@
                         </ul>
                         <img src="https://placehold.co/400x200/FFA07A/000000?text=Ahiret+Hayatı" alt="Ahiret Hayatı Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">`,
                         whyImportant: "Bu ünite, İslam inancının temel direklerinden olan görünmeyen varlıkları ve ölümden sonraki sonsuz hayatı anlamamızı sağlar. Ahiret inancı, insanı dünya hayatında daha sorumlu, bilinçli ve ahlaklı davranmaya teşvik eder. İyilik yapmaya yönlendirir, kötülüklerden sakındırır ve hayata anlam katarak umut ve teselli kaynağı olur.",
-                        color: "#118AB2", // Blue
+                        color: "#FF9F1C", // Orange for Unite 1
                         textColor: "text-white",
                         activities: `<h3>Etkinlikler:</h3>
                         <ul class="detailed-list">
@@ -247,7 +257,7 @@
                             <li>Hac ibadeti de farklı coğrafyalardan gelen Müslümanları bir araya getirerek evrensel bir dayanışma ve eşitlik ruhu oluşturur. Tüm hacılar ihramda eşitlenir.</li>
                         </ul>`,
                         whyImportant: "Hac ve Kurban ibadetleri, İslam'ın toplumsal boyutunu ve evrensel kardeşlik ruhunu pekiştiren en önemli ibadetlerdendir. Hac, Müslümanları coğrafi ve kültürel farklılıkları aşarak bir araya getirir, eşitlik ve birlik bilincini güçlendirir. Kurban ise fedakârlık, paylaşma ve ihtiyaç sahiplerine yardım etme değerlerini öğretir, toplumsal adalete katkıda bulunur.",
-                        color: "#06D6A0", // Green
+                        color: "#2EC4B6", // Teal for Unite 2
                         textColor: "text-slate-800",
                         activities: `<h3>Etkinlikler:</h3>
                         <ul class="detailed-list">
@@ -305,7 +315,7 @@
                         </ul>
                         <img src="https://placehold.co/400x200/8B8682/000000?text=Yardımseverlik" alt="Yardımseverlik Görseli" class="summary-image" onerror="this.onerror=null;this.src='https://placehold.co/400x200/CCCCCC/000000?text=Görsel+Yüklenemedi';">`,
                         whyImportant: "Bu ünite, bireyin ve toplumun huzuru, barışı ve gelişimi için vazgeçilmez olan ahlaki değerleri öğretir. İslam'ın ahlak anlayışı, sadece bireysel iyiliği değil, toplumsal adaleti, dayanışmayı ve huzuru da hedefler. Bu değerler, iyi bir insan, sorumlu bir vatandaş ve erdemli bir Müslüman olmanın yollarını gösterir.",
-                        color: "#FFD166", // Yellow
+                        color: "#64B5F6", // Light Blue - Changed from #FFD166 (Yellow)
                         textColor: "text-slate-800",
                         activities: `<h3>Etkinlikler:</h3>
                         <ul class="detailed-list">
@@ -334,7 +344,7 @@
                         <h3>Sıfatları:</h3>
                         <ul class="detailed-list">
                             <li><b>Sıdk (Doğruluk):</b> Söz ve davranışlarında her zaman doğru olması. Hiçbir zaman yalan söylememiştir.</li>
-                            <li><b>Emanet (Güvenilirlik):</b> Güvenilir olması, kendisine emanet edilen her şeyi koruması. Mekkeliler ona "el-Emin" lakabını vermişlerdir.</li>
+                            <li><b>Emanet (Güvenilirlik):</b> Güvenilir olması, kendisine emanizet edilen her şeyi koruması. Mekkeliler ona "el-Emin" lakabını vermişlerdir.</li>
                             <li><b>Fetanet (Üstün Zeka):</b> Akıllı, zeki ve anlayışlı olması, insanları ikna etme yeteneği. En zor durumlarda bile en doğru kararları vermiştir.</li>
                             <li><b>İsmet (Günahtan Korunmuşluk):</b> Allah tarafından günah işlemekten masumdur.</li>
                             <li><b>Tebliğ (Vahyi Bildirme):</b> Allah'tan aldığı vahiyleri eksiksiz ve olduğu gibi insanlara ulaştırması. Hiçbir şeyi gizlememiş, her şeyi açıkça bildirmiştir.</li>
@@ -355,7 +365,7 @@
                         textColor: "text-white",
                         activities: `<h3>Etkinlikler:</h3>
                         <ul class="detailed-list">
-                            <li>**Peygamberimizin Hayatından Kesitler:** Hz. Muhammed'in (sav) hayatından örnek olayları araştırın ve bu olaylardan çıkarılabilecek dersleri sınıf arkadaşlarınızla paylaşın.</li>
+                            <li>**Peygamberimizin Hayatından Kesitler:** Hz. Muhammed'in (sav) hayatından örnek olayları araştırın ve bulgularınızı arkadaşlarınızla paylaşın.</li>
                             <li>**40 Hadis Ezberleme:** Peygamberimizin (sav) ahlak ve yaşantısına dair 40 kısa hadis ezberlemeye çalışın.</li>
                             <li>**Sünneti Yaşama Örnekleri:** Günlük hayatınızda Peygamberimizin (sav) sünnetlerinden hangilerini uygulayabileceğinizi listeleyin ve uygulamaya çalışın.</li>
                             <li>**Peygamberimize Mektup:** Peygamberimize (sav) duygu ve düşüncelerinizi anlatan hayali bir mektup yazın.</li>
@@ -378,7 +388,7 @@
                             <li><b>Coğrafi ve Kültürel Faktörler:</b> Farklı bölgelerin gelenekleri, yaşam tarzları ve iklim koşulları, dini uygulamaların yorumlanmasında etkili olabilir.</li>
                             <li><b>İnsan Yapısı:</b> İnsanların anlama, algılama ve düşünme yeteneklerindeki farklılıklar, aynı metni farklı yorumlamalarına yol açabilir.</li>
                             <li><b>Siyasi ve Sosyal Sebepler:</b> Tarihi olaylar, siyasi gelişmeler ve toplumsal ihtiyaçlar, dini düşüncenin farklılaşmasına zemin hazırlayabilir.</li>
-                            <li><b>Farklı Bilim Dallarıyla İlişki:</b> Kelam (inanç), fıkıh (hukuk), tefsir (Kur'an yorumu), hadis (Peygamber sözleri) gibi ilimlerin farklı metodolojileri ve öncelikleri, yorum farklılıklarına neden olabilir.</li>
+                            <li><b>Farklı Bilim Dallarıyla İlişki:</b> Kelam (inanç), fıkıh (hukuk), tefsir (Kur'an yorumu), hadis (Peygamber sözleri), gibi ilimlerin farklı metodolojileri ve öncelikleri, yorum farklılıklarına neden olabilir.</li>
                             <li><b>Dil ve Anlam Farklılıkları:</b> Arapça metinlerin (Kur'an ve Hadis) farklı dilbilgisel ve anlamsal yorumlara açık olması.</li>
                         </ul>
                         <h3>Mezhep:</h3>
@@ -609,42 +619,82 @@
                 return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255)).toString(16).slice(1);
             }
 
+            function lightenColor(color, percent) {
+                let num = parseInt(color.slice(1), 16),
+                    amt = Math.round(2.55 * percent),
+                    R = (num >> 16) + amt,
+                    G = (num >> 8 & 0x00FF) + amt,
+                    B = (num & 0x0000FF) + amt;
+                return "#" + (0x1000000 + (R > 255 ? 255 : R < 0 ? 0 : R) * 0x10000 + (G > 255 ? 255 : G < 0 ? 0 : G) * 0x100 + (B > 255 ? 255 : B < 0 ? 0 : B)).toString(16).slice(1);
+            }
+
 
             function updateActiveButton(activeUnitId) {
                 const buttons = unitNavigation.querySelectorAll('.nav-button');
-                buttons.forEach(button => {
-                    if (button.dataset.unitId === activeUnitId) {
-                        button.classList.add('active');
-                        button.style.backgroundColor = reportData.units.find(u => u.id === activeUnitId).color;
-                        button.style.color = reportData.units.find(u => u.id === activeUnitId).textColor.includes("white") ? 'white' : '#073B4C';
-
-                    } else {
-                        button.classList.remove('active');
-                        button.style.backgroundColor = '#FFD166'; // Default Yellow for inactive
-                        button.style.color = '#073B4C'; // Dark Blue text for inactive
-                    }
-                });
-                // Handle home button active state
                 const homeButton = document.getElementById('home-button');
+                const backToSiteButton = document.getElementById('back-to-site-button');
+
+                // "Siteye Geri Dön" butonu her zaman sabit mavi renkte
+                backToSiteButton.style.backgroundColor = '#007BFF'; 
+                backToSiteButton.style.color = 'white';
+
+                // "Ana Sayfa" butonunun aktif/pasif durumu
                 if (activeUnitId === null) {
                     homeButton.classList.add('active');
-                    homeButton.style.backgroundColor = '#FF6B6B'; // Red for active home
+                    homeButton.style.backgroundColor = '#FF8C00'; // Aktifken turuncu
                     homeButton.style.color = 'white';
                 } else {
                     homeButton.classList.remove('active');
-                    homeButton.style.backgroundColor = '#FFD166';
-                    homeButton.style.color = '#073B4C';
+                    homeButton.style.backgroundColor = '#FFD166'; // Pasifken varsayılan sarı
+                    homeButton.style.color = '#073B4C'; // Pasifken koyu mavi metin
                 }
+
+                // Diğer ünite butonlarının renklerini ayarla
+                buttons.forEach(button => {
+                    // Ana Sayfa ve Siteye Geri Dön butonlarını atla
+                    if (button.id === 'home-button' || button.id === 'back-to-site-button') {
+                        return;
+                    }
+
+                    const unitId = button.dataset.unitId;
+                    const unit = reportData.units.find(u => u.id === unitId);
+
+                    if (unitId === activeUnitId) {
+                        // Aktif ünite butonu için rengi koyulaştır
+                        button.classList.add('active');
+                        button.style.backgroundColor = darkenColor(unit.color, 15); 
+                        button.style.color = 'white'; 
+                    } else {
+                        // Pasif ünite butonları için kendi orijinal renklerini kullan
+                        button.classList.remove('active');
+                        button.style.backgroundColor = unit.color; 
+                        button.style.color = unit.textColor.includes("white") ? 'white' : '#073B4C'; 
+                    }
+                });
             }
 
-            // Function to populate the table on the home page
+            // Ana sayfadaki tabloyu doldurma fonksiyonu
             function populateHomeTable() {
-                unitTopicsTableBody.innerHTML = ''; // Clear existing rows
+                unitTopicsTableBody.innerHTML = ''; // Mevcut satırları temizle
                 reportData.units.forEach(unit => {
                     const row = document.createElement('tr');
-                    row.className = 'border-b border-gray-200 hover:bg-gray-50';
+                    // Tıklanabilir satır sınıfı ekle
+                    row.className = 'border-b border-gray-200 clickable-row';
+                    
+                    // Satırın arka plan rengini doğrudan ünitenin renginin açık bir tonu olarak ayarla
+                    row.style.backgroundColor = lightenColor(unit.color, 50); 
+
+                    // Hover efekti için opacity geçişi CSS'de tanımlı kalacak.
+                    // JavaScript'teki fare olay dinleyicileri kaldırıldı.
+
+                    row.onclick = () => {
+                        displayUnitContent(unit.id, 'summary'); // Satıra tıklandığında ünite özetini aç
+                    };
                     row.innerHTML = `
-                        <td class="py-3 px-6 text-left whitespace-nowrap font-medium">${unit.title}</td>
+                        <td class="py-3 px-6 text-left whitespace-nowrap font-medium">
+                            <span class="color-indicator" style="background-color: ${unit.color};"></span>
+                            <span style="color: ${unit.color}; font-weight: bold;">${unit.title}</span>
+                        </td>
                         <td class="py-3 px-6 text-left">${unit.keyConcepts.join(', ')}</td>
                     `;
                     unitTopicsTableBody.appendChild(row);
@@ -652,26 +702,33 @@
             }
 
 
-            // Add event listener for the new Home button
+            // Yeni Ana Sayfa butonu için olay dinleyicisi ekle
             document.getElementById('home-button').onclick = () => {
-                displayUnitContent(null); // Passing null to display home content
+                displayUnitContent(null); // Ana sayfa içeriğini göstermek için null geçir
             };
 
+            // "Siteye Geri Dön" butonu için olay dinleyicisi ekle
+            document.getElementById('back-to-site-button').onclick = () => {
+                window.location.href = 'https://ozeme42.github.io/yunus/';
+            };
+
+            // Ünite navigasyon butonlarını oluştur
             reportData.units.forEach(unit => {
                 const button = document.createElement('button');
                 button.textContent = unit.title.split(':')[0]; // "1. ÜNİTE"
                 button.dataset.unitId = unit.id;
                 button.className = 'nav-button text-sm md:text-base font-semibold py-2 px-3 md:px-5 m-1 rounded-lg shadow hover:shadow-md';
-                button.style.backgroundColor = '#FFD166'; 
-                button.style.color = '#073B4C';
+                // Butonun başlangıç rengini ünitenin kendi rengi olarak ayarla
+                button.style.backgroundColor = unit.color; 
+                button.style.color = unit.textColor.includes("white") ? 'white' : '#073B4C';
                 button.onclick = () => {
-                    displayUnitContent(unit.id, 'summary'); // Default to summary when unit button is clicked
+                    displayUnitContent(unit.id, 'summary'); // Ünite butonuna tıklandığında varsayılan olarak özeti göster
                 };
                 unitNavigation.appendChild(button);
             });
             
-            displayUnitContent(null); // Show home content initially and populate table
-            populateHomeTable(); // Ensure table is populated on initial load
+            displayUnitContent(null); // Başlangıçta ana sayfa içeriğini göster ve tabloyu doldur
+            populateHomeTable(); // Başlangıç yüklemesinde tablonun doldurulduğundan emin ol
         })(); // IIFE ends
     </script>
 </body>
