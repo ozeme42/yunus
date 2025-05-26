@@ -113,20 +113,23 @@
         .question-line {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center; /* Changed to center for horizontal alignment */
             margin-bottom: 1.5rem;
             width: 100%;
+            text-align: center; /* Center the text within the column */
         }
         .question-line h2 {
             margin-right: 0.5rem;
             margin-bottom: 0;
             flex-shrink: 0;
             font-size: 2.25rem;
+            display: none; /* Hide the "Tanım:" label */
         }
         .question-line p {
             flex-grow: 1;
             margin-bottom: 0;
             font-size: 1.5rem;
+            text-align: center; /* Ensure the paragraph text is centered */
         }
 
         .message-box {
@@ -192,11 +195,18 @@
         /* Responsive grid for concept boxes */
         .concept-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, 1fr); /* Default to 5 columns */
             justify-content: center;
             gap: 1rem;
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        /* Adjust for more columns on larger screens if needed, or keep 5 and let it wrap */
+        @media (min-width: 1024px) { /* Example breakpoint for wider screens */
+            .concept-grid {
+                grid-template-columns: repeat(5, 1fr); /* Still 5 columns, will wrap to 2 rows for 10 items */
+            }
         }
 
         /* Timer display style */
@@ -409,7 +419,6 @@
         <div id="mainQuizContent" class="main-quiz-content">
             <div id="quizArea" class="quiz-area">
                 <div class="question-line">
-                    <h2 class="text-3xl font-bold text-gray-700">Tanım:</h2>
                     <p id="questionText" class="text-xl text-gray-800"></p>
                 </div>
                 <div id="timerDisplay">50</div>
@@ -421,6 +430,7 @@
 
             <div class="button-group">
                 <button id="nextQuestionBtn" class="action-button">Sonraki Soru</button>
+                <button id="showAnswerBtn" class="action-button bg-orange-500 hover:bg-orange-600">Cevabı Göster</button>
             </div>
 
             <button id="resetQuizBtn" class="reset-button">Yarışmayı Yeniden Başlat</button>
@@ -450,6 +460,7 @@
             {
                 id: 'unit1',
                 name: 'Ünite 1: Peygamberimizin Gençlik Yılları',
+                bgColor: 'bg-blue-100', // Yeni renk
                 concepts: [
                     { id: 'mekke', name: 'Mekke', color: 'bg-blue-600', questions: [
                         { question: 'Peygamber Efendimiz Hz. Muhammed (s.a.v)\'in Miladi 571 yılında dünyaya geldiği şehir.' },
@@ -611,6 +622,7 @@
             {
                 id: 'unit2',
                 name: 'Ünite 2: Kur\'an-ı Kerim\'de Peygamberimiz',
+                bgColor: 'bg-green-100', // Yeni renk
                 concepts: [
                     { id: 'muhammed', name: 'Muhammed', color: 'bg-blue-600', questions: [
                         { question: 'Kur\'an-ı Kerim\'de Peygamber Efendimiz için kullanılan en yaygın isim.' },
@@ -717,6 +729,7 @@
             {
                 id: 'unit3',
                 name: 'Ünite 3: Peygamberimiz ve Gençler',
+                bgColor: 'bg-purple-100', // Yeni renk
                 concepts: [
                     { id: 'genclere-onem', name: 'Gençlere Önem', color: 'bg-blue-600', questions: [
                         { question: 'Peygamber Efendimiz (s.a.v.)\'in gençleri toplumun geleceği ve dinamik gücü olarak görmesi.' },
@@ -823,6 +836,7 @@
             {
                 id: 'unit4',
                 name: 'Ünite 4: En Güzel Örnek Peygamberimiz',
+                bgColor: 'bg-yellow-100', // Yeni renk
                 concepts: [
                     { id: 'usve-i-hasene-genel', name: 'Üsve-i Hasene', color: 'bg-blue-600', questions: [
                         { question: 'Peygamberimizin hayatının her alanında Müslümanlara en güzel örnek olması.' },
@@ -929,6 +943,7 @@
             {
                 id: 'unit5',
                 name: 'Ünite 5: Sahabenin Fazileti',
+                bgColor: 'bg-red-100', // Yeni renk
                 concepts: [
                     { id: 'sahabe', name: 'Sahabe', color: 'bg-blue-600', questions: [
                         { question: 'Peygamberimizi gören, ona iman eden ve Müslüman olarak vefat eden kişilere verilen genel ad.' },
@@ -995,12 +1010,12 @@
                         { question: 'Peygamberimizin meclislerinde bulunarak dini bilgileri bizzat edinmeleri.' },
                         { question: 'İslam ilimlerinin temelini atan ilk öğrenciler olmaları.' }
                     ]},
-                    { id: 'dini-anlama', name: 'Dini Anlama', color: 'bg-fuchsia-600', questions: [
+                    { id: 'dini-anlama-sahabe', name: 'Dini Anlama', color: 'bg-fuchsia-600', questions: [
                         { question: 'Sahabenin Peygamberimizin en yakın öğrencileri olarak dini en iyi anlayan ve uygulayan nesil olması.' },
                         { question: 'Kur\'an ve Sünnet\'i doğru bir şekilde yorumlama ve yaşama yeteneği.' },
                         { question: 'İslam\'ın ruhunu ve özünü kavrama konusundaki derinlikleri.' }
                     ]},
-                    { id: 'cihad', name: 'Cihad', color: 'bg-violet-600', questions: [
+                    { id: 'cihad-sahabe', name: 'Cihad', color: 'bg-violet-600', questions: [
                         { question: 'Sahabenin İslam\'ı yaymak ve korumak için gösterdiği her türlü çaba ve mücadele.' },
                         { question: 'Allah yolunda malıyla ve canıyla savaşma.' },
                         { question: 'İslam\'ın tebliği ve savunmasında gösterdikleri azim.' }
@@ -1020,12 +1035,12 @@
                         { question: 'İslam uğruna karşılaştıkları sıkıntılara metanetle göğüs germeleri.' },
                         { question: 'Peygamberimizin sabrını örnek almaları.' }
                     ]},
-                    { id: 'sehadet', name: 'Şehadet', color: 'bg-blue-700', questions: [
+                    { id: 'sehadet-sahabe', name: 'Şehadet', color: 'bg-blue-700', questions: [
                         { question: 'Sahabenin Allah yolunda canlarını feda etmeleri ve şehitlik mertebesine ulaşmaları.' },
                         { question: 'Uhud, Bedir gibi savaşlarda gösterdikleri kahramanlık ve fedakarlık.' },
                         { question: 'İslam\'ın yayılması için canlarını ortaya koymaları.' }
                     ]},
-                    { id: 'örnek-nesil', name: 'Örnek Nesil', color: 'bg-green-700', questions: [
+                    { id: 'ornek-nesil', name: 'Örnek Nesil', color: 'bg-green-700', questions: [
                         { question: 'Sahabenin İslam\'ın ilk ve en iyi anlayan, yaşayan ve aktaran nesil olması.' },
                         { question: 'Peygamberimizin "Ashabım yıldızlar gibidir, hangisine uyarsanız hidayeti bulursunuz" hadisiyle övülen nesil.' },
                         { question: 'Tüm Müslümanlar için rehber ve model teşkil eden topluluk.' }
@@ -1034,23 +1049,38 @@
             }
         ];
 
-        // Diğer DOM elemanları
-        const mainMenuScreen = document.getElementById('mainMenuScreen');
+        // HTML elementlerini seç
         const unitCardsContainer = document.getElementById('unitCardsContainer');
         const startQuizBtn = document.getElementById('startQuizBtn');
+        const returnToHomePageBtn = document.getElementById('returnToHomePageBtn');
+        const mainTitle = document.getElementById('mainTitle');
+        const mainMenuScreen = document.getElementById('mainMenuScreen');
         const mainQuizContent = document.getElementById('mainQuizContent');
-        const quizArea = document.getElementById('quizArea');
         const questionText = document.getElementById('questionText');
-        const conceptBoxesContainer = document.getElementById('conceptBoxes');
+        const conceptBoxesDiv = document.getElementById('conceptBoxes');
         const feedbackDiv = document.getElementById('feedback');
         const nextQuestionBtn = document.getElementById('nextQuestionBtn');
         const resetQuizBtn = document.getElementById('resetQuizBtn');
-        const timerDisplay = document.getElementById('timerDisplay');
         const returnToMainMenuFromQuizBtn = document.getElementById('returnToMainMenuFromQuizBtn');
-        const mainTitle = document.getElementById('mainTitle');
-        const returnToHomePageBtn = document.getElementById('returnToHomePageBtn');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const showAnswerBtn = document.getElementById('showAnswerBtn'); // Yeni buton
 
-        // Modal elemanları (bu uygulamada sadece genel mesajlar için kullanılabilir)
+        let selectedUnitId = null;
+        let currentQuestion = null;
+        let askedQuestionsUniqueIds = []; // Sorulmuş soruların benzersiz kimliklerini tutar
+        let timerInterval;
+        let timeLeft = 50; // Başlangıç süresi
+
+        // Utility: Shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Custom Modal Logic
         const customModalOverlay = document.getElementById('customModalOverlay');
         const modalTitle = document.getElementById('modalTitle');
         const modalMessage = document.getElementById('modalMessage');
@@ -1061,339 +1091,391 @@
         const modalSaveBtn = document.getElementById('modalSaveBtn');
         const modalCancelBtn = document.getElementById('modalCancelBtn');
 
+        function showModal(title, message, type, onConfirm, onCancel, input1Placeholder = '', input2Placeholder = '', textareaPlaceholder = '') {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
 
-        let allQuestions = [];
-        let currentQuestionIndex = 0;
-        let answeredConceptIds = new Set();
-        let timer;
-        let timeLeft;
-        const INITIAL_TIME = 50;
-        let attemptsLeft = 2;
+            modalInput1.style.display = 'none';
+            modalInput2.style.display = 'none';
+            modalTextarea.style.display = 'none';
+            modalConfirmBtn.style.display = 'none';
+            modalSaveBtn.style.display = 'none';
+            modalCancelBtn.style.display = 'inline-block'; // Always show cancel by default
 
-        let selectedUnitId = null;
-
-        // Diziyi karıştırma fonksiyonu
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+            if (type === 'alert') {
+                // Sadece mesaj ve Tamam butonu
+                modalCancelBtn.textContent = 'Tamam';
+                modalCancelBtn.onclick = () => {
+                    hideModal();
+                    if (onConfirm) onConfirm(); // Alert için onConfirm'i tamam olarak kullanabiliriz
+                };
+            } else if (type === 'confirm') {
+                modalConfirmBtn.style.display = 'inline-block';
+                modalCancelBtn.textContent = 'İptal';
+                modalConfirmBtn.onclick = () => {
+                    hideModal();
+                    if (onConfirm) onConfirm();
+                };
+                modalCancelBtn.onclick = () => {
+                    hideModal();
+                    if (onCancel) onCancel();
+                };
+            } else if (type === 'prompt') {
+                modalInput1.style.display = 'block';
+                modalInput1.placeholder = input1Placeholder;
+                modalInput1.value = ''; // Clear previous value
+                modalSaveBtn.style.display = 'inline-block';
+                modalCancelBtn.textContent = 'İptal';
+                modalSaveBtn.onclick = () => {
+                    hideModal();
+                    if (onConfirm) onConfirm(modalInput1.value);
+                };
+                modalCancelBtn.onclick = () => {
+                    hideModal();
+                    if (onCancel) onCancel();
+                };
+            } else if (type === 'form') {
+                modalInput1.style.display = 'block';
+                modalInput1.placeholder = input1Placeholder;
+                modalInput1.value = '';
+                modalTextarea.style.display = 'block';
+                modalTextarea.placeholder = textareaPlaceholder;
+                modalTextarea.value = '';
+                modalSaveBtn.style.display = 'inline-block';
+                modalCancelBtn.textContent = 'İptal';
+                modalSaveBtn.onclick = () => {
+                    hideModal();
+                    if (onConfirm) onConfirm(modalInput1.value, modalTextarea.value);
+                };
+                modalCancelBtn.onclick = () => {
+                    hideModal();
+                    if (onCancel) onCancel();
+                };
             }
-            return array;
+
+            customModalOverlay.style.display = 'flex';
         }
 
-        // Seçilen üniteye göre soruları hazırla
-        function prepareQuestions() {
-            let conceptsToUse = [];
-            if (selectedUnitId === 'all-units') {
-                conceptsToUse = units.flatMap(unit => unit.concepts);
-            } else {
-                const selectedUnit = units.find(unit => unit.id === selectedUnitId);
-                if (selectedUnit) {
-                    conceptsToUse = selectedUnit.concepts;
-                }
-            }
-
-            allQuestions = [];
-            conceptsToUse.forEach(concept => {
-                concept.questions.forEach(q => {
-                    allQuestions.push({
-                        question: q.question,
-                        correctConcept: concept.name,
-                        correctConceptId: concept.id
-                    });
-                });
-            });
-            allQuestions = shuffleArray(allQuestions);
-            currentQuestionIndex = 0;
-            answeredConceptIds.clear();
+        function hideModal() {
+            customModalOverlay.style.display = 'none';
+            modalInput1.value = '';
+            modalInput2.value = '';
+            modalTextarea.value = '';
+            // Reset button event listeners to avoid conflicts
+            modalConfirmBtn.onclick = null;
+            modalSaveBtn.onclick = null;
+            modalCancelBtn.onclick = null;
+            modalCancelBtn.textContent = 'İptal'; // Reset text
         }
 
-        // Cevaplananları çıkararak kalan soruları güncelle
-        function updateAvailableQuestions() {
-            allQuestions = allQuestions.filter(q => !answeredConceptIds.has(q.correctConceptId));
-            allQuestions = shuffleArray(allQuestions);
-            currentQuestionIndex = 0;
-        }
 
-        // Mevcut soruyu göster
-        function displayQuestion() {
-            feedbackDiv.style.display = 'none';
-            feedbackDiv.className = 'message-box mt-4';
-            nextQuestionBtn.style.display = 'block';
-            disableConceptBoxes(false);
-            clearTimeout(timer);
+        // Oyun mantığı
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 50; // Reset for each question
+            timerDisplay.textContent = timeLeft;
             timerDisplay.classList.remove('warning');
 
-            attemptsLeft = 2;
-
-            if (allQuestions.length === 0) {
-                questionText.textContent = 'Tebrikler! Tüm soruları tamamladınız.';
-                nextQuestionBtn.style.display = 'none';
-                disableConceptBoxes(true);
-                timerDisplay.style.display = 'none';
-                return;
-            }
-
-            const currentQuestion = allQuestions[currentQuestionIndex];
-            questionText.innerHTML = `<strong>Tanım:</strong> ${currentQuestion.question}`;
-
-            timeLeft = INITIAL_TIME;
-            timerDisplay.textContent = timeLeft;
-            timerDisplay.style.display = 'block';
-            timer = setInterval(() => {
+            timerInterval = setInterval(() => {
                 timeLeft--;
                 timerDisplay.textContent = timeLeft;
                 if (timeLeft <= 10) {
                     timerDisplay.classList.add('warning');
                 }
                 if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    feedbackDiv.textContent = 'Süre doldu! Cevaplama hakkınız kalmadı.';
-                    feedbackDiv.className = 'message-box mt-4 error';
+                    clearInterval(timerInterval);
+                    feedbackDiv.textContent = 'Süre doldu! Doğru cevap: ' + currentQuestion.correctConceptName;
+                    feedbackDiv.classList.remove('success');
+                    feedbackDiv.classList.add('error');
                     feedbackDiv.style.display = 'block';
-                    disableConceptBoxes(true);
+                    disableConceptBoxes();
+                    showAnswerBtn.disabled = true; // Süre bitince cevap göster butonu da devre dışı
                 }
             }, 1000);
         }
 
-        // Kavram kutularını oluştur
-        function renderConcepts() {
-            conceptBoxesContainer.innerHTML = '';
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
 
-            let conceptsToRender = [];
-            if (selectedUnitId === 'all-units') {
-                conceptsToRender = units.flatMap(unit => unit.concepts);
-            } else {
-                const selectedUnit = units.find(unit => unit.id === selectedUnitId);
-                if (selectedUnit) {
-                    conceptsToRender = selectedUnit.concepts;
+        function getAvailableQuestions() {
+            const selectedUnit = units.find(unit => unit.id === selectedUnitId);
+            if (!selectedUnit) return [];
+
+            let allQuestionsInUnit = [];
+            selectedUnit.concepts.forEach(concept => {
+                concept.questions.forEach((q, qIndex) => {
+                    // Her soruya benzersiz bir kimlik atıyoruz
+                    allQuestionsInUnit.push({
+                        question: q.question,
+                        correctConceptId: concept.id, // Bu artık benzersiz id olacak (örn: unit3-hz-ali)
+                        correctConceptName: concept.name,
+                        uniqueQuestionId: `${concept.id}-${qIndex}` // Soruya özel benzersiz id
+                    });
+                });
+            });
+
+            // Daha önce sorulmuş soruları filtrele
+            return allQuestionsInUnit.filter(q => !askedQuestionsUniqueIds.includes(q.uniqueQuestionId));
+        }
+
+        function displayQuestion() {
+            stopTimer(); // Stop any existing timer
+            feedbackDiv.style.display = 'none'; // Hide feedback
+            feedbackDiv.textContent = ''; // Clear feedback
+            conceptBoxesDiv.innerHTML = ''; // Clear old concept boxes
+            nextQuestionBtn.disabled = true; // Disable next question button initially
+            showAnswerBtn.disabled = false; // Enable show answer button for new question
+
+            const availableQuestions = getAvailableQuestions();
+
+            if (availableQuestions.length === 0) {
+                showModal('Yarışma Bitti!', 'Tüm soruları cevapladınız. Tebrikler!', 'alert', () => {
+                    resetQuiz();
+                });
+                return;
+            }
+
+            currentQuestion = shuffleArray(availableQuestions)[0]; // Pick a random available question
+            askedQuestionsUniqueIds.push(currentQuestion.uniqueQuestionId); // Bu soruyu soruldu olarak işaretle
+
+            questionText.textContent = currentQuestion.question;
+
+            const selectedUnitObj = units.find(unit => unit.id === selectedUnitId);
+
+            // Sadece henüz tüm soruları sorulmamış veya mevcut doğru cevap olan kavramları al
+            let conceptsEligibleForDisplay = [];
+            selectedUnitObj.concepts.forEach(concept => {
+                const hasUnaskedQuestion = concept.questions.some((q, qIndex) => {
+                    // Eğer "Tüm Üniteler" seçiliyse, concept.id zaten benzersiz (unitId-conceptId)
+                    const conceptUniqueIdForQuestionCheck = (selectedUnitId === 'all-units') ? concept.id : `${selectedUnitId}-${concept.id}`;
+                    return !askedQuestionsUniqueIds.includes(`${conceptUniqueIdForQuestionCheck}-${qIndex}`);
+                });
+
+                if (hasUnaskedQuestion || concept.id === currentQuestion.correctConceptId) {
+                    conceptsEligibleForDisplay.push(concept);
+                }
+            });
+
+            let conceptsForDisplay = [conceptsEligibleForDisplay.find(c => c.id === currentQuestion.correctConceptId)];
+
+            let otherConcepts = conceptsEligibleForDisplay.filter(c => c.id !== currentQuestion.correctConceptId);
+            otherConcepts = shuffleArray(otherConcepts);
+
+            // Toplam 10 kavram kutusu için 9 diğer kavramı ekle
+            for (let i = 0; i < 9 && i < otherConcepts.length; i++) {
+                conceptsForDisplay.push(otherConcepts[i]);
+            }
+
+            // Eğer hala 10 kavram yoksa ve başka seçenekler varsa, onları da ekle
+            // Bu, özellikle az kavramlı ünitelerde veya sona yaklaşırken seçenekleri doldurmak için.
+            if (conceptsForDisplay.length < 10) {
+                const allConceptsInUnit = selectedUnitObj.concepts;
+                const conceptsAlreadySelected = new Set(conceptsForDisplay.map(c => c.id));
+                const remainingConcepts = allConceptsInUnit.filter(c => !conceptsAlreadySelected.has(c.id));
+                shuffleArray(remainingConcepts);
+
+                for (let i = 0; conceptsForDisplay.length < 10 && i < remainingConcepts.length; i++) {
+                    conceptsForDisplay.push(remainingConcepts[i]);
                 }
             }
 
-            let remainingConcepts = conceptsToRender.filter(concept => !answeredConceptIds.has(concept.id));
 
-            const currentQuestion = allQuestions[currentQuestionIndex];
-            const correctConcept = remainingConcepts.find(c => c.id === currentQuestion.correctConceptId);
-
-            let conceptsForDisplay = [];
-
-            if (correctConcept) {
-                conceptsForDisplay.push(correctConcept);
-                remainingConcepts = remainingConcepts.filter(c => c.id !== correctConcept.id);
-            }
-
-            shuffleArray(remainingConcepts);
-            for (let i = 0; i < Math.min(9, remainingConcepts.length); i++) {
-                conceptsForDisplay.push(remainingConcepts[i]);
-            }
-
-            shuffleArray(conceptsForDisplay);
+            conceptsForDisplay = shuffleArray(conceptsForDisplay); // Şıkların sırasını karıştır
 
             conceptsForDisplay.forEach(concept => {
                 const conceptBox = document.createElement('div');
-                conceptBox.className = `concept-box ${concept.color} flex items-center justify-center p-4 rounded-full shadow-lg cursor-pointer transform transition-all duration-200 ease-in-out`;
-                conceptBox.setAttribute('data-concept-id', concept.id);
-
-                conceptBox.style.setProperty('--animation-duration', `${Math.random() * 3 + 4}s`);
-                conceptBox.style.setProperty('--animation-delay', `${Math.random() * 2}s`);
-                conceptBox.style.setProperty('--translate-x', `${(Math.random() - 0.5) * 20}px`);
-                conceptBox.style.setProperty('--translate-y', `${(Math.random() - 0.5) * 20}px`);
-
-                const span = document.createElement('span');
-                span.textContent = concept.name;
-                conceptBox.appendChild(span);
-
-                const checkmarkIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                checkmarkIcon.setAttribute("class", "checkmark");
-                checkmarkIcon.setAttribute("fill", "none");
-                checkmarkIcon.setAttribute("viewBox", "0 0 24 24");
-                checkmarkIcon.setAttribute("stroke", "currentColor");
-                checkmarkIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>';
-                conceptBox.appendChild(checkmarkIcon);
-
-                conceptBox.addEventListener('click', () => checkAnswer(conceptBox, concept.id));
-                conceptBoxesContainer.appendChild(conceptBox);
+                conceptBox.id = concept.id; // Artık bu ID benzersiz olacak (unitId-conceptId)
+                conceptBox.classList.add('concept-box', concept.color, 'cursor-pointer');
+                conceptBox.innerHTML = `<span>${concept.name}</span>`;
+                conceptBox.style.setProperty('--animation-duration', `${2 + Math.random() * 3}s`);
+                conceptBox.style.setProperty('--animation-delay', `${Math.random() * 0.5}s`);
+                conceptBox.style.setProperty('--translate-x', `${(Math.random() - 0.5) * 10}px`);
+                conceptBox.style.setProperty('--translate-y', `${(Math.random() - 0.5) * 10}px`);
+                conceptBox.onclick = () => checkAnswer(concept.id);
+                conceptBoxesDiv.appendChild(conceptBox);
             });
+
+            startTimer();
         }
 
-        // Seçilen cevabı kontrol et
-        function checkAnswer(selectedBox, selectedConceptId) {
-            clearInterval(timer);
+        function checkAnswer(selectedConceptId) {
+            stopTimer(); // Stop timer when an answer is selected
+            disableConceptBoxes(); // Disable all boxes after selection
+            showAnswerBtn.disabled = true; // Disable show answer button after user attempts
 
-            const currentQuestion = allQuestions[currentQuestionIndex];
-            const correctConceptId = currentQuestion.correctConceptId;
+            const selectedBox = document.getElementById(selectedConceptId);
+            const correctBox = document.getElementById(currentQuestion.correctConceptId);
 
-            if (String(selectedConceptId) === String(correctConceptId)) {
-                feedbackDiv.textContent = 'Doğru cevap! Harikasın!';
-                feedbackDiv.className = 'message-box mt-4 success';
-                answeredConceptIds.add(correctConceptId);
-                const allConceptBoxes = document.querySelectorAll('.concept-box');
-                allConceptBoxes.forEach(box => {
-                    if (box.getAttribute('data-concept-id') === String(correctConceptId)) {
-                        box.classList.add('correct');
-                    }
-                });
-                disableConceptBoxes(true);
+            if (selectedConceptId === currentQuestion.correctConceptId) {
+                selectedBox.classList.add('correct');
+                feedbackDiv.textContent = 'Doğru Cevap! Tebrikler!';
+                feedbackDiv.classList.remove('error');
+                feedbackDiv.classList.add('success');
             } else {
-                attemptsLeft--;
                 selectedBox.classList.add('incorrect');
-
-                if (attemptsLeft > 0) {
-                    feedbackDiv.textContent = `Yanlış cevap. ${attemptsLeft} hakkınız kaldı. Tekrar deneyin!`;
-                    feedbackDiv.className = 'message-box mt-4 error';
-                    setTimeout(() => {
-                        selectedBox.classList.remove('incorrect');
-                        disableConceptBoxes(false);
-                        timeLeft = INITIAL_TIME;
-                        timerDisplay.textContent = timeLeft;
-                        timer = setInterval(() => {
-                            timeLeft--;
-                            timerDisplay.textContent = timeLeft;
-                            if (timeLeft <= 10) {
-                                timerDisplay.classList.add('warning');
-                            }
-                            if (timeLeft <= 0) {
-                                clearInterval(timer);
-                                feedbackDiv.textContent = 'Süre doldu! Cevaplama hakkınız kalmadı.';
-                                feedbackDiv.className = 'message-box mt-4 error';
-                                feedbackDiv.style.display = 'block';
-                                disableConceptBoxes(true);
-                            }
-                        }, 1000);
-                    }, 500);
-                } else {
-                    feedbackDiv.textContent = 'Yanlış cevap. Cevaplama hakkınız kalmadı.';
-                    feedbackDiv.className = 'message-box mt-4 error';
-                    disableConceptBoxes(true);
-                }
+                correctBox.classList.add('correct'); // Highlight correct answer
+                feedbackDiv.textContent = `Yanlış cevap! Doğru cevap: ${currentQuestion.correctConceptName}`;
+                feedbackDiv.classList.remove('success');
+                feedbackDiv.classList.add('error');
             }
             feedbackDiv.style.display = 'block';
+            nextQuestionBtn.disabled = false; // Enable next question button
         }
 
-        // Kavram kutularını devre dışı bırak/etkinleştir
-        function disableConceptBoxes(disable) {
+        function disableConceptBoxes() {
             const conceptBoxes = document.querySelectorAll('.concept-box');
             conceptBoxes.forEach(box => {
-                box.style.pointerEvents = disable ? 'none' : 'auto';
-                if (!disable) {
-                    box.classList.remove('correct', 'incorrect');
-                }
+                box.onclick = null; // Remove click event
+                box.classList.remove('cursor-pointer');
+                box.style.pointerEvents = 'none'; // Further disable clicks
             });
         }
 
-        // Ana menü için ünite kartlarını oluştur
-        function renderUnitCards() {
-            unitCardsContainer.innerHTML = '';
-            // "Tüm Üniteler" kartını henüz yoksa ekle
-            if (!units.some(unit => unit.id === 'all-units')) {
-                const allConceptsCombined = units.flatMap(unit => unit.concepts);
-                units.push({
-                    id: 'all-units',
-                    name: 'Tüm Üniteler',
-                    concepts: allConceptsCombined
-                });
-            }
-
-            units.forEach(unit => {
-                const unitCard = document.createElement('div');
-                unitCard.className = `unit-card bg-gradient-to-br from-blue-200 to-blue-400 text-blue-800 ${unit.id === selectedUnitId ? 'selected' : ''}`;
-                unitCard.textContent = unit.name;
-                unitCard.setAttribute('data-unit-id', unit.id);
-                unitCard.addEventListener('click', () => selectUnit(unit.id));
-                unitCardsContainer.appendChild(unitCard);
-            });
-
-            startQuizBtn.style.display = selectedUnitId ? 'block' : 'none';
-        }
-
-        // Bir üniteyi seç
-        function selectUnit(unitId) {
-            selectedUnitId = unitId;
-            renderUnitCards();
-        }
-
-        // Genel mesaj modalını göster
-        function showCustomModal(title, message, type) {
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-            customModalOverlay.style.display = 'flex';
-            
-            // Sadece iptal butonu veya onay butonu göster
-            modalConfirmBtn.style.display = 'none';
-            modalSaveBtn.style.display = 'none';
-            modalCancelBtn.style.display = 'block'; // Sadece kapatma/iptal butonu
-
-            modalCancelBtn.onclick = () => {
-                customModalOverlay.style.display = 'none';
-            };
-        }
-
-        // Olay Dinleyicileri
-        startQuizBtn.addEventListener('click', () => {
-            if (selectedUnitId) {
-                prepareQuestions();
-                renderConcepts();
-                displayQuestion();
-                mainMenuScreen.style.display = 'none';
-                mainQuizContent.style.display = 'flex';
-                mainTitle.style.display = 'none';
-            }
-        });
-
-        nextQuestionBtn.addEventListener('click', () => {
-            updateAvailableQuestions();
-            renderConcepts();
-            displayQuestion();
-        });
-
-        resetQuizBtn.addEventListener('click', () => {
-            answeredConceptIds.clear();
-            prepareQuestions();
-            renderConcepts();
-            displayQuestion();
-            nextQuestionBtn.style.display = 'block';
-        });
-
-        returnToMainMenuFromQuizBtn.addEventListener('click', () => {
+        function resetQuiz() {
+            stopTimer();
+            selectedUnitId = null;
+            askedQuestionsUniqueIds = []; // Sorulan soruları sıfırla
+            currentQuestion = null;
             mainQuizContent.style.display = 'none';
             mainMenuScreen.style.display = 'flex';
-            clearInterval(timer);
-            selectedUnitId = null;
-            answeredConceptIds.clear();
-            renderUnitCards();
             mainTitle.style.display = 'block';
-        });
+            feedbackDiv.style.display = 'none';
+            timerDisplay.textContent = '50';
+            timerDisplay.classList.remove('warning');
+            startQuizBtn.style.display = 'none'; // Hide start button until unit is selected
+            renderUnitCards();
+        }
 
-        returnToHomePageBtn.addEventListener('click', () => {
-            window.location.href = 'https://ozeme42.github.io/yunus/index.html';
-        });
-
-        // Uygulama yüklendiğinde
-        document.addEventListener('DOMContentLoaded', () => {
-            // "Tüm Üniteler" seçeneğinin zaten var olup olmadığını kontrol et
-            const allUnitsExist = units.some(unit => unit.id === 'all-units');
-
-            // "Ek Kavramlar" ünitesini birimler dizisinden kaldır (varsa) - bu satır orijinal şablondan geldiği için korundu.
-            units = units.filter(unit => unit.id !== 'additional-concepts-unit');
-
-            if (!allUnitsExist) {
-                // Tüm ünitelerdeki kavramları birleştir
-                const allConceptsCombined = units.flatMap(unit => unit.concepts);
-
-                // `units` dizisine yeni bir "Tüm Üniteler" ünitesi ekle
-                units.push({
-                    id: 'all-units',
-                    name: 'Tüm Üniteler',
-                    concepts: allConceptsCombined
-                });
-            }
-
-            selectedUnitId = null; // Başlangıçta ünite seçimi yok
-
-            renderUnitCards(); // Ana menüyü oluştur
+        // Ana menüye dönme işlevi güncellendi
+        function returnToMainMenuScreen() {
+            stopTimer(); // Süreyi durdur
             mainQuizContent.style.display = 'none'; // Quiz içeriğini gizle
             mainMenuScreen.style.display = 'flex'; // Ana menüyü göster
             mainTitle.style.display = 'block'; // Başlığı göster
+            selectedUnitId = null; // Seçili üniteyi sıfırla
+            askedQuestionsUniqueIds = []; // Cevaplanan kavramları sıfırla
+            renderUnitCards(); // Ünite kartlarını yeniden render et (seçimi kaldırılmış olarak)
+            startQuizBtn.style.display = 'none'; // Başlat butonunu gizle
+            feedbackDiv.style.display = 'none'; // Geri bildirimi gizle
+            timerDisplay.textContent = '50'; // Zamanı sıfırla
+            timerDisplay.classList.remove('warning'); // Uyarı rengini kaldır
+        }
+
+        // Event Listeners
+        nextQuestionBtn.addEventListener('click', displayQuestion);
+        resetQuizBtn.addEventListener('click', () => {
+            showModal('Yarışmayı Yeniden Başlat', 'Mevcut yarışmayı sıfırlamak istediğinizden emin misiniz? Bu işlem mevcut ilerlemenizi silecektir.', 'confirm', () => {
+                resetQuiz();
+            }, () => {
+                // İptal edilirse bir şey yapma
+            });
+        });
+        // returnToMainMenuFromQuizBtn'in event listener'ı güncellendi
+        returnToMainMenuFromQuizBtn.addEventListener('click', returnToMainMenuScreen);
+
+
+        showAnswerBtn.addEventListener('click', () => {
+            stopTimer();
+            disableConceptBoxes();
+            showAnswerBtn.disabled = true; // Disable after showing answer
+            const correctBox = document.getElementById(currentQuestion.correctConceptId);
+            correctBox.classList.add('correct'); // Highlight correct answer
+            feedbackDiv.textContent = `Doğru cevap: ${currentQuestion.correctConceptName}`;
+            feedbackDiv.classList.remove('success');
+            feedbackDiv.classList.add('error'); // Consider this as an "incorrect" attempt for scoring purposes
+            feedbackDiv.style.display = 'block';
+            nextQuestionBtn.disabled = false; // Enable next question button
+            // Bu kısımda askedQuestionsUniqueIds'e eklemeye gerek yok, çünkü displayQuestion zaten ekliyor.
+            // Sadece doğru cevabı gösterdiğimizde, o sorunun bir daha gelmemesi için bu yeterli.
+        });
+
+        // Main Menu Logic
+        function renderUnitCards() {
+            unitCardsContainer.innerHTML = '';
+            units.forEach(unit => {
+                const unitCardElement = document.createElement('div');
+                unitCardElement.classList.add('unit-card', unit.bgColor); // Apply the background color
+                unitCardElement.textContent = unit.name;
+                unitCardElement.dataset.unitId = unit.id;
+
+                unitCardElement.addEventListener('click', () => {
+                    // Remove 'selected' from previously selected card
+                    const currentSelected = document.querySelector('.unit-card.selected');
+                    if (currentSelected) {
+                        currentSelected.classList.remove('selected');
+                    }
+                    // Add 'selected' to the clicked card
+                    unitCardElement.classList.add('selected');
+                    selectedUnitId = unit.id;
+                    startQuizBtn.style.display = 'block'; // Show start button
+                });
+                unitCardsContainer.appendChild(unitCardElement);
+            });
+
+            // Special handling for "Tüm Üniteler" card to ensure it's always at the end
+            const allUnitsCard = document.querySelector('.unit-card[data-unit-id="all-units"]');
+            if (allUnitsCard) {
+                unitCardsContainer.appendChild(allUnitsCard);
+            }
+        }
+
+        startQuizBtn.addEventListener('click', () => {
+            if (selectedUnitId) {
+                mainMenuScreen.style.display = 'none';
+                mainTitle.style.display = 'none';
+                mainQuizContent.style.display = 'flex';
+                askedQuestionsUniqueIds = []; // Yeni quiz için sorulan soruları sıfırla
+                displayQuestion();
+            } else {
+                showModal('Ünite Seçilmedi', 'Lütfen bir ünite seçerek yarışmayı başlatın.', 'alert');
+            }
+        });
+
+        returnToHomePageBtn.addEventListener('click', () => {
+            // Bu buton orijinal olarak dış bir sayfaya yönlendiriyordu, bu işlevselliği koruyalım.
+            window.location.href = 'https://ozeme42.github.io/yunus/index.html';
+        });
+
+        // On application load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if "Tüm Üniteler" option already exists
+            const allUnitsExist = units.some(unit => unit.id === 'all-units');
+
+            // Remove "Ek Kavramlar" unit from the units array (if it exists)
+            units = units.filter(unit => unit.id !== 'additional-concepts-unit');
+
+            if (!allUnitsExist) {
+                const allConceptsCombined = [];
+                units.forEach(unit => {
+                    unit.concepts.forEach((concept, conceptIndex) => {
+                        // Her kavram için, tüm ünitelerde benzersiz olacak bir ID oluştur
+                        const uniqueConceptId = `${unit.id}-${concept.id}`;
+                        allConceptsCombined.push({
+                            ...concept, // Mevcut özellikleri kopyala
+                            id: uniqueConceptId, // Yeni benzersiz ID atama
+                            originalConceptId: concept.id, // Orijinal ID'yi referans olarak sakla
+                            unitId: unit.id // Ünite ID'sini sakla
+                        });
+                    });
+                });
+
+                // Yeni "Tüm Üniteler" ünitesini `units` dizisine ekle
+                units.push({
+                    id: 'all-units',
+                    name: 'Tüm Üniteler',
+                    concepts: shuffleArray(allConceptsCombined), // Birleştirilmiş kavramları karıştır
+                    bgColor: 'bg-gray-200' // Renk
+                });
+            }
+
+            // Initially, no unit should be selected; wait for the user to choose
+            selectedUnitId = null;
+
+            renderUnitCards(); // Render unit cards to display the main menu initially
+            mainQuizContent.style.display = 'none'; // Ensure quiz content is hidden initially
+            mainMenuScreen.style.display = 'flex'; // Ensure main menu is visible initially
+            mainTitle.style.display = 'block'; // Ensure title is visible on initial load
         });
     </script>
 </body>
