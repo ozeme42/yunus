@@ -210,7 +210,6 @@
         }
         .action-button {
             padding: 0.9rem 2.2rem; /* Buton paddingi büyütüldü */
-            background-color: #6366f1;
             color: white;
             border: none;
             border-radius: 8px;
@@ -218,15 +217,66 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); /* Default shadow, overridden by specific button styles */
         }
-        .action-button:hover {
-            background-color: #4f46e5;
-            transform: translateY(-2px);
+        /* Default action button color - can be overridden by specific classes */
+        .action-button.default-color {
+            background-color: #6366f1; /* Indigo-500 */
         }
-        .action-button:active {
-            transform: translateY(0);
+        .action-button.default-color:hover {
+            background-color: #4f46e5; /* Indigo-600 */
         }
+
+        /* Specific button colors */
+        .btn-unit-1 { background-color: #3b82f6; } /* Blue-500 */
+        .btn-unit-1:hover { background-color: #2563eb; } /* Blue-600 */
+
+        .btn-unit-2 { background-color: #22c55e; } /* Green-500 */
+        .btn-unit-2:hover { background-color: #16a34a; } /* Green-600 */
+
+        .btn-unit-3 { background-color: #a855f7; } /* Purple-500 */
+        .btn-unit-3:hover { background-color: #9333ea; } /* Purple-600 */
+
+        .btn-unit-4 { background-color: #ef4444; } /* Red-500 */
+        .btn-unit-4:hover { background-color: #dc2626; } /* Red-600 */
+
+        .btn-unit-5 { background-color: #eab308; } /* Yellow-500 */
+        .btn-unit-5:hover { background-color: #d97706; } /* Yellow-600 */
+
+        .btn-team-1 { background-color: #f97316; } /* Orange-500 */
+        .btn-team-1:hover { background-color: #ea580c; } /* Orange-600 */
+
+        .btn-team-2 { background-color: #ec4899; } /* Pink-500 */
+        .btn-team-2:hover { background-color: #db2777; } /* Pink-600 */
+
+        .btn-team-3 { background-color: #06b6d4; } /* Cyan-500 */
+        .btn-team-3:hover { background-color: #0891b2; } /* Cyan-600 */
+
+        .btn-team-4 { background-color: #84cc16; } /* Lime-500 */
+        .btn-team-4:hover { background-color: #65a30d; } /* Lime-600 */
+
+        .btn-team-5 { background-color: #d946ef; } /* Fuchsia-500 */
+        .btn-team-5:hover { background-color: #c026d3; } /* Fuchsia-600 */
+
+        .return-button {
+            background-color: #14b8a6; /* Teal-500 */
+        }
+        .return-button:hover {
+            background-color: #0d9488; /* Teal-600 */
+        }
+        .next-button {
+            background-color: #0ea5e9; /* Sky-500 */
+        }
+        .next-button:hover {
+            background-color: #0284c7; /* Sky-600 */
+        }
+        .reset-button {
+            background-color: #f43f5e; /* Rose-500 */
+        }
+        .reset-button:hover {
+            background-color: #e11d48; /* Rose-600 */
+        }
+
         .action-button:disabled {
             background-color: #a7a7a7;
             cursor: not-allowed;
@@ -326,24 +376,6 @@
         .question-nav-item.disabled-selection {
             cursor: not-allowed;
             opacity: 0.6;
-        }
-        .return-button {
-            background-color: #10b981; /* Green color for return button */
-        }
-        .return-button:hover {
-            background-color: #059669;
-        }
-        .next-button { /* Style for the new "Next Question" button */
-            background-color: #3b82f6; /* Blue color */
-        }
-        .next-button:hover {
-            background-color: #2563eb;
-        }
-        .reset-button {
-            background-color: #ef4444;
-        }
-        .reset-button:hover {
-            background-color: #dc2626;
         }
         .hidden {
             display: none;
@@ -1499,10 +1531,11 @@
         <div id="main-menu-screen" class="player-selection-screen">
             <h2>Ünite Seçimi</h2>
             <div class="team-selection-buttons">
-                <button class="action-button" onclick="selectUnit('unit1')">1. Ünite: Melek ve Ahiret İnancı</button>
-                <button class="action-button" onclick="selectUnit('unit2')">2. Ünite: Hac ve Kurban</button>
-                <button class="action-button" onclick="selectUnit('unit3')">3. Ünite: Ahlaki Davranışlar</button>
-                <button class="action-button" onclick="selectUnit('unit4')">4. Ünite: Allah'ın Kulu ve Elçisi Hz. Muhammed (s.a.v.)</button> <button class="action-button" onclick="selectUnit('unit5')">5. Ünite: İslam Düşüncesinde Yorumlar</button>
+                <button class="action-button btn-unit-1" onclick="selectUnit('unit1')">1. Ünite: Melek ve Ahiret İnancı</button>
+                <button class="action-button btn-unit-2" onclick="selectUnit('unit2')">2. Ünite: Hac ve Kurban</button>
+                <button class="action-button btn-unit-3" onclick="selectUnit('unit3')">3. Ünite: Ahlaki Davranışlar</button>
+                <button class="action-button btn-unit-4" onclick="selectUnit('unit4')">4. Ünite: Allah'ın Kulu ve Elçisi Hz. Muhammed (s.a.v.)</button>
+                <button class="action-button btn-unit-5" onclick="selectUnit('unit5')">5. Ünite: İslam Düşüncesinde Yorumlar</button>
             </div>
             <button id="return-to-site-from-main-menu-button" class="action-button return-button mt-8" onclick="returnToMainMenu()">Siteye Dön</button>
         </div>
@@ -1510,11 +1543,11 @@
         <div id="player-selection-screen" class="player-selection-screen hidden">
             <h2>Kaç Takım Oynayacak?</h2>
             <div class="team-selection-buttons">
-                <button class="action-button" onclick="selectNumTeams(1)">1 Takım</button>
-                <button class="action-button" onclick="selectNumTeams(2)">2 Takım</button>
-                <button class="action-button" onclick="selectNumTeams(3)">3 Takım</button>
-                <button class="action-button" onclick="selectNumTeams(4)">4 Takım</button>
-                <button class="action-button" onclick="selectNumTeams(5)">5 Takım</button>
+                <button class="action-button btn-team-1" onclick="selectNumTeams(1)">1 Takım</button>
+                <button class="action-button btn-team-2" onclick="selectNumTeams(2)">2 Takım</button>
+                <button class="action-button btn-team-3" onclick="selectNumTeams(3)">3 Takım</button>
+                <button class="action-button btn-team-4" onclick="selectNumTeams(4)">4 Takım</button>
+                <button class="action-button btn-team-5" onclick="selectNumTeams(5)">5 Takım</button>
             </div>
         </div>
 
