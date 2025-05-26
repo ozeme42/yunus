@@ -210,7 +210,7 @@
         }
         .action-button {
             padding: 0.9rem 2.2rem; /* Buton paddingi büyütüldü */
-            background-color: #6366f1;
+            /* Removed fixed background-color here to allow dynamic coloring */
             color: white;
             border: none;
             border-radius: 8px;
@@ -221,14 +221,14 @@
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
         .action-button:hover {
-            background-color: #4f46e5;
+            /* Darker shade on hover, handled by dynamic classes */
             transform: translateY(-2px);
         }
         .action-button:active {
             transform: translateY(0);
         }
         .action-button:disabled {
-            background-color: #a7a7a7;
+            background-color: #a7a7a7 !important; /* Use !important to override dynamic colors */
             cursor: not-allowed;
             box-shadow: none;
             transform: none;
@@ -327,24 +327,7 @@
             cursor: not-allowed;
             opacity: 0.6;
         }
-        .return-button {
-            background-color: #10b981; /* Green color for return button */
-        }
-        .return-button:hover {
-            background-color: #059669;
-        }
-        .next-button { /* Style for the new "Next Question" button */
-            background-color: #3b82f6; /* Blue color */
-        }
-        .next-button:hover {
-            background-color: #2563eb;
-        }
-        .reset-button {
-            background-color: #ef4444;
-        }
-        .reset-button:hover {
-            background-color: #dc2626;
-        }
+        /* Removed specific button colors here to allow dynamic coloring */
         .hidden {
             display: none;
         }
@@ -715,7 +698,7 @@
                 { id: 'tf50', type: 'trueFalse', question: "Peygamberler, insanlara sadece ibadet etmeyi öğretmişlerdir.", answer: "Y", explanation: "Peygamberler, ibadetlerin yanı sıra sosyal ilişkiler, adalet ve güzel ahlak gibi konularda da öğretiler sunmuşlardır.", theme: 'unit4', relatedConcept: "İbadet" },
                 { id: 'tf51', type: 'trueFalse', question: "Hz. İsa, babasız dünyaya gelmiştir.", answer: "D", explanation: "Hz. İsa, Allah'ın (cc) mucizesi olarak babasız dünyaya gelmiştir.", theme: 'unit4', relatedConcept: "Mucize" },
                 { id: 'tf52', type: 'trueFalse', question: "Peygamberler, insanlara örnek olmaları için gönderilmişlerdir.", answer: "D", explanation: "Peygamberler, sözleri ve davranışlarıyla insanlara rehberlik eden en güzel örneklerdir.", theme: 'unit4', relatedConcept: "Sünnet" },
-                { id: 'tf53', type: 'trueFalse', question: "Hz. Adem'in eşi Havva, cennette yasak ağacın meyvesinden yediği için cennetten çıkarılmıştır.", answer: "D", explanation: "Hz. Adem ve Havva'nın cennetten çıkarılma sebebi, yasak ağacın meyvesinden yemeleridir.", theme: 'unit4', relatedConcept: "Hz. Adem" },
+                { id: 'tf53', type: 'trueFalse', question: "Hz. Adem'in eşi Havva, cennette yasak ağacın meyvesinden yediği için cennetten çıkarılmıştır.", answer: "D", explanation: "Hz. Adem ve Havva'nın cennetten çıkarılma sebebi, yasak ağacın meyvesinden yemeleriidir.", theme: 'unit4', relatedConcept: "Hz. Adem" },
                 { id: 'tf54', type: 'trueFalse', question: "Nuh tufanı sadece Hz. Nuh'un yaşadığı bölgeyi etkilemiştir.", answer: "Y", explanation: "Nuh tufanı, yeryüzünün tamamını veya büyük bir kısmını etkileyen evrensel bir olaydır.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
                 { id: 'tf55', type: 'trueFalse', question: "Hz. İbrahim, putları kırdıktan sonra ateşe atılmıştır.", answer: "D", explanation: "Hz. İbrahim, putperestliğe karşı mücadelesi nedeniyle ateşe atılmıştır.", theme: 'unit4', relatedConcept: "Hz. İbrahim" },
                 { id: 'tf56', type: 'trueFalse', question: "Hz. Musa'nın asası, yılanlara dönüşme mucizesine sahipti.", answer: "D", explanation: "Hz. Musa'nın asası, Firavun'un sihirbazlarına karşı yılanlara dönüşerek mucize göstermiştir.", theme: 'unit4', relatedConcept: "Mucize" },
@@ -861,28 +844,6 @@
                 { id: 'mc64', type: 'multipleChoice', question: "Hz. Zekeriya'nın duası, Allah'ın (cc) hangi özelliğini gösterir?", options: ["Acizliğini", "Unutkanlığını", "Dualara icabet ettiğini ve her şeye gücünün yettiğini", "Sadece gençlere yardım ettiğini"], answer: "Dualara icabet ettiğini ve her şeye gücünün yettiğini", explanation: "Hz. Zekeriya'nın duasına icabet edilmesi, Allah'ın (cc) duaları kabul ettiğini ve sınırsız kudret sahibi olduğunu gösterir.", theme: 'unit4', relatedConcept: "Dua" },
                 { id: 'mc65', type: 'multipleChoice', question: "Hz. Şuayb'ın kavminin helak olma sebebi nedir?", options: ["Putlara tapmaları", "Hırsızlık yapmaları", "Ölçü ve tartıda hile yapmaları ve peygamberi yalanlamaları", "Savaşmaları"], answer: "Ölçü ve tartıda hile yapmak", explanation: "Medyen halkı, ticaretteki hileleri ve Hz. Şuayb'ı yalanlamaları nedeniyle helak olmuştur.", theme: 'unit4', relatedConcept: "Zulüm" },
                 { id: 'mc66', type: 'multipleChoice', question: "Peygamberlerin insanlara gönderilmesi, Allah'ın (cc) hangi sıfatının bir tecellisidir?", options: ["Kudret", "İrade", "Rahmet ve Hikmet", "Yaratıcılık"], answer: "Rahmet ve Hikmet", explanation: "Peygamberlerin gönderilmesi, Allah'ın insanlara olan rahmetinin ve her şeyi bir hikmetle yaratmasının bir göstergesidir.", theme: 'unit4', relatedConcept: "Hikmet" }
-            ],
-            'unit5': [ // 5. Ünite: Mimarimizde Dinî Motifler (Expanded to ~20 questions)
-                { id: 'u5_tf1', type: 'trueFalse', question: "Camiler, İslam mimarisinin en önemli örnekleridir.", answer: "D", explanation: "Camiler, Müslümanların ibadet yerleri ve mimarinin önemli eserleridir.", theme: 'unit5' },
-                { id: 'u5_tf2', type: 'trueFalse', question: "Minare, caminin içinde bulunan bir bölümdür.", answer: "Y", explanation: "Minare, caminin dışında, ezan okumak için inşa edilen yüksek yapıdır.", theme: 'unit5' },
-                { id: 'u5_tf3', type: 'trueFalse', question: "Mihrap, caminin kıble yönünü gösterir.", answer: "D", explanation: "Mihrap, camide imamın namaz kıldırdığı ve kıbleyi gösteren niştir.", theme: 'unit5' },
-                { id: 'u5_tf4', type: 'trueFalse', question: "Şadırvan, caminin içinde abdest alınan yerdir.", answer: "Y", explanation: "Şadırvan, caminin avlusunda abdest almak için kullanılan çeşmeli yapıdır.", theme: 'unit5' },
-                { id: 'u5_tf5', type: 'trueFalse', question: "Kubbe, caminin tavanını oluşturan yarım küre şeklindeki yapıdır.", answer: "D", explanation: "Kubbe, camilerin önemli mimari unsurlarından biridir.", theme: 'unit5' },
-                { id: 'u5_tf6', type: 'trueFalse', question: "Hattatlık, camilerde kullanılan bir süsleme sanatıdır.", answer: "D", explanation: "Hattatlık, güzel yazı yazma sanatı olup cami ve diğer dini yapılarda sıkça kullanılır.", theme: 'unit5' },
-                { id: 'u5_tf7', type: 'trueFalse', question: "Çini sanatı, sadece camilerde kullanılır.", answer: "Y", explanation: "Çini sanatı, camilerin yanı sıra saray, köşk ve diğer dini mimari yapılarda da kullanılır.", theme: 'unit5' },
-                { id: 'u5_tf8', type: 'trueFalse', question: "Minber, camide vaaz verilen yerdir.", answer: "D", explanation: "Minber, camide hutbe okunan ve vaaz verilen yüksek kürsüdür.", theme: 'unit5' },
-                { id: 'u5_tf9', type: 'trueFalse', question: "Caminin avlusunda bulunan, namaz öncesi abdest almak için kullanılan yere şadırvan denir.", answer: "D", explanation: "Şadırvan, cami avlularında bulunan ve abdest almak için kullanılan bir yapıdır.", theme: 'unit5' },
-                { id: 'u5_tf10', type: 'trueFalse', question: "Cami, sadece ibadet edilen bir yerdir.", answer: "Y", explanation: "Cami, ibadetin yanı sıra eğitim, sosyal yardımlaşma ve kültürel faaliyetlerin de yürütüldüğü bir merkezdir.", theme: 'unit5' },
-                { id: 'u5_fb1', type: 'fillInTheBlanks', question: "Caminin kıble yönünü gösteren ve imamın namaz kıldırdığı yere ........................ denir.", answer: "mihrap", options: ["mihrap", "minber", "şadırvan", "kubbe"], explanation: "Mihrap, caminin en önemli bölümlerinden biridir.", theme: 'unit5' },
-                { id: 'u5_fb2', type: 'fillInTheBlanks', question: "Caminin içinde vaaz verilen yüksek kürsüye ........................ denir.", answer: "minber", options: ["minber", "mihrap", "şadırvan", "kubbe"], explanation: "Minber, camide hutbe okunan yerdir.", theme: 'unit5' },
-                { id: 'u5_fb3', type: 'fillInTheBlanks', question: "Camilerin dışındaki yüksek, ince yapıya ........................ denir.", answer: "minare", options: ["minare", "kubbe", "şadırvan", "mihrap"], explanation: "Minare, ezan okumak için kullanılan yapıdır.", theme: 'unit5' },
-                { id: 'u5_fb4', type: 'fillInTheBlanks', question: "Camilerin tavanını örten yarım küre şeklindeki yapıya ........................ denir.", answer: "kubbe", options: ["kubbe", "minare", "şadırvan", "mihrap"], explanation: "Kubbe, cami mimarisinin önemli bir öğesidir.", theme: 'unit5' },
-                { id: 'u5_fb5', type: 'fillInTheBlanks', question: "Cami ve diğer dini yapılarda güzel yazı yazma sanatına ........................ denir.", answer: "hattatlık", options: ["hattatlık", "ebru", "minyatür", "tezhip"], explanation: "Hattatlık, İslam sanatlarında önemli bir yer tutar.", theme: 'unit5' },
-                { id: 'u5_mc1', type: 'multipleChoice', question: "Aşağıdakilerden hangisi caminin bölümlerinden biri değildir?", options: ["Kubbe", "Şadırvan", "Minare", "Mutfak"], answer: "Mutfak", explanation: "Mutfak, caminin bir bölümü değildir.", theme: 'unit5' },
-                { id: 'u5_mc2', type: 'multipleChoice', question: "Osmanlı mimarisinin önemli cami örneklerinden biri aşağıdakilerden hangisidir?", options: ["Eyfel Kulesi", "Sultanahmet Camii", "Pisa Kulesi", "Tac Mahal"], answer: "Sultanahmet Camii", explanation: "Sultanahmet Camii, İstanbul'da bulunan önemli bir Osmanlı eseridir.", theme: 'unit5' },
-                { id: 'u5_mc3', type: 'multipleChoice', question: "Camilerde kullanılan renkli ve desenli seramik süsleme sanatına ne ad verilir?", options: ["Hattatlık", "Ebru", "Çini", "Minyatür"], answer: "Çini", explanation: "Çini, İslam ve Türk mimarisinde sıkça kullanılan bir süsleme sanatıdır.", theme: 'unit5' },
-                { id: 'u5_mc4', type: 'multipleChoice', question: "Aşağıdakilerden hangisi camilerin toplumsal işlevlerinden biridir?", options: ["Sadece namaz kılmak", "Eğitim ve sosyal yardımlaşma", "Ticaret yapmak", "Eğlence düzenlemek"], answer: "Eğitim ve sosyal yardımlaşma", explanation: "Camiler, ibadetin yanı sıra toplumsal dayanışma ve eğitim merkezi olarak da hizmet verir.", theme: 'unit5' },
-                { id: 'u5_mc5', type: 'multipleChoice', question: "Cami mimarisinde kullanılan 'alem' neyin üzerinde bulunur?", options: ["Mihrap", "Minber", "Minare", "Şadırvan"], answer: "Minare", explanation: "Alem, minarelerin en üstünde bulunan hilal veya top şeklindeki süsleme elemanıdır.", theme: 'unit5' }
             ]
         };
 
@@ -966,6 +927,18 @@
         let returnToMainMenuGridButton; // New button for returning to main menu from grid
         let returnToQuestionGridButton; // New button for returning to question grid from question screen
         
+        // Define color palette for buttons
+        const buttonColors = [
+            'bg-blue-600 hover:bg-blue-700 shadow-blue-500/50',
+            'bg-green-600 hover:bg-green-700 shadow-green-500/50',
+            'bg-purple-600 hover:bg-purple-700 shadow-purple-500/50',
+            'bg-yellow-600 hover:bg-yellow-700 shadow-yellow-500/50',
+            'bg-pink-600 hover:bg-pink-700 shadow-pink-500/50',
+            'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-500/50',
+            'bg-red-600 hover:bg-red-700 shadow-red-500/50',
+            'bg-teal-600 hover:bg-teal-700 shadow-teal-500/50'
+        ];
+
         // Functions
         window.selectUnit = function(unitId) {
             console.log(`Selected unit: ${unitId}`);
@@ -1107,7 +1080,7 @@
                 const currentAnswerState = window.answeredQuestions[q.id]; 
                 nextTurnButton.classList.remove('hidden');
                 
-                const selectedRadio = document.querySelector(`input[name="${q.id}"][value="${currentAnswerState.userAnswer}"]`);
+                const selectedRadio = document.querySelector(`input[name="${q.id}"]:checked`);
                 if (selectedRadio) {
                     selectedRadio.checked = true;
                     if (!currentAnswerState.isCorrect) {
@@ -1490,6 +1463,7 @@
             if (scoreBoard) {
                 scoreBoard.classList.remove('hidden');
             }
+            applyButtonColors(); // Re-apply colors on reset
         }
 
         // New function to return to main menu from any game screen
@@ -1533,12 +1507,63 @@
             if (scoreBoard) {
                 scoreBoard.classList.remove('hidden');
             }
+            applyButtonColors(); // Re-apply colors on return to main menu
         }
 
         // Function to navigate to the external site
         window.goToExternalSite = function() {
             window.location.href = "https://ozeme42.github.io/yunus/index.html";
         };
+
+        // Function to apply colors to buttons
+        function applyButtonColors() {
+            // Helper to remove all classes from buttonColors array
+            const removeAllButtonColors = (element) => {
+                buttonColors.forEach(colorSet => {
+                    element.classList.remove(...colorSet.split(' '));
+                });
+            };
+
+            const unitButtons = document.querySelectorAll('#main-menu-screen .action-button');
+            unitButtons.forEach((button, index) => {
+                removeAllButtonColors(button); // Remove previous colors
+                button.classList.add(...buttonColors[index % buttonColors.length].split(' '));
+            });
+
+            const teamButtons = document.querySelectorAll('#player-selection-screen .action-button');
+            teamButtons.forEach((button, index) => {
+                removeAllButtonColors(button); // Remove previous colors
+                button.classList.add(...buttonColors[index % buttonColors.length].split(' '));
+            });
+
+            // Specific action buttons
+            if (nextTurnButton) {
+                removeAllButtonColors(nextTurnButton);
+                nextTurnButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+            }
+            if (returnToQuestionGridButton) {
+                removeAllButtonColors(returnToQuestionGridButton);
+                returnToQuestionGridButton.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50');
+            }
+            if (returnToMainMenuGridButton) {
+                removeAllButtonColors(returnToMainMenuGridButton);
+                returnToMainMenuGridButton.classList.add('bg-purple-600', 'hover:bg-purple-700', 'shadow-purple-500/50');
+            }
+            if (resetGameButton) {
+                removeAllButtonColors(resetGameButton);
+                resetGameButton.classList.add('bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50');
+            }
+            if (document.getElementById('return-to-main-menu-from-final-button')) {
+                const finalReturnButton = document.getElementById('return-to-main-menu-from-final-button');
+                removeAllButtonColors(finalReturnButton);
+                finalReturnButton.classList.add('bg-orange-600', 'hover:bg-orange-700', 'shadow-orange-500/50');
+            }
+            if (document.querySelector('#main-menu-screen .return-button')) { // "Siteye Dön" button
+                const siteyeDonButton = document.querySelector('#main-menu-screen .return-button');
+                removeAllButtonColors(siteyeDonButton);
+                siteyeDonButton.classList.add('bg-teal-600', 'hover:bg-teal-700', 'shadow-teal-500/50');
+            }
+        }
 
 
         // Initial setup on page load
@@ -1609,6 +1634,7 @@
             setGameBackground('general');
             console.log("Application setup complete. Showing main menu screen.");
 
+            applyButtonColors(); // Apply colors on initial load
             await initFirebase(); 
         };
     </script>
@@ -1628,7 +1654,7 @@
                 <button class="action-button" onclick="selectUnit('unit4')">4. Ünite: Peygamber Kıssaları</button>
                 <button class="action-button" onclick="selectUnit('unit5')">5. Ünite: Mimarimizde Dinî Motifler</button>
             </div>
-            <button class="action-button return-button mt-8" onclick="goToExternalSite()">Siteye Dön</button>
+            <button class="action-button" onclick="goToExternalSite()">Siteye Dön</button>
         </div>
 
         <div id="player-selection-screen" class="player-selection-screen hidden">
@@ -1654,7 +1680,7 @@
                 </div>
             
             <div class="button-group mt-4" id="question-grid-buttons">
-                <button id="return-to-main-menu-grid-button" class="action-button return-button" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
+                <button id="return-to-main-menu-grid-button" class="action-button" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
             </div>
 
             <div id="quiz-content" class="hidden">
@@ -1666,8 +1692,8 @@
                 </div>
                 <div id="current-question-feedback" class="feedback-message"></div>
                 <div class="button-group">
-                    <button id="next-turn-button" class="action-button next-button hidden" onclick="moveToNextTurn()">Sonraki Oyuncu</button>
-                    <button id="return-to-question-grid-button" class="action-button return-button hidden" onclick="returnToQuestionsGrid()">Soru Ekranına Dön</button>
+                    <button id="next-turn-button" class="action-button hidden" onclick="moveToNextTurn()">Sonraki Oyuncu</button>
+                    <button id="return-to-question-grid-button" class="action-button hidden" onclick="returnToQuestionsGrid()">Soru Ekranına Dön</button>
                 </div>
                 <div id="loading-spinner" class="loading-spinner"></div>
                 <div id="detailed-explanation-container" class="detailed-explanation-container hidden"></div>
@@ -1676,8 +1702,8 @@
 
             <div id="final-score-container" class="hidden">
                 <div id="overall-result" class="feedback-message"></div>
-                <button id="reset-game-button" class="action-button reset-button" onclick="resetGame()">Yeniden Başla</button>
-                <button id="return-to-main-menu-from-final-button" class="action-button return-button mt-4" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
+                <button id="reset-game-button" class="action-button" onclick="resetGame()">Yeniden Başla</button>
+                <button id="return-to-main-menu-from-final-button" class="action-button mt-4" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
             </div>
         </div>
     </div>
