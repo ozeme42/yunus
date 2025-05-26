@@ -139,7 +139,7 @@
             padding: 2rem;
             border-radius: 1rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            text-align: left;
+            text-align: center; /* Changed to center */
             width: 100%;
             max-width: 90%; /* Soru ekranını yanlara doğru büyüt */
             margin: 0 auto; /* Ortala */
@@ -147,13 +147,14 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center; /* Changed to center */
         }
         .question-block h2 {
             font-size: 2.25rem;
             font-weight: 700;
             color: #2b6cb0;
             margin-bottom: 1rem;
+            text-align: center; /* Ensure text is centered */
         }
         .question-block p {
             font-size: 1.5rem;
@@ -161,6 +162,7 @@
             line-height: 1.6;
             word-break: break-word; /* İçeriğine göre otomatik ayarla */
             overflow-wrap: break-word; /* İçeriğine göre otomatik ayarla */
+            text-align: center; /* Ensure text is centered */
         }
         .options-grid {
             display: grid;
@@ -324,6 +326,13 @@
             color: white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+
+        /* New styles for responsive team count buttons */
+        .team-count-button {
+            flex-grow: 1; /* Allow buttons to grow and take available space */
+            min-width: 120px; /* Ensure buttons don't get too small on narrow screens */
+            /* Inherits other styles from action-button */
+        }
     </style>
 </head>
 <body>
@@ -333,12 +342,12 @@
             <div id="unit-selection-grid" class="unit-grid">
                 </div>
             <button id="start-quiz-button" class="start-button hidden">Yarışmayı Başlat</button>
-            <button id="return-to-home-button" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Ana Sayfaya Dön</button>
+            <button id="go-to-main-site-button" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Site Ana Sayfası</button>
         </div>
 
         <div id="team-selection-screen" class="hidden">
             <h1 class="mb-8">Takım Sayısını Seçin</h1>
-            <div id="team-count-selection" class="flex justify-center gap-4 mb-8">
+            <div id="team-count-selection" class="flex flex-wrap justify-center gap-4 mb-8">
                 <button class="team-count-button action-button" data-teams="1">1 Takım</button>
                 <button class="team-count-button action-button" data-teams="2">2 Takım</button>
                 <button class="team-count-button action-button" data-teams="3">3 Takım</button>
@@ -748,7 +757,10 @@
     const mainMenuScreen = document.getElementById('main-menu');
     const unitSelectionGrid = document.getElementById('unit-selection-grid');
     const startQuizButton = document.getElementById('start-quiz-button');
-    const returnToHomeButton = document.getElementById('return-to-home-button');
+    // Renamed returnToHomeButton to goBackToMainMenuButton to avoid confusion with the new main site button
+    const goBackToMainMenuButton = document.getElementById('return-to-home-button');
+    const goToMainSiteButton = document.getElementById('go-to-main-site-button'); // New DOM element for the main site button
+
 
     const teamSelectionScreen = document.getElementById('team-selection-screen');
     const teamCountSelection = document.getElementById('team-count-selection');
@@ -1034,6 +1046,8 @@
                 options.push(allAnswersInUnit[i]);
                 addedCount++;
             }
+            // Ensure we don't add too many options if there are not enough unique answers
+            if (options.length >= 6) break;
         }
 
         // If not enough unique answers in the unit, pull from all questions
@@ -1220,10 +1234,10 @@
     // Event Listeners
     startQuizButton.addEventListener('click', showTeamSelectionScreen); // Changed to show team selection
     returnToUnitsButton.addEventListener('click', returnToMainMenu); // Renamed for clarity
-    returnToHomeButton.addEventListener('click', () => {
-        // This button acts as a full page reload to reset everything
-        window.location.reload();
-    });
+    // goBackToMainMenuButton.addEventListener('click', () => { // This button is now removed as per user request
+    //     // This button acts as a full page reload to reset everything
+    //     window.location.reload();
+    // });
     resetGameButton.addEventListener('click', resetGame);
     returnToMainMenuFromFinalButton.addEventListener('click', returnToMainMenu);
 
@@ -1236,6 +1250,11 @@
     });
     startTeamQuizButton.addEventListener('click', startTeamQuiz);
     returnToUnitSelectionButton.addEventListener('click', returnToMainMenu); // Back to unit selection from team selection
+
+    // New event listener for the "Site Ana Sayfası" button
+    goToMainSiteButton.addEventListener('click', () => {
+        window.location.href = 'https://ozeme42.github.io/yunus/index.html';
+    });
 
 
     // Initial setup on page load
