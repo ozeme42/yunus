@@ -1348,46 +1348,11 @@
             }
         }
 
-        // New function to return to main menu from any game screen
+        // Updated function to return to main menu or external link
         window.returnToMainMenu = function() {
-            console.log("Returning to main menu.");
-            window.teamScores = [];
-            window.numTeams = 0;
-            window.currentPlayer = 0;
-            window.currentQuestionIndex = 0;
-            window.answeredQuestions = {};
-            clearInterval(timerInterval);
-            timerDisplay.classList.add('hidden');
-            shuffledQuestions = [];
-            window.currentUnit = null;
-
-            quizContentContainer.classList.add('hidden');
-            hideFinalScore();
-            questionNavigationContainer.classList.add('hidden');
-            gamePanel.classList.add('hidden');
-            playerSelectionScreen.classList.add('hidden');
-            mainMenuScreen.classList.remove('hidden'); // Show main menu
-            gridInstructionMessage.classList.add('hidden');
-            questionScreenInstructionMessage.classList.add('hidden');
-            detailedExplanationContainer.innerHTML = '';
-            detailedExplanationContainer.classList.add('hidden');
-            if (questionCounterDisplay) {
-                questionCounterDisplay.classList.add('hidden');
-            }
-            setGameBackground('general');
-
-            fullscreenOverlay.classList.remove('show');
-            setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
-            quizContentContainer.classList.remove('fullscreen-active');
-
-            if (currentPlayerTurnDisplay) {
-                currentPlayerTurnDisplay.textContent = "Sıra: A Takımı";
-                currentPlayerTurnDisplay.classList.remove('text-gray-600', 'font-normal');
-                currentPlayerTurnDisplay.classList.add('current-turn');
-            }
-            if (scoreBoard) {
-                scoreBoard.classList.remove('hidden');
-            }
+            console.log("Returning to main menu or external link.");
+            // Redirect to the specified external URL
+            window.location.href = "https://ozeme42.github.io/yunus/index.html";
         }
 
 
@@ -1420,6 +1385,7 @@
             fullscreenOverlay = document.getElementById('fullscreen-overlay');
             returnToMainMenuButton = document.getElementById('return-to-main-menu-button'); // Assign the new button
             returnToMainMenuGridButton = document.getElementById('return-to-main-menu-grid-button'); // Assign the new grid button
+            const returnToSiteFromMainMenuButton = document.getElementById('return-to-site-from-main-menu-button'); // Yeni buton
 
             // Log to confirm elements are found
             const elementsToCheck = {
@@ -1429,7 +1395,7 @@
                 finalScoreContainer, overallResultDiv, resetGameButton,
                 questionCounterDisplay, questionNavigationContainer, timerDisplay,
                 gridInstructionMessage, questionScreenInstructionMessage, fullscreenOverlay,
-                returnToMainMenuButton, returnToMainMenuGridButton
+                returnToMainMenuButton, returnToMainMenuGridButton, returnToSiteFromMainMenuButton
             };
 
             for (const key in elementsToCheck) {
@@ -1474,6 +1440,7 @@
                 <button class="action-button" onclick="selectUnit('unit3')">3. Ünite: Ahlaki Davranışlar</button>
                 <button class="action-button" onclick="selectUnit('unit4')">4. Ünite: Allah'ın Kulu ve Elçisi Hz. Muhammed (s.a.v.)</button> <button class="action-button" onclick="selectUnit('unit5')">5. Ünite: İslam Düşüncesinde Yorumlar</button>
             </div>
+            <button id="return-to-site-from-main-menu-button" class="action-button return-button mt-8" onclick="returnToMainMenu()">Siteye Dön</button>
         </div>
 
         <div id="player-selection-screen" class="player-selection-screen hidden">
