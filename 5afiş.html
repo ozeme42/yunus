@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<!--
+Chosen Palette: "Solarized Harmony"
+Background: #FDF6E3
+Card Background: #FFFFFF
+Primary Text: #657B83
+Heading Text/Accent 1: #073642
+Subtle Accent 2 (borders, secondary text): #93A1A1
+Highlight/Chart Accent 1 (Blue): #268BD2
+Chart Accent 2 (Cyan): #2AA198
+Chart Accent 3 (Green): #859900
+Chart Accent 4 (Yellow): #B58900
+Chart Accent 5 (Orange): #CB4B16
+
+CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactivity.
+-->
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Din Kültürü ve Ahlak Bilgisi 5. Sınıf Detaylı Afiş</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Genel stil ayarları */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDF6E3; /* Solarized Light Background */
+            color: #657B83; /* Solarized Base00 Text */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Uzun içerik için üste hizalama */
+            min-height: 100vh;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+        /* Afiş kapsayıcısı */
+        .poster-container {
+            background-color: #FFFFFF; /* Beyaz Kart Arka Planı */
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            padding: 3rem;
+            max-width: 900px; /* Daha fazla detay için artırılmış maksimum genişlik */
+            width: 100%;
+            text-align: center;
+            border: 2px solid #EEE8D5; /* Hafif bir kenarlık için Solarized Base2 */
+        }
+        /* Ana başlık */
+        .main-title {
+            color: #073642; /* Solarized Base02 */
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+        /* Alt başlık */
+        .subtitle {
+            color: #268BD2; /* Solarized Blue */
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+        }
+        /* Ünite bölümleri */
+        .unit-section {
+            background-color: #FDF6E3; /* Ünite bölümleri için Solarized Light Background */
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem; /* Bölümler arası daha fazla boşluk */
+            border: 1px solid #EEE8D5;
+            text-align: left; /* Bölümler içinde metni sola hizala */
+        }
+        /* Ünite başlıkları */
+        .unit-title {
+            color: #073642;
+            font-size: 2rem; /* Daha büyük ünite başlıkları */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            justify-content: center; /* Ünite başlığını ortala */
+            text-align: center;
+        }
+        /* Ünite içeriği paragrafları */
+        .unit-content p {
+            font-size: 1rem;
+            line-height: 1.7; /* Daha iyi okunabilirlik için satır yüksekliği artırıldı */
+            color: #586E75; /* Solarized Base01 */
+            margin-bottom: 0.75rem;
+        }
+        /* Ünite içeriği listeleri */
+        .unit-content ul {
+            list-style: disc; /* Disk işaretli listeler */
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .unit-content ul li {
+            font-size: 0.95rem;
+            line-height: 1.6; /* Daha iyi okunabilirlik için satır yüksekliği artırıldı */
+            color: #586E75;
+            margin-bottom: 0.25rem;
+        }
+        /* Kalın metin */
+        .unit-content strong {
+            color: #073642;
+        }
+        /* Emoji ikonları */
+        .emoji-icon {
+            font-size: 1.5rem; /* Daha büyük emoji ikonları */
+            line-height: 1;
+        }
+        /* Alt başlıklar */
+        .sub-heading {
+            color: #268BD2;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem; /* Üstten daha fazla boşluk */
+            margin-bottom: 0.75rem; /* Alttan daha fazla boşluk */
+            border-bottom: 1px dashed #93A1A1; /* Hafif bir ayırıcı çizgi */
+            padding-bottom: 0.25rem;
+        }
+        /* Sure kutusu */
+        .sure-box {
+            background-color: #FEFBF3; /* Daha belirgin bir arka plan rengi */
+            border: 1px solid #B58900; /* Solarized Yellow ile kenarlık */
+            padding: 1rem;
+            border-radius: 0.75rem; /* Daha yuvarlak köşeler */
+            margin-top: 1.5rem;
+            font-style: italic;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Hafif bir gölge */
+        }
+        .sure-box p {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        .sure-box .font-semibold {
+            font-style: normal;
+            color: #073642;
+            margin-bottom: 0.75rem;
+        }
+        /* Cami bölüm ızgarası */
+        .cami-bolum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Cami bölümleri için duyarlı ızgara */
+            gap: 0.75rem;
+            margin-top: 1rem;
+            justify-items: center;
+            text-align: center;
+        }
+        .cami-bolum-item {
+            background-color: #A6D6F5; /* Vurgu Açık Mavi */
+            color: #073642;
+            padding: 0.75rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            border: 1px solid #268BD2;
+            transition: transform 0.2s ease-in-out; /* Hover efekti için geçiş */
+        }
+        .cami-bolum-item:hover {
+            transform: translateY(-3px); /* Hafif yukarı kaydırma efekti */
+        }
+        .cami-bolum-item .emoji {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        /* Kavram etiketi ızgarası */
+        .concept-tag-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .concept-tag {
+            background-color: #A6D6F5;
+            color: #073642;
+            padding: 0.3rem 0.7rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            border: 1px solid #268BD2;
+        }
+        /* Görsel ızgara */
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-items: center;
+            text-align: center;
+        }
+        .visual-item {
+            font-size: 2rem;
+            line-height: 1;
+            color: #2AA198; /* Cyan */
+        }
+        .visual-item-label {
+            font-size: 0.75rem;
+            color: #586E75;
+            margin-top: 0.25rem;
+        }
+        /* Yatay çubuk grafik */
+        .horizontal-bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .chart-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #FDF6E3; /* Açık arka plan */
+            padding: 0.4rem 0.75rem;
+            border-radius: 0.5rem;
+            color: #073642;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid #EEE8D5;
+        }
+        .chart-bar-item .label {
+            flex-shrink: 0;
+            width: 90px; /* Etiketler için sabit genişlik artırıldı */
+            text-align: right;
+            color: #268BD2; /* Etiket rengi */
+        }
+        .chart-bar-item .value-bar {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            height: 1rem;
+            border-radius: 0.25rem;
+            transition: width 0.5s ease-out; /* Animasyon için geçiş */
+        }
+        /* Duyarlı tasarım */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .poster-container {
+                padding: 1.5rem;
+            }
+            .main-title {
+                font-size: 2.5rem;
+            }
+            .subtitle {
+                font-size: 1.25rem;
+            }
+            .unit-title {
+                font-size: 1.75rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .unit-content p, .unit-content ul li {
+                font-size: 0.9rem;
+            }
+            .sub-heading {
+                font-size: 1.1rem;
+            }
+            .cami-bolum-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+            .cami-bolum-item {
+                font-size: 0.75rem;
+                padding: 0.5rem;
+            }
+            .cami-bolum-item .emoji {
+                font-size: 1.2rem;
+            }
+            .visual-grid {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            }
+            .visual-item {
+                font-size: 1.5rem;
+            }
+            .visual-item-label {
+                font-size: 0.65rem;
+            }
+            .chart-bar-item .label {
+                width: 70px; /* Mobil için etiket genişliği */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster-container">
+        <h1 class="main-title">DİN KÜLTÜRÜ VE AHLAK BİLGİSİ</h1>
+        <h2 class="subtitle">5. SINIF: TEMEL KONULAR VE KAVRAMLAR</h2>
+
+        <div class="unit-section">
+            <h3 class="unit-title"><span class="emoji-icon">🌟</span> 1. ÜNİTE: ALLAH İNANCI</h3>
+            <div class="unit-content">
+                <p>Bu ünite, evrendeki mükemmel düzenin bir Yaratıcı'ya işaret ettiğini, Allah'ın varlığını ve birliğini (Tevhit inancı) ele alır. Ayrıca, Allah'ı tanımamıza yardımcı olan güzel isimleri (Esmayıhüsna) ve İhlas Suresi'nin anlamını öğretir.</p>
+
+                <h4 class="sub-heading">Evrendeki Mükemmel Düzen</h4>
+                <ul>
+                    <li>Evren, sayısız varlığıyla kusursuz bir düzen sergiler.</li>
+                    <li>Gezegenlerin yörüngelerinde şaşmadan dönmesi, mevsimlerin düzenli değişimi gibi olaylar bu düzenin somut göstergeleridir.</li>
+                    <li>İnsan vücudundaki sistemlerin uyumu da evrendeki düzenin bir mikrokozmosu gibidir.</li>
+                    <li>Her şeyin bir amaç ve plan dahilinde yaratıldığı vurgulanır.</li>
+                </ul>
+                <div class="visual-grid">
+                    <div class="visual-item">☀️<div class="visual-item-label">Güneş</div></div>
+                    <div class="visual-item">🌍<div class="visual-item-label">Dünya</div></div>
+                    <div class="visual-item">💧<div class="visual-item-label">Su Döngüsü</div></div>
+                    <div class="visual-item">🌱<div class="visual-item-label">Bitkiler</div></div>
+                    <div class="visual-item">🧍<div class="visual-item-label">İnsan</div></div>
+                    <div class="visual-item">🧠<div class="visual-item-label">Akıl</div></div>
+                </div>
+
+                <h4 class="sub-heading">Allah'ın Varlığı ve Birliği (Tevhit)</h4>
+                <ul>
+                    <li>Kâinattaki muazzam düzen ve işleyişin, onu yaratan ve yöneten bir güce, yani <strong>Allah (c.c.)</strong>'a ihtiyaç duyduğu anlatılır.</li>
+                    <li>İslam'ın en temel inanç esaslarından biri olan <strong>tevhit</strong>, Allah'ın bir ve tek olduğuna, eşi ve benzeri olmadığına inanmak demektir.</li>
+                    <li>Bu inanç, Allah'tan başka hiçbir varlığa ibadet edilmemesi gerektiğini ifade eder.</li>
+                </ul>
+                <div class="concept-tag-grid">
+                    <span class="concept-tag">☝️ Tevhit</span>
+                    <span class="concept-tag">♾️ Sonsuz Kudret</span>
+                    <span class="concept-tag">✨ Eşsiz Yaratıcı</span>
+                </div>
+
+                <h4 class="sub-heading">Allah'ın Güzel İsimleri (Esmayıhüsna)</h4>
+                <ul>
+                    <li><strong>Esmayıhüsna</strong>, Allah'ın kusursuz sıfatlarını ve yüceliğini ifade eden 99 güzel ismidir.</li>
+                    <li>Bu isimler, Allah'ı daha iyi tanımamıza yardımcı olur. Bazı örnekler:
+                        <ul>
+                            <li><strong>Er-Rahmân:</strong> Bütün varlıklara şefkat gösteren, rahmeti sonsuz olan.</li>
+                            <li><strong>Er-Rahîm:</strong> Ahirette inanan kullarına özel ikramlarda bulunan, merhamet eden.</li>
+                            <li><strong>El-Âlim:</strong> Gizli ve açık her şeyi bilen, ilmi sonsuz olan.</li>
+                            <li><strong>El-Basîr:</strong> Her şeyi gören.</li>
+                            <li><strong>Es-Semî':</strong> Her şeyi duyan.</li>
+                            <li><strong>El-Kâdir:</strong> Her şeye gücü yeten, sonsuz kudret sahibi.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 class="sub-heading">İhlas Suresi</h4>
+                <ul>
+                    <li><strong>İhlas</strong>, samimiyet anlamına gelir.</li>
+                    <li>İhlas Suresi, Allah'ın birliğini (tevhit) ve eşsizliğini çok özlü bir şekilde açıklar.</li>
+                    <li>Surede geçen önemli isimler: <strong>Ehad</strong> (Allah'ın bir ve tek olması) ve <strong>Samed</strong> (Allah'ın hiçbir şeye muhtaç olmayıp tüm varlıkların O'na muhtaç olduğu).</li>
+                </ul>
+                <div class="sure-box">
+                    <p class="font-semibold">Anlamı:</p>
+                    <p>Rahman ve Rahîm olan Allah'ın adıyla.</p>
+                    <p>1. De ki: O, Allah’tır, tektir.</p>
+                    <p>2. Allah Samed’dir (Hiçbir şeye muhtaç olmayan, her şeyin O'na muhtaç olduğu).</p>
+                    <p>3. O, doğurmamış ve doğmamıştır.</p>
+                    <p>4. O’nun hiçbir dengi (eşi, benzeri) yoktur.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="unit-section">
+            <h3 class="unit-title"><span class="emoji-icon">🕌</span> 2. ÜNİTE: NAMAZ</h3>
+            <div class="unit-content">
+                <p>Bu ünite, İslam'ın temel ibadetlerinden namazı, onun kılınış şeklini, çeşitlerini ve insan hayatındaki bireysel ve toplumsal faydalarını detaylı bir şekilde açıklar.</p>
+
+                <h4 class="sub-heading">Allah'ın Huzurunda Olmak: Namaz İbadeti</h4>
+                <ul>
+                    <li>Namaz, İslam'ın beş temel esasından ikincisidir ve "dinin direği" olarak kabul edilir.</li>
+                    <li>Ergenlik çağına ulaşmış her Müslüman'a günde beş vakit namaz kılmak farzdır.</li>
+                    <li>Namaz, Allah'a şükretmenin, O'na olan sevgi ve bağlılığı ifade etmenin, günahlardan arınmanın ve manevi olarak yakınlaşmanın en önemli yoludur.</li>
+                </ul>
+                <div class="concept-tag-grid">
+                    <span class="concept-tag">⏰ Beş Vakit</span>
+                    <span class="concept-tag">🙏 Farz İbadet</span>
+                    <span class="concept-tag">❤️ Şükür</span>
+                </div>
+
+                <h4 class="sub-heading">Namaz Çeşitleri</h4>
+                <ul>
+                    <li><strong>Farz Namazlar:</strong> Allah tarafından kesin olarak emredilen namazlardır (Beş Vakit Namaz, Cuma Namazı, Cenaze Namazı).</li>
+                    <li><strong>Vacip Namazlar:</strong> Farz kadar kesin olmamakla birlikte kılınması emredilen namazlardır (Bayram Namazları, Vitir Namazı).</li>
+                    <li><strong>Nafile Namazlar (Sünnet Namazlar):</strong> Hz. Peygamber'in kıldığı ve tavsiye ettiği namazlardır (Beş vakit namazın sünnetleri, Teravih Namazı, Teheccüt Namazı).</li>
+                </ul>
+
+                <h4 class="sub-heading">Namazın Kılınışı</h4>
+                <p>Namazın sahih (geçerli) olabilmesi için belirli şartların yerine getirilmesi gerekir:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div>
+                        <h5 class="font-semibold text-md text-[#268BD2] mb-2">Hazırlık Şartları (Dışındaki Farzlar)</h5>
+                        <ul class="list-disc pl-5">
+                            <li><strong>Hadesten Taharet:</strong> Abdest/gusül ile manevi temizlik. <span class="emoji-icon">💧</span></li>
+                            <li><strong>Necasetten Taharet:</strong> Vücut, elbise ve yerin temizliği. <span class="emoji-icon">🧼</span></li>
+                            <li><strong>Setr-i Avret:</strong> Avret yerini örtmek. <span class="emoji-icon">👕</span></li>
+                            <li><strong>İstikbal-i Kıble:</strong> Kıbleye yönelmek. <span class="emoji-icon">🕋</span></li>
+                            <li><strong>Vakit:</strong> Namaz vaktinin girmesi. <span class="emoji-icon">⏰</span></li>
+                            <li><strong>Niyet:</strong> Kılınacak namaza kalben niyet etmek. <span class="emoji-icon">✨</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold text-md text-[#2AA198] mb-2">Kılınış Şartları (İçindeki Farzlar)</h5>
+                        <ul class="list-disc pl-5">
+                            <li><strong>İftitah Tekbiri:</strong> "Allahüekber" diyerek başlamak. <span class="emoji-icon">🙌</span></li>
+                            <li><strong>Kıyam:</strong> Ayakta durmak. <span class="emoji-icon">🧍</span></li>
+                            <li><strong>Kıraat:</strong> Kur'an okumak. <span class="emoji-icon">📖</span></li>
+                            <li><strong>Rükû:</strong> Eğilmek. <span class="emoji-icon">🙇</span></li>
+                            <li><strong>Secde:</strong> Yere kapanmak (iki defa). <span class="emoji-icon">🧎</span></li>
+                            <li><strong>Ka'de-i Ahîre:</strong> Son oturuş. <span class="emoji-icon">🧘</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 class="sub-heading">Namaz İbadetinin İnsana Kazandırdıkları</h4>
+                <ul>
+                    <li><strong>Bireysel Faydaları:</strong> Kulluk bilincini artırır, manevi arınma sağlar, disiplin ve düzen kazandırır, huzur ve sabır verir, kötülüklerden uzaklaştırır.</li>
+                    <li><strong>Toplumsal Faydaları:</strong> Birlik ve beraberliği güçlendirir, eşitlik duygusunu pekiştirir, dayanışmayı artırır, camileri sosyal merkezler haline getirir.</li>
+                </ul>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="text-center bg-[#FEFBF3] p-4 rounded-lg border border-[#EEE8D5]">
+                        <h5 class="font-semibold text-md text-[#268BD2] mb-2"><span class="emoji-icon">🧘‍♂️</span> Bireysel Faydalar</h5>
+                        <ul class="list-none p-0">
+                            <li>Huzur ve Sabır</li>
+                            <li>Disiplin</li>
+                            <li>Manevi Arınma</li>
+                        </ul>
+                    </div>
+                    <div class="text-center bg-[#FEFBF3] p-4 rounded-lg border border-[#EEE8D5]">
+                        <h5 class="font-semibold text-md text-[#2AA198] mb-2"><span class="emoji-icon">🤝</span> Toplumsal Faydalar</h5>
+                        <ul class="list-none p-0">
+                            <li>Birlik ve Beraberlik</li>
+                            <li>Eşitlik</li>
+                            <li>Dayanışma</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 class="sub-heading">Tahiyyat Duası</h4>
+                <ul>
+                    <li>Tahiyyat; selam, ikram, ihsan, hürmet ve ibadet anlamlarına gelir.</li>
+                    <li>Namazların oturuşlarında okunur.</li>
+                    <li>Hz. Peygamber'in Miraç gecesindeki konuşmasını sembolize eder.</li>
+                </ul>
+                <div class="sure-box">
+                    <p class="font-semibold">Anlamı (Özetle):</p>
+                    <p>Her türlü selam, rahmet, iyilik ve güzellik Allah içindir. Ey Peygamber! Allah’ın rahmeti, bereketi ve selamı senin üzerine olsun. Selam, bize ve Allah’ın iyi kullarının üzerine olsun. Şahitlik ederim ki Allah’tan başka ilah yoktur ve yine şahitlik ederim ki Muhammed O’nun kulu ve elçisidir.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="unit-section">
+            <h3 class="unit-title"><span class="emoji-icon">📚</span> 3. ÜNİTE: KUR'AN-I KERİM</h3>
+            <div class="unit-content">
+                <p>Bu ünite, Allah'ın son ilahi kitabı Kur'an-ı Kerim'in yapısını, özelliklerini, temel konularını ve insan hayatındaki rehberlik rolünü inceler.</p>
+
+                <h4 class="sub-heading">Kur'an-ı Kerim'in İç Düzeni</h4>
+                <ul>
+                    <li><strong>Ayet:</strong> Kur'an surelerini oluşturan, belirli bir anlam bütünlüğü taşıyan cümlelerdir. <span class="emoji-icon">📜</span></li>
+                    <li><strong>Sure:</strong> Ayetlerden oluşan bölümlerdir. Kur'an'da 114 sure bulunur (ilk Fatiha, son Nas). <span class="emoji-icon">📖</span></li>
+                    <li><strong>Cüz:</strong> Kur'an-ı Kerim'in yirmi sayfadan oluşan her bir bölümüdür (Toplam 30 cüz). <span class="emoji-icon">🧩</span></li>
+                    <li><strong>Mekki Ayetler:</strong> Mekke'de inen, genellikle iman esasları ve ahlak ilkelerini anlatır. <span class="emoji-icon">⛰️</span></li>
+                    <li><strong>Medeni Ayetler:</strong> Medine'de inen, genellikle aile ve toplumsal konuları içerir. <span class="emoji-icon">🏘️</span></li>
+                </ul>
+
+                <h4 class="sub-heading">Kur'an-ı Kerim'in Temel Özellikleri</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <div class="concept-tag-grid flex-col items-start">
+                        <span class="concept-tag">✨ İbadettir</span>
+                        <span class="concept-tag">🌍 Evrenseldir</span>
+                        <span class="concept-tag">⏳ Parça Parça İndi</span>
+                    </div>
+                    <div class="concept-tag-grid flex-col items-start">
+                        <span class="concept-tag">🗣️ Arapça</span>
+                        <span class="concept-tag">💡 Furkan (Ayıran)</span>
+                        <span class="concept-tag">🌟 Nur (Işık)</span>
+                    </div>
+                </div>
+
+                <h4 class="sub-heading">Kur'an-ı Kerim'in Ana Konuları</h4>
+                <p>Kur'an-ı Kerim, insan hayatının tüm yönlerini ele alan beş ana konuya odaklanır.</p>
+                <div class="horizontal-bar-chart">
+                    <div class="chart-bar-item">
+                        <span class="label">İnanç</span>
+                        <div class="value-bar" style="width: 95%; background-color: #268BD2;"></div>
+                    </div>
+                    <div class="chart-bar-item">
+                        <span class="label">İbadet</span>
+                        <div class="value-bar" style="width: 90%; background-color: #2AA198;"></div>
+                    </div>
+                    <div class="chart-bar-item">
+                        <span class="label">Ahlak</span>
+                        <div class="value-bar" style="width: 85%; background-color: #859900;"></div>
+                    </div>
+                    <div class="chart-bar-item">
+                        <span class="label">Sosyal Hayat</span>
+                        <div class="value-bar" style="width: 80%; background-color: #B58900;"></div>
+                    </div>
+                    <div class="chart-bar-item">
+                        <span class="label">Kıssalar</span>
+                        <div class="value-bar" style="width: 75%; background-color: #CB4B16;"></div>
+                    </div>
+                </div>
+
+                <h4 class="sub-heading">Kevser Suresi</h4>
+                <ul>
+                    <li>Kevser, bolluk ve bereket demektir.</li>
+                    <li>Bu sure, Hz. Peygamber'e verilen bol nimetleri ve O'na düşmanlık edenlerin sonunu müjdeler.</li>
+                    <li>Namaz kılmanın ve kurban kesmenin önemini vurgular.</li>
+                </ul>
+                <div class="sure-box">
+                    <p class="font-semibold">Anlamı:</p>
+                    <p>1. Şüphesiz biz sana Kevser'i (bol nimeti) verdik.</p>
+                    <p>2. Öyleyse Rabbin için namaz kıl ve kurban kes.</p>
+                    <p>3. Doğrusu, sana karşı nefret duyandır soyu kesik olan.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="unit-section">
+            <h3 class="unit-title"><span class="emoji-icon">🚶‍♂️</span> 4. ÜNİTE: PEYGAMBER KISSALARI</h3>
+            <div class="unit-content">
+                <p>Bu ünite, Kur'an-ı Kerim'de geçen peygamberlerin hayatlarından kesitler sunarak, onların örnek şahsiyetlerini, tebliğ mücadelelerini ve bu kıssalardan çıkarılması gereken dersleri aktarır.</p>
+
+                <h4 class="sub-heading">Allah'ın Elçileri: Peygamberler</h4>
+                <ul>
+                    <li>Peygamberler, Allah tarafından seçilmiş ve insanlara doğru yolu göstermek üzere gönderilmiş özel insanlardır.</li>
+                    <li>Allah'ın emir ve yasaklarını açıklayan, örnek yaşantılarıyla yol gösteren elçilerdir.</li>
+                    <li>Özellikleri: Doğru sözlü (sıdk), güvenilir (emanet), akıllı (fetanet), günah işlemeyen (ismet) ve mesajı eksiksiz ileten (tebliğ).</li>
+                </ul>
+
+                <h4 class="sub-heading">Kur'an-ı Kerim'den Öğütler: Peygamber Kıssaları</h4>
+                <ul>
+                    <li>Peygamber kıssaları, sadece geçmiş olayları anlatmakla kalmaz, aynı zamanda insanlara ibret verici dersler sunar.</li>
+                    <li>Tevhit inancının önemi, peygamberlerin sabrı, Allah'a güvenin önemi ve geçmiş milletlerin hatalarından ders çıkarma gerekliliği vurgulanır.</li>
+                </ul>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-[#FEFBF3] p-4 rounded-lg border border-[#EEE8D5]">
+                        <h5 class="font-semibold text-md text-[#268BD2] mb-2"><span class="emoji-icon">🚢</span> Hz. Nuh (a.s.)</h5>
+                        <ul class="list-disc pl-5">
+                            <li>Kavmini Allah'ın birliğine çağırdı.</li>
+                            <li>Tufanla inkarcılar helak oldu, inananlar kurtuldu.</li>
+                            <li>Sabır ve tebliğde sebatın örneğidir.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-[#FEFBF3] p-4 rounded-lg border border-[#EEE8D5]">
+                        <h5 class="font-semibold text-md text-[#2AA198] mb-2"><span class="emoji-icon">🔥</span> Hz. İbrahim (a.s.)</h5>
+                        <ul class="list-disc pl-5">
+                            <li>Putlara karşı tevhit mücadelesi verdi.</li>
+                            <li>Ateşe atıldı ama yanmadı.</li>
+                            <li>Kâbe'nin inşası ve kurban emrine teslimiyetiyle bilinir.</li>
+                            <li>Tevhit ve teslimiyetin sembolüdür.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-[#FEFBF3] p-4 rounded-lg border border-[#EEE8D5]">
+                        <h5 class="font-semibold text-md text-[#859900] mb-2"><span class="emoji-icon">🌊</span> Hz. Musa (a.s.)</h5>
+                        <ul class="list-disc pl-5">
+                            <li>Firavun'un zulmü altındaki İsrailoğullarını kurtardı.</li>
+                            <li>Kızıldeniz'i yararak kavmini kurtardı.</li>
+                            <li>Tevrat kendisine indirilmiştir.</li>
+                            <li>Zulme karşı direncin ve ilahi yardımın örneğidir.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-[#FEFBF3] p-4 rounded-lg border border-[#EEE8D5]">
+                        <h5 class="font-semibold text-md text-[#B58900] mb-2"><span class="emoji-icon">🕊️</span> Hz. İsa (a.s.)</h5>
+                        <ul class="list-disc pl-5">
+                            <li>Babasız dünyaya gelmesi, beşikte konuşması gibi mucizelerle desteklendi.</li>
+                            <li>Kavmini Allah'ın birliğine davet etti, kendisine İncil indirildi.</li>
+                            <li>Merhamet ve tebliğde azmin timsalidir.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 class="sub-heading">Kureyş Suresi</h4>
+                <ul>
+                    <li>Mekke'nin Kureyş kabilesine Allah'ın verdiği nimetleri hatırlatır.</li>
+                    <li>Kış ve yaz yolculuklarında güvenlik ve rızık gibi nimetlere karşılık Allah'a kulluk etmeleri gerektiğini anlatır.</li>
+                </ul>
+                <div class="sure-box">
+                    <p class="font-semibold">Anlamı:</p>
+                    <p>1-4. Kureyş'e kolaylaştırıldığı, evet, kış ve yaz seyahatleri onlara kolaylaştırıldığı için onlar, kendilerini açlıktan doyuran ve her çeşit korkudan emin kılan şu evin (Kâbe'nin) Rabbine kulluk etsinler.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="unit-section">
+            <h3 class="unit-title"><span class="emoji-icon">🏗️</span> 5. ÜNİTE: MİMARİMİZDE DİNÎ MOTİFLER</h3>
+            <div class="unit-content">
+                <p>Bu ünite, İslam dininin Türk mimarisi üzerindeki derin etkilerini, camilerin mimari özelliklerini ve kültürel önemini inceler.</p>
+
+                <h4 class="sub-heading">Dinin Mimarimize Etkisi</h4>
+                <ul>
+                    <li>İslam dini, sanata ve estetiğe önem vermiştir, bu da mimaride kendini göstermiştir.</li>
+                    <li>Türkler, İslam'ı kabul ettikten sonra özgün bir Türk-İslam mimarisi geliştirmişlerdir.</li>
+                    <li>Bu mimari, camiler, medreseler, külliyeler gibi birçok yapıda kendini gösterir.</li>
+                    <li>Mimari yapılarda kullanılan motifler, süslemeler ve genel tasarım, İslam'ın temel prensiplerini yansıtır.</li>
+                </ul>
+                <div class="concept-tag-grid">
+                    <span class="concept-tag">🕌 Cami Mimarisi</span>
+                    <span class="concept-tag">✨ Estetik</span>
+                    <span class="concept-tag">📐 Türk-İslam Sanatı</span>
+                </div>
+
+                <h4 class="sub-heading">Camileri Tanıyalım (Temel Bölümler)</h4>
+                <ul>
+                    <li>Camiler, Müslümanların toplu olarak ibadet ettikleri ve sosyal ilişkilerini geliştirdikleri önemli mekânlardır.</li>
+                    <li>Belirli mimari bölümleri vardır:</li>
+                </ul>
+                <div class="cami-bolum-grid">
+                    <div class="cami-bolum-item"><span class="emoji">🕌</span> Minare<br>(Ezan Okunan Yer)</div>
+                    <div class="cami-bolum-item"><span class="emoji">🌐</span> Kubbe<br>(Ana Çatı)</div>
+                    <div class="cami-bolum-item"><span class="emoji">🕋</span> Mihrap<br>(Kıble Yönü)</div>
+                    <div class="cami-bolum-item"><span class="emoji">🗣️</span> Minber<br>(Hutbe Okunan Yer)</div>
+                    <div class="cami-bolum-item"><span class="emoji">🎤</span> Vaaz Kürsüsü<br>(Vaaz Verilen Yer)</div>
+                    <div class="cami-bolum-item"><span class="emoji">💧</span> Şadırvan<br>(Abdest Alınan Yer)</div>
+                    <div class="cami-bolum-item"><span class="emoji">🌳</span> Avlu<br>(Cami Dış Alanı)</div>
+                    <div class="cami-bolum-item"><span class="emoji">🎨</span> İç Süslemeler<br>(Hat, Tezhip, Çini)</div>
+                </div>
+                <p class="text-xs mt-3 text-center italic">Bu bölümler, caminin işlevselliğini ve estetik güzelliğini oluşturur.</p>
+
+                <h4 class="sub-heading">Kültürümüzden Cami Örnekleri</h4>
+                <ul>
+                    <li><strong>Selimiye Camii (Edirne):</strong> Mimar Sinan'ın "ustalık eserim" dediği, Osmanlı mimarisinin zirvesidir. <span class="emoji-icon">🇹🇷</span></li>
+                    <li><strong>Sultanahmet Camii (İstanbul):</strong> "Mavi Cami" olarak da bilinir, altı minaresiyle ünlüdür. <span class="emoji-icon">🔵</span></li>
+                    <li><strong>Süleymaniye Camii (İstanbul):</strong> Mimar Sinan'ın önemli eserlerinden biri, İstanbul siluetinin parçasıdır. <span class="emoji-icon">🏙️</span></li>
+                    <li><strong>Ulu Camii (Bursa):</strong> Erken Osmanlı döneminin çok kubbeli önemli yapılarından biridir. <span class="emoji-icon">🌳</span></li>
+                    <li><strong>Divriği Ulu Camii ve Darüşşifası (Sivas):</strong> UNESCO Dünya Mirası Listesi'nde yer alan, taş işçiliğiyle ünlü eşsiz bir yapıdır. <span class="emoji-icon">🌍</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="text-sm mt-8 text-[#93A1A1]">Bu afiş, Din Kültürü ve Ahlak Bilgisi 5. Sınıf ders kitabının içeriğini özetlemek amacıyla hazırlanmıştır.</p>
+    </div>
+</body>
+</html>
