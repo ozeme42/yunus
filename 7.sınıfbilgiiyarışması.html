@@ -790,6 +790,7 @@
         let fullscreenOverlay;
         let returnToSiteFromMainMenuButton; // Button to return to external site from main menu
         let returnToUnitSelectionButtons = []; // Array to hold buttons that return to unit selection
+        let returnToQuestionGridFromQuizButton; // New variable for the button on quiz content
 
         // Functions
         window.selectUnit = function(unitId) {
@@ -1428,8 +1429,13 @@
             // Assign specific buttons to the new returnToUnitSelection function
             returnToSiteFromMainMenuButton = document.getElementById('return-to-site-from-main-menu-button'); // This one still goes to external site
             returnToUnitSelectionButtons.push(document.getElementById('return-to-main-menu-grid-button')); // From question grid
-            returnToUnitSelectionButtons.push(document.getElementById('return-to-main-menu-button')); // From quiz content
             returnToUnitSelectionButtons.push(document.getElementById('return-to-main-menu-from-final-button')); // From final score
+
+            // New assignment for the button on the quiz content screen
+            returnToQuestionGridFromQuizButton = document.getElementById('return-to-question-grid-from-quiz-button');
+            if (returnToQuestionGridFromQuizButton) {
+                returnToQuestionGridFromQuizButton.onclick = window.returnToQuestionsGrid;
+            }
 
             // Set onclick for buttons that return to unit selection
             returnToUnitSelectionButtons.forEach(button => {
@@ -1446,7 +1452,8 @@
                 finalScoreContainer, overallResultDiv, resetGameButton,
                 questionCounterDisplay, questionNavigationContainer, timerDisplay,
                 gridInstructionMessage, questionScreenInstructionMessage, fullscreenOverlay,
-                returnToSiteFromMainMenuButton
+                returnToSiteFromMainMenuButton,
+                returnToQuestionGridFromQuizButton // Add new button to check
             };
 
             for (const key in elementsToCheck) {
@@ -1529,7 +1536,7 @@
                 <div id="current-question-feedback" class="feedback-message"></div>
                 <div class="button-group">
                     <button id="next-turn-button" class="action-button next-button hidden" onclick="moveToNextTurn()">Sonraki Oyuncu</button>
-                    <button id="return-to-main-menu-button" class="action-button return-button">Ana Sayfaya Dön</button>
+                    <button id="return-to-question-grid-from-quiz-button" class="action-button return-button" onclick="returnToQuestionsGrid()">Soru Ekranına Dön</button>
                 </div>
                 <div id="loading-spinner" class="loading-spinner"></div>
                 <div id="detailed-explanation-container" class="detailed-explanation-container hidden"></div>
