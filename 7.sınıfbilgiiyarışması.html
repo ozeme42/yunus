@@ -788,9 +788,9 @@
         let gridInstructionMessage;
         let questionScreenInstructionMessage;
         let fullscreenOverlay;
-        let returnToMainMenuButton; // New button for returning to main menu
-        let returnToMainMenuGridButton; // New button for returning to main menu from grid
-        
+        let returnToSiteFromMainMenuButton; // Button to return to external site from main menu
+        let returnToUnitSelectionButtons = []; // Array to hold buttons that return to unit selection
+
         // Functions
         window.selectUnit = function(unitId) {
             console.log(`Selected unit: ${unitId}`);
@@ -1348,10 +1348,51 @@
             }
         }
 
-        // Updated function to return to main menu or external link
+        // Function to return to the main unit selection menu
+        window.returnToUnitSelection = function() {
+            console.log("Returning to unit selection screen.");
+            window.teamScores = [];
+            window.numTeams = 0;
+            window.currentPlayer = 0;
+            window.currentQuestionIndex = 0;
+            window.answeredQuestions = {};
+            clearInterval(timerInterval);
+            timerDisplay.classList.add('hidden');
+            shuffledQuestions = []; // Clear questions
+            window.currentUnit = null;
+
+            quizContentContainer.classList.add('hidden');
+            hideFinalScore();
+            questionNavigationContainer.classList.add('hidden');
+            gamePanel.classList.add('hidden');
+            playerSelectionScreen.classList.add('hidden');
+            mainMenuScreen.classList.remove('hidden'); // Show main menu
+            gridInstructionMessage.classList.add('hidden');
+            questionScreenInstructionMessage.classList.add('hidden');
+            detailedExplanationContainer.innerHTML = '';
+            detailedExplanationContainer.classList.add('hidden');
+            if (questionCounterDisplay) {
+                questionCounterDisplay.classList.add('hidden');
+            }
+            setGameBackground('general');
+
+            fullscreenOverlay.classList.remove('show');
+            setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
+            quizContentContainer.classList.remove('fullscreen-active');
+
+            if (currentPlayerTurnDisplay) {
+                currentPlayerTurnDisplay.textContent = "Sıra: A Takımı";
+                currentPlayerTurnDisplay.classList.remove('text-gray-600', 'font-normal');
+                currentPlayerTurnDisplay.classList.add('current-turn');
+            }
+            if (scoreBoard) {
+                scoreBoard.classList.remove('hidden');
+            }
+        }
+
+        // Function to return to the external main site (only for the dedicated button)
         window.returnToMainMenu = function() {
-            console.log("Returning to main menu or external link.");
-            // Redirect to the specified external URL
+            console.log("Returning to external main site.");
             window.location.href = "https://ozeme42.github.io/yunus/index.html";
         }
 
@@ -1383,9 +1424,19 @@
             gridInstructionMessage = document.getElementById('grid-instruction-message'); 
             questionScreenInstructionMessage = document.getElementById('question-screen-instruction-message'); 
             fullscreenOverlay = document.getElementById('fullscreen-overlay');
-            returnToMainMenuButton = document.getElementById('return-to-main-menu-button'); // Assign the new button
-            returnToMainMenuGridButton = document.getElementById('return-to-main-menu-grid-button'); // Assign the new grid button
-            const returnToSiteFromMainMenuButton = document.getElementById('return-to-site-from-main-menu-button'); // Yeni buton
+            
+            // Assign specific buttons to the new returnToUnitSelection function
+            returnToSiteFromMainMenuButton = document.getElementById('return-to-site-from-main-menu-button'); // This one still goes to external site
+            returnToUnitSelectionButtons.push(document.getElementById('return-to-main-menu-grid-button')); // From question grid
+            returnToUnitSelectionButtons.push(document.getElementById('return-to-main-menu-button')); // From quiz content
+            returnToUnitSelectionButtons.push(document.getElementById('return-to-main-menu-from-final-button')); // From final score
+
+            // Set onclick for buttons that return to unit selection
+            returnToUnitSelectionButtons.forEach(button => {
+                if (button) {
+                    button.onclick = window.returnToUnitSelection;
+                }
+            });
 
             // Log to confirm elements are found
             const elementsToCheck = {
@@ -1395,7 +1446,7 @@
                 finalScoreContainer, overallResultDiv, resetGameButton,
                 questionCounterDisplay, questionNavigationContainer, timerDisplay,
                 gridInstructionMessage, questionScreenInstructionMessage, fullscreenOverlay,
-                returnToMainMenuButton, returnToMainMenuGridButton, returnToSiteFromMainMenuButton
+                returnToSiteFromMainMenuButton
             };
 
             for (const key in elementsToCheck) {
@@ -1466,7 +1517,7 @@
                 </div>
             
             <div class="button-group mt-4" id="question-grid-buttons">
-                <button id="return-to-main-menu-grid-button" class="action-button return-button" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
+                <button id="return-to-main-menu-grid-button" class="action-button return-button">Ana Sayfaya Dön</button>
             </div>
 
             <div id="quiz-content" class="hidden">
@@ -1478,7 +1529,7 @@
                 <div id="current-question-feedback" class="feedback-message"></div>
                 <div class="button-group">
                     <button id="next-turn-button" class="action-button next-button hidden" onclick="moveToNextTurn()">Sonraki Oyuncu</button>
-                    <button id="return-to-main-menu-button" class="action-button return-button" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
+                    <button id="return-to-main-menu-button" class="action-button return-button">Ana Sayfaya Dön</button>
                 </div>
                 <div id="loading-spinner" class="loading-spinner"></div>
                 <div id="detailed-explanation-container" class="detailed-explanation-container hidden"></div>
@@ -1488,7 +1539,7 @@
             <div id="final-score-container" class="hidden">
                 <div id="overall-result" class="feedback-message"></div>
                 <button id="reset-game-button" class="action-button reset-button" onclick="resetGame()">Yeniden Başla</button>
-                <button id="return-to-main-menu-from-final-button" class="action-button return-button mt-4" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
+                <button id="return-to-main-menu-from-final-button" class="action-button return-button mt-4">Ana Sayfaya Dön</button>
             </div>
         </div>
     </div>
