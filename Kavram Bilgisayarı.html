@@ -420,13 +420,11 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-4xl font-bold text-gray-800 mb-6">Kavram Bilgi Yarışması</h1>
-
         <div id="mainMenuScreen">
             <div id="unitCardsContainer" class="unit-grid">
                 </div>
             <button id="startQuizBtn" class="action-button px-8 py-3 text-xl" style="display: none;">Yarışmayı Başlat</button>
-            </div>
+            <button id="returnToSiteBtn" class="action-button bg-blue-700 hover:bg-blue-900 mt-4">Siteye Dön</button> </div>
 
         <div id="mainQuizContent" class="main-quiz-content">
             <div id="quizArea" class="quiz-area">
@@ -1126,8 +1124,9 @@
         const nextQuestionBtn = document.getElementById('nextQuestionBtn');
         const showAnswerBtn = document.getElementById('showAnswerBtn');
         const resetQuizBtn = document.getElementById('resetQuizBtn');
-        const timerDisplay = document.getElementById('timerDisplay');
+        const timerDisplay = document.getElementById('timerDisplay'); // Düzeltme: `document = document.getElementById` yerine `document.getElementById`
         const returnToMainMenuFromQuizBtn = document.getElementById('returnToMainMenuFromQuizBtn');
+        const returnToSiteBtn = document.getElementById('returnToSiteBtn'); // Yeni buton referansı
 
         // Custom Modal DOM elements (still needed for alerts/confirms, but not for editor specific inputs)
         const customModalOverlay = document.getElementById('customModalOverlay');
@@ -1135,7 +1134,7 @@
         const modalMessage = document.getElementById('modalMessage');
         const modalInput1 = document.getElementById('modalInput1');
         const modalInput2 = document.getElementById('modalInput2');
-        const modalTextarea = document = document.getElementById('modalTextarea');
+        const modalTextarea = document.getElementById('modalTextarea');
         const modalConfirmBtn = document.getElementById('modalConfirmBtn');
         const modalSaveBtn = document.getElementById('modalSaveBtn');
         const modalCancelBtn = document.getElementById('modalCancelBtn');
@@ -1572,6 +1571,11 @@
             selectedUnitId = null; // Seçili üniteyi temizle
             answeredConceptIds.clear(); // Yarışma başlangıcı için temizle
             renderUnitCards(); // Seçim durumunu doğru göstermek için ünite kartlarını yeniden render et
+        });
+
+        // "Siteye Dön" butonu için olay dinleyicisi
+        returnToSiteBtn.addEventListener('click', () => {
+            window.location.href = 'https://ozeme42.github.io/yunus/index.html';
         });
 
         // Yüklemede ilk render
