@@ -240,6 +240,44 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
             border-radius: 0.25rem;
             transition: width 0.5s ease-out; /* Animasyon için geçiş */
         }
+
+        /* Ünite butonları stilleri */
+        .unit-buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2.5rem; /* Başlık ile butonlar arasına boşluk */
+            padding-bottom: 1.5rem; /* Butonların altına boşluk */
+            border-bottom: 1px solid #EEE8D5; /* Altına ayırıcı çizgi */
+        }
+
+        .unit-button {
+            background-color: #268BD2; /* Solarized Blue */
+            color: #FFFFFF; /* Beyaz metin */
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .unit-button:hover {
+            background-color: #2AA198; /* Solarized Cyan */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .unit-button .emoji {
+            font-size: 1.2rem;
+        }
+
         /* Duyarlı tasarım */
         @media (max-width: 768px) {
             body {
@@ -287,6 +325,14 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
             .chart-bar-item .label {
                 width: 70px; /* Mobil için etiket genişliği */
             }
+            .unit-buttons-container {
+                gap: 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+            .unit-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -295,7 +341,15 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
         <h1 class="main-title">DİN KÜLTÜRÜ VE AHLAK BİLGİSİ</h1>
         <h2 class="subtitle">5. SINIF: TEMEL KONULAR VE KAVRAMLAR</h2>
 
-        <div class="unit-section">
+        <div class="unit-buttons-container">
+            <button class="unit-button" data-target="unit1"><span class="emoji">🌟</span> Ünite 1</button>
+            <button class="unit-button" data-target="unit2"><span class="emoji">🕌</span> Ünite 2</button>
+            <button class="unit-button" data-target="unit3"><span class="emoji">📚</span> Ünite 3</button>
+            <button class="unit-button" data-target="unit4"><span class="emoji">🚶‍♂️</span> Ünite 4</button>
+            <button class="unit-button" data-target="unit5"><span class="emoji">🏗️</span> Ünite 5</button>
+        </div>
+
+        <div class="unit-section" id="unit1">
             <h3 class="unit-title"><span class="emoji-icon">🌟</span> 1. ÜNİTE: ALLAH İNANCI</h3>
             <div class="unit-content">
                 <p>Bu ünite, evrendeki mükemmel düzenin bir Yaratıcı'ya işaret ettiğini, Allah'ın varlığını ve birliğini (Tevhit inancı) ele alır. Ayrıca, Allah'ı tanımamıza yardımcı olan güzel isimleri (Esmayıhüsna) ve İhlas Suresi'nin anlamını öğretir.</p>
@@ -360,7 +414,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
             </div>
         </div>
 
-        <div class="unit-section">
+        <div class="unit-section" id="unit2">
             <h3 class="unit-title"><span class="emoji-icon">🕌</span> 2. ÜNİTE: NAMAZ</h3>
             <div class="unit-content">
                 <p>Bu ünite, İslam'ın temel ibadetlerinden namazı, onun kılınış şeklini, çeşitlerini ve insan hayatındaki bireysel ve toplumsal faydalarını detaylı bir şekilde açıklar.</p>
@@ -448,7 +502,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
             </div>
         </div>
 
-        <div class="unit-section">
+        <div class="unit-section" id="unit3">
             <h3 class="unit-title"><span class="emoji-icon">📚</span> 3. ÜNİTE: KUR'AN-I KERİM</h3>
             <div class="unit-content">
                 <p>Bu ünite, Allah'ın son ilahi kitabı Kur'an-ı Kerim'in yapısını, özelliklerini, temel konularını ve insan hayatındaki rehberlik rolünü inceler.</p>
@@ -516,7 +570,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
             </div>
         </div>
 
-        <div class="unit-section">
+        <div class="unit-section" id="unit4">
             <h3 class="unit-title"><span class="emoji-icon">🚶‍♂️</span> 4. ÜNİTE: PEYGAMBER KISSALARI</h3>
             <div class="unit-content">
                 <p>Bu ünite, Kur'an-ı Kerim'de geçen peygamberlerin hayatlarından kesitler sunarak, onların örnek şahsiyetlerini, tebliğ mücadelelerini ve bu kıssalardan çıkarılması gereken dersleri aktarır.</p>
@@ -582,7 +636,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
             </div>
         </div>
 
-        <div class="unit-section">
+        <div class="unit-section" id="unit5">
             <h3 class="unit-title"><span class="emoji-icon">🏗️</span> 5. ÜNİTE: MİMARİMİZDE DİNÎ MOTİFLER</h3>
             <div class="unit-content">
                 <p>Bu ünite, İslam dininin Türk mimarisi üzerindeki derin etkilerini, camilerin mimari özelliklerini ve kültürel önemini inceler.</p>
@@ -630,5 +684,30 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
 
         <p class="text-sm mt-8 text-[#93A1A1]">Bu afiş, Din Kültürü ve Ahlak Bilgisi 5. Sınıf ders kitabının içeriğini özetlemek amacıyla hazırlanmıştır.</p>
     </div>
+
+    <script>
+        // Sayfa yüklendiğinde çalışacak kod
+        window.onload = function() {
+            // Tüm ünite butonlarını seç
+            const unitButtons = document.querySelectorAll('.unit-button');
+
+            // Her bir butona tıklama olayı ekle
+            unitButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Butonun hedeflediği ünite ID'sini al
+                    const targetId = this.dataset.target;
+                    // Hedef ünite elementini bul
+                    const targetElement = document.getElementById(targetId);
+
+                    // Eğer hedef element varsa, ona kaydır
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth' // Yumuşak kaydırma efekti
+                        });
+                    }
+                });
+            });
+        };
+    </script>
 </body>
 </html>
