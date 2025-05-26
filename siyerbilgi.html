@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Din Kültürü ve Ahlak Bilgisi 6. Sınıf Ünite Etkinlikleri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Ensure html and body take full height */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to start to allow scrolling if content overflows */
+            min-height: 100vh; /* Use min-height to ensure it takes full height */
+            padding: 2rem 1rem;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            background-size: cover; /* Görselin tüm alanı kaplamasını sağlar */
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            min-height: 80vh; /* Minimum height for the container */
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c5282;
+            margin-bottom: 1.5rem;
+        }
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .unit-card {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #2d3748;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 120px; /* Fixed height for unit cards */
+            text-align: center;
+        }
+        .unit-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .unit-card.selected {
+            border-color: #3182ce;
+            background-color: #bee3f8; /* This will be overridden by specific unit colors, but good fallback */
+            box-shadow: 0 0 15px rgba(49, 130, 206, 0.5);
+        }
+        .start-button {
+            background-color: #4299e1;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .start-button:hover {
+            background-color: #3182ce;
+        }
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .question-card {
+            background-color: #f7fafc;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #2d3748;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px; /* Ensure cards have a minimum height */
+            text-align: center;
+        }
+        .question-card:hover {
+            background-color: #edf2f7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+        }
+        .question-card.answered {
+            background-color: #a0aec0;
+            color: #718096;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .question-card.answered:hover {
+            transform: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+        .question-block {
+            background-color: #ebf8ff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            width: 100%;
+            max-width: 90%; /* Soru ekranını yanlara doğru büyüt */
+            margin: 0 auto; /* Ortala */
+            min-height: 200px; /* Minimum yükseklik */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .question-block h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #2b6cb0;
+            margin-bottom: 1rem;
+        }
+        .question-block p {
+            font-size: 1.5rem;
+            color: #2d3748;
+            line-height: 1.6;
+            word-break: break-word; /* İçeriğine göre otomatik ayarla */
+            overflow-wrap: break-word; /* İçeriğine göre otomatik ayarla */
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column for small screens */
+            gap: 1rem;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+        @media (min-width: 640px) { /* sm breakpoint */
+            .options-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns for larger screens */
+            }
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .options-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+            }
+        }
+        .option-button {
+            background-color: #e0f2f7;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #2d3748;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid #a0d9e7;
+            text-align: center;
+        }
+        .option-button:hover {
+            background-color: #ccecf4;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .option-button.correct {
+            background-color: #68d391;
+            border-color: #38a169;
+            color: white;
+        }
+        .option-button.incorrect {
+            background-color: #fc8181;
+            border-color: #e53e3e;
+            color: white;
+        }
+        .option-button.disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        .feedback-message {
+            margin-top: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .feedback-message.correct {
+            background-color: #d1fae5;
+            color: #2f855a;
+        }
+        .feedback-message.incorrect {
+            background-color: #fee2e2;
+            color: #c53030;
+        }
+        .action-button {
+            background-color: #4299e1;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .action-button:hover {
+            background-color: #3182ce;
+        }
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+        .button-group .action-button {
+            flex: 1;
+            max-width: 200px;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .hidden {
+            display: none !important;
+        }
+        .question-counter {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+        .timer-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c5282;
+            margin-bottom: 1rem;
+        }
+        .timer-display.warning {
+            color: #e53e3e;
+        }
+        .detailed-explanation-container {
+            background-color: #f0f4f8;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+            text-align: left;
+            font-size: 1rem;
+            color: #4a5568;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .detailed-explanation-container h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2c5282;
+            margin-bottom: 0.75rem;
+        }
+        .team-score-display {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c5282;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .team-score-item {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background-color: #e2e8f0;
+            color: #2d3748;
+        }
+        .team-score-item.current-team {
+            background-color: #4299e1;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="main-menu" class="">
+            <h1 class="mb-8">Din Kültürü ve Ahlak Bilgisi 6. Sınıf Ünite Etkinlikleri</h1>
+            <div id="unit-selection-grid" class="unit-grid">
+                </div>
+            <button id="start-quiz-button" class="start-button hidden">Yarışmayı Başlat</button>
+            <button id="return-to-home-button" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Ana Sayfaya Dön</button>
+        </div>
+
+        <div id="team-selection-screen" class="hidden">
+            <h1 class="mb-8">Takım Sayısını Seçin</h1>
+            <div id="team-count-selection" class="flex justify-center gap-4 mb-8">
+                <button class="team-count-button action-button" data-teams="1">1 Takım</button>
+                <button class="team-count-button action-button" data-teams="2">2 Takım</button>
+                <button class="team-count-button action-button" data-teams="3">3 Takım</button>
+                <button class="team-count-button action-button" data-teams="4">4 Takım</button>
+                <button class="team-count-button action-button" data-teams="5">5 Takım</button>
+            </div>
+            <button id="start-team-quiz-button" class="start-button hidden">Takımlı Yarışmayı Başlat</button>
+            <button id="return-to-unit-selection-button" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Ünite Seçimine Geri Dön</button>
+        </div>
+
+        <div id="question-grid-screen" class="hidden">
+            <h1 id="unit-title" class="mb-4"></h1>
+            <div id="team-score-display" class="team-score-display"></div>
+            <div id="question-grid" class="question-grid">
+                </div>
+            <button id="return-to-units-button" class="action-button mt-4">Ünitelere Geri Dön</button>
+        </div>
+
+        <div id="question-screen" class="hidden">
+            <div class="question-counter"><span id="current-question-number"></span> / <span id="total-questions"></span></div>
+            <div id="timer-display" class="timer-display hidden"></div>
+            <div id="current-question-container" class="question-block">
+                <h2 id="question-text"></h2>
+                <div id="options-container" class="options-grid">
+                    </div>
+            </div>
+            <div id="current-question-feedback" class="feedback-message"></div>
+            <div class="button-group">
+                <button id="next-turn-button" class="action-button hidden" onclick="moveToNextTurn()">Sıradaki Takım</button>
+                <button id="return-to-question-grid-button" class="action-button" onclick="returnToQuestionsGrid()">Soru Ekranına Dön</button>
+            </div>
+            <div id="loading-spinner" class="loading-spinner"></div>
+            <div id="detailed-explanation-container" class="detailed-explanation-container hidden"></div>
+            <div id="question-screen-instruction-message" class="text-center text-md font-medium text-gray-700 mt-2 hidden"></div>
+        </div>
+
+        <div id="final-score-container" class="hidden">
+            <div id="overall-result" class="feedback-message"></div>
+            <div id="final-team-scores" class="team-score-display flex-col"></div>
+            <button id="reset-game-button" class="action-button" onclick="resetGame()">Yeniden Başla</button>
+            <button id="return-to-main-menu-from-final-button" class="action-button mt-4" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
+        </div>
+    </div>
+</body>
+<script>
+    // Data structure for units and questions
+    // Each question object has: question (string), answer (string), category (string - unit name), points (number)
+    let questions = [
+        // Ünite 1: Peygamberimizin Gençlik Yılları
+        { question: "Peygamber Efendimiz Hz. Muhammed (s.a.v)'in Miladi 571 yılında dünyaya geldiği şehir.", answer: "Mekke", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Kâbe'nin bulunduğu ve İslamiyet'in doğduğu kutsal şehir.", answer: "Mekke", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin doğup büyüdüğü, ilk vahyin geldiği şehir.", answer: "Mekke", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin doğduğu yıl gerçekleşen ve Kur'an-ı Kerim'de Fil Suresi'nde bahsedilen olay.", answer: "Fil Vakası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Ebrehe'nin Kâbe'yi yıkmak için fillerle Mekke'ye yürümesi olayı.", answer: "Fil Vakası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Allah'ın Kâbe'yi korumak için Ebabil kuşlarını gönderdiği mucizevi olay.", answer: "Fil Vakası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin doğmadan önce vefat eden babasının adı.", answer: "Abdullah", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin annesi Hz. Amine'nin eşi.", answer: "Abdullah", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin dedesi Abdülmuttalib'in oğlu.", answer: "Abdullah", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin annesinin adı.", answer: "Amine", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizi altı yaşına kadar büyüten annesi.", answer: "Amine", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin babası Abdullah'ın eşi.", answer: "Amine", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin sütannesi.", answer: "Halime", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizi dört yaşına kadar yanında büyüten kadın.", answer: "Halime", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Beni Sa'd kabilesinden olan ve Peygamberimize süt anneliği yapan.", answer: "Halime", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin dedesi.", answer: "Abdülmuttalib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizi sekiz yaşına kadar himaye eden kişi.", answer: "Abdülmuttalib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Kâbe'nin bakımıyla ilgilenen ve Mekke'nin ileri gelenlerinden olan.", answer: "Abdülmuttalib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin amcası ve dedesi vefat ettikten sonra onu himaye eden kişi.", answer: "Ebu Talib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin gençlik yıllarında ticaret kervanlarına götürdüğü amcası.", answer: "Ebu Talib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Hz. Ali'nin babası olan Peygamberimizin amcası.", answer: "Ebu Talib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Arap toplumunda İslam'dan önceki putperestlik, haksızlık, kan davası, içki, kumar gibi kötü davranışların yaygın olduğu dönem.", answer: "Cahiliye Dönemi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "İslamiyet öncesi Arap Yarımadası'nda cehaletin ve ahlaki yozlaşmanın hüküm sürdüğü dönem.", answer: "Cahiliye Dönemi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin risaletiyle sona eren, ahlaki ve sosyal bozuklukların yaşandığı dönem.", answer: "Cahiliye Dönemi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin gençlik yıllarında katıldığı ve haksızlıkların önlenmesi amacıyla kurulan topluluk.", answer: "Hilfü'l-Fudûl", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mekke'de zulme uğrayanlara yardım etmek için kurulan \"Erdemliler Topluluğu\".", answer: "Hilfü'l-Fudûl", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin de desteklediği, haksızlığa uğrayanların hakkını savunan antlaşma.", answer: "Hilfü'l-Fudûl", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mekkelilerin ticaretle uğraşan Peygamberimize dürüstlüğü ve güvenilirliği sebebiyle verdikleri lakap.", answer: "El-Emin", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin güvenilirliğini ve emanete sadakatini ifade eden lakap.", answer: "El-Emin", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mekke halkı tarafından kendisine verilen \"güvenilir kişi\" anlamındaki unvan.", answer: "El-Emin", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin ilk eşi ve kendisine ilk iman eden kişi.", answer: "Hz. Hatice", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mekke'nin zengin ve saygın kadınlarından olup, Peygamberimizle evlenen.", answer: "Hz. Hatice", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin tüm çocuklarının annesi (İbrahim hariç).", answer: "Hz. Hatice", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamber Efendimizin kırk yaşlarına yaklaştığı sıralarda tefekkür etmek için inzivaya çekildiği yer.", answer: "Hira Mağarası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "İlk vahyin geldiği ve Peygamberimizin yalnız kalmayı tercih ettiği mağara.", answer: "Hira Mağarası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Cebrail'in Peygamberimize Alak Suresi'nin ilk ayetlerini getirdiği yer.", answer: "Hira Mağarası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimize Alak Suresi'nin ilk ayetleriyle gelen ilahi mesaj.", answer: "İlk Vahiy", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Cebrail (a.s)'ın Hira Mağarası'nda Peygamberimize getirdiği ilk emir.", answer: "İlk Vahiy", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberliğin başlangıcı olan ve \"Oku!\" emriyle başlayan olay.", answer: "İlk Vahiy", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Allah'tan peygamberlere vahiy getirmekle görevli melek.", answer: "Cebrail", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Hira Mağarası'nda Peygamberimize ilk vahyi getiren melek.", answer: "Cebrail", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Vahiy meleği olarak da bilinen büyük melek.", answer: "Cebrail", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mekke'de Müslümanlara uygulanan ekonomik ve sosyal abluka.", answer: "Boykot", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Müşriklerin Müslümanlarla evlenmeyi, alışveriş yapmayı ve görüşmeyi yasakladığı dönem.", answer: "Boykot", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Müslümanları dinlerinden döndürmek amacıyla uygulanan toplumsal baskı.", answer: "Boykot", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Müslümanlara uygulanan boykottan sonra Peygamberimizin amcası Ebu Talib ve eşi Hz. Hatice'yi kaybettiği yıl.", answer: "Hüzün Yılı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin peş peşe iki büyük destekçisini kaybettiği ve çok üzüldüğü yıl.", answer: "Hüzün Yılı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "İslam tarihinde yaşanan büyük acıların yaşandığı yıl.", answer: "Hüzün Yılı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin İslam'ı anlatmak için gittiği ancak taşlanarak geri döndüğü şehir.", answer: "Taif", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mekke'nin yakınlarında bulunan ve Peygamberimizin davetini kabul etmeyen şehir.", answer: "Taif", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin büyük üzüntü yaşadığı davet yolculuğu yaptığı yer.", answer: "Taif", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Medine'den gelenlerin Peygamberimizle buluşarak İslam'ı kabul ettikleri ve ona bağlılık yemini ettikleri yer.", answer: "Akabe Biatları", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Hicret öncesinde Medinelilerin Peygamberimizle yaptığı gizli antlaşmalar.", answer: "Akabe Biatları", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "İslam'ın Medine'ye yayılmasında önemli rol oynayan biatlar.", answer: "Akabe Biatları", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin ve Müslümanların Mekke'den Medine'ye göç etmesi olayı.", answer: "Hicret", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "İslam takviminin başlangıcı kabul edilen büyük göç.", answer: "Hicret", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mekke'deki baskılardan dolayı dinlerini hürriyetle yaşamak için yapılan yolculuk.", answer: "Hicret", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mekke'den Medine'ye göç eden Müslümanlara verilen ad.", answer: "Muhacir", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Dinlerini yaşayabilmek için yurtlarını terk eden Müslümanlar.", answer: "Muhacir", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Medine'de Ensar tarafından kardeş edinilen Müslümanlar.", answer: "Muhacir", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimize ve Mekke'den gelen Müslümanlara (Muhacir) yardım eden Medineli Müslümanlar.", answer: "Ensar", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Medine'de Müslümanlara kucak açan ve onlara destek olan yerli halk.", answer: "Ensar", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Yardım edenler anlamına gelen ve Medineli Müslümanlara verilen lakap.", answer: "Ensar", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin Medine'de farklı din ve kabilelerden oluşan topluluklar arasında barışı sağlamak için imzaladığı antlaşma.", answer: "Medine Sözleşmesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Medine'de yaşayan Müslümanlar, Yahudiler ve diğer gruplar arasında yapılan ilk yazılı anayasa niteliğindeki belge.", answer: "Medine Sözleşmesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin adalet ve hoşgörüsünü gösteren önemli bir belge.", answer: "Medine Sözleşmesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin Medine'ye hicret ettiğinde ilk iş olarak inşa ettiği cami.", answer: "Mescid-i Nebi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Medine'de bulunan ve Peygamberimizin kabrinin de yer aldığı kutsal cami.", answer: "Mescid-i Nebi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "İslam tarihinde ilk üniversite sayılan Suffe'nin de bulunduğu cami.", answer: "Mescid-i Nebi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Müslümanlarla Mekkeli müşrikler arasında gerçekleşen ilk büyük savaş.", answer: "Bedir Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Sayıca az olmalarına rağmen Müslümanların zafer kazandığı önemli savaş.", answer: "Bedir Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "İslam'ın ilk zaferi olarak bilinen savaş.", answer: "Bedir Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Müslümanların okçuların yerini terk etmesiyle zor durumda kaldığı savaş.", answer: "Uhud Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin Uhud Dağı'nda okçuları yerleştirdiği ancak emre uyulmadığı için yaşanan savaş.", answer: "Uhud Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Müslümanların büyük kayıplar verdiği ancak dersler çıkardığı savaş.", answer: "Uhud Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Düşmanın şehre rahatça girebileceği tarafa büyük bir hendek kazma fikrinin Selman-ı Fârisî tarafından verildiği savaş.", answer: "Hendek Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Medine'nin etrafına hendek kazılarak savunma yapıldığı savaş.", answer: "Hendek Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Müşrik ordusunun kuşatmasının uzun sürdüğü ve sonuçsuz kaldığı savaş.", answer: "Hendek Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mekkelilerle Müslümanlar arasında imzalanan ve Mekke'nin fethine zemin hazırlayan barış antlaşması.", answer: "Hudeybiye Antlaşması", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "İlk bakışta Müslümanların aleyhine gibi görünen ancak büyük hayırlar içeren antlaşma.", answer: "Hudeybiye Antlaşması", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin stratejik dehasını gösteren önemli bir diplomatik başarı.", answer: "Hudeybiye Antlaşması", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Hudeybiye Barış Antlaşması'nı bozan Mekkeli müşriklere karşı Peygamberimizin 630 yılında gerçekleştirdiği olay.", answer: "Mekke'nin Fethi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin kan dökmeden, genel af ilan ederek gerçekleştirdiği büyük zafer.", answer: "Mekke'nin Fethi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Kâbe'nin putlardan temizlendiği ve İslam'ın Mekke'de kesin olarak yayıldığı olay.", answer: "Mekke'nin Fethi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin ilk ve son haccı olan \"Veda Haccı\"nda, Arafat'ta yüz binden fazla Müslüman'a hitaben yaptığı konuşma.", answer: "Veda Hutbesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "İnsan hakları, eşitlik, adalet gibi evrensel mesajları içeren tarihi konuşma.", answer: "Veda Hutbesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin vefatından kısa bir süre önce yaptığı son kapsamlı nasihatler.", answer: "Veda Hutbesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin Miladi 632 yılında Medine'de gerçekleşen vefatı.", answer: "Vefat", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamberimizin dünya hayatına veda ettiği olay.", answer: "Vefat", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Müslümanlar için büyük bir hüzün kaynağı olan Peygamberimizin vefatı.", answer: "Vefat", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Mescid-i Nebi içinde Peygamberimizin kabri ile minberi arasındaki bölüme verilen ad.", answer: "Ravza-i Mutahhara", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Cennet bahçelerinden bir bahçe olarak kabul edilen kutsal mekan.", answer: "Ravza-i Mutahhara", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Medine'de ziyaret edilen önemli yerlerden biri.", answer: "Ravza-i Mutahhara", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+
+        // Ünite 2: Kur'an-ı Kerim'de Peygamberimiz
+        { question: "Kur'an-ı Kerim'de Peygamber Efendimiz için kullanılan en yaygın isim.", answer: "Muhammed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin dedesi tarafından verilen ve \"övülmüş\" anlamına gelen isim.", answer: "Muhammed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an'da dört yerde geçen Peygamberimizin ismi.", answer: "Muhammed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an-ı Kerim'de Peygamber Efendimiz için kullanılan diğer bir isim.", answer: "Ahmed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Hz. İsa'nın İncil'de müjdelediği Peygamberimizin ismi.", answer: "Ahmed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Çok hamdeden, öven anlamına gelen Peygamberimizin ismi.", answer: "Ahmed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin bütün insanlığa ve alemlere rahmet olarak gönderildiğini ifade eden Kur'anî ifade.", answer: "Rahmeten lil-Alemin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Enbiya Suresi 107. ayette geçen, Peygamberimizin evrensel merhametini vurgulayan ifade.", answer: "Rahmeten lil-Alemin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin sadece Müslümanlara değil, tüm varlıklara karşı şefkatli olduğunu belirten sıfat.", answer: "Rahmeten lil-Alemin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin hayatının her alanında Müslümanlara en güzel örnek olduğunu ifade eden kavram.", answer: "Üsve-i Hasene", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Ahzab Suresi 21. ayette geçen ve Peygamberimizin örnek kişiliğini vurgulayan ifade.", answer: "Üsve-i Hasene", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin söz, fiil ve onaylarının Müslümanlar için rehber olması.", answer: "Üsve-i Hasene", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an-ı Kerim'de Peygamberimize itaat etmenin, Allah'a itaat etmekle eşdeğer olduğu belirtilen eylem.", answer: "İtaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin emir ve yasaklarına uymak.", answer: "İtaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an'da sıkça vurgulanan, Peygamberimizin rehberliğine uymak.", answer: "İtaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an-ı Kerim'de Peygamberimizin insanlara karşı tutumunu tasvir eden özellikler.", answer: "Merhamet ve Şefkat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Tevbe Suresi 128. ayette geçen, Peygamberimizin müminlere karşı duyduğu derin acıma ve acıma duygusu.", answer: "Merhamet ve Şefkat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin her canlıya karşı gösterdiği yumuşaklık ve anlayış.", answer: "Merhamet ve Şefkat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin Allah'tan aldığı vahiyleri insanlara eksiksiz ve olduğu gibi ulaştırma görevi.", answer: "Tebliğ", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberliğin temel görevlerinden biri olan, ilahi mesajı insanlara duyurma.", answer: "Tebliğ", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an'ı ve İslam'ın hükümlerini insanlara bildirme.", answer: "Tebliğ", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin Kur'an ayetlerini açıklama, detaylandırma ve yorumlama görevi.", answer: "Tebyin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an'daki genel hükümleri somutlaştırma ve uygulama örnekleri gösterme.", answer: "Tebyin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin söz ve fiilleriyle Kur'an'ı anlaşılır kılma.", answer: "Tebyin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin son peygamber olduğunu ifade eden Kur'anî kavram.", answer: "Hâtemü'n-Nebiyyîn", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberlik mührü anlamına gelen ve ondan sonra peygamber gelmeyeceğini belirten sıfat.", answer: "Hâtemü'n-Nebiyyîn", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Ahzab Suresi 40. ayette geçen, Peygamberimizin peygamberler zincirinin son halkası olduğunu bildiren ifade.", answer: "Hâtemü'n-Nebiyyîn", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Allah'ın (c.c.) peygamberlerine Cebrail aracılığıyla gönderdiği ilahi bilgiler.", answer: "Vahiy", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberlerin Allah ile iletişim kurma şekli ve ilahi mesajları alma süreci.", answer: "Vahiy", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an-ı Kerim'in kaynağı olan ilahi bildirim.", answer: "Vahiy", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin en büyük ve kalıcı mucizesi olarak kabul edilen ilahi kitap.", answer: "Kur'an (Mucize)", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Benzerinin getirilemeyeceği bildirilen, eşsiz belagat ve içerik sahibi kitap.", answer: "Kur'an (Mucize)", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin risaletinin en büyük delili olan kutsal kitap.", answer: "Kur'an (Mucize)", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin okuma yazma bilmemesi özelliği.", answer: "Ümmî", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Risaletinin delillerinden biri olarak gösterilen, herhangi bir eğitim almamış olması.", answer: "Ümmî", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Allah'tan aldığı vahyin kendi sözü olmadığını kanıtlayan özellik.", answer: "Ümmî", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an-ı Kerim'de Peygamberimize yönelik saygı ve sevginin ifadesi olarak getirilmesi emredilen dua.", answer: "Salavat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "\"Allahümme salli ala Muhammed\" gibi ifadelerle Peygamberimize yapılan dua.", answer: "Salavat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin anıldığı zamanlarda ona duyulan saygıyı gösteren ifade.", answer: "Salavat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin kıyamet gününde Allah'ın izniyle günahkâr müminler için af dilemesi yetkisi.", answer: "Şefaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Allah'ın iznine bağlı olan ve Peygamberimize verilen özel bir yetki.", answer: "Şefaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin ümmetine olan merhametinin bir göstergesi.", answer: "Şefaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin insanları yaptıkları hatalara karşı nazikçe uyarması ve iyi yaşam sürmeleri halinde cennete gideceklerini bildirmesi görevleri.", answer: "Uyarıcı ve Müjdeleyici", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberlerin insanlara baskı kurmadan, sadece doğru yolu göstererek ve güzel sonuçları müjdeleyerek yaptıkları görev.", answer: "Uyarıcı ve Müjdeleyici", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an'da Peygamberimizin temel görevlerinden biri olarak belirtilen özellik.", answer: "Uyarıcı ve Müjdeleyici", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin Allah'tan aldığı vahyi insanlara ulaştırma ve tebliğ etme görevi.", answer: "Risalet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberlik görevi ve bu görevin getirdiği sorumluluklar.", answer: "Risalet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin Allah'ın elçisi olarak gönderilmesi.", answer: "Risalet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin Kur'an'da \"Nur\" olarak nitelendirilmesi.", answer: "Nur", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "İnsanlığa yol gösteren, aydınlatan bir ışık olarak Peygamberimizin vasfı.", answer: "Nur", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin getirdiği vahyin ve İslam'ın aydınlatıcı özelliği.", answer: "Nur", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin insanları davet ettiği \"dosdoğru yol\".", answer: "Sırat-ı Müstakim", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an ve Sünnet'e uygun, Allah'ın razı olduğu yaşam biçimi.", answer: "Sırat-ı Müstakim", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin insanlara gösterdiği doğru ve hak yol.", answer: "Sırat-ı Müstakim", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an-ı Kerim'in bölümlerine verilen ad.", answer: "Ayet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Allah'ın sözlerini içeren ve Peygamberimize indirilen ilahi mesajların her bir parçası.", answer: "Ayet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an'da geçen ve bir anlam bütünlüğü taşıyan cümle veya cümleler topluluğu.", answer: "Ayet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an-ı Kerim'in ayetlerden oluşan bölümlerine verilen ad.", answer: "Sure", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Besmele ile başlayan ve belirli sayıda ayetten oluşan Kur'an bölümü.", answer: "Sure", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+
+        // Ünite 3: Peygamberimiz ve Gençler
+        { question: "Peygamber Efendimiz (s.a.v.)'in gençleri toplumun geleceği ve dinamik gücü olarak görmesi.", answer: "Gençlere Önem", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere güvenmesi ve onlara önemli görevler vermesi.", answer: "Gençlere Önem", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlerin enerjilerini doğru yöne kanalize etme çabası.", answer: "Gençlere Önem", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin genç sahabilerden olup, kendisine ilmi konularda özel eğitim verdiği kişi.", answer: "Hz. Ali", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin damadı ve amcasının oğlu.", answer: "Hz. Ali", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Genç yaşta İslam'ı kabul eden ilk erkeklerden biri.", answer: "Hz. Ali", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere görev verirken onların yeteneklerine ve liyakatine dikkat etmesi.", answer: "Sorumluluk Verme", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençleri aktif hale getirmek için onlara önemli görevler yüklemesi.", answer: "Sorumluluk Verme", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Gençlerin potansiyellerini ortaya çıkarmalarına fırsat tanıma.", answer: "Sorumluluk Verme", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere öğrettiği ahlaki değerlerden biri olan sözde ve davranışta doğru olma.", answer: "Dürüstlük", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Yalan söylememek, hile yapmamak gibi erdemleri içeren ahlaki ilke.", answer: "Dürüstlük", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere kazandırmaya çalıştığı temel ahlaki özelliklerden biri.", answer: "Dürüstlük", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere öğrettiği, elindekini başkalarıyla paylaşma ve yardımseverlik özelliği.", answer: "Cömertlik", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "İnfak etme, ihtiyaç sahiplerine yardım etme gibi davranışları içeren ahlaki değer.", answer: "Cömertlik", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere kazandırmaya çalıştığı güzel ahlaklardan biri.", answer: "Cömertlik", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere öğrettiği, farklı düşünce ve inançlara sahip insanlara anlayışla yaklaşma.", answer: "Hoşgörü", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Kendi görüşünden farklı olanları kabul etme ve onlara tahammül etme erdemi.", answer: "Hoşgörü", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere kazandırdığı önemli bir toplumsal değer.", answer: "Hoşgörü", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençleri eğitirken kendi yaşantısıyla onlara rehberlik etmesi (üsve-i hasene).", answer: "Örnek Olma", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Söz ve fiilleriyle gençlere yol gösterme.", answer: "Örnek Olma", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin ahlakının ve davranışlarının gençler için bir model teşkil etmesi.", answer: "Örnek Olma", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Genç sahabilerin İslam'ı yeni bölgelere götürmek ve insanlara duyurmak için üstlendiği önemli rol.", answer: "Tebliğ Görevi", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençleri İslam'ı yayma konusunda görevlendirmesi.", answer: "Tebliğ Görevi", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Gençlerin cesaret ve fedakarlıkla İslam mesajını ulaştırması.", answer: "Tebliğ Görevi", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin genç yaşta orduya komutan tayin ettiği sahabi.", answer: "Üsame b. Zeyd", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Babası da komutan olan ve genç yaşına rağmen önemli bir göreve getirilen sahabi.", answer: "Üsame b. Zeyd", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere olan güvenini gösteren bir örnek.", answer: "Üsame b. Zeyd", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere gösterdiği ilgi ve sevginin, onların kendilerine inanmalarına katkı sağlaması.", answer: "Özgüven", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençleri cesaretlendirerek onların potansiyellerini keşfetmelerine yardımcı olması.", answer: "Özgüven", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Gençlerin kendi yeteneklerine inanarak sorumluluk alabilme yetisi.", answer: "Özgüven", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençleri bilgiye ve öğrenmeye teşvik etmesi.", answer: "İlim Öğrenme", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Ashab-ı Suffe gibi gençlerin ilim öğrenmek için Mescid-i Nebi'de kalması.", answer: "İlim Öğrenme", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin \"İlim öğrenmek her Müslüman erkek ve kadına farzdır\" hadisiyle gençleri yönlendirmesi.", answer: "İlim Öğrenme", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin genç yaşına rağmen Yemen'e vali olarak gönderdiği sahabi.", answer: "Hz. Muaz b. Cebel", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere liderlik vasıflarını geliştirmeleri için fırsat tanıması.", answer: "Hz. Muaz b. Cebel", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Genç yaşta önemli bir idari göreve getirilen ilim sahibi sahabi.", answer: "Hz. Muaz b. Cebel", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlerle fikir alışverişinde bulunması ve onların görüşlerine değer vermesi.", answer: "İstişare", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Karar alma süreçlerinde gençlerin katılımını teşvik etme.", answer: "İstişare", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin liderlik anlayışında önemli bir yer tutan danışma ilkesi.", answer: "İstişare", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere dürüstlük, cömertlik, adalet, hoşgörü gibi öğrettiği temel prensipler.", answer: "Ahlaki Değerler", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Gençlerin karakter gelişimini sağlamak için Peygamberimizin vurguladığı erdemler.", answer: "Ahlaki Değerler", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin \"Ben ancak güzel ahlakı tamamlamak için gönderildim\" hadisiyle gençlere öğütlediği değerler.", answer: "Ahlaki Değerler", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere karşı gösterdiği yumuşak ve anlayışlı tutum.", answer: "Sevgi ve Şefkat", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Gençlerin kalbini kazanmada Peygamberimizin kullandığı etkili yöntem.", answer: "Sevgi ve Şefkat", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere olan derin sevgisi ve merhameti.", answer: "Sevgi ve Şefkat", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlerin dinamik ve coşkulu enerjilerini İslam'a hizmet ve ilim öğrenme gibi faydalı alanlara yönlendirmesi.", answer: "Enerjiyi Kanalize Etme", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Gençlerin potansiyelini doğru ve yapıcı işlerde kullanmalarını teşvik etme.", answer: "Enerjiyi Kanalize Etme", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlerin gücünü olumlu yönde değerlendirme çabası.", answer: "Enerjiyi Kanalize Etme", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Genç sahabilerin İslam uğruna zorluklara göğüs germeleri ve korkusuzca mücadele etmeleri.", answer: "Cesaret", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere aşıladığı, hak yolunda korkusuzca ilerleme özelliği.", answer: "Cesaret", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Gençlerin İslam'ı tebliğ ederken gösterdikleri yiğitlik.", answer: "Cesaret", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Genç sahabilerin dinleri uğruna mallarını, canlarını ve yurtlarını feda etmeleri.", answer: "Fedakarlık", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Savaşlarda ve tebliğ faaliyetlerinde gösterdikleri özveri.", answer: "Fedakarlık", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Allah yolunda her türlü zorluğa katlanma.", answer: "Fedakarlık", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençlere ahiret bilinci ve dini sorumluluklarını öğretmesi.", answer: "Dini Bilinç", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Gençlerin İslam'ın temel prensiplerini anlamaları ve hayatlarına uygulamaları.", answer: "Dini Bilinç", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençleri dini konularda bilinçli ve duyarlı hale getirme çabası.", answer: "Dini Bilinç", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençleri toplumun aktif birer ferdi olmaya ve sosyal sorumluluklar üstlenmeye teşvik etmesi.", answer: "Toplumsal Katılım", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Gençlerin sadece ibadetle değil, aynı zamanda toplumun sorunlarıyla ilgilenmeleri.", answer: "Toplumsal Katılım", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamberimizin gençleri toplumun her alanında faydalı olmaya yönlendirmesi.", answer: "Toplumsal Katılım", category: "Peygamberimiz ve Gençler", points: 100 },
+
+        // Ünite 4: En Güzel Örnek Peygamberimiz
+        { question: "Peygamberimizin hayatının her alanında Müslümanlara en güzel örnek olması.", answer: "Üsve-i Hasene", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Ahzab Suresi 21. ayette geçen ve Peygamberimizin örnek kişiliğini vurgulayan ifade.", answer: "Üsve-i Hasene", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin söz, fiil ve onaylarının Müslümanlar için rehber olması.", answer: "Üsve-i Hasene", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin örnek ahlakının temelini oluşturan en önemli kaynak.", answer: "Kur'an Ahlakı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Hz. Aişe'nin \"Onun ahlakı Kur'an idi\" sözüyle ifade edilen durum.", answer: "Kur'an Ahlakı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin tüm davranışlarının Kur'an'ın ilkeleriyle uyumlu olması.", answer: "Kur'an Ahlakı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin dürüstlüğü ve güvenilirliği ile ilgili Mekke döneminde kendisine verilen lakap.", answer: "El-Emin", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin emanete sadakatini ve sözünde durmasını ifade eden unvan.", answer: "El-Emin", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Mekke halkının kendisine verdiği \"güvenilir kişi\" anlamındaki lakap.", answer: "El-Emin", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin herkese, din, dil, ırk ayrımı yapmaksızın eşit ve tarafsız davranması.", answer: "Adalet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Hak sahibine hakkını verme ve zulme karşı durma ilkesi.", answer: "Adalet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin yönetiminde ve ilişkilerinde temel aldığı prensip.", answer: "Adalet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin farklı düşünce ve inançlara sahip insanlara anlayışla yaklaşması ve düşmanlarını dahi affetmesi.", answer: "Hoşgörü ve Affedicilik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Mekke'nin fethinde genel af ilan etmesiyle gösterdiği özellik.", answer: "Hoşgörü ve Affedicilik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Taif'te taşlanmasına rağmen beddua etmemesiyle ortaya çıkan özelliği.", answer: "Hoşgörü ve Affedicilik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin eşlerine karşı merhametli ve adil olması, çocuklarına sevgi ve şefkatle yaklaşması.", answer: "Aile Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Aile içinde istişareye önem vermesi ve örnek bir eş-baba olması.", answer: "Aile Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Müslümanlar için aile içi ilişkilerde rehber olan Peygamberimizin yaşantısı.", answer: "Aile Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin komşularının haklarına büyük önem vermesi ve onlara karşı iyi davranması.", answer: "Komşuluk İlişkileri", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Cebrail'in komşu hakkı konusunda o kadar çok tavsiyede bulunmasıyla ilgili hadis.", answer: "Komşuluk İlişkileri", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Müslümanların sosyal ilişkilerinde örnek alması gereken davranış.", answer: "Komşuluk İlişkileri", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin toplumun her kesimiyle ilgilenmesi, sorunlarına çözüm bulması ve toplumsal adaleti gözetmesi.", answer: "Sosyal Hayat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Hasta ziyaretleri, cenaze törenlerine katılım gibi sosyal görevleri yerine getirmesi.", answer: "Sosyal Hayat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin aktif bir toplum lideri olması.", answer: "Sosyal Hayat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin makamına rağmen sade bir hayat yaşaması, halkla iç içe olması ve kibirden uzak durması.", answer: "Tevazu", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Kendisini diğer insanlardan üstün görmemesi ve alçakgönüllü olması.", answer: "Tevazu", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin mütevazı kişiliği.", answer: "Tevazu", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin zorluklar ve sıkıntılar karşısında metanetli olması ve sonucunu Allah'a bırakması.", answer: "Sabır ve Tevekkül", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Taif yolculuğu, boykot gibi olaylarda gösterdiği dayanıklılık.", answer: "Sabır ve Tevekkül", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Bir işi yaparken tüm gayreti gösterdikten sonra sonucunu Allah'a bırakma.", answer: "Sabır ve Tevekkül", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin israf ve savurganlıktan uzak durması, elindekiyle yetinmesi.", answer: "Kanaatkarlık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Azla yetinme ve şükretme özelliği.", answer: "Kanaatkarlık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin sade yaşam tarzı.", answer: "Kanaatkarlık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin çevresine karşı duyarlılığı ve ağaç dikmeye teşvik etmesi.", answer: "Çevre Bilinci", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Doğayı koruma ve israf etmeme konusundaki hassasiyeti.", answer: "Çevre Bilinci", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin ekolojik dengeye verdiği önem.", answer: "Çevre Bilinci", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin ibadetlerini içtenlikle, gösterişten uzak ve ihlasla yapması.", answer: "İbadet Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Namaz, oruç gibi ibadetlerdeki samimiyeti ve derinliği.", answer: "İbadet Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Müslümanlar için ibadetlerde örnek teşkil eden Peygamberimizin yaşantısı.", answer: "İbadet Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin Medine'de Müslümanlar arasında kardeşliği ve birliği sağlamak için Muhacir ile Ensar'ı kardeş ilan etmesi.", answer: "Muahat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "İslam toplumunda dayanışmayı ve yardımlaşmayı pekiştiren uygulama.", answer: "Muahat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Medine döneminde kurulan kardeşlik antlaşması.", answer: "Muahat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin kendisine bırakılan emanetleri titizlikle koruması ve sahiplerine teslim etmesi.", answer: "Emanet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Hicret gecesi Hz. Ali'yi yatağında bırakarak emanetleri sahiplerine vermesi.", answer: "Emanet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin güvenilirliğini gösteren önemli bir özellik.", answer: "Emanet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin sözleri ile davranışları arasında çelişki bulunmaması.", answer: "Tutarlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Söylediğini yapan, yaptığını söyleyen bir lider olması.", answer: "Tutarlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin güvenilirliğinin temelini oluşturan özellik.", answer: "Tutarlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin hedeflerine ulaşmak için azimle çalışması ve zorluklar karşısında pes etmemesi.", answer: "Kararlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "İslam'ı tebliğde gösterdiği sebat ve azim.", answer: "Kararlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Liderlik vasıflarından biri olan, verdiği kararların arkasında durma.", answer: "Kararlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin yaşam tarzında gösterişten uzak durması ve basit bir hayat sürmesi.", answer: "Sadelik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Yeme, içme, giyim ve barınmada aşırıya kaçmaması.", answer: "Sadelik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin mütevazı ve gösterişsiz yaşamı.", answer: "Sadelik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin hastaları ziyaret etmesi, düşkünlere, yetimlere ve fakirlere yardım etmesi.", answer: "Yardımseverlik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Toplumun ihtiyaç sahiplerine karşı duyarlı olması.", answer: "Yardımseverlik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin sosyal dayanışmaya verdiği önem.", answer: "Yardımseverlik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin Veda Hutbesi'nde insan hakları ve hukukun üstünlüğünü vurgulaması.", answer: "Hak ve Hukuk", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Herkesin hakkına riayet etme ve adaleti tesis etme çabası.", answer: "Hak ve Hukuk", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin toplumda düzeni ve eşitliği sağlama ilkesi.", answer: "Hak ve Hukuk", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+
+        // Ünite 5: Sahabenin Fazileti
+        { question: "Peygamberimizi gören, ona iman eden ve Müslüman olarak vefat eden kişilere verilen genel ad.", answer: "Sahabe", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizin arkadaşları ve öğrencileri.", answer: "Sahabe", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam'ın ilk neslini oluşturan mübarek topluluk.", answer: "Sahabe", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İlk Müslümanlardan olan, Peygamberimizin en yakın dostu ve ilk halife.", answer: "Hz. Ebu Bekir", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sıddîk lakabıyla tanınan, Peygamberimizin hicret arkadaşı.", answer: "Hz. Ebu Bekir", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizin vefatından sonra İslam devletinin başına geçen ilk kişi.", answer: "Hz. Ebu Bekir", category: "Sahabenin Fazileti", points: 100 },
+        { question: "\"Faruk\" lakabıyla tanınan, hak ile batılı ayırt etmedeki keskin zekasıyla bilinen ve ikinci halife.", answer: "Hz. Ömer", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam devletinin sınırlarını genişleten ve adaletli yönetimiyle bilinen halife.", answer: "Hz. Ömer", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Müslümanların güç kazanmasında önemli rol oynayan sahabi.", answer: "Hz. Ömer", category: "Sahabenin Fazileti", points: 100 },
+        { question: "\"Zinnureyn\" (İki Nur Sahibi) lakabıyla tanınan, Peygamberimizin iki kızıyla evlenen ve üçüncü halife.", answer: "Hz. Osman", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Kur'an-ı Kerim'i çoğaltarak İslam alemine yayılmasına öncülük eden halife.", answer: "Hz. Osman", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Haya ve cömertliğiyle bilinen sahabi.", answer: "Hz. Osman", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizin amcasının oğlu ve damadı olan, ilmi ve cesaretiyle bilinen, dördüncü halife.", answer: "Hz. Ali", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Genç yaşta İslam'ı kabul eden ve Peygamberimizin yatağına yatan sahabi.", answer: "Hz. Ali", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İlim kapısı olarak nitelendirilen büyük sahabi.", answer: "Hz. Ali", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Medine'de Mescid-i Nebi'nin yanında kalan, kendilerini tamamen ilim öğrenmeye ve ibadete adayan fakir sahabiler.", answer: "Ashab-ı Suffe", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam'ın ilk eğitim kurumlarından biri olarak kabul edilen Suffe'de yetişen kişiler.", answer: "Ashab-ı Suffe", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizden doğrudan ders alan ve İslam'ı öğrenmede örnek olan topluluk.", answer: "Ashab-ı Suffe", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin Peygamberimizin her söz ve davranışını dikkatle takip etmesi, öğrenmesi ve hayatlarına uygulaması.", answer: "Sünnet'e Bağlılık", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizin yaşantısını örnek alma ve ona uyma konusundaki titizlikleri.", answer: "Sünnet'e Bağlılık", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin İslam'ı yaşama biçimlerinin temelini oluşturan prensip.", answer: "Sünnet'e Bağlılık", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin, özellikle Hz. Ebu Bekir ve Hz. Osman dönemlerinde, Kur'an ayetlerinin bir araya getirilmesi ve mushaf haline getirilmesine öncülük etmesi.", answer: "Kur'an'ın Toplanması", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Vahiy katiplerinin yazdığı ayetlerin toplanarak kitap haline getirilmesi süreci.", answer: "Kur'an'ın Toplanması", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Kur'an'ın bozulmadan günümüze ulaşmasında sahabenin rolü.", answer: "Kur'an'ın Toplanması", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin Peygamberimizden öğrendikleri dini bilgileri, hadisleri ve uygulamaları sonraki nesillere eksiksiz ve doğru bir şekilde aktarması.", answer: "Bilgi Aktarımı", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam ilimlerinin temelini oluşturan rivayet zincirinin ilk halkasını teşkil etmeleri.", answer: "Bilgi Aktarımı", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizin mirasını gelecek nesillere ulaştırma görevini üstlenmeleri.", answer: "Bilgi Aktarımı", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin dinlerini hürriyetle yaşamak ve İslam'ı yaymak amacıyla Mekke'den Medine'ye göç etmesi.", answer: "Hicret", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Allah rızası için yurtlarını terk etme fedakarlığı.", answer: "Hicret", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam tarihinde dönüm noktası olan büyük göç.", answer: "Hicret", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Medine'de Muhacir ve Ensar arasında kurulan kardeşlik antlaşması.", answer: "Muahat", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Müslümanlar arasında dayanışma, yardımlaşma ve mal paylaşımını sağlayan uygulama.", answer: "Muahat", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam toplumunda birlik ve beraberliği pekiştiren örnek davranış.", answer: "Muahat", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin İslam uğruna mallarını, canlarını ve yurtlarını feda etmeleri.", answer: "Fedakarlık", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Savaşlarda ve tebliğ faaliyetlerinde gösterdikleri özveri.", answer: "Fedakarlık", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Allah yolunda her türlü zorluğa katlanma.", answer: "Fedakarlık", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin Peygamberimizden doğrudan ilim öğrenmeye büyük önem vermesi ve bu uğurda çaba göstermesi.", answer: "İlim Öğrenme", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizin meclislerinde bulunarak dini bilgileri bizzat edinmeleri.", answer: "İlim Öğrenme", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam ilimlerinin temelini atan ilk öğrenciler olmaları.", answer: "İlim Öğrenme", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin Peygamberimizin en yakın öğrencileri olarak dini en iyi anlayan ve uygulayan nesil olması.", answer: "Dini Anlama", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Kur'an ve Sünnet'i doğru bir şekilde yorumlama ve yaşama yeteneği.", answer: "Dini Anlama", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam'ın ruhunu ve özünü kavrama konusundaki derinlikleri.", answer: "Dini Anlama", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin İslam'ı yaymak ve korumak için gösterdiği her türlü çaba ve mücadele.", answer: "Cihad", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Allah yolunda malıyla ve canıyla savaşma.", answer: "Cihad", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam'ın tebliği ve savunmasında gösterdikleri azim.", answer: "Cihad", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin kendi aralarında ve diğer insanlarla ilişkilerinde adaleti gözetmeleri.", answer: "Adalet", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Hz. Ömer'in adaletli yönetimiyle öne çıkması.", answer: "Adalet", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam toplumunda hak ve hukuka riayet etme.", answer: "Adalet", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin makamlarına rağmen alçakgönüllü olmaları ve kibirden uzak durmaları.", answer: "Tevazu", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Hz. Ebu Bekir'in halife olmasına rağmen sade bir hayat sürmesi.", answer: "Tevazu", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizin ahlakını yansıtan önemli bir özellik.", answer: "Tevazu", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin Mekke dönemindeki işkencelere ve zorluklara karşı gösterdiği dayanıklılık.", answer: "Sabır", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam uğruna karşılaştıkları sıkıntılara metanetle göğüs germeleri.", answer: "Sabır", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizin sabrını örnek almaları.", answer: "Sabır", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin Allah yolunda canlarını feda etmeleri ve şehitlik mertebesine ulaşmaları.", answer: "Şehadet", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Uhud, Bedir gibi savaşlarda gösterdikleri kahramanlık ve fedakarlık.", answer: "Şehadet", category: "Sahabenin Fazileti", points: 100 },
+        { question: "İslam'ın yayılması için canlarını ortaya koymaları.", answer: "Şehadet", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Sahabenin İslam'ın ilk ve en iyi anlayan, yaşayan ve aktaran nesil olması.", answer: "Örnek Nesil", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizin \"Ashabım yıldızlar gibidir, hangisine uyarsanız hidayeti bulursunuz\" hadisiyle övülen nesil.", answer: "Örnek Nesil", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Tüm Müslümanlar için rehber ve model teşkil eden topluluk.", answer: "Örnek Nesil", category: "Sahabenin Fazileti", points: 100 },
+    ];
+
+    // Global variables
+    let currentUnit = null;
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let numTeams = 1; // Default to 1 team
+    let teamScores = []; // Array to store scores for each team
+    let currentTeamIndex = 0; // Index of the current team whose turn it is
+    let answeredQuestions = {}; // Track answered questions for the current unit
+    let timer;
+    const quizTime = 30; // seconds per question
+    let timeLeft = quizTime;
+    let currentQuestionPoints = 0;
+    let currentQuestionAnsweredCorrectly = false;
+
+    // DOM Elements
+    const mainMenuScreen = document.getElementById('main-menu');
+    const unitSelectionGrid = document.getElementById('unit-selection-grid');
+    const startQuizButton = document.getElementById('start-quiz-button');
+    const returnToHomeButton = document.getElementById('return-to-home-button');
+
+    const teamSelectionScreen = document.getElementById('team-selection-screen');
+    const teamCountSelection = document.getElementById('team-count-selection');
+    const startTeamQuizButton = document.getElementById('start-team-quiz-button');
+    const returnToUnitSelectionButton = document.getElementById('return-to-unit-selection-button');
+
+    const questionGridScreen = document.getElementById('question-grid-screen');
+    const unitTitle = document.getElementById('unit-title');
+    const teamScoreDisplay = document.getElementById('team-score-display');
+    const questionGrid = document.getElementById('question-grid');
+    const returnToUnitsButton = document.getElementById('return-to-units-button');
+
+    const questionScreen = document.getElementById('question-screen');
+    const currentQuestionNumberSpan = document.getElementById('current-question-number');
+    const totalQuestionsSpan = document.getElementById('total-questions');
+    const timerDisplay = document.getElementById('timer-display');
+    const questionTextElement = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const feedbackMessage = document.getElementById('current-question-feedback');
+    const nextTurnButton = document.getElementById('next-turn-button');
+    const returnToQuestionGridButton = document.getElementById('return-to-question-grid-button');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const detailedExplanationContainer = document.getElementById('detailed-explanation-container');
+    const questionScreenInstructionMessage = document.getElementById('question-screen-instruction-message');
+
+    const finalScoreContainer = document.getElementById('final-score-container');
+    const overallResult = document.getElementById('overall-result');
+    const finalTeamScoresDisplay = document.getElementById('final-team-scores');
+    const resetGameButton = document.getElementById('reset-game-button');
+    const returnToMainMenuFromFinalButton = document.getElementById('return-to-main-menu-from-final-button');
+
+    // Helper to shuffle an array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Custom alert/confirm modal (since window.alert/confirm are blocked in iframe)
+    function showCustomModal(title, message, onConfirm = null) {
+        const modalOverlay = document.createElement('div');
+        modalOverlay.className = 'fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50';
+        modalOverlay.innerHTML = `
+            <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+                <h3 class="text-xl font-bold mb-4">${title}</h3>
+                <p class="text-gray-700 mb-6">${message}</p>
+                <button id="modal-ok-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Tamam</button>
+            </div>
+        `;
+        document.body.appendChild(modalOverlay);
+
+        document.getElementById('modal-ok-button').onclick = () => {
+            document.body.removeChild(modalOverlay);
+            if (onConfirm) {
+                onConfirm();
+            }
+        };
+    }
+
+    // Unit colors for visual distinction
+    const unitColors = {
+        "Peygamberimizin Gençlik Yılları": "bg-blue-200 hover:bg-blue-300",
+        "Kur'an-ı Kerim'de Peygamberimiz": "bg-green-200 hover:bg-green-300",
+        "Peygamberimiz ve Gençler": "bg-yellow-200 hover:bg-yellow-300",
+        "En Güzel Örnek Peygamberimiz": "bg-purple-200 hover:bg-purple-300",
+        "Sahabenin Fazileti": "bg-red-200 hover:bg-red-300",
+        "Tüm Üniteler": "bg-indigo-200 hover:bg-indigo-300" // New color for "Tüm Üniteler"
+    };
+
+    // --- Main Menu Functions ---
+    function renderUnitSelection() {
+        unitSelectionGrid.innerHTML = '';
+        const uniqueCategories = [...new Set(questions.map(q => q.category))];
+
+        let unitIndex = 1;
+        uniqueCategories.forEach((category) => {
+            if (category !== "Tüm Üniteler") { // Ensure "Tüm Üniteler" is not duplicated
+                const unitCard = document.createElement('div');
+                // Add unit number to the display text
+                const displayCategoryName = `Ünite ${unitIndex++}: ${category}`;
+                unitCard.className = `unit-card ${unitColors[category] || 'bg-gray-200 hover:bg-gray-300'}`; // Apply specific color or default
+                unitCard.textContent = displayCategoryName;
+                unitCard.dataset.category = category;
+                unitCard.onclick = () => selectUnit(category, unitCard);
+                unitSelectionGrid.appendChild(unitCard);
+            }
+        });
+
+        // Add "Tüm Üniteler" as the last option
+        const allUnitsCard = document.createElement('div');
+        allUnitsCard.className = `unit-card ${unitColors["Tüm Üniteler"]}`;
+        allUnitsCard.textContent = "Tüm Üniteler";
+        allUnitsCard.dataset.category = "Tüm Üniteler";
+        allUnitsCard.onclick = () => selectUnit("Tüm Üniteler", allUnitsCard);
+        unitSelectionGrid.appendChild(allUnitsCard);
+
+
+        mainMenuScreen.classList.remove('hidden');
+        teamSelectionScreen.classList.add('hidden'); // Hide team selection
+        questionGridScreen.classList.add('hidden');
+        questionScreen.classList.add('hidden');
+        finalScoreContainer.classList.add('hidden');
+        startQuizButton.classList.add('hidden'); // Hide until unit is selected
+    }
+
+    function selectUnit(category, selectedCard) {
+        currentUnit = category;
+        // Remove 'selected' class from all cards and reapply correct background color
+        document.querySelectorAll('.unit-card').forEach(card => {
+            card.classList.remove('selected');
+            const originalCategory = card.dataset.category;
+            // Remove all specific color classes before re-adding
+            Object.values(unitColors).forEach(colorClassString => {
+                colorClassString.split(' ').forEach(singleClass => {
+                    card.classList.remove(singleClass);
+                });
+            });
+            // Add back original classes
+            card.classList.add(...(unitColors[originalCategory] || 'bg-gray-200 hover:bg-gray-300').split(' '));
+        });
+        // Add 'selected' class to the clicked card and apply a distinct selected style
+        selectedCard.classList.add('selected');
+        // Override the specific color for the selected card to show selection clearly
+        Object.values(unitColors).forEach(colorClassString => {
+                colorClassString.split(' ').forEach(singleClass => {
+                    selectedCard.classList.remove(singleClass);
+                });
+            });
+        selectedCard.classList.add('bg-blue-100', 'border-blue-500', 'shadow-lg'); // Example selected style
+        startQuizButton.classList.remove('hidden');
+    }
+
+    function showTeamSelectionScreen() {
+        if (!currentUnit) {
+            showCustomModal('Hata', 'Lütfen önce bir ünite seçin!');
+            return;
+        }
+        mainMenuScreen.classList.add('hidden');
+        teamSelectionScreen.classList.remove('hidden');
+        startTeamQuizButton.classList.add('hidden'); // Hide until team count is selected
+        // Reset selected team count button style
+        document.querySelectorAll('.team-count-button').forEach(button => {
+            button.classList.remove('bg-blue-700', 'text-white');
+            button.classList.add('bg-blue-500', 'hover:bg-blue-600');
+        });
+        numTeams = 1; // Reset to default 1 team selected visually
+        document.querySelector('.team-count-button[data-teams="1"]').classList.remove('bg-blue-500', 'hover:bg-blue-600');
+        document.querySelector('.team-count-button[data-teams="1"]').classList.add('bg-blue-700', 'text-white');
+        startTeamQuizButton.classList.remove('hidden'); // Show start button immediately for 1 team
+    }
+
+    function selectTeamCount(selectedCount, selectedButton) {
+        numTeams = selectedCount;
+        document.querySelectorAll('.team-count-button').forEach(button => {
+            button.classList.remove('bg-blue-700', 'text-white');
+            button.classList.add('bg-blue-500', 'hover:bg-blue-600');
+        });
+        selectedButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+        selectedButton.classList.add('bg-blue-700', 'text-white');
+        startTeamQuizButton.classList.remove('hidden');
+    }
+
+    function startTeamQuiz() {
+        teamScores = Array(numTeams).fill(0);
+        currentTeamIndex = 0;
+        answeredQuestions = {}; // Reset answered questions for a new game
+
+        teamSelectionScreen.classList.add('hidden');
+        questionGridScreen.classList.remove('hidden');
+        renderQuestionGrid();
+    }
+
+    function returnToMainMenu() {
+        stopTimer();
+        currentUnit = null;
+        currentQuestions = [];
+        currentQuestionIndex = 0;
+        numTeams = 1;
+        teamScores = [];
+        currentTeamIndex = 0;
+        answeredQuestions = {};
+        finalScoreContainer.classList.add('hidden');
+        renderUnitSelection();
+    }
+
+    // --- Question Grid Screen Functions ---
+    function renderQuestionGrid() {
+        questionGrid.innerHTML = '';
+        if (currentUnit === "Tüm Üniteler") {
+            currentQuestions = [...questions]; // Copy all questions
+        } else {
+            currentQuestions = questions.filter(q => q.category === currentUnit);
+        }
+        shuffleArray(currentQuestions); // Shuffle questions within the selected unit
+
+        // Display current team's turn and scores
+        unitTitle.textContent = `${currentUnit === "Tüm Üniteler" ? "Tüm Üniteler" : currentUnit} - Takım ${currentTeamIndex + 1} Sırası`;
+        renderTeamScores();
+
+        // Create a unique ID for each question based on its content and category to track answered status
+        currentQuestions.forEach((q, index) => {
+            const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${index}`; // Simple unique ID
+            const questionCard = document.createElement('div');
+            questionCard.className = 'question-card';
+            questionCard.textContent = `Soru ${index + 1}`;
+            questionCard.dataset.questionIndex = index;
+            questionCard.dataset.questionId = questionId; // Store unique ID
+            questionCard.onclick = () => showQuestion(index);
+
+            if (answeredQuestions[questionId]) {
+                questionCard.classList.add('answered');
+                questionCard.onclick = null; // Disable click for answered questions
+            }
+            questionGrid.appendChild(questionCard);
+        });
+
+        // Check if all questions are answered to end the game
+        if (checkAllQuestionsAnswered()) {
+            showFinalScores();
+        }
+    }
+
+    function renderTeamScores() {
+        teamScoreDisplay.innerHTML = '';
+        teamScores.forEach((score, index) => {
+            const teamScoreItem = document.createElement('div');
+            teamScoreItem.className = `team-score-item ${index === currentTeamIndex ? 'current-team' : ''}`;
+            teamScoreItem.textContent = `Takım ${index + 1}: ${score} Puan`;
+            teamScoreDisplay.appendChild(teamScoreItem);
+        });
+    }
+
+    function returnToQuestionsGrid() {
+        questionScreen.classList.add('hidden');
+        questionGridScreen.classList.remove('hidden');
+        renderQuestionGrid(); // Re-render grid to show answered questions and next team's turn
+    }
+
+    // --- Question Screen Functions ---
+    function showQuestion(index) {
+        currentQuestionIndex = index;
+        const currentQuestionData = currentQuestions[currentQuestionIndex];
+        const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${currentQuestionIndex}`;
+
+        if (answeredQuestions[questionId]) {
+            showCustomModal('Bilgi', 'Bu soruyu zaten cevapladınız!');
+            return;
+        }
+
+        questionGridScreen.classList.add('hidden');
+        questionScreen.classList.remove('hidden');
+        detailedExplanationContainer.classList.add('hidden'); // Hide explanation
+        questionScreenInstructionMessage.classList.add('hidden'); // Hide instruction
+
+        currentQuestionNumberSpan.textContent = `${currentQuestionIndex + 1}`;
+        totalQuestionsSpan.textContent = currentQuestions.length;
+        questionTextElement.textContent = currentQuestionData.question;
+        currentQuestionPoints = currentQuestionData.points;
+        currentQuestionAnsweredCorrectly = false; // Reset for new question
+
+        renderOptions(currentQuestionData);
+        startTimer();
+        feedbackMessage.classList.add('hidden'); // Hide feedback
+        nextTurnButton.classList.add('hidden');
+        // Make return to question grid button visible when question is displayed
+        returnToQuestionGridButton.classList.remove('hidden');
+        timerDisplay.classList.remove('hidden');
+    }
+
+    function renderOptions(questionData) {
+        optionsContainer.innerHTML = '';
+        const correctOption = questionData.answer;
+
+        // Get all unique answers from the current unit for distraction options
+        const allAnswersInUnit = [...new Set(currentQuestions.map(q => q.answer))];
+        shuffleArray(allAnswersInUnit);
+
+        let options = [correctOption];
+        let addedCount = 0;
+        for (let i = 0; i < allAnswersInUnit.length && addedCount < 5; i++) { // Max 5 incorrect options
+            if (allAnswersInUnit[i] !== correctOption) {
+                options.push(allAnswersInUnit[i]);
+                addedCount++;
+            }
+        }
+
+        // If not enough unique answers in the unit, pull from all questions
+        if (options.length < 6) {
+            const allPossibleAnswers = [...new Set(questions.map(q => q.answer))];
+            shuffleArray(allPossibleAnswers);
+            for (let i = 0; i < allPossibleAnswers.length && options.length < 6; i++) {
+                if (!options.includes(allPossibleAnswers[i])) {
+                    options.push(allPossibleAnswers[i]);
+                }
+            }
+        }
+
+        shuffleArray(options); // Shuffle options to randomize their order
+
+        options.forEach(option => {
+            const button = document.createElement('button');
+            button.className = 'option-button';
+            button.textContent = option;
+            button.onclick = () => checkAnswer(button, option, correctOption);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(selectedButton, selectedOption, correctOption) {
+        stopTimer();
+        disableOptions(); // Disable all options after selection
+
+        const currentQuestionData = currentQuestions[currentQuestionIndex];
+        const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${currentQuestionIndex}`;
+
+        if (selectedOption === correctOption) {
+            selectedButton.classList.add('correct');
+            feedbackMessage.textContent = 'Doğru Cevap!';
+            feedbackMessage.className = 'feedback-message correct';
+            teamScores[currentTeamIndex] += currentQuestionPoints; // Update current team's score
+            currentQuestionAnsweredCorrectly = true;
+        } else {
+            selectedButton.classList.add('incorrect');
+            feedbackMessage.textContent = `Yanlış Cevap. Doğru cevap: ${correctOption}`;
+            feedbackMessage.className = 'feedback-message incorrect';
+            // Also highlight the correct answer
+            Array.from(optionsContainer.children).forEach(button => {
+                if (button.textContent === correctOption) {
+                    button.classList.add('correct');
+                }
+            });
+        }
+        feedbackMessage.classList.remove('hidden');
+        timerDisplay.classList.add('hidden'); // Hide timer after answer
+        returnToQuestionGridButton.classList.add('hidden'); // Hide button after answer
+
+        // Mark question as answered
+        answeredQuestions[questionId] = true;
+
+        // Show navigation buttons
+        nextTurnButton.classList.remove('hidden');
+    }
+
+    function disableOptions() {
+        Array.from(optionsContainer.children).forEach(button => {
+            button.onclick = null;
+            button.classList.add('disabled');
+        });
+    }
+
+    function startTimer() {
+        clearInterval(timer);
+        timeLeft = quizTime;
+        timerDisplay.textContent = timeLeft;
+        timerDisplay.classList.remove('warning');
+        timerDisplay.classList.remove('hidden');
+        questionScreenInstructionMessage.classList.remove('hidden'); // Show instruction
+        questionScreenInstructionMessage.textContent = `Bu soruyu cevaplamak için ${quizTime} saniyeniz var.`;
+
+        timer = setInterval(() => {
+            timeLeft--;
+            timerDisplay.textContent = timeLeft;
+            if (timeLeft <= 10) {
+                timerDisplay.classList.add('warning');
+            }
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                disableOptions();
+                feedbackMessage.textContent = `Süre doldu! Doğru cevap: ${currentQuestions[currentQuestionIndex].answer}`;
+                feedbackMessage.className = 'feedback-message incorrect';
+                feedbackMessage.classList.remove('hidden');
+                timerDisplay.classList.add('hidden');
+                questionScreenInstructionMessage.classList.add('hidden'); // Hide instruction
+                returnToQuestionGridButton.classList.add('hidden'); // Hide button when time runs out
+
+                // Mark question as answered (even if time ran out)
+                const currentQuestionData = currentQuestions[currentQuestionIndex];
+                const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${currentQuestionIndex}`;
+                answeredQuestions[questionId] = true;
+
+                // Highlight correct answer
+                Array.from(optionsContainer.children).forEach(button => {
+                    if (button.textContent === currentQuestions[currentQuestionIndex].answer) {
+                        button.classList.add('correct');
+                    }
+                });
+
+                nextTurnButton.classList.remove('hidden');
+            }
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timer);
+        timerDisplay.classList.add('hidden'); // Hide timer immediately on stop
+        questionScreenInstructionMessage.classList.add('hidden'); // Hide instruction
+    }
+
+    function moveToNextTurn() {
+        if (checkAllQuestionsAnswered()) {
+            showFinalScores();
+        } else {
+            currentTeamIndex = (currentTeamIndex + 1) % numTeams; // Move to next team
+            returnToQuestionsGrid(); // Go back to question grid for next team to choose
+        }
+    }
+
+    function showFinalScores() {
+        questionScreen.classList.add('hidden');
+        questionGridScreen.classList.add('hidden');
+        finalScoreContainer.classList.remove('hidden');
+
+        let resultMessage = "Yarışma Bitti! Takım Puanları:\n";
+        finalTeamScoresDisplay.innerHTML = '';
+        teamScores.forEach((score, index) => {
+            resultMessage += `Takım ${index + 1}: ${score} Puan\n`;
+            const teamScoreItem = document.createElement('div');
+            teamScoreItem.className = 'team-score-item';
+            teamScoreItem.textContent = `Takım ${index + 1}: ${score} Puan`;
+            finalTeamScoresDisplay.appendChild(teamScoreItem);
+        });
+
+        // Determine winner(s)
+        const maxScore = Math.max(...teamScores);
+        const winningTeams = teamScores.map((score, index) => ({ score, index: index + 1 }))
+                                      .filter(team => team.score === maxScore);
+
+        if (winningTeams.length === 1) {
+            overallResult.textContent = `Kazanan: Takım ${winningTeams[0].index}! Tebrikler!`;
+            overallResult.className = 'feedback-message correct';
+        } else if (winningTeams.length > 1) {
+            const winnersList = winningTeams.map(team => `Takım ${team.index}`).join(', ');
+            overallResult.textContent = `Berabere! Kazanan Takımlar: ${winnersList}!`;
+            overallResult.className = 'feedback-message correct';
+        } else {
+            overallResult.textContent = "Henüz bir kazanan yok."; // Should not happen if questions exist
+            overallResult.className = 'feedback-message incorrect';
+        }
+    }
+
+
+    function resetGame() {
+        showCustomModal('Oyunu Sıfırla', 'Oyunu sıfırlamak istediğinizden emin misiniz? Tüm ilerlemeniz kaybolacak.', () => {
+            score = 0;
+            currentQuestionIndex = 0;
+            numTeams = 1;
+            teamScores = [];
+            currentTeamIndex = 0;
+            answeredQuestions = {};
+            finalScoreContainer.classList.add('hidden');
+            renderUnitSelection(); // Go back to unit selection
+        });
+    }
+
+    function checkAllQuestionsAnswered() {
+        const totalQuestionsInUnit = currentQuestions.length;
+        // Count how many questions in currentQuestions have been answered
+        let answeredCount = 0;
+        currentQuestions.forEach(q => {
+            const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${currentQuestions.indexOf(q)}`;
+            if (answeredQuestions[questionId]) {
+                answeredCount++;
+            }
+        });
+        return answeredCount >= totalQuestionsInUnit;
+    }
+
+    // Event Listeners
+    startQuizButton.addEventListener('click', showTeamSelectionScreen); // Changed to show team selection
+    returnToUnitsButton.addEventListener('click', returnToMainMenu); // Renamed for clarity
+    returnToHomeButton.addEventListener('click', () => {
+        // This button acts as a full page reload to reset everything
+        window.location.reload();
+    });
+    resetGameButton.addEventListener('click', resetGame);
+    returnToMainMenuFromFinalButton.addEventListener('click', returnToMainMenu);
+
+    // Team selection buttons
+    document.querySelectorAll('.team-count-button').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const selectedCount = parseInt(event.target.dataset.teams);
+            selectTeamCount(selectedCount, event.target);
+        });
+    });
+    startTeamQuizButton.addEventListener('click', startTeamQuiz);
+    returnToUnitSelectionButton.addEventListener('click', returnToMainMenu); // Back to unit selection from team selection
+
+
+    // Initial setup on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        renderUnitSelection();
+    });
+</script>
+</html>
