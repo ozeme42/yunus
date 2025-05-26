@@ -278,6 +278,31 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
             font-size: 1.2rem;
         }
 
+        /* Ana Sayfaya Dön butonu stili */
+        .home-button {
+            background-color: #859900; /* Solarized Green */
+            color: #FFFFFF;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            display: inline-flex; /* Metinle birlikte ortalamak için */
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem; /* Başlığın altına boşluk */
+            text-decoration: none; /* Alt çizgiyi kaldır */
+        }
+
+        .home-button:hover {
+            background-color: #B58900; /* Solarized Yellow */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
         /* Duyarlı tasarım */
         @media (max-width: 768px) {
             body {
@@ -333,11 +358,20 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
                 padding: 0.6rem 1rem;
                 font-size: 0.9rem;
             }
+            .home-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem; /* Mobil için boşluk */
+            }
         }
     </style>
 </head>
 <body>
     <div class="poster-container">
+        <a href="index.html" class="home-button">
+            <span class="emoji">🏠</span> Ana Sayfaya Dön
+        </a>
+
         <h1 class="main-title">DİN KÜLTÜRÜ VE AHLAK BİLGİSİ</h1>
         <h2 class="subtitle">5. SINIF: TEMEL KONULAR VE KAVRAMLAR</h2>
 
@@ -602,7 +636,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. No JavaScript interactiv
                             <li>Putlara karşı tevhit mücadelesi verdi.</li>
                             <li>Ateşe atıldı ama yanmadı.</li>
                             <li>Kâbe'nin inşası ve kurban emrine teslimiyetiyle bilinir.</li>
-                            <li>Tevhit ve teslimiyetin sembolüdür.</li>
+                            <li>Tevhit ve teslimiyetin sembolüdüdür.</li>
                         </ul>
                     </div>
                     <div class="bg-[#FEFBF3] p-4 rounded-lg border border-[#EEE8D5]">
