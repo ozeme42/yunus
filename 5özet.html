@@ -53,6 +53,8 @@
             flex-direction: column;
             justify-content: space-between;
             border: 1px solid #e0e0e0;
+            padding: 1.5rem; /* Added padding for better visual */
+            text-align: center; /* Center align content */
         }
         .unit-card:hover {
             transform: translateY(-8px) scale(1.01);
@@ -62,8 +64,15 @@
             font-size: 1.35rem; /* Biraz daha büyük */
             font-weight: 700;
             color: #28a745;
-            padding: 1.25rem; /* Daha fazla boşluk */
-            text-align: center;
+            padding: 0.5rem 0; /* Adjusted padding */
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .unit-title .icon {
+            font-size: 1.8rem; /* Larger icon size */
         }
         .unit-buttons {
             display: flex;
@@ -71,6 +80,7 @@
             gap: 0.75rem;
             padding: 1rem;
             border-top: 1px solid #f0f0f0;
+            margin-top: auto; /* Push buttons to bottom */
         }
         .unit-button, .activity-type-button {
             background-color: #1e88e5; /* Canlı mavi */
@@ -461,40 +471,35 @@
     <main id="app-content">
         <section id="home-page" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="unit-card">
-                <img src="https://placehold.co/600x400/28a745/ffffff?text=Allah+İnancı" alt="Allah İnancı" class="unit-image">
-                <div class="unit-title">1. Ünite: Allah İnancı</div>
+                <div class="unit-title"><span class="icon">✨</span> 1. Ünite: Allah İnancı</div>
                 <div class="unit-buttons">
                     <button class="unit-button" onclick="showUnit('unit1')">Konu Detayı</button>
                     <button class="unit-button" onclick="showActivities('unit1')">Etkinlikler</button>
                 </div>
             </div>
             <div class="unit-card">
-                <img src="https://placehold.co/600x400/28a745/ffffff?text=Namaz" alt="Namaz" class="unit-image">
-                <div class="unit-title">2. Ünite: Namaz</div>
+                <div class="unit-title"><span class="icon">🕌</span> 2. Ünite: Namaz</div>
                 <div class="unit-buttons">
                     <button class="unit-button" onclick="showUnit('unit2')">Konu Detayı</button>
                     <button class="unit-button" onclick="showActivities('unit2')">Etkinlikler</button>
                 </div>
             </div>
             <div class="unit-card">
-                <img src="https://placehold.co/600x400/28a745/ffffff?text=Kur'an-ı+Kerim" alt="Kur'an-ı Kerim" class="unit-image">
-                <div class="unit-title">3. Ünite: Kur'an-ı Kerim</div>
+                <div class="unit-title"><span class="icon">📖</span> 3. Ünite: Kur'an-ı Kerim</div>
                 <div class="unit-buttons">
                     <button class="unit-button" onclick="showUnit('unit3')">Konu Detayı</button>
                     <button class="unit-button" onclick="showActivities('unit3')">Etkinlikler</button>
                 </div>
             </div>
             <div class="unit-card">
-                <img src="https://placehold.co/600x400/28a745/ffffff?text=Peygamber+Kıssaları" alt="Peygamber Kıssaları" class="unit-image">
-                <div class="unit-title">4. Ünite: Peygamber Kıssaları</div>
+                <div class="unit-title"><span class="icon">📜</span> 4. Ünite: Peygamber Kıssaları</div>
                 <div class="unit-buttons">
                     <button class="unit-button" onclick="showUnit('unit4')">Konu Detayı</button>
                     <button class="unit-button" onclick="showActivities('unit4')">Etkinlikler</button>
                 </div>
             </div>
             <div class="unit-card">
-                <img src="https://placehold.co/600x400/28a745/ffffff?text=Mimari+Motifler" alt="Mimari Motifler" class="unit-image">
-                <div class="unit-title">5. Ünite: Mimari̇mi̇zde Di̇ni̇ Moti̇fler</div>
+                <div class="unit-title"><span class="icon">🏛️</span> 5. Ünite: Mimari̇mi̇zde Di̇ni̇ Moti̇fler</div>
                 <div class="unit-buttons">
                     <button class="unit-button" onclick="showUnit('unit5')">Konu Detayı</button>
                     <button class="unit-button" onclick="showActivities('unit5')">Etkinlikler</button>
@@ -517,7 +522,7 @@
                 <h3 class="content-subheading">☝️ Allah'ın Varlığı ve Birliği (Tevhit)</h3>
                 <ul class="content-list">
                     <li><span class="list-icon">🌟</span> **Deliller:** Evrendeki mükemmel işleyiş, canlılardaki çeşitlilik ve uyum, Allah'ın varlığının ve birliğinin en güçlü delilleridir. Her sanat eseri bir sanatçıyı, her bina bir mimarı işaret ettiği gibi, bu muazzam kainat da eşsiz bir yaratıcıyı işaret eder.</li>
-                    <li><span class="list-icon">🎨</span> **Eşsiz Yaratıcı:** Allah (c.c.), her şeyi yoktan var eden, varlıkları en güzel biçimde şekillendiren ve onlara yaşam veren tek yaratıcıdır. O'nun yaratmasında hiçbir eksiklik veya kusur bulunmaz.</li>
+                    <li><span class="list-icon">🎨</span> **Eşsiz Yaratıcı:** Allah (c.c.), her şeyi yoktan var eden, varlıkları en güzel biçimde şekillendiren ve onlara yaşam veren tek yaratıcıdır. O'nın yaratmasında hiçbir eksiklik veya kusur bulunmaz.</li>
                     <li><span class="list-icon">♾️</span> **Eşi ve Benzeri Olmaması:** Allah (c.c.) eşsizdir, benzeri yoktur, hiçbir şeye benzemez ve hiçbir şey O'na denk olamaz. Bu inanç, İslam dininin temelini oluşturur.</li>
                     <li><span class="list-icon">💖</span> **Tevhit İnancı:** Tevhit, "birlemek" anlamına gelir. İslam'ın en temel inanç ilkesidir. Allah'ın bir ve tek olduğuna, O'ndan başka ilah olmadığına, tüm ibadetlerin yalnızca O'na yapılması gerektiğine inanmaktır. Tevhit inancı, insanı şirkten (Allah'a ortak koşmaktan) ve batıl inançlardan uzaklaştırır.</li>
                     <li><span class="list-icon">📜</span> **Kur'an'da Tevhit:** Kur'an-ı Kerim'de birçok ayette Allah'ın birliği vurgulanır. Örneğin, İhlas Suresi tamamen bu konuya odaklanmıştır: "De ki: O Allah bir tektir. Allah Samed'dir (her şey O'na muhtaç, O hiçbir şeye muhtaç değil). O doğurmamış ve doğmamıştır. Hiçbir şey O'na denk olmamıştır."</li>
@@ -570,14 +575,14 @@
                             <li><span class="list-icon">🙌</span> **İftitah Tekbiri (Başlangıç Tekbiri):** Namaza başlarken "Allahu Ekber" diyerek elleri kulak hizasına kaldırmaktır. Bu tekbirle namaza girilir ve dünya işlerinden uzaklaşılır.</li>
                             <li><span class="list-icon">🧍</span> **Kıyam (Ayakta Durmak):** Namazda gücü yetenler için ayakta durmaktır. Farz namazlarda kıyam farzdır.</li>
                             <li><span class="list-icon">📖</span> **Kıraat (Kur'an Okumak):** Namazda Kur’an-ı Kerim'den belirli miktarda ayet veya sure okumaktır. Farz namazların ilk iki rekatında, sünnet ve nafile namazların her rekatında kıraat farzdır.</li>
-                            <li><span class="list-icon"> bowing_man</span> **Rükû (Eğilmek):** Elleri dizlere koyarak sırtı düz bir şekilde eğilmektir. Rükûda "Sübhane Rabbiyel Azîm" (Yüce Rabbim tüm noksanlıklardan uzaktır) denir.</li>
-                            <li><span class="list-icon"> kneeling_man</span> **Secde (Yere Kapanmak):** Alnı, burnu, avuç içlerini, dizleri ve ayak parmaklarını yere koyarak kapanmaktır. Her rekatta iki kez yapılır. Secdede "Sübhane Rabbiyel A'lâ" (En yüce Rabbim tüm noksanlıklardan uzaktır) denir.</li>
-                            <li><span class="list-icon"> 🧘</span> **Ka’de-i Ahîre (Son Oturuş):** Namazın sonunda Tahiyyat duasını okuyacak kadar oturmaktır. Bu oturuşun sonunda selam verilerek namazdan çıkılır.</li>
+                            <li><span class="list-icon">🙇‍♂️</span> **Rükû (Eğilmek):** Elleri dizlere koyarak sırtı düz bir şekilde eğilmektir. Rükûda "Sübhane Rabbiyel Azîm" (Yüce Rabbim tüm noksanlıklardan uzaktır) denir.</li>
+                            <li><span class="list-icon">🧎‍♂️</span> **Secde (Yere Kapanmak):** Alnı, burnu, avuç içlerini, dizleri ve ayak parmaklarını yere koyarak kapanmaktır. Her rekatta iki kez yapılır. Secdede "Sübhane Rabbiyel A'lâ" (En yüce Rabbim tüm noksanlıklardan uzaktır) denir.</li>
+                            <li><span class="list-icon">🧘</span> **Ka’de-i Ahîre (Son Oturuş):** Namazın sonunda Tahiyyat duasını okuyacak kadar oturmaktır. Bu oturuşun sonunda selam verilerek namazdan çıkılır.</li>
                         </ul>
                     </li>
-                    <li><span class="list-icon"> 분류</span> **Namaz Çeşitleri:**
+                    <li><span class="list-icon">⚖️</span> **Namaz Çeşitleri:**
                         <ul class="content-list ml-4">
-                            <li><span class="list-icon"> obligatory</span> **Farz Namazlar:** Allah’ın (c.c.) yapılmasını kesin olarak emrettiği namazlardır. Günde beş vakit namaz (sabah, öğle, ikindi, akşam, yatsı) ve Cuma namazı farzdır.</li>
+                            <li><span class="list-icon">✅</span> **Farz Namazlar:** Allah’ın (c.c.) yapılmasını kesin olarak emrettiği namazlardır. Günde beş vakit namaz (sabah, öğle, ikindi, akşam, yatsı) ve Cuma namazı farzdır.</li>
                             <li><span class="list-icon"> ⚖️</span> **Vacip Namazlar:** Farz kadar açık ve kesin olmamakla birlikte kılınması emredilen namazlardır. Vitir namazı (yatsı namazından sonra kılınır) ve Bayram namazları (Ramazan ve Kurban Bayramı) vacip namazlara örnektir.</li>
                             <li><span class="list-icon"> 🙏</span> **Nafile (Sünnet) Namazlar:** Hz. Peygamber’in (s.a.v.) farz veya vacip olanlar dışında kıldığı ve Müslümanlara tavsiye ettiği namazlardır. Beş vakit namazın sünnetleri, kuşluk namazı, teheccüd namazı gibi namazlar bu kategoriye girer.</li>
                         </ul>
@@ -598,7 +603,7 @@
                     <li><span class="list-icon">🚿</span> **Abdest (Küçük Temizlik):** Başta namaz olmak üzere Kur'an okuma, Kâbe'yi tavaf etme gibi bazı ibadetleri yerine getirmeden önce yapılan dinî temizliktir. Abdestin farzları: Yüzü yıkamak, kolları dirseklerle birlikte yıkamak, başın dörtte birini meshetmek, ayakları topuklarla birlikte yıkamaktır.</li>
                     <li><span class="list-icon">🛀</span> **Gusül (Boy Abdesti - Büyük Temizlik):** Vücutta kuru yer kalmayacak şekilde tepeden tırnağa yıkanmaya boy abdesti veya gusül denir. Cünüplük, hayız ve nifas gibi durumlarda gusül abdesti almak farzdır.</li>
                     <li><span class="list-icon">🏜️</span> **Teyemmüm (Toprakla Temizlik):** Suyun bulunmadığı (en az 1 km uzakta olması) veya kullanılamadığı (hastalık, suyun zarar vereceği durumlar) durumlarda, temiz toprak veya toprak cinsinden bir maddeye eller sürülerek alınan abdesttir. Teyemmümün farzları: Niyet etmek, elleri temiz toprağa vurup yüzü meshetmek, tekrar elleri toprağa vurup kolları meshetmektir.</li>
-                    <li><span class="list-icon"> hygiene</span> **İslam'da Temizliğin Önemi:** İslam dini, temizliğe büyük önem verir. Hem maddi (beden, elbise, çevre) hem de manevi (kalp, niyet) temizlik, imanın bir parçası olarak kabul edilir. Hz. Peygamber (s.a.v.) "Temizlik imanın yarısıdır" buyurmuştur.</li>
+                    <li><span class="list-icon">🧼</span> **İslam'da Temizliğin Önemi:** İslam dini, temizliğe büyük önem verir. Hem maddi (beden, elbise, çevre) hem de manevi (kalp, niyet) temizlik, imanın bir parçası olarak kabul edilir. Hz. Peygamber (s.a.v.) "Temizlik imanın yarısıdır" buyurmuştur.</li>
                 </ul>
             </div>
             <div class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</div>
@@ -614,24 +619,24 @@
                     <li><span class="list-icon">🛡️</span> **Korunmuşluk Garantisi:** Yüce Allah, Kur’an-ı Kerim’in korunmasını bizzat kendi üzerine almıştır. Hicr Suresi, 9. Ayet'te şöyle buyrulur: **“Doğrusu kitabı biz indirdik, onun koruyucusu elbette biziz.”** Bu ayet, Kur'an'ın kıyamete kadar bozulmadan kalacağının garantisidir.</li>
                     <li><span class="list-icon">🧭</span> **Hayat Rehberi:** Kur’an-ı Kerim, sadece okunup sevap kazanmak için değil, aynı zamanda anlaşılmak, üzerinde düşünülmek ve hayatın tüm alanlarında (bireysel, ailevi, toplumsal) yaşanmak için indirilmiş kapsamlı bir yol göstericidir. İnsanlara doğru ile yanlışı, iyi ile kötüyü ayırmayı öğretir.</li>
                     <li><span class="list-icon">👍</span> **Ahlaki Yönlendirme:** Temel amacı, insanlığı her türlü kötülükten, zulümden ve ahlaksızlıktan alıkoyup, iyiliğe, adalete, merhamete ve güzel ahlaka yöneltmektir.</li>
-                    <li><span class="list-icon"> Miracle</span> **Mucizevi Kitap:** Kur'an-ı Kerim, edebi üslubu, içerdiği bilimsel işaretler (indirildiği dönemde bilinmeyen), geçmiş ve gelecekten haberler vermesi gibi yönleriyle başlı başına bir mucizedir.</li>
+                    <li><span class="list-icon">✨</span> **Mucizevi Kitap:** Kur'an-ı Kerim, edebi üslubu, içerdiği bilimsel işaretler (indirildiği dönemde bilinmeyen), geçmiş ve gelecekten haber vermesi gibi yönleriyle başlı başına bir mucizedir.</li>
                 </ul>
 
                 <h3 class="content-subheading">📚 Kur'an-ı Kerim'in İç Düzeni</h3>
                 <ul class="content-list">
                     <li><span class="list-icon">📐</span> Kur’an-ı Kerim’in kendine özgü, eşsiz bir düzeni vardır. Bu düzeni oluşturan temel kavramlar şunlardır:</li>
                     <li><span class="list-icon">📝</span> **Ayet:** Kur’an surelerini oluşturan, bir veya birkaç kelimeden ya da uzun cümlelerden meydana gelen bölümlere ayet denir. Kur'an-ı Kerim'de toplam 6236 ayet bulunur. Her ayet, Allah'ın bir mesajını veya hükmünü içerir.</li>
-                    <li><span class="list-icon"> chapters</span> **Sure:** Kur’an-ı Kerim’in ayetlerden oluşan, başı ve sonu belli olan bölümlerine sure denir. Kur'an-ı Kerim'de Fatiha Suresi ile başlayıp Nas Suresi ile biten toplam 114 sure bulunur. Sureler, uzunluklarına göre farklılık gösterir.</li>
+                    <li><span class="list-icon">📚</span> **Sure:** Kur’an-ı Kerim’in ayetlerden oluşan, başı ve sonu belli olan bölümlerine sure denir. Kur'an-ı Kerim'de Fatiha Suresi ile başlayıp Nas Suresi ile biten toplam 114 sure bulunur. Sureler, uzunluklarına göre farklılık gösterir.</li>
                     <li><span class="list-icon"> 🧩</span> **Cüz:** Kur’an-ı Kerim'in kolay okunabilmesi ve hatim indirilmesinin kolaylaştırılması amacıyla her yirmi sayfadan oluşan bölümlere cüz denir. Kur'an-ı Kerim toplam 30 cüzden oluşur.</li>
-                    <li><span class="list-icon"> 🔄</span> **Hatim:** Kur’an-ı Kerim’i Fatiha Suresi'nden Nas Suresi'ne kadar baştan sona okumaktır. Hatim, genellikle Ramazan ayında veya özel günlerde yapılır.</li>
+                    <li><span class="list-icon"> 🔄</span> **Hatim:** Kur’an-ı Kerim’i Fatiha Suresi'ndan Nas Suresi'ne kadar baştan sona okumaktır. Hatim, genellikle Ramazan ayında veya özel günlerde yapılır.</li>
                     <li><span class="list-icon"> 🧠</span> **Hafız:** Kur’an-ı Kerim’i baştan sona ezberleyen kişiye denir. Hafızlık, İslam dünyasında büyük bir saygınlık ve öneme sahiptir.</li>
                 </ul>
 
                 <h3 class="content-subheading">💡 Kur'an-ı Kerim'in Ana Konuları</h3>
                 <ul class="content-list">
-                    <li><span class="list-icon"> topics</span> Kur’an-ı Kerim, insanlığın hem dünya hem de ahiret mutluluğunu sağlamak için pek çok konuya yer verir. Başlıca konular şunlardır:
+                    <li><span class="list-icon">💡</span> Kur’an-ı Kerim, insanlığın hem dünya hem de ahiret mutluluğunu sağlamak için pek çok konuya yer verir. Başlıca konular şunlardır:
                         <ul class="content-list ml-4">
-                            <li><span class="list-icon"> ☪️</span> **İnanç Esasları (Akaid):** Allah'ın varlığı ve birliği (tevhit), O'nun sıfatları, meleklere iman, kutsal kitaplara iman, peygamberlere iman, ahiret gününe iman, kaza ve kadere iman gibi İslam'ın temel inanç ilkelerini açıklar.</li>
+                            <li><span class="list-icon"> ☪️</span> **İnanç Esasları (Akaid):** Allah'ın varlığı ve birliği (tevhit), O'nın sıfatları, meleklere iman, kutsal kitaplara iman, peygamberlere iman, ahiret gününe iman, kaza ve kadere iman gibi İslam'ın temel inanç ilkelerini açıklar.</li>
                             <li><span class="list-icon"> 🙏</span> **İbadetler:** Namaz, oruç, zekat, hac gibi temel ibadetlerin nasıl yapılacağı, önemi, faydaları ve hikmetleri hakkında detaylı bilgiler sunar. İbadetlerin amacı, Allah'a kulluk bilincini geliştirmek ve O'na şükretmektir.</li>
                             <li><span class="list-icon"> 💖</span> **Ahlak İlkeleri:** Dürüstlük, adalet, merhamet, sabır, sevgi, saygı, hoşgörü, cömertlik, emanete riayet gibi bireysel ve toplumsal ahlak ilkelerini öğretir. Kötü ahlaktan (yalan, gıybet, hırsızlık, cimrilik vb.) sakınmayı emreder.</li>
                             <li><span class="list-icon"> 👨‍👩‍👧‍👦</span> **Bireysel ve Toplumsal Hayat (Muamelat):** İnsan ilişkileri, aile hayatı (evlilik, boşanma, çocuk eğitimi), ticaret, miras, hukuk, çevre bilinci, komşuluk hakları, sosyal yardımlaşma gibi konulara dair düzenlemeler, öğütler ve prensipler içerir. Toplumun huzur ve düzenini sağlamayı hedefler.</li>
@@ -650,13 +655,13 @@
                 <h3 class="content-subheading">👤 Peygamber Kimdir ve Görevleri Nelerdir?</h3>
                 <ul class="content-list">
                     <li><span class="list-icon">✨</span> **Peygamberin Tanımı:** Peygamber (Resul veya Nebi), Allah tarafından insanlar arasından seçilmiş, vahiy yoluyla ilahi mesajları alan ve bu mesajları insanlara eksiksiz ve doğru bir şekilde iletmekle görevlendirilmiş özel insanlardır. Onlar, Allah ile insanlar arasında bir elçidir.</li>
-                    <li><span class="list-icon">✉️</span> **Tebliğ Görevi:** Peygamberlerin en temel görevi, Allah'ın emir ve yasaklarını, dinin hükümlerini, helal ve haramları insanlara tebliğ etmek (ulaştırmak) ve açıklamaktır. Bu mesajlar, Kur'an-ı Kerim gibi kutsal kitaplar aracılığıyla gelmiştir.</li>
+                    <li><span class="list-icon">✉️</span> **Tebliğ Görevi:** Peygamberlerin en temel görevi, Allah'ın emir ve yasalarını, dinin hükümlerini, helal ve haramları insanlara tebliğ etmek (ulaştırmak) ve açıklamaktır. Bu mesajlar, Kur'an-ı Kerim gibi kutsal kitaplar aracılığıyla gelmiştir.</li>
                     <li><span class="list-icon">🌟</span> **Örnek Olma (Üsve-i Hasene):** Peygamberler sadece ilahi mesajları iletmekle kalmamış, aynı zamanda bu mesajları kendi hayatlarında en güzel şekilde yaşayarak insanlara her alanda (ahlak, ibadet, sosyal ilişkiler, dürüstlük, sabır) örnek (üsve-i hasene) olmuşlardır. Onların sözleri (hadis), davranışları ve yaşam tarzları (sünnet) Müslümanlar için rehberdir.</li>
                     <li><span class="list-icon">🤲</span> **Davet Görevi:** Peygamberler, insanları Allah'ın birliğine inanmaya (tevhit), O'na ibadet etmeye, güzel ahlaklı olmaya ve ahiret hayatına hazırlanmaya çağırmışlardır. Bu daveti, zorla değil, hikmetle, güzel öğütle ve ikna yoluyla yapmışlardır.</li>
                     <li><span class="list-icon">🛡️</span> **Peygamberlerin Özellikleri:**
                         <ul class="content-list ml-4">
                             <li><span class="list-icon">✅</span> **Sıdk (Doğruluk):** Peygamberler her zaman doğru sözlü ve dürüsttürler.</li>
-                            <li><span class="list-icon"> trustworthy</span> **Emanet (Güvenilirlik):** Onlar güvenilir kişilerdir, kendilerine emanet edilen her şeyi korurlar.</li>
+                            <li><span class="list-icon">🤝</span> **Emanet (Güvenilirlik):** Onlar güvenilir kişilerdir, kendilerine emanet edilen her şeyi korurlar.</li>
                             <li><span class="list-icon"> 🧠</span> **Fetanet (Akıllı ve Zeki Olma):** Peygamberler, insanları ikna edebilecek üstün bir akıl ve zekaya sahiptirler.</li>
                             <li><span class="list-icon"> 🗣️</span> **Tebliğ (İletme):** Allah'tan aldıkları mesajları eksiksiz ve açıkça insanlara ulaştırırlar.</li>
                             <li><span class="list-icon"> 😇</span> **İsmet (Günah İşlememe):** Peygamberler, Allah tarafından korunmuş olup, büyük günah işlemezler ve küçük günahlarda ısrar etmezler.</li>
@@ -680,7 +685,7 @@
                             <li><span class="list-icon"> 🌊</span> Hz. Nuh (a.s.), uzun yıllar kavmini Allah'a inanmaya davet etmiş, ancak onlar inkarda ısrar etmiştir.</li>
                             <li><span class="list-icon"> 🌧️</span> Bunun üzerine Allah, Hz. Nuh'a bir gemi yapmasını emretmiş ve inananlarla birlikte gemiye binmelerini istemiştir.</li>
                             <li><span class="list-icon"> 🌍</span> Ardından büyük bir tufan (su baskını) meydana gelmiş, inkarcılar helak olmuş, inananlar ise gemiyle kurtulmuştur.</li>
-                            <li><span class="list-icon"> lesson</span> **Mesaj:** İtaat, sabır, Allah'ın emirlerine uymanın önemi ve inkarcılığın acı sonu vurgulanır.</li>
+                            <li><span class="list-icon">💡</span> **Mesaj:** İtaat, sabır, Allah'ın emirlerine uymanın önemi ve inkarcılığın acı sonu vurgulanır.</li>
                         </ul>
                     </li>
                     <li><span class="list-icon">🔥</span> **Hz. İbrahim Kıssası:**
@@ -688,7 +693,7 @@
                             <li><span class="list-icon"> 🗿</span> Hz. İbrahim (a.s.), putlara tapan bir toplumda yaşamış ve putperestliğe karşı tek başına mücadele etmiştir.</li>
                             <li><span class="list-icon"> 🔨</span> Babasının ve kavminin taptığı putları kırmış, bunun üzerine ateşe atılmıştır.</li>
                             <li><span class="list-icon"> ❄️</span> Ancak Allah'ın izniyle ateş ona serin ve selamet olmuştur.</li>
-                            <li><span class="list-icon"> lesson</span> **Mesaj:** Tevhit inancının kararlılıkla savunulması, Allah'a olan tam tevekkül ve O'nun yardımı vurgulanır.</li>
+                            <li><span class="list-icon">💡</span> **Mesaj:** Tevhit inancının kararlılıkla savunulması, Allah'a olan tam tevekkül ve O'nun yardımı vurgulanır.</li>
                         </ul>
                     </li>
                     <li><span class="list-icon">🌊</span> **Hz. Musa Kıssası:**
@@ -696,7 +701,7 @@
                             <li><span class="list-icon"> 👑</span> Hz. Musa (a.s.), Firavun'un zulmü altında ezilen İsrailoğulları'nı kurtarmak için gönderilmiştir.</li>
                             <li><span class="list-icon"> 🐍</span> Firavun'a karşı mucizeler göstermiş, asasıyla denizi yarmış ve İsrailoğulları'nı kurtarmıştır.</li>
                             <li><span class="list-icon"> 🌊</span> Firavun ve ordusu ise denizde boğulmuştur.</li>
-                            <li><span class="list-icon"> lesson</span> **Mesaj:** Zulme karşı duruş, Allah'ın mazlumlara yardımı, sabır ve direnişin önemi vurgulanır.</li>
+                            <li><span class="list-icon">💡</span> **Mesaj:** Zulme karşı duruş, Allah'ın mazlumlara yardımı, sabır ve direnişin önemi vurgulanır.</li>
                         </ul>
                     </li>
                     <li><span class="list-icon">🕊️</span> **Hz. İsa Kıssası:**
@@ -704,14 +709,14 @@
                             <li><span class="list-icon"> 👼</span> Hz. İsa (a.s.), babasız olarak dünyaya gelmiş ve beşikte konuşarak mucize göstermiştir.</li>
                             <li><span class="list-icon"> 🩹</span> Ölüleri diriltmek, körleri iyileştirmek gibi mucizelerle insanları Allah'a davet etmiştir.</li>
                             <li><span class="list-icon"> 💖</span> İnsanlara sevgi, merhamet, affedicilik ve hoşgörü mesajları getirmiştir.</li>
-                            <li><span class="list-icon"> lesson</span> **Mesaj:** Merhamet, affedicilik, sevgi ve Allah'ın kudretinin sınırsızlığı vurgulanır.</li>
+                            <li><span class="list-icon">💡</span> **Mesaj:** Merhamet, affedicilik, sevgi ve Allah'ın kudretinin sınırsızlığı vurgulanır.</li>
                         </ul>
                     </li>
                     <li><span class="list-icon">🕋</span> **Kureyş Suresi:**
                         <ul class="content-list ml-4">
                             <li><span class="list-icon"> 🛡️</span> Kureyş Suresi, Kureyş kabilesine Allah tarafından verilen nimetleri (ticaret kervanlarının güvenliği, Kâbe'nin korunması) ve onların birliğini anlatır.</li>
                             <li><span class="list-icon"> 🙏</span> Bu nimetlere karşılık olarak Allah'a şükretmeleri ve O'na ibadet etmeleri gerektiği vurgulanır.</li>
-                            <li><span class="list-icon"> lesson</span> **Mesaj:** Allah'a şükretmenin, nimetlere nankörlük etmemenin ve güvenliğin önemini vurgular.</li>
+                            <li><span class="list-icon">💡</span> **Mesaj:** Allah'a şükretmenin, nimetlere nankörlük etmemenin ve güvenliğin önemini vurgular.</li>
                         </ul>
                     </li>
                 </ul>
@@ -727,8 +732,8 @@
                     <li><span class="list-icon">🕌</span> **Dinin Etkisi:** İslam dini, sanat ve mimari üzerinde derin ve kalıcı izler bırakmıştır. İslam medeniyetinde sanat, genellikle Allah'ın birliğini, sonsuzluğunu ve güzelliğini yansıtma amacı taşır.</li>
                     <li><span class="list-icon">🏗️</span> **Mimari Yapılar:** Bu etki, özellikle camilerde, medreselerde (eğitim kurumları), külliyelerde (cami etrafında oluşan sosyal yapılar kompleksi: hastane, aşevi, hamam vb.) ve diğer dini yapılarda belirgin bir şekilde görülür.</li>
                     <li><span class="list-icon">✨</span> **Motiflerin Rolü:** Mimari motifler (hat sanatı, tezhip, çini, ahşap oymacılığı), dini yapıların sadece estetiğini değil, aynı zamanda manevi atmosferini de zenginleştirir. Bu motifler, genellikle soyut desenler, geometrik şekiller ve bitkisel süslemelerden oluşur, çünkü İslam'da canlı varlıkların tasviri genellikle hoş karşılanmaz.</li>
-                    <li><span class="list-icon"> calligraphy</span> **Hat Sanatı:** Kur'an ayetlerinin veya hadislerin estetik bir şekilde yazılmasıyla oluşan sanat dalıdır. Camilerin iç süslemelerinde sıkça kullanılır.</li>
-                    <li><span class="list-icon"> tile</span> **Çini Sanatı:** Özel bir teknikle pişirilmiş ve sırlanmış seramiklerin cami duvarlarını süslemesidir. Renkli ve desenli çiniler, camilere ayrı bir güzellik katar.</li>
+                    <li><span class="list-icon">✍️</span> **Hat Sanatı:** Kur'an ayetlerinin veya hadislerin estetik bir şekilde yazılmasıyla oluşan sanat dalıdır. Camilerin iç süslemelerinde sıkça kullanılır.</li>
+                    <li><span class="list-icon">🎨</span> **Çini Sanatı:** Özel bir teknikle pişirilmiş ve sırlanmış seramiklerin cami duvarlarını süslemesidir. Renkli ve desenli çiniler, camilere ayrı bir güzellik katar.</li>
                 </ul>
 
                 <h3 class="content-subheading">🕌 Camiler ve Bölümleri</h3>
@@ -736,7 +741,7 @@
                     <li><span class="list-icon">🤲</span> **Caminin Anlamı ve İşlevi:** Cami, "toplanılan yer" anlamına gelir. Müslümanların topluca ibadet ettikleri, bir araya geldiği, dini bilgi edindiği, vaaz ve sohbet dinlediği ve sosyal dayanışmayı güçlendirdiği önemli mekanlardır. Camiler sadece ibadethane değil, aynı zamanda birer eğitim, kültür ve toplumsal merkezdir.</li>
                     <li><span class="list-icon">🏛️</span> **Cami Mimarisindeki Temel Unsurlar:**
                         <ul class="content-list ml-4">
-                            <li><span class="list-icon"> dome</span> **Kubbe:** Cami gibi büyük yapıların üstünü örten, yarım küre biçiminde çatıdır. Genellikle Allah'ın birliğini, evrenin sonsuzluğunu ve gökyüzünü sembolize eder. Akustiği sağlamada ve iç mekanı geniş göstermede önemli rol oynar.</li>
+                            <li><span class="list-icon">🕌</span> **Kubbe:** Cami gibi büyük yapıların üstünü örten, yarım küre biçiminde çatıdır. Genellikle Allah'ın birliğini, evrenin sonsuzluğunu ve gökyüzünü sembolize eder. Akustiği sağlamada ve iç mekanı geniş göstermede önemli rol oynar.</li>
                             <li><span class="list-icon"> 🗼</span> **Minare:** Camilerde ezan okumak için yapılan yüksek, ince kulelerdir. Müslümanları namaza davet amacıyla kullanılır. Minareler, aynı zamanda caminin görkemini ve siluetini tamamlayan önemli mimari unsurlardır.</li>
                             <li><span class="list-icon"> ➡️</span> **Mihrap:** Camilerde imamın namaz kıldırırken durduğu, Kâbe yönünü (kıbleyi) gösteren oyuk veya girintili yerdir. Namaz kılan cemaatin kıbleye doğru yönelmesini sağlar.</li>
                             <li><span class="list-icon"> 🪜</span> **Minber:** Camilerde cuma ve bayram namazlarında hatibin (imamın) hutbe okuduğu, basamaklı, yüksek yerdir. Hutbe, cemaate dini ve ahlaki konularda öğütler vermek amacıyla okunur.</li>
@@ -750,13 +755,13 @@
                 <h3 class="content-subheading">🇹🇷 Türk İslam Mimarisinden Cami Örnekleri</h3>
                 <ul class="content-list">
                     <li><span class="list-icon">👑</span> **Osmanlı Mimarisi:** Osmanlı döneminde inşa edilen camiler, Türk İslam mimarisinin zirvesini temsil eder. Bu dönemde camiler, hem estetik hem de işlevsellik açısından büyük bir gelişim göstermiştir.</li>
-                    <li><span class="list-icon"> grand_mosque</span> **Selatin Camileri:** Osmanlı Dönemi’nde padişahlar ve hanedan mensupları tarafından kendi imkanlarıyla yaptırılan, genellikle büyük, gösterişli ve birden fazla minareye sahip camilerdir. Bu camiler, dönemin gücünü ve ihtişamını yansıtır.
+                    <li><span class="list-icon">🕌</span> **Selatin Camileri:** Osmanlı Dönemi’nde padişahlar ve hanedan mensupları tarafından kendi imkanlarıyla yaptırılan, genellikle büyük, gösterişli ve birden fazla minareye sahip camilerdir. Bu camiler, dönemin gücünü ve ihtişamını yansıtır.
                         <ul class="content-list ml-4">
                             <li><span class="list-icon"> 🔵</span> **Sultanahmet Camii (Mavi Cami):** İstanbul'da bulunur. Klasik Osmanlı mimarisinin en önemli eserlerinden biridir. Altı minaresi ve içindeki mavi çinileriyle ünlüdür.</li>
                             <li><span class="list-icon"> 💎</span> **Süleymaniye Camii:** İstanbul'da, Mimar Sinan tarafından Kanuni Sultan Süleyman adına inşa edilmiştir. Osmanlı mimarisinin en görkemli yapılarından biridir ve bir külliye içinde yer alır.</li>
                         </ul>
                     </li>
-                    <li><span class="list-icon"> city</span> **Ulu Cami:** Genellikle Anadolu şehirlerinde, şehrin en büyük ve merkezi camisi olup, cuma namazının kılındığı önemli ibadethanelerdir. Genellikle çok ayaklı ve çok kubbeli yapısıyla dikkat çekerler.
+                    <li><span class="list-icon">🏙️</span> **Ulu Cami:** Genellikle Anadolu şehirlerinde, şehrin en büyük ve merkezi camisi olup, cuma namazının kılındığı önemli ibadethanelerdir. Genellikle çok ayaklı ve çok kubbeli yapısıyla dikkat çekerler.
                         <ul class="content-list ml-4">
                             <li><span class="list-icon"> 🌳</span> **Bursa Ulu Cami:** Osmanlı Devleti'nin ilk büyük camilerinden biridir. 20 kubbesi ve içindeki şadırvanıyla ünlüdür.</li>
                             <li><span class="list-icon"> 🗿</span> **Diyarbakır Ulu Cami:** Anadolu'nun en eski camilerinden biridir ve farklı medeniyetlerin izlerini taşır.</li>
@@ -1212,45 +1217,13 @@
                         return questions[qIndex];
                     }
                     return null;
-                })).filter(q => q !== null),
-                multipleChoice: Array.from({ length: 2 }, (_, sectionIndex) => Array.from({ length: 10 }, (_, qIndex) => {
-                    if (sectionIndex === 0) {
-                        const questions = [
-                            { id: 'q1', questionText: 'Aşağıdakilerden hangisi namazın dışındaki farzlardan biri değildir?', options: [{ value: 'a', label: 'a) Hadesten Taharet' }, { value: 'b', label: 'b) Necasetten Taharet' }, { value: 'c', label: 'c) Kıyam' }, { value: 'd', label: 'd) Setr-i Avret' }], answer: 'c', explanation: 'Kıyam, namazın içindeki farzlardan biridir.' },
-                            { id: 'q2', questionText: 'Namazda elleri dizlere koyarak eğilmeye ne denir?', options: [{ value: 'a', label: 'a) Secde' }, { value: 'b', label: 'b) Kıraat' }, { value: 'c', label: 'c) Rükû' }, { value: 'd', label: 'd) Kıyam' }], answer: 'c', explanation: 'Rükû, namazda belli bir şekilde eğilme hareketidir.' },
-                            { id: 'q3', questionText: 'Cennetin anahtarı olarak nitelendirilen ibadet hangisidir?', options: [{ value: 'a', label: 'a) Oruç' }, { value: 'b', label: 'b) Zekat' }, { value: 'c', label: 'c) Namaz' }, { value: 'd', label: 'd) Hac' }], answer: 'c', explanation: 'Hz. Peygamber, "Cennetin anahtarı namazdır" buyurmuştur.' },
-                            { id: 'q4', questionText: 'Aşağıdakilerden hangisi namazın içindeki farzlardan biridir?', options: [{ value: 'a', label: 'a) Niyet' }, { value: 'b', label: 'b) Vakit' }, { value: 'c', label: 'c) Rükû' }, { value: 'd', label: 'd) Setr-i Avret' }], answer: 'c', explanation: 'Rükû, namazın içindeki farzlarından biridir.' },
-                            { id: 'q5', questionText: 'Namazın dışındaki farz sayısı kaçtır?', options: [{ value: 'a', label: 'a) 5' }, { value: 'b', label: 'b) 6' }, { value: 'c', label: 'c) 7' }, { value: 'd', label: 'd) 8' }], answer: 'b', explanation: 'Namazın dışındaki farzlar: Hadesten taharet, necasetten taharet, setr-i avret, istikbal-i kıble, vakit, niyet.' },
-                            { id: 'q6', questionText: 'Hz. Peygamber (s.a.v.) namazı ne olarak nitelendirmiştir?', options: [{ value: 'a', label: 'a) Dinin temeli' }, { value: 'b', label: 'b) Dinin direği' }, { value: 'c', label: 'c) Dinin süsü' }, { value: 'd', label: 'd) Dinin başlangıcı' }], answer: 'b', explanation: 'Hz. Peygamber (s.a.v.) namazı dinin direği olarak nitelendirmiştir.' },
-                            { id: 'q7', questionText: 'Vücutta kuru yer kalmayacak şekilde tepeden tırnağa yıkanmaya ne denir?', options: [{ value: 'a', label: 'a) Abdest' }, { value: 'b', label: 'b) Teyemmüm' }, { value: 'c', label: 'c) Gusül' }, { value: 'd', label: 'd) Taharet' }], answer: 'c', explanation: 'Vücutta kuru yer kalmayacak şekilde tepeden tırnağa yıkanmaya gusül denir.' },
-                            { id: 'q8', questionText: 'Aşağıdakilerden hangisi namazın içindeki farzlardan biri değildir?', options: [{ value: 'a', label: 'a) İftitah Tekbiri' }, { value: 'b', label: 'b) Kıyam' }, { value: 'c', label: 'c) Niyet' }, { value: 'd', label: 'd) Secde' }], answer: 'c', explanation: 'Niyet, namazın dışındaki farzlardandır.' },
-                            { id: 'q9', questionText: 'Namazda Kâbe yönüne dönmeye ne denir?', options: [{ value: 'a', label: 'a) Kıraat' }, { value: 'b', label: 'b) İstikbal-i Kıble' }, { value: 'c', label: 'c) Vakit' }, { value: 'd', label: 'd) Niyet' }], answer: 'b', explanation: 'İstikbal-i Kıble, namazın dışındaki farzlardandır.' },
-                            { id: 'q10', questionText: 'Aşağıdakilerden hangisi vacip namazlara örnek verilebilir?', options: [{ value: 'a', label: 'a) Beş vakit namaz' }, { value: 'b', label: 'b) Vitir namazı' }, { value: 'c', label: 'c) Sabah namazının sünneti' }, { value: 'd', label: 'd) Öğle namazının farzı' }], answer: 'b', explanation: 'Vitir namazı, vacip namazlara örnektir.' }
-                        ];
-                        return questions[qIndex];
-                    } else if (sectionIndex === 1) {
-                        const questions = [
-                            { id: 'q1', questionText: 'Aşağıdakilerden hangisi namazın bireysel faydalarından biridir?', options: [{ value: 'a', label: 'a) Toplumsal dayanışmayı artırmak' }, { value: 'b', label: 'b) Zamanı iyi kullanmaya alıştırmak' }, { value: 'c', label: 'c) Sosyal ilişkileri güçlendirmek' }, { value: 'd', label: 'd) Ekonomik refahı artırmak' }], answer: 'b', explanation: 'Namaz, insanı disiplinli olmaya, zamanı iyi kullanmaya ve düzenli yaşamaya alıştırır.' },
-                            { id: 'q2', questionText: 'Namaz kılmaya başlamadan önce yapılan temizliklere ne denir?', options: [{ value: 'a', label: 'a) Kıraat' }, { value: 'b', label: 'b) Taharet' }, { value: 'c', label: 'c) Rükû' }, { value: 'd', label: 'd) Secde' }], answer: 'b', explanation: 'Taharet, namaz öncesi yapılan temizliklerdir (hadesten ve necasetten taharet).' },
-                            { id: 'q3', questionText: 'Aşağıdakilerden hangisi namazın içindeki farzlardan biri değildir?', options: [{ value: 'a', label: 'a) Kıyam' }, { value: 'b', label: 'b) Vakit' }, { value: 'c', label: 'c) Kıraat' }, { value: 'd', label: 'd) Secde' }], answer: 'b', explanation: 'Vakit, namazın dışındaki farzlardandır.' },
-                            { id: 'q4', questionText: 'Hz. Peygamber\'in "Cennetin anahtarı namaz, namazın anahtarı ise abdesttir." sözü, namazın hangi yönünü vurgular?', options: [{ value: 'a', label: 'a) Zorluğunu' }, { value: 'b', label: 'b) Önemini ve ön şartını' }, { value: 'c', label: 'c) Sadece belirli kişilere özgü olduğunu' }, { value: 'd', label: 'd) Gereksiz olduğunu' }], answer: 'b', explanation: 'Bu söz, namazın İslam\'daki merkezi önemini ve abdestin namaz için vazgeçilmez bir ön şart olduğunu vurgular.' },
-                            { id: 'q5', questionText: 'Namazda örtülmesi gereken yerleri örtmeye ne denir?', options: [{ value: 'a', label: 'a) Hadesten Taharet' }, { value: 'b', label: 'b) Necasetten Taharet' }, { value: 'c', label: 'c) Setr-i Avret' }, { value: 'd', label: 'd) İstikbal-i Kıble' }], answer: 'c', explanation: 'Setr-i Avret, namazda örtülmesi gereken yerleri örtmektir.' },
-                            { id: 'q6', questionText: 'Namazın toplumsal faydaları arasında aşağıdakilerden hangisi yer alır?', options: [{ value: 'a', label: 'a) Bireysel rahatlama' }, { value: 'b', label: 'b) Zamanı iyi kullanma' }, { value: 'c', label: 'c) Birlik, beraberlik ve dayanışma' }, { value: 'd', label: 'd) Kişisel gelişim' }], answer: 'c', explanation: 'Cemaatle kılınan namazlar, toplumsal birlik, beraberlik ve dayanışmayı pekiştirir.' },
-                            { id: 'q7', questionText: 'Farz namazlar için aşağıdakilerden hangisi doğrudur?', options: [{ value: 'a', label: 'a) Sadece Ramazan ayında kılınır' }, { value: 'b', label: 'b) Allah\'ın kesin olarak emrettiği ibadetlerdir' }, { value: 'c', label: 'c) Hz. Peygamber\'in farz dışında kıldığı namazlardır' }, { value: 'd', label: 'd) Su bulunmadığında kılınır' }], answer: 'b', explanation: 'Farz namazlar, Allah\'ın kesin olarak emrettiği ibadetlerdir.' },
-                            { id: 'q8', questionText: 'Namazda alnı, burnu, avuç içlerini, dizleri ve ayak parmaklarını yere koyarak kapanmaya ne denir?', options: [{ value: 'a', label: 'a) Rükû' }, { value: 'b', label: 'b) Kıyam' }, { value: 'c', label: 'c) Secde' }, { value: 'd', label: 'd) Kıraat' }], answer: 'c', explanation: 'Secde, namazın en önemli rükünlerinden biridir.' },
-                            { id: 'q9', questionText: 'Niyetin namazdaki yeri nedir?', options: [{ value: 'a', label: 'a) Namazın içindeki farzıdır' }, { value: 'b', label: 'b) Namazın dışındaki farzıdır' }, { value: 'c', label: 'c) Sünnettir' }, { value: 'd', label: 'd) Vaciptir' }], answer: 'b', explanation: 'Niyet, namazın dışındaki farzlardan biridir.' },
-                            { id: 'q10', questionText: 'Namazın sonunda Tahiyyat duasını okuyacak kadar oturmaya ne denir?', options: [{ value: 'a', label: 'a) Kıyam' }, { value: 'b', label: 'b) Rükû' }, { value: 'c', label: 'c) Secde' }, { value: 'd', label: 'd) Ka’de-i Ahîre' }], answer: 'd', explanation: 'Ka’de-i Ahîre, namazın son oturuşudur.' }
-                        ];
-                        return questions[qIndex];
-                    }
-                    return null;
                 })).filter(q => q !== null)
             },
             unit3: {
                 trueFalse: Array.from({ length: 2 }, (_, sectionIndex) => Array.from({ length: 10 }, (_, qIndex) => {
                     if (sectionIndex === 0) {
                         const questions = [
-                            { id: 'q1', questionText: 'Kur\'an-ı Kerim, Allah\'ın son ilahi kitabıdır.', answer: true, explanation: 'Kur\'an-ı Kerim, Hz. Muhammed\'e indirilen son kutsal kitaptır.' },
+                            { id: 'q1', questionText: 'Kur\'an-ı Kerim, Allah\'s son ilahi kitabıdır.', answer: true, explanation: 'Kur\'an-ı Kerim, Hz. Muhammed\'e indirilen son kutsal kitaptır.' },
                             { id: 'q2', questionText: 'Kur\'an-ı Kerim\'in ayetlerden oluşan bölümlerine cüz denir.', answer: false, explanation: 'Kur\'an-ı Kerim\'in ayetlerden oluşan bölümlerine sure denir.' },
                             { id: 'q3', questionText: 'Kur\'an-ı Kerim, insanlar tarafından değiştirilmiştir.', answer: false, explanation: 'Yüce Allah, Kur\'an\'ın korunacağını bildirmiştir.' },
                             { id: 'q4', questionText: 'Kur\'an-ı Kerim\'de kıssalar, insanlara ibret vermek amacıyla yer alır.', answer: true, explanation: 'Kıssalar, geçmişten ders çıkarmak için anlatılır.' },
