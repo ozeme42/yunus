@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peygamberimizin Hayatı İnteraktif Uygulaması</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices: 
+        - Ünite 1 (Çocukluk): Önemli yaşam olayları için Zaman Çizelgesi (HTML/CSS/JS) (Amaç: Değişimi/sırayı gösterme, Etkileşim: Tıklanabilir noktalar). Coğrafi bağlam için basitleştirilmiş harita (HTML/CSS) (Amaç: Bilgilendirme).
+        - Ünite 2 (Peygamberimizin Çevresindeki Çocuklar): Hz. Ali, Zeyd, Enes için Karakter Kartları (HTML/CSS/JS) (Amaç: Bilgilendirme/Organize etme, Etkileşim: Tıklanabilir kartlar).
+        - Ünite 3 (Rehberim Peygamberim): Adap için Unicode ikonlu madde işaretli listeler (Amaç: Bilgilendirme).
+        - Ünite 4 (Aile Hayatı): Yakın aile üyeleri için basitleştirilmiş Aile Ağacı (HTML/CSS/JS) (Amaç: Organize etme/İlişkiler, Etkileşim: Tıklanabilir isimler).
+        - Genel: Cahiliye, Fil Vakası vb. için Kavram Terim Açılır Pencereleri (JS Modalları/İpuçları) (Amaç: Bilgilendirme).
+        - Grafikler (Chart.js/Canvas): 1. İslam Öncesi Arabistan'daki Dini İnançlar için pasta grafik (Ünite 1, Amaç: Karşılaştırma/Bilgilendirme). 2. Peygamberimizin eşlerine göre çocuk dağılımı için çubuk grafik (Ünite 4, Amaç: Bilgilendirme/Karşılaştırma). SVG/Mermaid JS kullanılmamıştır. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .nav-link {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .nav-link.active {
+            background-color: #059669; /* emerald-700 */
+            color: white;
+        }
+        .nav-link:hover {
+            background-color: #10b981; /* emerald-500 */
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+            padding-left: 30px;
+            border-left: 2px solid #10b981; /* emerald-500 */
+        }
+        .timeline-item:last-child {
+            border-left: 2px solid transparent; /* Son öğenin çizgisini kaldırma */
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 18px;
+            height: 18px;
+            background-color: #10b981; /* emerald-500 */
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        .accordion-content {
+            display: none;
+            transition: max-height 0.3s ease-out;
+            overflow: hidden;
+        }
+        .concept-modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .concept-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px; /* veya max-w-lg, max-w-xl */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; 
+            max-height: 350px;
+        }
+         /* Mobil için daha küçük yükseklik */
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 250px;
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-700">
+
+    <header class="bg-emerald-600 text-white p-6 shadow-md">
+        <h1 class="text-3xl font-bold text-center">Peygamberimizin (sav) Hayatı</h1>
+    </header>
+
+    <nav class="bg-emerald-700 text-white flex flex-wrap justify-center p-2 shadow-md sticky top-0 z-40">
+        <button class="nav-link py-2 px-4 m-1 rounded-md font-semibold active" onclick="showTab('unit1', this)">Ünite 1: Çocukluk Yılları</button>
+        <button class="nav-link py-2 px-4 m-1 rounded-md font-semibold" onclick="showTab('unit2', this)">Ünite 2: Çevresindeki Çocuklar</button>
+        <button class="nav-link py-2 px-4 m-1 rounded-md font-semibold" onclick="showTab('unit3', this)">Ünite 3: Rehberim Peygamberim</button>
+        <button class="nav-link py-2 px-4 m-1 rounded-md font-semibold" onclick="showTab('unit4', this)">Ünite 4: Aile Hayatı</button>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-6">
+        <div id="unit1" class="tab-content active">
+            <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-4">1. Ünite: Çocukluk Yıllarında Peygamberimiz</h2>
+                <p class="mb-4">Bu ünitede, Peygamber Efendimiz Hz. Muhammed'in (sav) dünyaya geldiği çevre, doğumu, çocukluk yılları ve bu dönemdeki önemli olaylar ele alınmaktadır. O'nun (sav) örnek hayatının ilk yıllarına daha yakından bakarak, İslamiyet öncesi Arabistan'ın sosyal ve kültürel yapısını ve Peygamberimizin (sav) bu ortamdaki yetişme sürecini anlamaya çalışacağız.</p>
+                
+                <div>
+                    <button onclick="toggleAccordion('u1_s1')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">1.1. Peygamberimizin Doğduğu Çevre</button>
+                    <div id="u1_s1" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">Genel Durum</h3>
+                        <ul class="list-disc list-inside mb-3">
+                            <li>Peygamberimiz Hz. Muhammed (sav), son peygamberdir.</li>
+                            <li>Doğduğu şehir Mekke, Kâbe'nin bulunduğu kutsal bir şehirdir ve Kur'an-ı Kerim'de "şehirlerin anası" (Ümmülkura) olarak geçer.</li>
+                            <li>Kâbe, Hz. Âdem'den beri ibadet için yapılmış ilk mabettir, Hz. İbrahim ve oğlu Hz. İsmail tarafından yeniden inşa edilmiştir.</li>
+                            <li>Mekke, Arap Yarımadası'nın Hicaz bölgesinde, çöl iklimine sahip bir yerdir. Hicaz bölgesi Mekke, Medine (Yesrib) ve Taif şehirlerini kapsar.</li>
+                        </ul>
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">Fil Vakası</h3>
+                        <ul class="list-disc list-inside mb-3">
+                            <li>Mekke, Kâbe ziyaretleri ve ticaret sayesinde önemli bir merkezdi.</li>
+                            <li>Yemen Valisi Ebrehe, Hristiyanlığı yaymak ve ticareti kendi şehri San'a'ya çekmek için San'a'da bir kilise yaptırdı.</li>
+                            <li>Arapların Kâbe'ye bağlılığı nedeniyle Ebrehe'nin kilisesi ilgi görmedi.</li>
+                            <li>Mekkeli gençlerin kiliseye zarar verme girişimi Ebrehe'yi öfkelendirdi ve Kâbe'yi yıkmaya karar verdi.</li>
+                            <li>Ebrehe, fillerle desteklenmiş büyük bir orduyla Mekke'ye yürüdü.</li>
+                            <li>Peygamberimizin dedesi Abdülmuttalib, Ebrehe'den develerini istedi ve Kâbe'nin sahibinin Allah (cc) olduğunu, O'nun Kâbe'yi koruyacağını söyledi.</li>
+                            <li>Ebrehe'nin ordusundaki filler Kâbe yönüne hareket etmedi.</li>
+                            <li>Ebabil kuşları, gagalarında taşıdıkları taşları ordunun üzerine bırakarak orduyu helak etti.</li>
+                            <li>Bu olay İslam tarihinde "<strong class="cursor-pointer text-emerald-600 hover:underline" onclick="showConcept('fil_vakasi')">Fil Vakası</strong>" olarak, gerçekleştiği yıl ise "Fil Yılı" olarak anılır.</li>
+                            <li>Fil Suresi bu olayı anlatır.</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-semibold text-emerald-600 mt-4 mb-2">Peygamberimizin Doğduğu Çevrenin Özellikleri</h3>
+                        <p class="mb-2">İslamiyet öncesi Arap toplumunda dinî ve kültürel bozulmuşluk, putlara tapma, soyla övünme, hukuksuzluk, kibir ve zayıfları ezme gibi olumsuzlukların hâkim olduğu döneme "<strong class="cursor-pointer text-emerald-600 hover:underline" onclick="showConcept('cahiliye_donemi')">Cahiliye Dönemi</strong>" denir.</p>
+                        <h4 class="text-lg font-semibold text-emerald-600 mb-1">Sosyal Yapı</h4>
+                        <ul class="list-disc list-inside mb-3">
+                            <li>Kabileler halinde yaşam, kabile üyelerini haksız da olsa koruma (asabiyet).</li>
+                            <li>Toplum; hürler, mevaliler (azatlı köleler) ve kölelerden oluşurdu.</li>
+                            <li>Güçlülerin zayıfları ezdiği, kadın-erkek eşitsizliğinin olduğu bir yapı.</li>
+                            <li>Kabileler arası savaşlar yaygındı. Haram aylar (muharrem, recep, zilkade, zilhicce) savaşmanın yasak olduğu aylardı.</li>
+                        </ul>
+                        <h4 class="text-lg font-semibold text-emerald-600 mb-1">Dinî Yapı</h4>
+                        <p class="mb-2">En yaygın inanç putperestlikti. Hristiyanlık, Yahudilik ve Hz. İbrahim'in tevhit inancını koruyan Haniflik de mevcuttu.</p>
+                        <div class="chart-container my-4">
+                            <canvas id="diniYapiChart"></canvas>
+                        </div>
+                        <h4 class="text-lg font-semibold text-emerald-600 mt-4 mb-1">Zemzem Kuyusu</h4>
+                        <p>Kâbe yakınında bulunan kutsal kabul edilen bir kuyudur. Hz. Hacer'in oğlu Hz. İsmail için su ararken Allah'ın (cc) bir lütfu olarak ortaya çıkmıştır. Peygamberimizin dedesi Abdülmuttalib tarafından yeniden bulunmuştur.</p>
+                    </div>
+
+                    <button onclick="toggleAccordion('u1_s2')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">1.2. Peygamberimizin Doğumu</button>
+                    <div id="u1_s2" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">Doğumu ve İsmi</h3>
+                        <ul class="list-disc list-inside mb-3">
+                            <li>Hz. Muhammed (sav) 571 yılında, Fil Vakası'nın olduğu yılın Rebiyülevvel ayının on ikinci gecesi Mekke'de doğmuştur. Bu gün Mevlit Kandili olarak kutlanır.</li>
+                            <li>Babasının adı Abdullah, annesinin adı Amine'dir. Babası, Peygamberimiz doğmadan vefat etmiştir.</li>
+                            <li>Dedesi Abdülmuttalib, ona Muhammed ismini vermiştir.</li>
+                        </ul>
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-2">Sütanneye Verilmesi</h3>
+                        <ul class="list-disc list-inside mb-3">
+                            <li>Mekke iklimi ve Arapçayı daha iyi öğrenmesi için Sadoğulları kabilesinden Halime Hatun'a sütanne olarak verilmiştir.</li>
+                            <li>Peygamberimizin gelişiyle Halime Hatun'un ailesine bereket gelmiştir.</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="toggleAccordion('u1_s3')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">1.3. Peygamberimizin Çocukluğu</button>
+                    <div id="u1_s3" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <h3 class="text-xl font-semibold text-emerald-600 mb-3">Önemli Olaylar Zaman Çizelgesi</h3>
+                        <div id="childhoodTimeline" class="space-y-4">
+                            </div>
+                         <h3 class="text-xl font-semibold text-emerald-600 mt-4 mb-2">Kişisel Özellikleri ve Sorumlulukları</h3>
+                        <ul class="list-disc list-inside mb-3">
+                            <li>Günlük işlerde ailesine yardımcı olur, sorumluluklarını yerine getirirdi.</li>
+                             <li>Aile büyükleriyle iletişiminde özenli ve uyumluydu, onların düşüncelerine saygı duyardı.</li>
+                            <li>Çevresi tarafından takdir edilen, sözüne değer verilen bir kişiliğe sahipti.</li>
+                            <li>Cahiliye âdetlerinden uzak durmuş, ahlaki özellikleriyle öne çıkmıştır.</li>
+                            <li>Dürüst (el-Emin), adaletli, merhametli, vefalı, sabırlı ve güvenilir bir insandı.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="unit2" class="tab-content">
+            <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-4">2. Ünite: Peygamberimizin Çevresindeki Çocuklar</h2>
+                <p class="mb-4">Bu ünitede, Peygamber Efendimizin (sav) çocuklarla olan eşsiz iletişimi, çocukların O'nun (sav) dünyasındaki yeri ve O'nun (sav) yanında yetişen örnek şahsiyetler konu edilmektedir. Çocuklara gösterdiği sevgi, şefkat, merhamet ve adaletin yanı sıra onların eğitimine verdiği önem vurgulanacaktır.</p>
+
+                <div>
+                    <button onclick="toggleAccordion('u2_s1')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">2.1. Peygamberimizin Çocuklarla İletişimi</button>
+                    <div id="u2_s1" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <p>Peygamberimiz (sav) çocuklara karşı sevgi, şefkat, merhamet, güven ve adaletle yaklaşırdı. Onlarla oyunlar oynar, sohbetlerine katılır, eğitimleriyle ilgilenirdi.</p>
+                        <h4 class="text-lg font-semibold text-emerald-600 mt-3 mb-1">Örnek Davranışları:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Hurma ağacını taşlayan çocuğu anlayışla karşılayıp nasihat etmesi.</li>
+                            <li>Üzümü yiyen Numan (ra)'a hoşgörülü davranması.</li>
+                            <li>Kuşu ölen Ebu Umeyr (ra)'i teselli etmesi.</li>
+                            <li>Çocuklara görevler vererek özgüvenlerini artırması.</li>
+                            <li>Kız ve erkek çocukları arasında ayrım yapmaması.</li>
+                            <li>Yetimlere özel ilgi ve şefkat göstermesi.</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="toggleAccordion('u2_s2')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">2.2. Çocukların Dünyasında Peygamberimiz</button>
+                    <div id="u2_s2" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <p>Peygamberimizin (sav) yaşadığı döneme "<strong class="cursor-pointer text-emerald-600 hover:underline" onclick="showConcept('asri_saadet')">Asrısaadet</strong>" denir. Bu dönemde çocuklar, Peygamberimizi (sav) çok sever ve O'na (sav) yakın olmak isterlerdi. Peygamberimiz (sav) de özellikle yetim ve korunmaya muhtaç çocuklarla yakından ilgilenirdi.</p>
+                    </div>
+
+                    <button onclick="toggleAccordion('u2_s3')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">2.3. Peygamberimizin Yanında Yetişen Çocuklar</button>
+                    <div id="u2_s3" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <div id="sahabeCardsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="unit3" class="tab-content">
+            <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-4">3. Ünite: Rehberim Peygamberim</h2>
+                 <p class="mb-4">Bu ünitede, Peygamber Efendimizin (sav) günlük hayatındaki uygulamalarıyla bizlere rehber olduğu temizlik, yeme içme ve giyim kuşam adabı incelenmektedir. O'nun (sav) bu konulardaki hassasiyeti ve örnekliği, Müslümanlar için yol göstericidir.</p>
+
+                <div>
+                    <button onclick="toggleAccordion('u3_s1')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">3.1. Peygamberimizin Temizlik Adabı</button>
+                    <div id="u3_s1" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <p>Peygamberimiz (sav) temizliği "imanın yarısı" olarak ifade etmiştir. Maddi (beden, elbise, çevre) ve manevi (kalp, zihin) temizliğe büyük önem vermiştir.</p>
+                        <h4 class="text-lg font-semibold text-emerald-600 mt-3 mb-1">Temizlik İlkeleri:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>💧 **Beden Temizliği:** Misvak kullanımı, saç bakımı, düzenli banyo (gusül), tırnak temizliği.</li>
+                            <li>👕 **Elbise Temizliği:** Temiz ve düzenli giyinmek.</li>
+                            <li>🌳 **Çevre Temizliği:** Yaşanılan çevreyi temiz tutmak.</li>
+                            <li>💖 **Manevi Temizlik:** Kalbi kötü düşüncelerden arındırmak, tövbe etmek.</li>
+                        </ul>
+                    </div>
+                    <button onclick="toggleAccordion('u3_s2')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">3.2. Peygamberimizin Yeme İçme Adabı</button>
+                     <div id="u3_s2" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <h4 class="text-lg font-semibold text-emerald-600 mt-3 mb-1">Yeme İçme İlkeleri:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>✨ Helal ve temiz olanı yemek.</li>
+                            <li>🤲 Yemekten önce ve sonra elleri yıkamak.</li>
+                            <li>﷽ Yemeğe besmele ile başlamak, sonunda şükretmek.</li>
+                            <li>💧 Suyu üç yudumda içmek, sağ elle yemek.</li>
+                            <li>🗑️ İsraftan kaçınmak, tevazu göstermek.</li>
+                            <li>🍽️ Dengeli beslenmek, aşırı yemekten sakınmak.</li>
+                        </ul>
+                    </div>
+                     <button onclick="toggleAccordion('u3_s3')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">3.3. Peygamberimizin Giyim Kuşam Adabı</button>
+                     <div id="u3_s3" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <h4 class="text-lg font-semibold text-emerald-600 mt-3 mb-1">Giyim Kuşam İlkeleri:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>🕊️ **Sadelik ve Mütevazılık:** "Sadelik imandandır." Gösterişten kaçınmak.</li>
+                            <li>👗 **Örtünme (Tesettür):** Dinen örtülmesi gereken yerleri kapatmak.</li>
+                            <li>⚖️ **İtidal ve İsraftan Kaçınma:** Dengeli olmak, ihtiyacından fazla almamak, tasarruflu olmak.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="unit4" class="tab-content">
+            <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-2xl font-bold text-emerald-700 mb-4">4. Ünite: Aile Hayatında Peygamberimiz</h2>
+                <p class="mb-4">Bu ünitede, Peygamber Efendimizin (sav) aile hayatındaki örnek tutumları; eş, baba ve dede olarak sergilediği üstün ahlak ve davranışlar ele alınmaktadır. O'nun (sav) aile bireylerine gösterdiği sevgi, saygı, adalet ve şefkat, tüm Müslümanlar için en güzel örnektir.</p>
+
+                <div>
+                    <button onclick="toggleAccordion('u4_s1')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">4.1. Eş Olarak Peygamberimiz</button>
+                    <div id="u4_s1" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <p>Peygamberimiz (sav) eşlerine karşı sevgi, saygı, nezaket ve vefa ile davranmıştır. Hz. Hatice (ra) ve Hz. Aişe (ra) ile olan evlilikleri, O'nun (sav) örnek eş kimliğini yansıtır. Ev işlerinde yardımcı olur, eşlerinin görüşlerine önem verirdi.</p>
+                        <h4 class="text-lg font-semibold text-emerald-600 mt-3 mb-1">Peygamberimizin Çocukları (Eşlerine Göre Dağılım)</h4>
+                        <div class="chart-container my-4">
+                            <canvas id="cocukDagilimChart"></canvas>
+                        </div>
+                        <p class="mt-2">Peygamberimizin (sav) aile fertlerine genel olarak <strong class="cursor-pointer text-emerald-600 hover:underline" onclick="showConcept('ehlibeyt')">Ehlibeyt</strong> denir.</p>
+                    </div>
+                    <button onclick="toggleAccordion('u4_s2')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">4.2. Baba Olarak Peygamberimiz</button>
+                    <div id="u4_s2" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <p>Peygamberimiz (sav) çocuklarına karşı şefkatli, adaletli ve sevgi dolu bir baba olmuştur. Onların eğitimine önem vermiş, aralarında ayrım yapmamıştır. Hz. Fatıma'ya (ra) olan sevgisi ve ilgisi meşhurdur.</p>
+                        <h4 class="text-lg font-semibold text-emerald-600 mt-3 mb-1">Peygamberimizin Çocukları:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Hz. Hatice'den: Kasım, Zeyneb, Rukıyye, Ümmü Gülsüm, Fatıma, Abdullah.</li>
+                            <li>Mariye'den (ra): İbrahim.</li>
+                        </ul>
+                    </div>
+                    <button onclick="toggleAccordion('u4_s3')" class="w-full text-left bg-emerald-100 hover:bg-emerald-200 p-3 rounded-md font-semibold mb-2">4.3. Dede Olarak Peygamberimiz</button>
+                     <div id="u4_s3" class="accordion-content p-4 border border-emerald-200 rounded-md mb-2">
+                        <p>Peygamberimiz (sav) torunlarına büyük bir sevgi ve şefkat göstermiş, onlarla oyunlar oynamış, eğitimleriyle ilgilenmiştir. Hz. Hasan (ra) ve Hz. Hüseyin (ra) ile olan hatıraları, O'nun (sav) ne kadar merhametli bir dede olduğunu gösterir.</p>
+                        <h4 class="text-lg font-semibold text-emerald-600 mt-3 mb-1">Basit Aile Ağacı (Yakın Aile):</h4>
+                        <div class="p-3 border border-emerald-200 rounded-md bg-emerald-50">
+                            <p class="font-semibold">Peygamberimiz Hz. Muhammed (sav)</p>
+                            <ul class="ml-4 list-disc">
+                                <li>Eşleri: Hz. Hatice (ra), Hz. Aişe (ra), Hz. Mariye (ra) (ve diğerleri)</li>
+                                <li>Çocukları (Hz. Hatice'den):
+                                    <ul class="ml-4 list-circle">
+                                        <li>Kasım</li>
+                                        <li>Zeyneb (Torunları: Ali, Ümame)</li>
+                                        <li>Rukıyye (Torunu: Abdullah)</li>
+                                        <li>Ümmü Gülsüm</li>
+                                        <li>Fatıma (Torunları: Hasan, Hüseyin, Muhassin, Zeyneb, Ümmü Gülsüm)</li>
+                                        <li>Abdullah</li>
+                                    </ul>
+                                </li>
+                                <li>Çocukları (Hz. Mariye'den):
+                                    <ul class="ml-4 list-circle">
+                                        <li>İbrahim</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="conceptModal" class="concept-modal">
+        <div class="concept-modal-content">
+            <span onclick="closeConceptModal()" class="float-right text-2xl font-bold cursor-pointer">&times;</span>
+            <h3 id="conceptModalTitle" class="text-xl font-bold text-emerald-700 mb-3">Kavram</h3>
+            <p id="conceptModalText"></p>
+        </div>
+    </div>
+    
+    <footer class="text-center p-4 text-sm text-slate-500 border-t border-slate-200 mt-8">
+        Bu interaktif uygulama, "Peygamberimizin Hayatı Ders Kitabı Özeti (5. Sınıf)" temel alınarak hazırlanmıştır.
+    </footer>
+
+<script>
+    // Kavram tanımları
+    const concepts = {
+        'fil_vakasi': {
+            title: 'Fil Vakası',
+            text: 'Yemen Valisi Ebrehe\'nin Kâbe\'yi yıkmak amacıyla fillerle Mekke\'ye saldırması ve ordusunun ebabil kuşları tarafından helak edilmesi olayıdır.'
+        },
+        'cahiliye_donemi': {
+            title: 'Cahiliye Dönemi',
+            text: 'İslamiyet öncesi Arap toplumunda dinî ve kültürel bozulmuşluğun, putperestliğin, kabileciliğin ve adaletsizliğin yaygın olduğu döneme verilen isimdir.'
+        },
+        'asri_saadet': {
+            title: 'Asr-ı Saadet',
+            text: 'Hz. Muhammed\'in (sav) peygamber olarak yaşadığı ve İslam\'ı tebliğ ettiği döneme verilen isimdir. "Mutluluk Çağı" anlamına gelir.'
+        },
+        'ehlibeyt': {
+            title: 'Ehlibeyt',
+            text: 'Sözlükte "ev halkı" anlamına gelir. Terim olarak Peygamber Efendimizin (sav) aile fertleri, özellikle Hz. Fatıma, Hz. Ali, Hz. Hasan ve Hz. Hüseyin\'i (ra) kapsayan özel bir ifadedir.'
+        }
+    };
+
+    // Ünite 1 - Çocukluk Zaman Çizelgesi Verileri
+    const childhoodTimelineData = [
+        { year: "Doğum Öncesi", event: "Babası Abdullah'ın Vefatı", details: "Peygamberimiz (sav) doğmadan önce babası Abdullah vefat etmiştir." },
+        { year: "571", event: "Doğumu", details: "Mekke'de, Rebiyülevvel ayının 12. gecesi dünyaya geldi. Dedesi Abdülmuttalib 'Muhammed' ismini verdi." },
+        { year: "571 (Yaklaşık)", event: "Sütanneye Verilmesi", details: "Sağlıklı büyümesi ve fasih Arapça öğrenmesi için Sadoğulları kabilesinden Halime Hatun'a verildi." },
+        { year: "Yaklaşık 4 Yaş", event: "Annesine Dönüş", details: "Sütannesi Halime'nin yanından ayrılarak annesi Amine'nin yanına döndü." },
+        { year: "Yaklaşık 6 Yaş", event: "Annesi Amine'nin Vefatı", details: "Medine ziyareti dönüşünde Ebva köyünde annesi Amine vefat etti." },
+        { year: "Yaklaşık 8 Yaş", event: "Dedesi Abdülmuttalib'in Vefatı", details: "Çok sevdiği dedesi Abdülmuttalib vefat etti ve amcası Ebu Talib'in himayesine girdi." },
+        { year: "Gençlik Yılları", event: "Çobanlık Yapması", details: "Ailesine destek olmak amacıyla Mekke civarında çobanlık yaptı." },
+        { year: "12 Yaş Civarı", event: "İlk Ticaret Yolculuğu ve Rahip Bahira", details: "Amcası Ebu Talib ile Şam'a yaptığı ticaret yolculuğunda Busra'da Rahip Bahira ile karşılaştı. Bahira, O'nun (sav) gelecekteki peygamberliğine dair işaretler gördü." }
+    ];
+
+    // Ünite 2 - Sahabe Kartları Verileri
+    const sahabeData = [
+        { 
+            name: "Hz. Ali (ra)", 
+            role: "İlk Müslüman Çocuk, Peygamberimizin Amcasının Oğlu ve Damadı, Dördüncü Halife",
+            summary: "Beş yaşından itibaren Peygamberimizin (sav) himayesinde büyüdü. Cesareti, ilmi ve Peygamberimize (sav) olan bağlılığıyla bilinir. Hicret sırasında Peygamberimizin (sav) yatağına yatarak O'nu (sav) korumuştur.",
+            icon: "📜"
+        },
+        { 
+            name: "Hz. Zeyd bin Harise (ra)", 
+            role: "Peygamberimizin Evlatlığı ve Azatlı Kölesi",
+            summary: "Esir düşüp köle olarak satılmış, sonra Peygamberimizin (sav) hizmetine girmiş ve O'nun (sav) tarafından hürriyetine kavuşturulup evlat edinilmiştir. Kur'an'da ismi geçen tek sahabidir. Taif yolculuğunda Peygamberimizi (sav) korumuştur.",
+            icon: "🛡️"
+        },
+        { 
+            name: "Hz. Enes bin Malik (ra)", 
+            role: "Peygamberimizin Hizmetkârı (Hâdimü'n-Nebi)",
+            summary: "On yaşındayken annesi tarafından Peygamberimizin (sav) hizmetine verilmiştir. On yıl boyunca Peygamberimize (sav) hizmet etmiş, O'ndan (sav) pek çok hadis rivayet etmiştir. Peygamberimizin (sav) kendisine hiç kızmadığını belirtmiştir.",
+            icon: "🤝"
+        }
+    ];
+
+
+    function showTab(unitId, element) {
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => content.classList.remove('active'));
+        document.getElementById(unitId).classList.add('active');
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => link.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    function toggleAccordion(accordionId) {
+        const content = document.getElementById(accordionId);
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+    }
+    
+    // Modal fonksiyonları
+    const conceptModal = document.getElementById('conceptModal');
+    const conceptModalTitle = document.getElementById('conceptModalTitle');
+    const conceptModalText = document.getElementById('conceptModalText');
+
+    function showConcept(conceptKey) {
+        if (concepts[conceptKey]) {
+            conceptModalTitle.textContent = concepts[conceptKey].title;
+            conceptModalText.textContent = concepts[conceptKey].text;
+            conceptModal.style.display = 'block';
+        }
+    }
+
+    function closeConceptModal() {
+        conceptModal.style.display = 'none';
+    }
+
+    // Modal dışına tıklayınca kapat
+    window.onclick = function(event) {
+        if (event.target == conceptModal) {
+            closeConceptModal();
+        }
+    }
+
+    // Zaman Çizelgesi Oluşturma
+    function populateTimeline() {
+        const timelineContainer = document.getElementById('childhoodTimeline');
+        childhoodTimelineData.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'timeline-item';
+            itemDiv.innerHTML = `
+                <div class="timeline-dot"></div>
+                <h4 class="text-lg font-semibold text-emerald-600">${item.year}: ${item.event}</h4>
+                <p class="text-sm text-slate-600">${item.details}</p>
+            `;
+            timelineContainer.appendChild(itemDiv);
+        });
+    }
+
+    // Sahabe Kartları Oluşturma
+    function populateSahabeCards() {
+        const container = document.getElementById('sahabeCardsContainer');
+        sahabeData.forEach(sahabe => {
+            const card = `
+                <div class="bg-emerald-50 p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-2">
+                        <span class="text-3xl mr-3">${sahabe.icon}</span>
+                        <h4 class="text-xl font-semibold text-emerald-700">${sahabe.name}</h4>
+                    </div>
+                    <p class="text-sm font-medium text-emerald-600 mb-1">${sahabe.role}</p>
+                    <p class="text-xs text-slate-600">${sahabe.summary}</p>
+                </div>
+            `;
+            container.innerHTML += card;
+        });
+    }
+    
+    // Sayfa yüklendiğinde çalışacaklar
+    document.addEventListener('DOMContentLoaded', () => {
+        populateTimeline();
+        populateSahabeCards();
+
+        // Grafik 1: Dini Yapı Pasta Grafiği
+        const diniYapiCtx = document.getElementById('diniYapiChart').getContext('2d');
+        new Chart(diniYapiCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Putperestlik', 'Haniflik', 'Yahudilik', 'Hristiyanlık'],
+                datasets: [{
+                    label: 'İslam Öncesi Dini Yapı (Tahmini Oranlar)',
+                    data: [70, 10, 10, 10], // Örnek veriler
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'İslam Öncesi Arabistan\'da Dini İnançlar' }
+                }
+            }
+        });
+
+        // Grafik 2: Çocuk Dağılımı Çubuk Grafiği
+        const cocukDagilimCtx = document.getElementById('cocukDagilimChart').getContext('2d');
+        new Chart(cocukDagilimCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Hz. Hatice (ra)\'den Olan Çocuklar', 'Hz. Mariye (ra)\'den Olan Çocuklar'],
+                datasets: [{
+                    label: 'Çocuk Sayısı',
+                    data: [6, 1], // Hz. Hatice'den 6, Hz. Mariye'den 1
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 99, 132, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Peygamberimizin (sav) Eşlerine Göre Çocuk Sayısı' }
+                }
+            }
+        });
+         // Accordion'ları varsayılan olarak kapalı başlat
+        document.querySelectorAll('.accordion-content').forEach(acc => acc.style.display = 'none');
+    });
+
+</script>
+
+</body>
+</html>
