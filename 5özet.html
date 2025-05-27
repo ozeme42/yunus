@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5. Sınıf Din Kültürü ve Ahlak Bilgisi</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">\
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -23,13 +23,7 @@
             border-bottom-right-radius: 2rem;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
             z-index: 1000;
-        }
-        /* Make header sticky only on medium and larger screens */
-        @media (min-width: 768px) { /* md breakpoint */
-            .header {
-                position: sticky;
-                top: 0;
-            }
+            /* Header'ın tüm cihazlarda kaydırılabilir olması için 'position: sticky' kaldırıldı */
         }
         .nav-link {
             padding: 0.75rem 1.25rem;
@@ -528,7 +522,7 @@
                 <ul class="content-list">
                     <li><span class="list-icon">🌟</span> **Deliller:** Evrendeki mükemmel işleyiş, canlılardaki çeşitlilik ve uyum, Allah'ın varlığının ve birliğinin en güçlü delilleridir. Her sanat eseri bir sanatçıyı, her bina bir mimarı işaret ettiği gibi, bu muazzam kainat da eşsiz bir yaratıcıyı işaret eder.</li>
                     <li><span class="list-icon">🎨</span> **Eşsiz Yaratıcı:** Allah (c.c.), her şeyi yoktan var eden, varlıkları en güzel biçimde şekillendiren ve onlara yaşam veren tek yaratıcıdır. O'nın yaratmasında hiçbir eksiklik veya kusur bulunmaz.</li>
-                    <li><span class="list-icon">♾️</span> **Eşi ve Benzeri Olmaması:** Allah (c.c.) eşsizdir, benzeri yoktur, hiçbir şeye benzemez ve hiçbir şey O'na denk olamaz. Bu inanç, İslam dininin temelini oluşturur.</li>
+                    <li><span class="list-icon">♾️</span> **Eşi ve Benzeri Olması:** Allah (c.c.) eşsizdir, benzeri yoktur, hiçbir şeye benzemez ve hiçbir şey O'na denk olamaz. Bu inanç, İslam dininin temelini oluşturur.</li>
                     <li><span class="list-icon">💖</span> **Tevhit İnancı:** Tevhit, "birlemek" anlamına gelir. İslam'ın en temel inanç ilkesidir. Allah'ın bir ve tek olduğuna, O'ndan başka ilah olmadığına, tüm ibadetlerin yalnızca O'na yapılması gerektiğine inanmaktır. Tevhit inancı, insanı şirkten (Allah'a ortak koşmaktan) ve batıl inançlardan uzaklaştırır.</li>
                     <li><span class="list-icon">📜</span> **Kur'an'da Tevhit:** Kur'an-ı Kerim'de birçok ayette Allah'ın birliği vurgulanır. Örneğin, İhlas Suresi tamamen bu konuya odaklanmıştır: "De ki: O Allah bir tektir. Allah Samed'dir (her şey O'na muhtaç, O hiçbir şeye muhtaç değil). O doğurmamış ve doğmamıştır. Hiçbir şey O'na denk olmamıştır."</li>
                 </ul>
@@ -1511,4 +1505,470 @@
                             { id: 'q7', questionText: 'Mimar Sinan\'ın Türk İslam mimarisine katkıları hangi alanda yoğunlaşmıştır?', options: [{ value: 'a', label: 'a) Resim' }, { value: 'b', label: 'b) Mimari' }, { value: 'c', label: 'c) Müzik' }, { value: 'd', label: 'd) Edebiyat' }], answer: 'b', explanation: 'Mimar Sinan, mimari alanda eşsiz eserler vermiştir.' },
                             { id: 'q8', questionText: 'Cami içinde vaaz vermek için kullanılan yere ne denir?', options: [{ value: 'a', label: 'a) Mihrap' }, { value: 'b', label: 'b) Minber' }, { value: 'c', label: 'c) Vaaz Kürsüsü' }, { value: 'd', label: 'd) Şadırvan' }], answer: 'c', explanation: 'Vaaz Kürsüsü, cami içinde vaaz vermek için kullanılan yerdir.' },
                             { id: 'q9', questionText: 'Cami mimarisindeki motifler, dini yapıların hangi yönünü zenginleştirir?', options: [{ value: 'a', label: 'a) Sadece büyüklüğünü' }, { value: 'b', label: 'b) Estetiğini ve manevi atmosferini' }, { value: 'c', label: 'c) Sadece maliyetini' }, { value: 'd', label: 'd) Yapım süresini' }], answer: 'b', explanation: 'Mimari motifler, dini yapıların estetiğini ve manevi atmosferini zenginleştirir.' },
-                            {
+                            { id: 'q10', questionText: 'Aşağıdakilerden hangisi camilerin toplumsal işlevlerinden biridir?', options: [{ value: 'a', label: 'a) Ticaret yapmak' }, { value: 'b', label: 'b) Sosyal dayanışmayı güçlendirmek' }, { value: 'c', label: 'c) Sadece uyumak' }, { value: 'd', label: 'd) Eğlence düzenlemek' }], answer: 'b', explanation: 'Camiler, sosyal dayanışmayı güçlendirdiği önemli mekanlardır.' }
+                        ];
+                        return questions[qIndex];
+                    }
+                    return null;
+                })).filter(q => q !== null)
+            }
+        };
+
+        // Puanlama ve tamamlanmış soru takibi için global nesneler
+        const currentScores = {}; // { unitId: { activityType: { sectionIndex: score } } }
+        const answeredQuestions = {}; // { unitId: { activityType: { sectionIndex: { questionId: true } } } }
+
+        // Tüm sayfa bölümlerini gizle
+        function hideAllPages() {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('hidden');
+            });
+        }
+
+        // Navigasyon linklerinin aktif durumunu güncelle
+        function updateNavLinkStatus(activePageId) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Ana Sayfa, Hakkında, İletişim linklerinin aktif durumunu yönet
+            if (activePageId === 'home') {
+                document.querySelector('.nav-link:nth-child(1)').classList.add('active');
+            } else if (activePageId === 'about') {
+                document.querySelector('.nav-link:nth-child(2)').classList.add('active');
+            } else if (activePageId === 'contact') {
+                document.querySelector('.nav-link:nth-child(3)').classList.add('active');
+            }
+        }
+
+        // Belirli bir sayfayı göster (Ana Sayfa, Hakkında, İletişim)
+        function showPage(pageId) {
+            hideAllPages();
+            document.getElementById(pageId + '-page').classList.remove('hidden');
+            updateNavLinkStatus(pageId);
+        }
+
+        // Belirli bir ünite detay sayfasını göster
+        function showUnit(unitId) {
+            hideAllPages();
+            document.getElementById(unitId + '-detail').classList.remove('hidden');
+            updateNavLinkStatus('home'); // Ana sayfayı aktif göster
+        }
+
+        // Belirli bir ünite etkinlik seçim sayfasını göster
+        function showActivities(unitId) {
+            hideAllPages();
+            document.getElementById(unitId + '-activities').classList.remove('hidden');
+            updateNavLinkStatus('home'); // Ana sayfayı aktif göster
+            // Etkinlik seçim sayfasına dönüldüğünde tüm geri bildirimleri ve puanları temizle
+            resetAllActivityFeedbacks(unitId);
+            resetAllScores(unitId);
+        }
+
+        // Belirli bir ünite ve etkinlik türünü göster
+        function showSpecificActivity(unitId, activityType, sectionIndex = 0) {
+            hideAllPages();
+            const targetSectionId = `${unitId}-${activityType}-activity`;
+            const targetSectionElement = document.getElementById(targetSectionId);
+
+            if (targetSectionElement) {
+                targetSectionElement.classList.remove('hidden');
+                displayActivitySection(unitId, activityType, sectionIndex); // Display the specific section
+            } else {
+                console.error(`Error: Section with ID "${targetSectionId}" not found.`);
+                return; // Stop execution to prevent further errors
+            }
+
+            updateNavLinkStatus('home'); // Ana sayfayı aktif göster
+            // Sadece bu etkinlik türünün geri bildirimlerini temizle
+            resetSpecificActivityFeedback(unitId, activityType, sectionIndex);
+            initializeScore(unitId, activityType, sectionIndex);
+
+            // Boşluk doldurma soruları için toplu cevapları göster
+            if (activityType === 'fillInTheBlanks') {
+                displayCollectiveFillInTheBlanksAnswers(unitId, sectionIndex);
+            }
+        }
+
+        // Puanı ve toplam soru sayısını güncelleyen fonksiyon
+        function updateScoreDisplay(unitId, activityType, sectionIndex) {
+            const scoreDisplayElement = document.getElementById(`${unitId}-${activityType}-score`);
+            if (scoreDisplayElement) {
+                const currentScore = currentScores[unitId]?.[activityType]?.[sectionIndex] || 0;
+                const totalQuestions = unitActivitiesData[unitId]?.[activityType]?.[sectionIndex]?.length || 0; // Robust check
+                scoreDisplayElement.textContent = `Puan: ${currentScore} / ${totalQuestions}`;
+                scoreDisplayElement.classList.remove('hidden');
+
+                // Tüm sorular yanıtlandıysa final puanı göster
+                const answeredCount = Object.keys(answeredQuestions[unitId]?.[activityType]?.[sectionIndex] || {}).length;
+                if (answeredCount === totalQuestions && totalQuestions > 0) {
+                    scoreDisplayElement.textContent += ` - Tebrikler! Bölümü tamamladınız.`;
+                }
+            }
+        }
+
+        // Puanı sıfırlayan ve göstergeyi gizleyen fonksiyon
+        function initializeScore(unitId, activityType, sectionIndex) {
+            if (!currentScores[unitId]) currentScores[unitId] = {};
+            if (!currentScores[unitId][activityType]) currentScores[unitId][activityType] = {};
+            currentScores[unitId][activityType][sectionIndex] = 0;
+
+            if (!answeredQuestions[unitId]) answeredQuestions[unitId] = {};
+            if (!answeredQuestions[unitId][activityType]) answeredQuestions[unitId][activityType] = {};
+            answeredQuestions[unitId][activityType][sectionIndex] = {};
+
+            updateScoreDisplay(unitId, activityType, sectionIndex);
+        }
+
+        function resetAllScores(unitId) {
+            if (currentScores[unitId]) {
+                delete currentScores[unitId];
+            }
+            if (answeredQuestions[unitId]) {
+                delete answeredQuestions[unitId];
+            }
+            // Hide all score displays
+            document.querySelectorAll('.score-display').forEach(display => {
+                display.classList.add('hidden');
+            });
+        }
+
+
+        // Belirli bir aktivite bölümünü (section) gösteren fonksiyon
+        function displayActivitySection(unitId, activityType, sectionIndex) {
+            const questionsContainer = document.getElementById(`${unitId}-${activityType}-questions-container`);
+            const sectionNav = document.getElementById(`${unitId}-${activityType}-section-nav`);
+
+            if (!questionsContainer || !sectionNav) {
+                console.error(`Error: Question or section navigation container not found for ${unitId}-${activityType}.`);
+                return;
+            }
+
+            questionsContainer.innerHTML = ''; // Clear previous questions
+            sectionNav.innerHTML = ''; // Clear previous section buttons
+
+            const activityData = unitActivitiesData[unitId]?.[activityType];
+
+            if (!activityData || !Array.isArray(activityData)) {
+                console.error(`Error: Activity data for ${unitId} - ${activityType} is not found or is malformed.`);
+                return;
+            }
+
+            const questions = activityData[sectionIndex];
+
+            if (!questions || !Array.isArray(questions)) {
+                console.error(`Error: Section ${sectionIndex + 1} data for ${unitId} - ${activityType} activity is not found or is malformed.`);
+                return;
+            }
+
+            // Create section navigation buttons
+            for (let i = 0; i < activityData.length; i++) {
+                if (activityData[i] && activityData[i].length > 0) { // Check if section exists and has questions
+                    const button = document.createElement('button');
+                    button.textContent = `Bölüm ${i + 1}`;
+                    button.className = `section-button ${i === sectionIndex ? 'active' : ''}`;
+                    button.onclick = () => showSpecificActivity(unitId, activityType, i);
+                    sectionNav.appendChild(button);
+                }
+            }
+
+
+            // Render questions for the current section
+            questions.forEach((q, index) => {
+                const questionNumber = (sectionIndex * 10) + (index + 1); // Global question number
+                let questionHtml = `<div class="question-card">
+                    <p class="question-text">${questionNumber}. `;
+
+                if (activityType === 'trueFalse') {
+                    questionHtml += `${q.questionText}</p>
+                        <div class="flex gap-4 mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="${unitId}_tf_s${sectionIndex}_q${q.id}" value="true" class="form-radio text-green-500" onchange="checkSingleTrueFalse('${unitId}', '${q.id}', ${sectionIndex}, '${activityType}')">
+                                <span class="ml-2">Doğru</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="${unitId}_tf_s${sectionIndex}_q${q.id}" value="false" class="form-radio text-red-500" onchange="checkSingleTrueFalse('${unitId}', '${q.id}', ${sectionIndex}, '${activityType}')">
+                                <span class="ml-2">Yanlış</span>
+                            </label>
+                        </div>
+                        <div id="${unitId}_tf_s${sectionIndex}_q${q.id}_feedback" class="feedback hidden"></div>
+                    `;
+                } else if (activityType === 'fillInTheBlanks') {
+                    questionHtml += `${q.textBeforeInput} <input type="text" id="${unitId}_fill_s${sectionIndex}_q${q.id}" class="fill-in-the-blank-input" onblur="checkSingleFillInTheBlank('${unitId}', '${q.id}', ${sectionIndex}, '${activityType}')"> ${q.textAfterInput || ''}</p>
+                        <span id="${unitId}_fill_s${sectionIndex}_q${q.id}_answer" class="correct-answer-display hidden"></span>
+                        <div id="${unitId}_fill_s${sectionIndex}_q${q.id}_feedback" class="feedback hidden"></div>
+                    `;
+                } else if (activityType === 'multipleChoice') {
+                    questionHtml += `${q.questionText}</p><div class="mt-2">`;
+                    q.options.forEach((option, optIndex) => {
+                        questionHtml += `
+                            <label class="block mb-1">
+                                <input type="radio" name="${unitId}_mc_s${sectionIndex}_q${q.id}" value="${option.value}" class="form-radio text-blue-500" onchange="checkSingleMultipleChoice('${unitId}', '${q.id}', ${sectionIndex}, '${activityType}')">
+                                <span class="ml-2">${option.label}</span>
+                            </label>
+                        `;
+                    });
+                    questionHtml += `</div>
+                        <div id="${unitId}_mc_s${sectionIndex}_q${q.id}_feedback" class="feedback hidden"></div>
+                    `;
+                }
+                questionHtml += `</div>`;
+                questionsContainer.innerHTML += questionHtml;
+            });
+
+            // For fill-in-the-blanks, display collective answers for the current section
+            if (activityType === 'fillInTheBlanks') {
+                displayCollectiveFillInTheBlanksAnswers(unitId, sectionIndex);
+            }
+            updateScoreDisplay(unitId, activityType, sectionIndex); // Initial score display
+        }
+
+        // Tüm etkinlik tiplerinin geri bildirimlerini ve seçimlerini temizle
+        function resetAllActivityFeedbacks(unitId) {
+            const activityTypes = ['trueFalse', 'fillInTheBlanks', 'multipleChoice'];
+            activityTypes.forEach(type => {
+                // Reset all sections for this activity type
+                for (let i = 0; i < (unitActivitiesData[unitId]?.[type]?.length || 0); i++) { // Use actual length
+                    resetSpecificActivityFeedback(unitId, type, i);
+                }
+            });
+        }
+
+        // Belirli bir etkinlik tipinin ve bölümünün geri bildirimlerini ve seçimlerini temizle
+        function resetSpecificActivityFeedback(unitId, activityType, sectionIndex) {
+            const sectionId = `${unitId}-${activityType}-activity`;
+            const sectionElement = document.getElementById(sectionId);
+            if (sectionElement) {
+                // Select elements only within the current section's questions container
+                const questionsContainer = document.getElementById(`${unitId}-${activityType}-questions-container`);
+                if (questionsContainer) {
+                    questionsContainer.querySelectorAll('.feedback').forEach(feedbackDiv => {
+                        feedbackDiv.classList.add('hidden');
+                        feedbackDiv.textContent = '';
+                    });
+                    questionsContainer.querySelectorAll('.correct-answer-display').forEach(answerDisplay => {
+                        answerDisplay.classList.add('hidden');
+                        answerDisplay.textContent = '';
+                    });
+                    questionsContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
+                        radio.checked = false;
+                        radio.disabled = false; // Enable radio buttons
+                    });
+                    questionsContainer.querySelectorAll('input[type="text"]').forEach(input => {
+                        input.value = '';
+                        input.disabled = false; // Enable text inputs
+                    });
+                }
+
+
+                // Toplu cevapları da gizle (sadece boşluk doldurma için)
+                if (activityType === 'fillInTheBlanks') {
+                    const collectiveAnswersDiv = document.getElementById(`${unitId}_fill_collective_answers`);
+                    if (collectiveAnswersDiv) {
+                        collectiveAnswersDiv.classList.add('hidden');
+                        const answerOptionsContainer = collectiveAnswersDiv.querySelector('.answer-options-container');
+                        if (answerOptionsContainer) {
+                            answerOptionsContainer.innerHTML = '';
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // Doğru/Yanlış sorularını kontrol et (tekil soru için)
+        function checkSingleTrueFalse(unitId, questionId, sectionIndex, activityType) {
+            const sectionQuestions = unitActivitiesData[unitId]?.[activityType]?.[sectionIndex];
+            if (!sectionQuestions) {
+                console.error(`Error: Questions for unit ${unitId}, activity ${activityType}, section ${sectionIndex} not found.`);
+                return;
+            }
+            const question = sectionQuestions.find(q => q.id === questionId);
+            const selected = document.querySelector(`input[name="${unitId}_tf_s${sectionIndex}_q${questionId}"]:checked`);
+            const feedbackElement = document.getElementById(`${unitId}_tf_s${sectionIndex}_q${questionId}_feedback`);
+
+            // Check if already answered
+            if (answeredQuestions[unitId]?.[activityType]?.[sectionIndex]?.[questionId]) {
+                return;
+            }
+
+            if (selected) {
+                if (String(selected.value) === String(question.answer)) { // Ensure comparison is type-safe
+                    feedbackElement.innerHTML = 'Doğru! 🎉';
+                    feedbackElement.className = 'feedback correct';
+                    if (!answeredQuestions[unitId][activityType][sectionIndex][questionId]) {
+                        currentScores[unitId][activityType][sectionIndex]++;
+                        answeredQuestions[unitId][activityType][sectionIndex][questionId] = true;
+                        triggerConfetti();
+                    }
+                } else {
+                    feedbackElement.innerHTML = `Yanlış. 😔 <span class="explanation">${question.explanation}</span>`;
+                    feedbackElement.className = 'feedback incorrect';
+                    // Mark as answered even if incorrect to prevent re-scoring
+                    if (!answeredQuestions[unitId][activityType][sectionIndex][questionId]) {
+                        answeredQuestions[unitId][activityType][sectionIndex][questionId] = true;
+                    }
+                }
+                // Disable radio buttons after answer
+                document.querySelectorAll(`input[name="${unitId}_tf_s${sectionIndex}_q${questionId}"]`).forEach(radio => {
+                    radio.disabled = true;
+                });
+            } else {
+                feedbackElement.textContent = 'Lütfen bir seçim yapın.';
+                feedbackElement.className = 'feedback';
+            }
+            feedbackElement.classList.remove('hidden');
+            updateScoreDisplay(unitId, activityType, sectionIndex);
+        }
+
+        // Boşluk doldurma sorularını kontrol et (tekil soru için)
+        function checkSingleFillInTheBlank(unitId, questionId, sectionIndex, activityType) {
+            const sectionQuestions = unitActivitiesData[unitId]?.[activityType]?.[sectionIndex];
+            if (!sectionQuestions) {
+                console.error(`Error: Questions for unit ${unitId}, activity ${activityType}, section ${sectionIndex} not found.`);
+                return;
+            }
+            const question = sectionQuestions.find(q => q.id === questionId);
+            const inputElement = document.getElementById(`${unitId}_fill_s${sectionIndex}_q${questionId}`);
+            const feedbackElement = document.getElementById(`${unitId}_fill_s${sectionIndex}_q${questionId}_feedback`);
+            const answerDisplayElement = document.getElementById(`${unitId}_fill_s${sectionIndex}_q${questionId}_answer`);
+
+            // Check if already answered
+            if (answeredQuestions[unitId]?.[activityType]?.[sectionIndex]?.[questionId]) {
+                return;
+            }
+
+            const userAnswer = inputElement.value.trim().toLowerCase();
+            const correctAnswer = question.answer.toLowerCase();
+
+            if (userAnswer === correctAnswer) {
+                feedbackElement.innerHTML = 'Doğru! 🎉';
+                feedbackElement.className = 'feedback correct';
+                if (!answeredQuestions[unitId][activityType][sectionIndex][questionId]) {
+                    currentScores[unitId][activityType][sectionIndex]++;
+                    answeredQuestions[unitId][activityType][sectionIndex][questionId] = true;
+                    triggerConfetti();
+                }
+            } else {
+                feedbackElement.innerHTML = `Yanlış. 😔 <span class="explanation">${question.explanation}</span>`;
+                feedbackElement.className = 'feedback incorrect';
+                // Mark as answered even if incorrect to prevent re-scoring
+                if (!answeredQuestions[unitId][activityType][sectionIndex][questionId]) {
+                    answeredQuestions[unitId][activityType][sectionIndex][questionId] = true;
+                }
+            }
+            feedbackElement.classList.remove('hidden');
+
+            // Doğru cevabı göster
+            answerDisplayElement.textContent = `Doğru Cevap: ${question.answer}`;
+            answerDisplayElement.classList.remove('hidden');
+            inputElement.disabled = true; // Disable input after answer
+            updateScoreDisplay(unitId, activityType, sectionIndex);
+        }
+
+        // Test sorularını kontrol et (tekil soru için)
+        function checkSingleMultipleChoice(unitId, questionId, sectionIndex, activityType) {
+            const sectionQuestions = unitActivitiesData[unitId]?.[activityType]?.[sectionIndex];
+            if (!sectionQuestions) {
+                console.error(`Error: Questions for unit ${unitId}, activity ${activityType}, section ${sectionIndex} not found.`);
+                return;
+            }
+            const question = sectionQuestions.find(q => q.id === questionId);
+            const selected = document.querySelector(`input[name="${unitId}_mc_s${sectionIndex}_q${questionId}"]:checked`);
+            const feedbackElement = document.getElementById(`${unitId}_mc_s${sectionIndex}_q${questionId}_feedback`);
+
+            // Check if already answered
+            if (answeredQuestions[unitId]?.[activityType]?.[sectionIndex]?.[questionId]) {
+                return;
+            }
+
+            if (selected) {
+                if (selected.value === question.answer) {
+                    feedbackElement.innerHTML = 'Doğru! 🎉';
+                    feedbackElement.className = 'feedback correct';
+                    if (!answeredQuestions[unitId][activityType][sectionIndex][questionId]) {
+                        currentScores[unitId][activityType][sectionIndex]++;
+                        answeredQuestions[unitId][activityType][sectionIndex][questionId] = true;
+                        triggerConfetti();
+                    }
+                } else {
+                    feedbackElement.innerHTML = `Yanlış. 😔 <span class="explanation">Doğru cevap: ${question.answer.toUpperCase()}. ${question.explanation}</span>`;
+                    feedbackElement.className = 'feedback incorrect';
+                    // Mark as answered even if incorrect to prevent re-scoring
+                    if (!answeredQuestions[unitId][activityType][sectionIndex][questionId]) {
+                        answeredQuestions[unitId][activityType][sectionIndex][questionId] = true;
+                    }
+                }
+                // Disable radio buttons after answer
+                document.querySelectorAll(`input[name="${unitId}_mc_s${sectionIndex}_q${questionId}"]`).forEach(radio => {
+                    radio.disabled = true;
+                });
+            } else {
+                feedbackElement.textContent = 'Lütfen bir seçim yapın.';
+                feedbackElement.className = 'feedback';
+            }
+            feedbackElement.classList.remove('hidden');
+            updateScoreDisplay(unitId, activityType, sectionIndex);
+        }
+
+        // Boşluk doldurma soruları için toplu cevapları gösteren fonksiyon
+        function displayCollectiveFillInTheBlanksAnswers(unitId, sectionIndex) {
+            const collectiveAnswersDiv = document.getElementById(`${unitId}_fill_collective_answers`);
+            const answerOptionsContainer = collectiveAnswersDiv.querySelector('.answer-options-container');
+            answerOptionsContainer.innerHTML = ''; // Önceki cevapları temizle
+
+            const fillInBlanksData = unitActivitiesData[unitId]?.fillInTheBlanks;
+
+            if (!fillInBlanksData || !Array.isArray(fillInBlanksData)) {
+                console.error(`Error: Fill-in-the-blanks activity data for unit ${unitId} is not found or is malformed.`);
+                return;
+            }
+
+            const questions = fillInBlanksData[sectionIndex];
+
+            if (!questions || !Array.isArray(questions)) {
+                console.error(`Error: Section ${sectionIndex + 1} data for fill-in-the-blanks activity in unit ${unitId} is not found or is malformed.`);
+                return;
+            }
+
+            questions.forEach((question, index) => {
+                const answerBox = document.createElement('div');
+                answerBox.className = 'answer-option-box';
+                answerBox.textContent = `${(sectionIndex * 10) + (index + 1)}. ${question.answer}`;
+                answerOptionsContainer.appendChild(answerBox);
+            });
+
+            collectiveAnswersDiv.classList.remove('hidden');
+        }
+
+        // Confetti efekti oluşturan fonksiyon
+        function triggerConfetti() {
+            const confettiContainer = document.getElementById('confetti-container');
+            confettiContainer.classList.remove('hidden');
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722'];
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti-piece');
+                confetti.style.setProperty('--confetti-color', colors[Math.floor(Math.random() * colors.length)]);
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = `${Math.random() * -20}px`; // Start above the viewport
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                confettiContainer.appendChild(confetti);
+
+                // Remove confetti after animation to prevent DOM bloat
+                confetti.addEventListener('animationend', () => {
+                    confetti.remove();
+                    if (confettiContainer.children.length === 0) {
+                        confettiContainer.classList.add('hidden'); // Hide container if empty
+                    }
+                });
+            }
+        }
+
+        // Sayfa yüklendiğinde ana sayfayı göster
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home');
+        });
+    </script>
+</body>
+</html>
