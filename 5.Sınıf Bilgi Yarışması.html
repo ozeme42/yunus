@@ -6,8 +6,8 @@
     <title>Din Kültürü ve Ahlak Bilgisi 5. Sınıf Ünite Etkinlikleri</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
-        /* Ensure html and body take full height */
         html, body {
             height: 100%;
             margin: 0;
@@ -20,250 +20,276 @@
             line-height: 1.6;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align to start to allow scrolling if content overflows */
-            min-height: 100vh; /* Use min-height to ensure it takes full height */
+            align-items: flex-start;
+            min-height: 100vh;
             padding: 2rem 1rem;
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
-            background-size: cover; /* Görselin tüm alanı kaplamasını sağlar */
-            background-position: center; /* Görseli ortalar */
-            background-repeat: no-repeat; /* Görselin tekrarlanmasını engeller */
-            background-attachment: fixed; /* Görselin sabit kalmasını sağlar */
-            font-size: 1.25rem; /* Genel yazı boyutu biraz daha büyütüldü */
-            transition: background-image 1s ease-in-out; /* Arka plan geçiş efekti */
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-size: 1.25rem;
+            transition: background-image 1s ease-in-out;
         }
         .container {
             width: 100%;
-            max-width: 900px; /* Increased max-width for the main container */
+            max-width: 900px;
             padding: 2rem;
-            background-color: #e6f0f5; /* Beyaz arka plan rengi değiştirildi */
+            background-color: #e6f0f5;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            flex-grow: 1; /* Allow container to grow within the flex parent */
-            display: flex; /* Use flex for internal layout of container */
-            flex-direction: column; /* Stack children vertically */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
         h1 {
             color: #2c3e50;
             font-weight: 700;
             text-align: center;
             margin-bottom: 2rem;
-            font-size: 2.8rem; /* Başlık boyutu büyütüldü */
+            font-size: 2.8rem;
         }
-        .score-board {
+        /* START: Score Board Styles from siyerbilgi.html */
+        .score-table-container {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
             display: flex;
-            justify-content: space-around;
-            align-items: center;
-            background-color: #e0f7fa;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-            flex-wrap: wrap; /* Allow wrapping for multiple scores */
+            justify-content: center;
+            width: 100%;
         }
-        .player-score-box {
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            margin: 0.5rem; /* Space between score boxes */
-            flex-grow: 1; /* Allow score boxes to grow */
-            min-width: 120px; /* Minimum width for each score box */
-        }
-        .player-score-box.active-player-score {
-            background-color: #c7d2fe; /* Light blue for active player */
-            border-color: #4f46e5; /* Darker blue border */
-            color: #4f46e5;
-            font-weight: 700;
-            transform: scale(1.05);
-        }
-        .player-score-box.inactive-player-score {
-            background-color: #e0f7fa;
-            color: #00796b;
-        }
-        .score-board .score-item { /* Changed from div to score-item for more specific styling */
-            text-align: center;
+        .score-table {
+            display: flex;
+            justify-content: center; /* Center the teams */
+            gap: 1rem; /* Space between team score cards */
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            font-size: 1.2rem;
             font-weight: 600;
-            color: #00796b;
-            font-size: 1.35rem; /* Skor panosu metin boyutu büyütüldü */
+            color: white;
+            flex-wrap: wrap;
+            padding: 0.5rem; /* Add some padding around the entire score table */
         }
+        .score-cell {
+            padding: 1rem 1.5rem; /* Increased padding */
+            display: flex;
+            flex-direction: column; /* Stack name and score vertically */
+            align-items: center;
+            justify-content: center;
+            min-width: 140px; /* Increased min-width */
+            box-sizing: border-box;
+            border-radius: 0.5rem; /* Rounded corners for individual cells */
+            transition: all 0.3s ease; /* Smooth transition for active state */
+            position: relative;
+            z-index: 1; /* Ensure cells are above each other for shadow/outline */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for each cell */
+        }
+        .score-cell.active-team {
+            transform: translateY(-5px); /* Lift up active team */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* More prominent shadow for active team */
+            outline: 4px solid #fcd34d; /* Thicker yellow outline */
+            outline-offset: -4px;
+            z-index: 2; /* Bring active team further to front */
+        }
+        .score-cell .team-name {
+            font-size: 1.1em; /* Slightly larger for name */
+            margin-bottom: 0.5rem; /* More space below name */
+            opacity: 1; /* Full opacity for name */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* Space between icon and name */
+        }
+        .score-cell .team-score {
+            font-size: 2.5em; /* Significantly larger for score */
+            font-weight: 900; /* Extra bold */
+            line-height: 1; /* Adjust line height for large numbers */
+        }
+
+        /* Colors for teams */
+        .team-color-0 { background-color: #ef4444; } /* Red */
+        .team-color-1 { background-color: #3b82f6; } /* Blue */
+        .team-color-2 { background-color: #22c55e; } /* Green */
+        .team-color-3 { background-color: #f97316; } /* Orange */
+        .team-color-4 { background-color: #8b5cf6; } /* Purple */
+        /* END: Score Board Styles from siyerbilgi.html */
+
         .current-turn {
-            font-size: 1.5rem; /* Sıra metin boyutu büyütüldü */
+            font-size: 1.5rem;
             font-weight: 700;
             color: #6366f1;
-            margin: 0.5rem; /* Space around current turn display */
+            margin: 0.5rem;
+            text-align: center; /* Center the turn display */
         }
         .question-area {
-            min-height: 180px; /* Minimum height for the question area increased */
+            min-height: 180px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            margin-bottom: 0; /* Boşluk kaldırıldı */
-            flex-grow: 1; /* Allow question area to grow */
+            margin-bottom: 0;
+            flex-grow: 1;
         }
         .question-block {
-            padding: 2rem; /* Increased padding for question block */
-            background-color: #e3f2fd; /* New color for the question area */
+            padding: 2rem;
+            background-color: #e3f2fd;
             border-radius: 8px;
-            border: 1px solid #90caf9; /* More distinct border */
+            border: 1px solid #90caf9;
             width: 100%;
             box-sizing: border-box;
-            /* Added for "box-opening" effect */
             opacity: 1;
             transform: scale(1);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            margin-bottom: 1.5rem; /* Added margin to separate from feedback */
+            margin-bottom: 1.5rem;
         }
         .question-block.question-block-closed {
             opacity: 0;
             transform: scale(0.8);
         }
         .question-text {
-            font-size: 1.6rem; /* Soru metni boyutu daha da büyütüldü */
+            font-size: 1.6rem;
             margin-bottom: 1.8rem;
             font-weight: 500;
             line-height: 1.8;
         }
         .options-container {
             display: flex;
-            flex-direction: row; /* Options side-by-side */
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            justify-content: center; /* Center options horizontally */
-            gap: 1.2rem; /* Space between boxes increased */
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
             margin-top: 1.5rem;
         }
         .option-label {
-            display: flex; /* Keep flex for centering content within the box */
+            display: flex;
             align-items: center;
-            justify-content: center; /* Center text and radio button */
+            justify-content: center;
             cursor: pointer;
-            padding: 1.2rem 1.8rem; /* Increased padding for box feel */
-            border-radius: 10px; /* More rounded corners */
-            transition: all 0.2s ease-in-out; /* Smooth transition for hover/active */
-            flex-basis: calc(50% - 0.6rem); /* Exactly half minus half the gap */
-            max-width: calc(50% - 0.6rem); /* Ensures no more than two per row */
-            min-width: 200px; /* Minimum width for each option box increased */
+            padding: 1.2rem 1.8rem;
+            border-radius: 10px;
+            transition: all 0.2s ease-in-out;
+            flex-basis: calc(50% - 0.6rem);
+            max-width: calc(50% - 0.6rem);
+            min-width: 200px;
             box-sizing: border-box;
-            font-size: 1.35rem; /* Cevap metni boyutu daha da büyütüldü */
+            font-size: 1.35rem;
             font-weight: 500;
-            text-align: center; /* Ensure text is centered */
-            border: 2px solid transparent; /* Default transparent border */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+            text-align: center;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
         }
         .option-label:hover {
-            transform: translateY(-3px); /* Lift effect on hover */
+            transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
         }
         .option-label input[type="radio"] {
-            /* Visually hide the radio button, but keep it functional */
             position: absolute;
             opacity: 0;
             width: 0;
             height: 0;
-            pointer-events: none; /* Ensure clicks go through to the label */
+            pointer-events: none;
         }
 
-        /* New classes for option box colors */
-        .option-color-1 { background-color: #dbeafe; border-color: #93c5fd; color: #1e40af; } /* Blue */
-        .option-color-2 { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; } /* Green */
-        .option-color-3 { background-color: #ffe4e6; border-color: #fca5a5; color: #be123c; } /* Red */
-        .option-color-4 { background-color: #fffbeb; border-color: #fcd34d; color: #92400e; } /* Yellow */
-        .option-color-5 { background-color: #e0e7ff; border-color: #a78bfa; color: #4338ca; } /* Indigo */
+        .option-color-1 { background-color: #dbeafe; border-color: #93c5fd; color: #1e40af; }
+        .option-color-2 { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; }
+        .option-color-3 { background-color: #ffe4e6; border-color: #fca5a5; color: #be123c; }
+        .option-color-4 { background-color: #fffbeb; border-color: #fcd34d; color: #92400e; }
+        .option-color-5 { background-color: #e0e7ff; border-color: #a78bfa; color: #4338ca; }
+        .option-color-6 { background-color: #e6ffed; border-color: #81c784; color: #1b5e20; }
 
-
-        /* Adjust correct/incorrect highlights for new box style */
         .option-label.correct-option-highlight {
-            background-color: #a7f3d0 !important; /* Brighter green for correct */
-            border-color: #065f46 !important; /* Darker green border */
+            background-color: #a7f3d0 !important;
+            border-color: #065f46 !important;
             color: #065f46 !important;
-            transform: none; /* No lift on highlight */
+            transform: none;
             box-shadow: 0 4px 10px rgba(6, 95, 70, 0.2);
         }
         .option-label.incorrect-selected-option {
-            background-color: #fecaca !important; /* Light red for incorrect selected */
-            border-color: #991b1b !important; /* Darker red border */
+            background-color: #fecaca !important;
+            border-color: #991b1b !important;
             color: #991b1b !important;
-            transform: none; /* No lift on highlight */
+            transform: none;
             box-shadow: 0 4px 10px rgba(153, 27, 27, 0.2);
         }
 
-        /* Ensure the text is visible and centered */
         .option-label span {
             display: block;
             width: 100%;
         }
 
-        /* Responsive adjustments for smaller screens */
         @media (max-width: 640px) {
             .option-label {
-                max-width: 100%; /* Full width on small screens */
+                max-width: 100%;
                 min-width: unset;
-                flex-basis: 100%; /* Full width on small screens */
+                flex-basis: 100%;
             }
         }
         .button-group {
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin-top: 0; /* Boşluk kaldırıldı */
+            margin-top: 0;
         }
         .action-button {
-            padding: 0.9rem 2.2rem; /* Buton paddingi büyütüldü */
-            /* Removed fixed background-color here to allow dynamic coloring */
+            padding: 0.9rem 2.2rem;
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 1.3rem; /* Buton metin boyutu büyütüldü */
+            font-size: 1.3rem;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
         .action-button:hover {
-            /* Darker shade on hover, handled by dynamic classes */
             transform: translateY(-2px);
         }
         .action-button:active {
             transform: translateY(0);
         }
         .action-button:disabled {
-            background-color: #a7a7a7 !important; /* Use !important to override dynamic colors */
+            background-color: #a7a7a7 !important;
             cursor: not-allowed;
             box-shadow: none;
             transform: none;
         }
         .feedback-message {
             text-align: center;
-            margin-top: 1.5rem; /* Ensure space from the question block */
-            font-size: 1.3rem; /* Geri bildirim metin boyutu büyütüldü */
+            margin-top: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            padding: 0.9rem; /* Geri bildirim paddingi büyütüldü */
+            padding: 0.9rem;
             border-radius: 8px;
             opacity: 0;
             transition: opacity 0.5s ease;
-            display: flex; /* Use flex to center content */
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem; /* Space between icon and text */
+            gap: 0.5rem;
         }
         .feedback-message.show {
             opacity: 1;
         }
         .feedback-message.incorrect {
-            background-color: #fee2e2; /* Light Red */
-            color: #b91c1c; /* Darker Red */
+            background-color: #fee2e2;
+            color: #b91c1c;
             border: 1px solid #fca5a5;
         }
+        .feedback-message.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
         .explanation-text {
-            font-size: 1.1rem; /* Açıklama metin boyutu büyütüldü */
+            font-size: 1.1rem;
             font-weight: 400;
             margin-top: 0.6rem;
             color: #4a5568;
         }
         .score-display {
             text-align: center;
-            font-size: 1.6rem; /* Skor göstergesi metin boyutu büyütüldü */
+            font-size: 1.6rem;
             font-weight: 700;
             margin-top: 2rem;
             padding: 1.1rem;
@@ -272,7 +298,7 @@
             color: #0c4a6e;
         }
         .question-counter {
-            font-size: 1.2rem; /* Soru sayacı metin boyutu büyütüldü */
+            font-size: 1.2rem;
             font-weight: 500;
             color: #555;
             margin-bottom: 1.1rem;
@@ -281,7 +307,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 0.9rem; /* Space between boxes increased */
+            gap: 0.9rem;
             margin-bottom: 2.2rem;
             padding: 1.2rem;
             background-color: #e0f2fe;
@@ -292,9 +318,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 50px; /* Box width increased */
-            height: 50px; /* Box height increased */
-            border-radius: 8px; /* More rounded corners */
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
             background-color: #bfdbfe;
             color: #1e40af;
             font-weight: 600;
@@ -302,7 +328,7 @@
             transition: background-color 0.2s, transform 0.1s;
             text-decoration: none;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            font-size: 1.2rem; /* Soru navigasyon öğesi metin boyutu büyütüldü */
+            font-size: 1.2rem;
         }
         .question-nav-item:hover {
             background-color: #93c5fd;
@@ -316,37 +342,36 @@
             transform: translateY(-2px);
         }
         .question-nav-item.answered-correctly {
-            background-color: #a7f3d0; /* Green-200 */
-            color: #065f46; /* Green-800 */
+            background-color: #a7f3d0;
+            color: #065f46;
         }
         .question-nav-item.answered-incorrectly {
-            background-color: #fecaca; /* Red-200 */
-            color: #991b1b; /* Red-800 */
+            background-color: #fecaca;
+            color: #991b1b;
         }
         .question-nav-item.disabled-selection {
             cursor: not-allowed;
             opacity: 0.6;
         }
-        /* Removed specific button colors here to allow dynamic coloring */
         .hidden {
-            display: none;
+            display: none !important; /* Added !important to ensure it overrides other styles */
         }
         .feedback-icon {
             font-size: 1.3em;
             margin-right: 0.4em;
         }
         .timer-display {
-            font-size: 1.3rem; /* Zamanlayıcı metin boyutu büyütüldü */
+            font-size: 1.3rem;
             font-weight: 600;
-            color: #ef4444; /* Red color for timer */
+            color: #ef4444;
             margin-bottom: 1.1rem;
             text-align: center;
         }
         .timer-display.warning {
-            color: #f59e0b; /* Orange for warning */
+            color: #f59e0b;
         }
         .timer-display.critical {
-            color: #dc2626; /* Darker red for critical */
+            color: #dc2626;
         }
         .player-selection-screen {
             display: flex;
@@ -358,7 +383,7 @@
             text-align: center;
         }
         .player-selection-screen h2 {
-            font-size: 2.5rem; /* Oyuncu seçimi başlık boyutu büyütüldü */
+            font-size: 2.5rem;
             font-weight: 600;
             color: #2c3e50;
         }
@@ -371,39 +396,11 @@
             justify-content: center;
             gap: 1.5rem;
         }
-        /* New styles for LLM explanation */
-        .detailed-explanation-container {
-            margin-top: 1.8rem;
-            padding: 1.2rem;
-            background-color: #f0f9ff;
-            border: 1px solid #a5d8ff;
-            border-radius: 8px;
-            font-size: 1.1rem; /* Detaylı açıklama metin boyutu büyütüldü */
-            color: #2c3e50;
-            line-height: 1.6;
-            text-align: left;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .loading-spinner {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 28px; /* Spinner boyutu büyütüldü */
-            height: 28px; /* Spinner boyutu büyütüldü */
-            animation: spin 1s linear infinite;
-            margin: 1.2rem auto;
-            display: none; /* Hidden by default */
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
 
-        /* Fullscreen overlay for question */
         #fullscreen-overlay {
             position: fixed;
             inset: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 40;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
@@ -412,7 +409,6 @@
             opacity: 1;
         }
 
-        /* Fullscreen question container */
         #quiz-content.fullscreen-active {
             position: fixed;
             top: 0;
@@ -420,156 +416,153 @@
             width: 100vw;
             height: 100vh;
             z-index: 50;
-            background-color: #e6f0f5; /* Match container background */
-            border-radius: 0; /* No rounded corners for full screen */
-            box-shadow: none; /* No shadow for full screen */
+            background-color: #e6f0f5;
+            border-radius: 0;
+            box-shadow: none;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Content starts from top */
-            padding: 2.5rem 1.5rem; /* Responsive padding increased */
-            overflow-y: auto; /* Enable scrolling for long questions */
+            justify-content: flex-start;
+            padding: 2.5rem 1.5rem;
+            overflow-y: auto;
             transition: all 0.5s ease-in-out;
         }
 
         #quiz-content.fullscreen-active #timer-display {
-            margin-top: 1.2rem; /* Space from top of the screen */
-            margin-bottom: 1.2rem; /* Space before question block */
-            font-size: 2rem; /* Timer font size in fullscreen */
+            margin-top: 1.2rem;
+            margin-bottom: 1.2rem;
+            font-size: 2rem;
             width: 100%;
             text-align: center;
-            color: #ef4444; /* Keep timer color */
+            color: #ef4444;
         }
 
         #quiz-content.fullscreen-active .question-area {
-            flex-grow: 1; /* Take available space */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Vertically center content if space allows */
+            justify-content: center;
             align-items: center;
             width: 100%;
-            max-width: 900px; /* Max width for the question content increased */
-            margin: 0 auto; /* Center the question content horizontally */
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         #quiz-content.fullscreen-active .question-block {
-            width: 100%; /* Ensure question block fills its parent */
-            padding: 2rem; /* Increased padding for question block in fullscreen */
-            box-sizing: border-box; /* Include padding in width */
+            width: 100%;
+            padding: 2rem;
+            box-sizing: border-box;
             background-color: #e3f2fd;
             border-radius: 8px;
             border: 1px solid #90caf9;
-            /* Keep the opening animation styles */
             opacity: 1;
             transform: scale(1);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            margin-bottom: 1.5rem; /* Added margin to separate from feedback */
+            margin-bottom: 1.5rem;
         }
 
         #quiz-content.fullscreen-active .button-group {
-            margin-top: 2.5rem; /* Increased margin-top for buttons in fullscreen */
-            width: 100%; /* Ensure buttons are centered in the fullscreen view */
-            max-width: 900px; /* Max width for buttons in fullscreen */
+            margin-top: 2.5rem;
+            width: 100%;
+            max-width: 900px;
         }
         .question-screen-instruction-message {
             text-align: center;
-            font-size: 1.1rem; /* Adjusted for consistency */
-            font-weight: 500;
-            color: #555;
-            margin-top: 1rem; /* Increased margin for better spacing */
-        }
-        /* Styles for concept bubbles */
-        .concept-bubbles-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.75rem; /* Space between bubbles */
-            margin-top: 2rem;
-            padding: 1rem;
-            background-color: #f8fafc; /* Light background for bubbles */
-            border-radius: 8px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .concept-bubble {
-            padding: 0.6rem 1.2rem;
-            background-color: #e0f2fe; /* Light blue bubble color */
-            color: #0c4a6e; /* Dark blue text */
-            border-radius: 9999px; /* Pill shape */
-            font-size: 1rem;
-            font-weight: 500;
-            white-space: nowrap; /* Keep text on one line */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-            transition: background-color 0.2s ease, transform 0.1s ease;
-            cursor: pointer; /* Make bubbles clickable */
-        }
-        .concept-bubble:hover {
-            background-color: #90cdf4; /* Darker blue on hover */
-            transform: translateY(-1px);
-        }
-        .concept-bubble.correct-match {
-            background-color: #a7f3d0 !important; /* Green for correct */
-            border: 2px solid #065f46;
-            color: #065f46;
-        }
-        .concept-bubble.incorrect-match {
-            background-color: #fecaca !important; /* Red for incorrect */
-            border: 2px solid #991b1b;
-            color: #991b1b;
-        }
-        .concept-bubble.disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .concept-pagination-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        .concept-pagination-controls .action-button {
-            padding: 0.6rem 1.5rem;
-            font-size: 1rem;
-        }
-        .concept-page-info {
             font-size: 1.1rem;
             font-weight: 500;
             color: #555;
+            margin-top: 1rem;
+        }
+
+        .option-label.selected-animation {
+            animation: pulse-selected 0.3s ease-out forwards;
+        }
+
+        .option-label.correct-animation {
+            animation: pop-correct 0.4s ease-out forwards;
+        }
+
+        .option-label.incorrect-animation {
+            animation: shake-incorrect 0.5s ease-out forwards;
+        }
+
+        @keyframes pulse-selected {
+            0% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
+            50% { transform: scale(1.02); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
+            100% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
+        }
+
+        @keyframes pop-correct {
+            0% { transform: scale(1); box-shadow: 0 4px 10px rgba(6, 95, 70, 0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 20px rgba(6, 95, 70, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 4px 10px rgba(6, 95, 70, 0.2); }
+        }
+
+        @keyframes shake-incorrect {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .feedback-message.animate-in {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .team-name-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .team-name-input {
+            padding: 0.8rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #333;
+            transition: border-color 0.2s ease;
+        }
+
+        .team-name-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
     </style>
     <script type="module">
-        console.log("Script module started.");
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        // Removed Firebase imports as multiplayer mode is disabled
 
-        // Global Firebase variables
-        window.firebaseApp = null;
-        window.auth = null;
-        window.userId = null;
-
-        // Game state variables
-        window.teamScores = [];
+        window.teamScores = []; // Array to store objects like { name: 'Takım 1', score: 0 }
         window.numTeams = 0;
-        window.currentPlayer = 0;
+        window.currentPlayer = 0; // 0-indexed: represents the index of the current team in window.teamNames
         window.currentQuestionIndex = 0;
-        window.answeredQuestions = {}; // { questionId: { isCorrect: boolean, userAnswer: string, answeredBy: number } }
+        window.answeredQuestions = {};
         let timer = 40;
         let timerInterval;
-        let shuffledQuestions = []; // Questions for the current unit's game
-        window.currentUnit = null; // Stores the currently selected unit ID
+        let shuffledQuestions = [];
+        window.currentUnit = null;
+        let initialTimerValue = 40;
 
-        // Team names for display
-        window.teamNames = ['A Takımı', 'B Takımı', 'C Takımı', 'D Takımı', 'E Takımı'];
+        // Tone.js ses sentezleyicilerini tanımlıyoruz
+        let correctSynth;
+        let incorrectSynth;
+        let timerSynth;
 
-        // Background themes mapping
         const backgroundThemes = {
-            'unit1': 'url("https://placehold.co/1920x1080/81D4FA/000000?text=Allah+%C4%B0nanc%C4%B1")',
-            'unit2': 'url("https://placehold.co/1920x1080/FFCDD2/000000?text=Namaz")',
-            'unit3': 'url("https://placehold.co/1920x1080/B3E5FC/000000?text=Kur%27an-%C4%B1+Kerim")',
-            'unit4': 'url("https://placehold.co/1920x1080/C8E6C9/000000?text=Peygamber+K%C4%B1ssalar%C4%B1")',
-            'unit5': 'url("https://placehold.co/1920x1080/FFF9C4/000000?text=Mimarimizde+Din%C3%AE+Motifler")',
-            'general': 'url("https://placehold.co/1920x1080/E0F2F7/000000?text=Din+K%C3%BClt%C3%BCr%C3%BC+Bilgi+Yar%C4%B1%C5%9Fmas%C4%B1")'
+            'unit1': 'url("https://placehold.co/1920x1080/81D4FA/000000?text=Allah+%C4%B0nanc%C4%B1+-+Evrenin+Yarat%C4%B1c%C4%B1s%C4%B1")',
+            'unit2': 'url("https://placehold.co/1920x1080/FFCDD2/000000?text=Namaz+-+Huzur+ve+%C4%B0badet")',
+            'unit3': 'url("https://placehold.co/1920x1080/B3E5FC/000000?text=Kur%27an-%C4%B1+Kerim+-+Kutsal+Kitab%C4%B1m%C4%B1z")',
+            'unit4': 'url("https://placehold.co/1920x1080/C8E6C9/000000?text=Peygamber+K%C4%B1ssalar%C4%B1+-+Ge%C3%A7mi%C5%9Ften+Dersler")',
+            'unit5': 'url("https://placehold.co/1920x1080/FFF9C4/000000?text=Din%C3%AE+Motifler+-+Sanat+ve+%C4%B0nanc%C4%B1n+Bulu%C5%9Fmas%C4%B1")',
+            'general': 'url("https://placehold.co/1920x1080/E0F2F7/000000?text=Din+K%C3%BClt%C3%BCr%C3%BC+Bilgi+Yar%C4%B1%C5%9Fmas%C4%B1+-+Bilgini+Test+Et")'
         };
 
         function setGameBackground(themeKey) {
@@ -577,79 +570,78 @@
             document.body.style.backgroundImage = imageUrl;
         }
 
-        // Questions for each unit
         const unitQuestions = {
-            'unit1': [ // 1. Ünite: Allah İnancı (Expanded to ~20 questions)
-                { id: 'u1_tf1', type: 'trueFalse', question: "Evrendeki her şey tesadüfen oluşmuştur.", answer: "Y", explanation: "Evrendeki mükemmel düzen, bir yaratıcının varlığını gösterir.", theme: 'unit1' },
-                { id: 'u1_tf2', type: 'trueFalse', question: "Allah (cc) birdir ve eşi benzeri yoktur.", answer: "D", explanation: "Tevhit inancı, Allah'ın birliğini ifade eder.", theme: 'unit1' },
-                { id: 'u1_tf3', type: 'trueFalse', question: "Esma-ül Hüsna, Allah'ın güzel isimleridir.", answer: "D", explanation: "Esma-ül Hüsna, Allah'ın yüce sıfatlarını ve isimlerini ifade eder.", theme: 'unit1' },
-                { id: 'u1_tf4', type: 'trueFalse', question: "İhlas Suresi, Allah'ın birliğini anlatır.", answer: "D", explanation: "İhlas Suresi, Allah'ın tek ve benzersiz olduğunu vurgular.", theme: 'unit1' },
-                { id: 'u1_tf5', type: 'trueFalse', question: "Allah'ın her şeyi görmesi ve bilmesi O'nın her şeye gücünün yettiğini gösterir.", answer: "D", explanation: "Allah'ın görmesi ve bilmesi, O'nın ilim ve basar sıfatlarıyla ilgilidir.", theme: 'unit1' },
-                { id: 'u1_tf6', type: 'trueFalse', question: "İnsan, Allah'ı sadece akıl yoluyla tam olarak kavrayabilir.", answer: "Y", explanation: "İnsan, Allah'ı akıl yoluyla anlayabilir ancak O'nun yüceliğini ve sıfatlarını tam olarak kavramak için vahye de ihtiyacı duyar.", theme: 'unit1' },
-                { id: 'u1_tf7', type: 'trueFalse', question: "Allah'ın 'Rahman' ismi, O'nun çok merhametli olduğunu ifade eder.", answer: "D", explanation: "Rahman, Allah'ın dünyadaki tüm canlılara şefkatle muamele ettiğini gösteren ismidir.", theme: 'unit1' },
-                { id: 'u1_tf8', type: 'trueFalse', question: "Allah'ın 'Semi' ismi, O'nun her şeyi işittiği anlamına gelir.", answer: "D", explanation: "Semi, Allah'ın her sesi, her fısıltıyı işittiğini ifade eden ismidir.", theme: 'unit1' },
-                { id: 'u1_tf9', type: 'trueFalse', question: "Evrendeki düzenin bozulması, Allah'ın varlığını etkilemez.", answer: "D", explanation: "Evrendeki düzen, Allah'ın varlığının bir delilidir, ancak düzenin bozulması Allah'ın kudretini veya varlığını etkilemez.", theme: 'unit1' },
-                { id: 'u1_tf10', type: 'trueFalse', question: "Yaratılan her şey, Allah'a muhtaçtır.", answer: "D", explanation: "Allah, hiçbir şeye muhtaç olmayan tek varlıktır, her şey O'na muhtaçtır.", theme: 'unit1' },
-                { id: 'u1_fb1', type: 'fillInTheBlanks', question: "Evrendeki mükemmel düzen, Allah'ın ........................ ve kudretini gösterir.", answer: "varlığını", options: ["varlığını", "zayıflığını", "korkusunu", "öfkesini"], explanation: "Evrendeki her şey Allah'ın varlığını ve gücünü kanıtlar.", theme: 'unit1' },
-                { id: 'u1_fb2', type: 'fillInTheBlanks', question: "Allah'ın eşi ve benzeri olmaması ........................ olarak adlandırılır.", answer: "tevhit", options: ["tevhit", "şirk", "putperestlik", "büyücülük"], explanation: "Tevhit, Allah'ın bir ve tek olması inancıdır.", theme: 'unit1' },
-                { id: 'u1_fb3', type: 'fillInTheBlanks', question: "Allah'ın her şeyi yaratan ve var eden olması O'nun ........................ sıfatıdır.", answer: "Halık", options: ["Halık", "Rezzak", "Semi", "Basar"], explanation: "Halık, Allah'ın her şeyi yaratan olduğu anlamına gelir.", theme: 'unit1' },
-                { id: 'u1_fb4', type: 'fillInTheBlanks', question: "İhlas Suresi, 'De ki: O Allah ........................' ayetiyle başlar.", answer: "bir", options: ["bir", "iki", "üç", "dört"], explanation: "Sure, Allah'ın birliğini net bir şekilde ifade eder.", theme: 'unit1' },
-                { id: 'u1_fb5', type: 'fillInTheBlanks', question: "Allah'ın her şeyi rızıklandıran olması O'nun ........................ ismidir.", answer: "Rezzak", options: ["Rezzak", "Alim", "Kadir", "Rahim"], explanation: "Rezzak, Allah'ın tüm canlıların rızkını veren olduğu anlamına gelir.", theme: 'unit1' },
-                { id: 'u1_mc1', type: 'multipleChoice', question: "Aşağıdakilerden hangisi Allah'ın güzel isimlerinden biri değildir?", options: ["Rahman", "Rahim", "Zalim", "Settar"], answer: "Zalim", explanation: "Zalim, Allah'ın sıfatlarından biri değildir. Allah adildir.", theme: 'unit1' },
-                { id: 'u1_mc2', type: 'multipleChoice', question: "İhlas Suresi'nin ana mesajı nedir?", options: ["Namaz kılmak", "Zekat vermek", "Allah'ın birliği", "Oruç tutmak"], answer: "Allah'ın birliği", explanation: "İhlas Suresi, Allah'ın tek ve benzersiz olduğunu belirtir.", theme: 'unit1' },
-                { id: 'u1_mc3', type: 'multipleChoice', question: "Allah'ın her şeyi bilmesi hangi ismiyle ifade edilir?", options: ["Kadir", "Alim", "Semi", "Basar"], answer: "Alim", explanation: "Alim, Allah'ın her şeyi eksiksiz ve kusursuz bilmesi anlamına gelir.", theme: 'unit1' },
-                { id: 'u1_mc4', type: 'multipleChoice', question: "Evrendeki düzenin korunmasından sorumlu olan kimdir?", options: ["İnsanlar", "Melekler", "Allah (cc)", "Doğa"], answer: "Allah (cc)", explanation: "Evrendeki tüm düzen ve denge Allah'ın kudretiyle sağlanır.", theme: 'unit1' },
-                { id: 'u1_mc5', type: 'multipleChoice', question: "Aşağıdakilerden hangisi Allah'a karşı görevlerimizden biri değildir?", options: ["O'na inanmak", "O'na ibadet etmek", "O'na isyan etmek", "O'na şükretmek"], answer: "O'na isyan etmek", explanation: "Allah'a isyan etmek, O'na karşı görevlerimizden biri değildir, aksine günahtır.", theme: 'unit1' }
+            'unit1': [
+                { id: 'u1_tf1', type: 'trueFalse', question: "Evrendeki her şey tesadüfen oluşmuştur.", answer: "Y", explanation: "Evrendeki mükemmel düzen, bir yaratıcının varlığını gösterir.", theme: 'unit1', relatedConcept: "Allah'ın Varlığı" },
+                { id: 'u1_tf2', type: 'trueFalse', question: "Allah (cc) birdir ve eşi benzeri yoktur.", answer: "D", explanation: "Tevhit inancı, Allah'ın birliğini ifade eder.", theme: 'unit1', relatedConcept: "Tevhit" },
+                { id: 'u1_tf3', type: 'trueFalse', question: "Esma-ül Hüsna, Allah'ın güzel isimleridir.", answer: "D", explanation: "Esma-ül Hüsna, Allah'ın yüce sıfatlarını ve isimlerini ifade eder.", theme: 'unit1', relatedConcept: "Esma-ül Hüsna" },
+                { id: 'u1_tf4', type: 'trueFalse', question: "İhlas Suresi, Allah'ın birliğini anlatır.", answer: "D", explanation: "İhlas Suresi, Allah'ın tek ve benzersiz olduğunu vurgular.", theme: 'unit1', relatedConcept: "İhlas Suresi" },
+                { id: 'u1_tf5', type: 'trueFalse', question: "Allah'ın her şeyi görmesi ve bilmesi O'nın her şeye gücünün yettiğini gösterir.", answer: "D", explanation: "Allah'ın görmesi ve bilmesi, O'nın ilim ve basar sıfatlarıyla ilgilidir.", theme: 'unit1', relatedConcept: "Allah'ın Sıfatları" },
+                { id: 'u1_tf6', type: 'trueFalse', question: "İnsan, Allah'ı sadece akıl yoluyla tam olarak kavrayabilir.", answer: "Y", explanation: "İnsan, Allah'ı akıl yoluyla anlayabilir ancak O'nun yüceliğini ve sıfatlarını tam olarak kavramak için vahye de ihtiyacı duyar.", theme: 'unit1', relatedConcept: "Vahiy" },
+                { id: 'u1_tf7', type: 'trueFalse', question: "Allah'ın 'Rahman' ismi, O'nun çok merhametli olduğunu ifade eder.", answer: "D", explanation: "Rahman, Allah'ın dünyadaki tüm canlılara şefkatle muamele ettiğini gösteren ismidir.", theme: 'unit1', relatedConcept: "Rahman" },
+                { id: 'u1_tf8', type: 'trueFalse', question: "Allah'ın 'Semi' ismi, O'nın her şeyi işittiği anlamına gelir.", answer: "D", explanation: "Semi, Allah'ın her sesi, her fısıltıyı işittiğini ifade eden ismidir.", theme: 'unit1', relatedConcept: "Semi" },
+                { id: 'u1_tf9', type: 'trueFalse', question: "Evrendeki düzenin bozulması, Allah'ın varlığını etkilemez.", answer: "D", explanation: "Evrendeki düzen, Allah'ın varlığının bir delilidir, ancak düzenin bozulması Allah'ın kudretini veya varlığını etkilemez.", theme: 'unit1', relatedConcept: "Evrenin Düzeni" },
+                { id: 'u1_tf10', type: 'trueFalse', question: "Yaratılan her şey, Allah'a muhtaçtır.", answer: "D", explanation: "Allah, hiçbir şeye muhtaç olmayan tek varlıktır, her şey O'na muhtaçtır.", theme: 'unit1', relatedConcept: "Muhtaç Olma" },
+                { id: 'u1_fb1', type: 'fillInTheBlanks', question: "Evrendeki mükemmel düzen, Allah'ın ........................ ve kudretini gösterir.", answer: "varlığını", options: ["varlığını", "zayıflığını", "korkusunu", "öfkesini"], explanation: "Evrendeki her şey Allah'ın varlığını ve gücünü kanıtlar.", theme: 'unit1', relatedConcept: "Kudret" },
+                { id: 'u1_fb2', type: 'fillInTheBlanks', question: "Allah'ın eşi ve benzeri olmaması ........................ olarak adlandırılır.", answer: "tevhit", options: ["tevhit", "şirk", "putperestlik", "büyücülük"], explanation: "Tevhit, Allah'ın bir ve tek olması inancıdır.", theme: 'unit1', relatedConcept: "Tevhit" },
+                { id: 'u1_fb3', type: 'fillInTheBlanks', question: "Allah'ın her şeyi yaratan ve var eden olması O'nun ........................ sıfatıdır.", answer: "Halık", options: ["Halık", "Rezzak", "Semi", "Basar"], explanation: "Halık, Allah'ın her şeyi yaratan olduğu anlamına gelir.", theme: 'unit1', relatedConcept: "Halık" },
+                { id: 'u1_fb4', type: 'fillInTheBlanks', question: "İhlas Suresi, 'De ki: O Allah ........................' ayetiyle başlar.", answer: "bir", options: ["bir", "iki", "üç", "dört"], explanation: "Sure, Allah'ın birliğini net bir şekilde ifade eder.", theme: 'unit1', relatedConcept: "İhlas Suresi" },
+                { id: 'u1_fb5', type: 'fillInTheBlanks', question: "Allah'ın her şeyi rızıklandıran olması O'nun ........................ ismidir.", answer: "Rezzak", options: ["Rezzak", "Alim", "Kadir", "Rahim"], explanation: "Rezzak, Allah'ın tüm canlıların rızkını veren olduğu anlamına gelir.", theme: 'unit1', relatedConcept: "Rezzak" },
+                { id: 'u1_mc1', type: 'multipleChoice', question: "Aşağıdakilerden hangisi Allah'ın güzel isimlerinden biri değildir?", options: ["Rahman", "Rahim", "Zalim", "Settar"], answer: "Zalim", explanation: "Zalim, Allah'ın sıfatlarından biri değildir. Allah adildir.", theme: 'unit1', relatedConcept: "Esma-ül Hüsna" },
+                { id: 'u1_mc2', type: 'multipleChoice', question: "İhlas Suresi'nin ana mesajı nedir?", options: ["Namaz kılmak", "Zekat vermek", "Allah'ın birliği", "Oruç tutmak"], answer: "Allah'ın birliği", explanation: "İhlas Suresi, Allah'ın tek ve benzersiz olduğunu belirtir.", theme: 'unit1', relatedConcept: "İhlas Suresi" },
+                { id: 'u1_mc3', type: 'multipleChoice', question: "Allah'ın her şeyi bilmesi hangi ismiyle ifade edilir?", options: ["Kadir", "Alim", "Semi", "Basar"], answer: "Alim", explanation: "Alim, Allah'ın her şeyi eksiksiz ve kusursuz bilmesi anlamına gelir.", theme: 'unit1', relatedConcept: "Alim" },
+                { id: 'u1_mc4', type: 'multipleChoice', question: "Evrendeki düzenin korunmasından sorumlu olan kimdir?", options: ["İnsanlar", "Melekler", "Allah (cc)", "Doğa"], answer: "Allah (cc)", explanation: "Evrendeki tüm düzen ve denge Allah'ın kudretiyle sağlanır.", theme: 'unit1', relatedConcept: "Kudret" },
+                { id: 'u1_mc5', type: 'multipleChoice', question: "Aşağıdakilerden hangisi Allah'a karşı görevlerimizden biri değildir?", options: ["O'na inanmak", "O'na ibadet etmek", "O'na isyan etmek", "O'na şükretmek"], answer: "O'na isyan etmek", explanation: "Allah'a isyan etmek, O'na karşı görevlerimizden biri değildir, aksine günahtır.", theme: 'unit1', relatedConcept: "İbadet" }
             ],
-            'unit2': [ // 2. Ünite: Namaz (Expanded to ~20 questions)
-                { id: 'u2_tf1', type: 'trueFalse', question: "Namaz, İslam'ın beş şartından biridir.", answer: "D", explanation: "Namaz, kelime-i şehadetten sonra gelen en önemli ibadetlerdendir.", theme: 'unit2' },
-                { id: 'u2_tf2', type: 'trueFalse', question: "Namaz kılmak için abdest almak şart değildir.", answer: "Y", explanation: "Namazın geçerli olması için abdest almak zorunludur.", theme: 'unit2' },
-                { id: 'u2_tf3', type: 'trueFalse', question: "Namazda kıbleye dönmek şarttır.", answer: "D", explanation: "Namaz kılarken Kâbe'ye, yani kıbleye yönelmek namazın şartlarındandır.", theme: 'unit2' },
-                { id: 'u2_tf4', type: 'trueFalse', question: "Namazda rükû, secde ve kıyam gibi bölümler bulunur.", answer: "D", explanation: "Rükû, secde ve kıyam (ayakta duruş), namazın temel rükünleridir.", theme: 'unit2' },
-                { id: 'u2_tf5', type: 'trueFalse', question: "Namaz sadece bedenle yapılan bir ibadettir.", answer: "Y", explanation: "Namaz, bedenle (hareketler), kalple (niyet) ve dille (okumalar) yapılan bir ibadettir.", theme: 'unit2' },
-                { id: 'u2_tf6', type: 'trueFalse', question: "Namaz, insanı kötülüklerden uzaklaştırır.", answer: "D", explanation: "Kur'an'da namazın insanı fahşa ve münkerden (kötülüklerden) alıkoyduğu belirtilir.", theme: 'unit2' },
-                { id: 'u2_tf7', type: 'trueFalse', question: "Namazda Fatiha Suresi'ni okumak farzdır.", answer: "D", explanation: "Her rekatta Fatiha Suresi'ni okumak farzdır.", theme: 'unit2' },
-                { id: 'u2_tf8', type: 'trueFalse', question: "Namazın ilk tekbirine iftitah tekbiri denir.", answer: "D", explanation: "Namazın başında alınan 'Allahu Ekber' tekbirine iftitah tekbiri denir.", theme: 'unit2' },
-                { id: 'u2_tf9', type: 'trueFalse', question: "Namazda selam vermek, namazı bitirir.", answer: "D", explanation: "Namazın sonunda sağa ve sola selam vermekle namaz tamamlanır.", theme: 'unit2' },
-                { id: 'u2_tf10', type: 'trueFalse', question: "Cemaatle namaz kılmak tek başına kılmaktan daha az sevaptır.", answer: "Y", explanation: "Cemaatle namaz kılmak, tek başına kılmaktan daha faziletlidir.", theme: 'unit2' },
-                { id: 'u2_fb1', type: 'fillInTheBlanks', question: "Günde beş vakit namaz ........................ bir ibadettir.", answer: "farz", options: ["farz", "sünnet", "vacip", "müstehap"], explanation: "Namaz, müslümanlara farz kılınmış bir ibadettir.", theme: 'unit2' },
-                { id: 'u2_fb2', type: 'fillInTheBlanks', question: "Namazda okunan ........................ Duası, Allah'a selam ve övgü içerir.", answer: "Tahiyyat", options: ["Tahiyyat", "Sübhaneke", "Fatiha", "Kevser"], explanation: "Tahiyyat Duası, namazın oturuşlarında okunur.", theme: 'unit2' },
-                { id: 'u2_fb3', type: 'fillInTheBlanks', question: "Namazın dışındaki şartlara ........................ denir.", answer: "şartları", options: ["şartları", "rükünleri", "vacipleri", "sünnetleri"], explanation: "Namazın dışındaki şartlar, namaza başlamadan önce yerine getirilmesi gerekenlerdir.", theme: 'unit2' },
-                { id: 'u2_fb4', type: 'fillInTheBlanks', question: "Namazda kıyam, rükû ve ........................ gibi hareketler vardır.", answer: "secde", options: ["secde", "oturma", "yatma", "koşma"], explanation: "Secde, namazdaki en önemli hareketlerden biridir.", theme: 'unit2' },
-                { id: 'u2_fb5', type: 'fillInTheBlanks', question: "Namaz kılarken temiz bir yerde olmak ........................ şartlarından biridir.", answer: "namazın", options: ["namazın", "abdestin", "oruçun", "zekatın"], explanation: "Namaz kılınacak yerin temiz olması namazın şartlarındandır.", theme: 'unit2' },
-                { id: 'u2_mc1', type: 'multipleChoice', question: "Aşağıdakilerden hangisi namazın hazırlık şartlarından biri değildir?", options: ["Abdest almak", "Elbisenin temiz olması", "Vaktin girmesi", "Oruç tutmak"], answer: "Oruç tutmak", explanation: "Oruç tutmak, namazın değil, ayrı bir ibadetin şartıdır.", theme: 'unit2' },
-                { id: 'u2_mc2', type: 'multipleChoice', question: "Namazın insana kazandırdıklarından biri aşağıdakilerden hangisidir?", options: ["Tembellik", "Sorumsuzluk", "Disiplin ve düzen", "Korku"], answer: "Disiplin ve düzen", explanation: "Namaz, kişiye düzenli olmayı ve disiplini öğretir.", theme: 'unit2' },
-                { id: 'u2_mc3', type: 'multipleChoice', question: "Namazda 'Sübhâneke' duasını okumak hangi bölümdedir?", options: ["Rükûda", "Secdede", "İlk rekatın başında", "Son oturuşta"], answer: "İlk rekatın başında", explanation: "Sübhâneke duası, namazın ilk rekatının başında okunur.", theme: 'unit2' },
-                { id: 'u2_mc4', type: 'multipleChoice', question: "Namazda 'Allahü Ekber' diyerek eğilmeye ne denir?", options: ["Secde", "Kıyam", "Rükû", "Kade"], answer: "Rükû", explanation: "Rükû, namazda belden eğilerek yapılan harekettir.", theme: 'unit2' },
-                { id: 'u2_mc5', type: 'multipleChoice', question: "Namazı bozan durumlardan biri aşağıdakilerden hangisidir?", options: ["Gülmek", "Tekbir almak", "Fatiha okumak", "Selam vermek"], answer: "Gülmek", explanation: "Namazda kahkaha ile gülmek namazı bozar.", theme: 'unit2' }
+            'unit2': [
+                { id: 'u2_tf1', type: 'trueFalse', question: "Namaz, İslam'ın beş şartından biridir.", answer: "D", explanation: "Namaz, kelime-i şehadetten sonra gelen en önemli ibadetlerdendir.", theme: 'unit2', relatedConcept: "Namaz" },
+                { id: 'u2_tf2', type: 'trueFalse', question: "Namaz kılmak için abdest almak şart değildir.", answer: "Y", explanation: "Namazın geçerli olması için abdest almak zorunludur.", theme: 'unit2', relatedConcept: "Abdest" },
+                { id: 'u2_tf3', type: 'trueFalse', question: "Namazda kıbleye dönmek şarttır.", answer: "D", explanation: "Namaz kılarken Kâbe'ye, yani kıbleye yönelmek namazın şartlarındandır.", theme: 'unit2', relatedConcept: "Kıble" },
+                { id: 'u2_tf4', type: 'trueFalse', question: "Namazda rükû, secde ve kıyam gibi bölümler bulunur.", answer: "D", explanation: "Rükû, secde ve kıyam (ayakta duruş), namazın temel rükünleridir.", theme: 'unit2', relatedConcept: "Namazın Rükünleri" },
+                { id: 'u2_tf5', type: 'trueFalse', question: "Namaz sadece bedenle yapılan bir ibadettir.", answer: "Y", explanation: "Namaz, bedenle (hareketler), kalple (niyet) ve dille (okumalar) yapılan bir ibadettir.", theme: 'unit2', relatedConcept: "İbadet" },
+                { id: 'u2_tf6', type: 'trueFalse', question: "Namaz, insanı kötülüklerden uzaklaştırır.", answer: "D", explanation: "Kur'an'da namazın insanı fahşa ve münkerden (kötülüklerden) alıkoyduğu belirtilir.", theme: 'unit2', relatedConcept: "Namazın Faydaları" },
+                { id: 'u2_tf7', type: 'trueFalse', question: "Namazda Fatiha Suresi'ni okumak farzdır.", answer: "D", explanation: "Her rekatta Fatiha Suresi'ni okumak farzdır.", theme: 'unit2', relatedConcept: "Fatiha Suresi" },
+                { id: 'u2_tf8', type: 'trueFalse', question: "Namazın ilk tekbirine iftitah tekbiri denir.", answer: "D", explanation: "Namazın başında alınan 'Allahu Ekber' tekbirine iftitah tekbiri denir.", theme: 'unit2', relatedConcept: "İftitah Tekbiri" },
+                { id: 'u2_tf9', type: 'trueFalse', question: "Namazda selam vermek, namazı bitirir.", answer: "D", explanation: "Namazın sonunda sağa ve sola selam vermekle namaz tamamlanır.", theme: 'unit2', relatedConcept: "Selam" },
+                { id: 'u2_tf10', type: 'trueFalse', question: "Cemaatle namaz kılmak tek başına kılmaktan daha az sevaptır.", answer: "Y", explanation: "Cemaatle namaz kılmak, tek başına kılmaktan daha faziletlidir.", theme: 'unit2', relatedConcept: "Cemaat" },
+                { id: 'u2_fb1', type: 'fillInTheBlanks', question: "Günde beş vakit namaz ........................ bir ibadettir.", answer: "farz", options: ["farz", "sünnet", "vacip", "müstehap"], explanation: "Namaz, müslümanlara farz kılınmış bir ibadettir.", theme: 'unit2', relatedConcept: "Farz" },
+                { id: 'u2_fb2', type: 'fillInTheBlanks', question: "Namazda okunan ........................ Duası, Allah'a selam ve övgü içerir.", answer: "Tahiyyat", options: ["Tahiyyat", "Sübhaneke", "Fatiha", "Kevser"], explanation: "Tahiyyat Duası, namazın oturuşlarında okunur.", theme: 'unit2', relatedConcept: "Tahiyyat Duası" },
+                { id: 'u2_fb3', type: 'fillInTheBlanks', question: "Namazın dışındaki şartlara ........................ denir.", answer: "şartları", options: ["şartları", "rükünleri", "vacipleri", "sünnetleri"], explanation: "Namazın dışındaki şartlar, namaza başlamadan önce yerine getirilmesi gerekenlerdir.", theme: 'unit2', relatedConcept: "Namazın Şartları" },
+                { id: 'u2_fb4', type: 'fillInTheBlanks', question: "Namazda kıyam, rükû ve ........................ gibi hareketler vardır.", answer: "secde", options: ["secde", "oturma", "yatma", "koşma"], explanation: "Secde, namazdaki en önemli hareketlerden biridir.", theme: 'unit2', relatedConcept: "Secde" },
+                { id: 'u2_fb5', type: 'fillInTheBlanks', question: "Namaz kılarken temiz bir yerde olmak ........................ şartlarından biridir.", answer: "namazın", options: ["namazın", "abdestin", "oruçun", "zekatın"], explanation: "Namaz kılınacak yerin temiz olması namazın şartlarındandır.", theme: 'unit2', relatedConcept: "Temizlik" },
+                { id: 'u2_mc1', type: 'multipleChoice', question: "Aşağıdakilerden hangisi namazın hazırlık şartlarından biri değildir?", options: ["Abdest almak", "Elbisenin temiz olması", "Vaktin girmesi", "Oruç tutmak"], answer: "Oruç tutmak", explanation: "Oruç tutmak, namazın değil, ayrı bir ibadetin şartıdır.", theme: 'unit2', relatedConcept: "Namazın Şartları" },
+                { id: 'u2_mc2', type: 'multipleChoice', question: "Namazın insana kazandırdıklarından biri aşağıdakilerden hangisidir?", options: ["Tembellik", "Sorumsuzluk", "Disiplin ve düzen", "Korku"], answer: "Disiplin ve düzen", explanation: "Namaz, kişiye düzenli olmayı ve disiplini öğretir.", theme: 'unit2', relatedConcept: "Namazın Faydaları" },
+                { id: 'u2_mc3', type: 'multipleChoice', question: "Namazda 'Sübhâneke' duasını okumak hangi bölümdedir?", options: ["Rükûda", "Secdede", "İlk rekatın başında", "Son oturuşta"], answer: "İlk rekatın başında", explanation: "Sübhâneke duası, namazın ilk rekatının başında okunur.", theme: 'unit2', relatedConcept: "Sübhaneke Duası" },
+                { id: 'u2_mc4', type: 'multipleChoice', question: "Namazda 'Allahü Ekber' diyerek eğilmeye ne denir?", options: ["Secde", "Kıyam", "Rükû", "Kade"], answer: "Rükû", explanation: "Rükû, namazda belden eğilerek yapılan harekettir.", theme: 'unit2', relatedConcept: "Rükû" },
+                { id: 'u2_mc5', type: 'multipleChoice', question: "Namazı bozan durumlardan biri aşağıdakilerden hangisidir?", options: ["Gülmek", "Tekbir almak", "Fatiha okumak", "Selam vermek"], answer: "Gülmek", explanation: "Namazda kahkaha ile gülmek namazı bozar.", theme: 'unit2', relatedConcept: "Namazı Bozan Durumlar" }
             ],
-            'unit3': [ // 3. Ünite: Kur'an-ı Kerim (Expanded to ~20 questions)
-                { id: 'u3_tf1', type: 'trueFalse', question: "Kur'an-ı Kerim'deki en küçük bölüme sure denir.", answer: "Y", explanation: "En küçük bölüm ayettir, sureler ayetlerden oluşur.", theme: 'unit3' },
-                { id: 'u3_tf2', type: "trueFalse", question: "Kevser Suresi, Kur'an'ın en uzun suresidir.", answer: "Y", explanation: "Kevser Suresi, Kur'an'ın en kısa suresidir.", theme: 'unit3' },
-                { id: 'u3_tf3', type: 'trueFalse', question: "Kur'an-ı Kerim, Hz. Muhammed (sav)'e indirilmiştir.", answer: "D", explanation: "Kur'an, son peygamber Hz. Muhammed'e vahyedilmiştir.", theme: 'unit3' },
-                { id: 'u3_tf4', type: 'trueFalse', question: "Kur'an-ı Kerim'in tamamı bir kerede indirilmiştir.", answer: "Y", explanation: "Kur'an, 23 yıllık bir süreçte parça parça indirilmiştir.", theme: 'unit3' },
-                { id: 'u3_tf5', type: 'trueFalse', question: "Kur'an-ı Kerim'i okumak ibadettir.", answer: "D", explanation: "Kur'an okumak, Allah'ı anmak ve O'nun kelamını dinlemek olduğu için ibadettir.", theme: 'unit3' },
-                { id: 'u3_tf6', type: 'trueFalse', question: "Kur'an-ı Kerim'in dili Arapçadır.", answer: "D", explanation: "Kur'an, Arapça olarak indirilmiştir.", theme: 'unit3' },
-                { id: 'u3_tf7', type: 'trueFalse', question: "Kur'an-ı Kerim'in diğer adı Furkan'dır.", answer: "D", explanation: "Furkan, hakkı batıldan ayıran anlamına gelir ve Kur'an'ın isimlerindendir.", theme: 'unit3' },
-                { id: 'u3_tf8', type: 'trueFalse', question: "Kur'an-ı Kerim'i ezberleyen kişiye hafız denir.", answer: "D", explanation: "Hafız, Kur'an'ın tamamını ezberlemiş kişidir.", theme: 'unit3' },
-                { id: 'u3_tf9', type: 'trueFalse', question: "Kur'an-ı Kerim'in ilk suresi Fatiha'dır.", answer: "D", explanation: "Fatiha Suresi, Kur'an'ın açılış suresidir.", theme: 'unit3' },
-                { id: 'u3_tf10', type: 'trueFalse', question: "Kur'an-ı Kerim'de sadece dini konular yer alır.", answer: "Y", explanation: "Kur'an, dini konuların yanı sıra ahlak, hukuk, bilim ve sosyal yaşam gibi birçok konuyu içerir.", theme: 'unit3' },
-                { id: 'u3_fb1', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim, ........................ ayetlerden oluşur.", answer: "ayet", options: ["ayet", "sure", "cüz", "hadis"], explanation: "Kur'an-ı Kerim, ayet adı verilen cümlelerden oluşur.", theme: 'unit3' },
-                { id: 'u3_fb2', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'in ana konularından biri ........................dır.", answer: "ahlak", options: ["ahlak", "savaş", "ticaret", "eğlence"], explanation: "Kur'an, insanlara güzel ahlakı öğretir.", theme: 'unit3' },
-                { id: 'u3_fb3', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'in ilk inen ayetleri ........................ Suresi'ndedir.", answer: "Alak", options: ["Alak", "Fatiha", "Bakara", "Nas"], explanation: "Alak Suresi'nin ilk beş ayeti, Hz. Muhammed'e inen ilk vahiylerdir.", theme: 'unit3' },
-                { id: 'u3_fb4', type: 'fillInTheBlanks', question: "İhlas Suresi, 'De ki: O Allah ........................' ayetiyle başlar.", answer: "bir", options: ["bir", "iki", "üç", "dört"], explanation: "Sure, Allah'ın birliğini net bir şekilde ifade eder.", theme: 'unit3' },
-                { id: 'u3_fb5', type: 'fillInTheBlanks', question: "Allah'ın her şeyi rızıklandıran olması O'nun ........................ ismidir.", answer: "Rezzak", options: ["Rezzak", "Alim", "Kadir", "Rahim"], explanation: "Rezzak, Allah'ın tüm canlıların rızkını veren olduğu anlamına gelir.", theme: 'unit3' },
-                { id: 'u3_mc1', type: 'multipleChoice', question: "Kur'an-ı Kerim'in bölümlerinden hangisi 20 sayfadan oluşur?", options: ["Ayet", "Sure", "Cüz", "Hizb"], answer: "Cüz", explanation: "Kur'an-ı Kerim 30 cüzden oluşur ve her cüz yaklaşık 20 sayfadır.", theme: 'unit3' },
-                { id: 'u3_mc2', type: 'multipleChoice', question: "Kevser Suresi'nin temel mesajı nedir?", options: ["Allah'ın birliği", "Namaz kılmak", "Peygambere verilen nimetler", "Oruç tutmak"], answer: "Peygambere verilen nimetler", explanation: "Kevser Suresi, Hz. Muhammed'e verilen Kevser havuzunu ve nimetleri anlatır.", theme: 'unit3' },
-                { id: 'u3_mc3', type: 'multipleChoice', question: "Kur'an-ı Kerim'i okumak için hangi temizlik şartı gereklidir?", options: ["Abdest", "Gusül", "Teyemmüm", "Hepsi"], answer: "Abdest", explanation: "Kur'an'a dokunmak ve onu okumak için abdestli olmak gerekir.", theme: 'unit3' },
-                { id: 'u3_mc4', type: 'multipleChoice', question: "Kur'an-ı Kerim'in indirildiği ay hangisidir?", options: ["Ramazan", "Şaban", "Recep", "Muharrem"], answer: "Ramazan", explanation: "Kur'an-ı Kerim, Ramazan ayında Kadir Gecesi'nde indirilmeye başlanmıştır.", theme: 'unit3' },
-                { id: 'u3_mc5', type: 'multipleChoice', question: "Kur'an-ı Kerim'de kaç sure vardır?", options: ["113", "114", "115", "116"], answer: "114", explanation: "Kur'an-ı Kerim'de 114 sure bulunmaktadır.", theme: 'unit3' }
+            'unit3': [
+                { id: 'u3_tf1', type: 'trueFalse', question: "Kur'an-ı Kerim'deki en küçük bölüme sure denir.", answer: "Y", explanation: "En küçük bölüm ayettir, sureler ayetlerden oluşur.", theme: 'unit3', relatedConcept: "Ayet" },
+                { id: 'u3_tf2', type: "trueFalse", question: "Kevser Suresi, Kur'an'ın en uzun suresidir.", answer: "Y", explanation: "Kevser Suresi, Kur'an'ın en kısa suresidir.", theme: 'unit3', relatedConcept: "Kevser Suresi" },
+                { id: 'u3_tf3', type: 'trueFalse', question: "Kur'an-ı Kerim, Hz. Muhammed (sav)'e indirilmiştir.", answer: "D", explanation: "Kur'an, son peygamber Hz. Muhammed'e vahyedilmiştir.", theme: 'unit3', relatedConcept: "Kur'an-ı Kerim" },
+                { id: 'u3_tf4', type: 'trueFalse', question: "Kur'an-ı Kerim'in tamamı bir kerede indirilmiştir.", answer: "Y", explanation: "Kur'an, 23 yıllık bir süreçte parça parça indirilmiştir.", theme: 'unit3', relatedConcept: "Vahiy" },
+                { id: 'u3_tf5', type: 'trueFalse', question: "Kur'an-ı Kerim'i okumak ibadettir.", answer: "D", explanation: "Kur'an okumak, Allah'ı anmak ve O'nun kelamını dinlemek olduğu için ibadettir.", theme: 'unit3', relatedConcept: "İbadet" },
+                { id: 'u3_tf6', type: 'trueFalse', question: "Kur'an-ı Kerim'in dili Arapçadır.", answer: "D", explanation: "Kur'an, Arapça olarak indirilmiştir.", theme: 'unit3', relatedConcept: "Arapça" },
+                { id: 'u3_tf7', type: 'trueFalse', question: "Kur'an-ı Kerim'in diğer adı Furkan'dır.", answer: "D", explanation: "Furkan, hakkı batıldan ayıran anlamına gelir ve Kur'an'ın isimlerindendir.", theme: 'unit3', relatedConcept: "Furkan" },
+                { id: 'u3_tf8', type: 'trueFalse', question: "Kur'an-ı Kerim'i ezberleyen kişiye hafız denir.", answer: "D", explanation: "Hafız, Kur'an'ın tamamını ezberlemiş kişidir.", theme: 'unit3', relatedConcept: "Hafız" },
+                { id: 'u3_tf9', type: 'trueFalse', question: "Kur'an-ı Kerim'in ilk suresi Fatiha'dır.", answer: "D", explanation: "Fatiha Suresi, Kur'an'ın açılış suresidir.", theme: 'unit3', relatedConcept: "Fatiha Suresi" },
+                { id: 'u3_tf10', type: 'trueFalse', question: "Kur'an-ı Kerim'de sadece dini konular yer alır.", answer: "Y", explanation: "Kur'an, dini konuların yanı sıra ahlak, hukuk, bilim ve sosyal yaşam gibi birçok konuyu içerir.", theme: 'unit3', relatedConcept: "Kur'an'ın Konuları" },
+                { id: 'u3_fb1', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim, ........................ ayetlerden oluşur.", answer: "ayet", options: ["ayet", "sure", "cüz", "hadis"], explanation: "Kur'an-ı Kerim, ayet adı verilen cümlelerden oluşur.", theme: 'unit3', relatedConcept: "Ayet" },
+                { id: 'u3_fb2', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'in ana konularından biri ........................dır.", answer: "ahlak", options: ["ahlak", "savaş", "ticaret", "eğlence"], explanation: "Kur'an, insanlara güzel ahlakı öğretir.", theme: 'unit3', relatedConcept: "Ahlak" },
+                { id: 'u3_fb3', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'in ilk inen ayetleri ........................ Suresi'ndedir.", answer: "Alak", options: ["Alak", "Fatiha", "Bakara", "Nas"], explanation: "Alak Suresi'nin ilk beş ayeti, Hz. Muhammed'e inen ilk vahiylerdir.", theme: 'unit3', relatedConcept: "Alak Suresi" },
+                { id: 'u3_fb4', type: 'fillInTheBlanks', question: "İhlas Suresi, 'De ki: O Allah ........................' ayetiyle başlar.", answer: "bir", options: ["bir", "iki", "üç", "dört"], explanation: "Sure, Allah'ın birliğini net bir şekilde ifade eder.", theme: 'unit3', relatedConcept: "İhlas Suresi" },
+                { id: 'u3_fb5', type: 'fillInTheBlanks', question: "Allah'ın her şeyi rızıklandıran olması O'nun ........................ ismidir.", answer: "Rezzak", options: ["Rezzak", "Alim", "Kadir", "Rahim"], explanation: "Rezzak, Allah'ın tüm canlıların rızkını veren olduğu anlamına gelir.", theme: 'unit3', relatedConcept: "Rezzak" },
+                { id: 'u3_mc1', type: 'multipleChoice', question: "Kur'an-ı Kerim'in bölümlerinden hangisi 20 sayfadan oluşur?", options: ["Ayet", "Sure", "Cüz", "Hizb"], answer: "Cüz", explanation: "Kur'an-ı Kerim 30 cüzden oluşur ve her cüz yaklaşık 20 sayfadır.", theme: 'unit3', relatedConcept: "Cüz" },
+                { id: 'u3_mc2', type: 'multipleChoice', question: "Kevser Suresi'nin temel mesajı nedir?", options: ["Allah'ın birliği", "Namaz kılmak", "Peygambere verilen nimetler", "Oruç tutmak"], answer: "Peygambere verilen nimetler", explanation: "Kevser Suresi, Hz. Muhammed'e verilen Kevser havuzunu ve nimetleri anlatır.", theme: 'unit3', relatedConcept: "Kevser Suresi" },
+                { id: 'u3_mc3', type: 'multipleChoice', question: "Kur'an-ı Kerim'i okumak için hangi temizlik şartı gereklidir?", options: ["Abdest", "Gusül", "Teyemmüm", "Hepsi"], answer: "Abdest", explanation: "Kur'an'a dokunmak ve onu okumak için abdestli olmak gerekir.", theme: 'unit3', relatedConcept: "Abdest" },
+                { id: 'u3_mc4', type: 'multipleChoice', question: "Kur'an-ı Kerim'in indirildiği ay hangisidir?", options: ["Ramazan", "Şaban", "Recep", "Muharrem"], answer: "Ramazan", explanation: "Kur'an-ı Kerim, Ramazan ayında Kadir Gecesi'nde indirilmeye başlanmıştır.", theme: 'unit3', relatedConcept: "Ramazan" },
+                { id: 'u3_mc5', type: 'multipleChoice', question: "Kur'an-ı Kerim'de kaç sure vardır?", options: ["113", "114", "115", "116"], answer: "114", explanation: "Kur'an-ı Kerim'de 114 sure bulunmaktadır.", theme: 'unit3', relatedConcept: "Sure" }
             ],
-            'unit4': [ // 4. Ünite: Peygamber Kıssaları (Already large, will be sliced to 100)
+            'unit4': [
                 { id: 'tf1', type: 'trueFalse', question: "Peygamberler, Allah'ın (cc) insanlar için seçtiği öğretmenlerdir.", answer: "D", explanation: "Peygamberler, Allah'ın insanlara doğru yolu göstermesi için gönderdiği elçiler ve rehberlerdir.", theme: 'unit4', relatedConcept: "Nübüvvet" },
                 { id: 'tf2', type: 'trueFalse', question: "İnsan aklıyla ahiret konularını tam olarak kavrayabilir.", answer: "Y", explanation: "İnsan aklı evrenin yaratıcısını anlayabilir ancak yaratılış amacı, Allah'a karşı görevler ve ahiret gibi konularda peygamberlerin rehberliğine ihtiyaç duyar.", theme: 'unit4', relatedConcept: "Ahiret" },
                 { id: 'tf3', type: 'trueFalse', question: "Ülülazm, inkârcılara karşı büyük mücadeleler ve sabır göstermiş beş büyük peygamberlere verilen isimdir.", answer: "D", explanation: "Ülülazm peygamberler, Hz. Nuh, Hz. İbrahim, Hz. Musa, Hz. İsa ve Hz. Muhammed (sav)'dir.", theme: 'unit4', relatedConcept: "Ülülazm" },
-                { id: 'tf4', type: 'trueFalse', question: "Hz. Nuh'un kavmi onun davetini hemen kabul etmiştir.", answer: "Y", explanation: "Hz. Nuh'un kavmi onun davetini reddetmiş, alay etmiş ve inanmamakta direnmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
+                { id: 'tf4', type: 'trueFalse', question: "Hz. Nuh'un kavminde onun davetini hemen kabul etmiştir.", answer: "Y", explanation: "Hz. Nuh'un kavmi onun davetini reddetmiş, alay etmiş ve inanmamakta direnmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
                 { id: 'tf5', type: 'trueFalse', question: "Hz. İbrahim, ateşe atıldığında Allah'ın (cc) emriyle ateş ona zarar vermiştir.", answer: "Y", explanation: "Allah'ın (cc) emriyle ateş Hz. İbrahim'e zarar vermemiştir.", theme: 'unit4', relatedConcept: "Mucize" },
                 { id: 'tf6', type: 'trueFalse', question: "Hz. Musa, İsrailoğullarına gönderilmiş bir peygamberdir ve ona İncil indirilmiştir.", answer: "Y", explanation: "Hz. Musa'ya Tevrat indirilmiştir. İncil ise Hz. İsa'ya indirilmiştir.", theme: 'unit4', relatedConcept: "Hz. Musa" },
                 { id: 'tf7', type: 'trueFalse', question: "Kureyş Suresi, Kureyş kabilesinin Kâbe'nin bakımını üstlenmesi ve ziyaretçilere hizmet etmesini konu alır.", answer: "D", explanation: "Kureyş Suresi, Kureyş kabilesine verilen nimetleri ve Kâbe'ye olan hizmetlerini vurgular.", theme: 'unit4', relatedConcept: "Kureyş" },
@@ -660,7 +652,7 @@
                 { id: 'tf12', type: 'trueFalse', question: "Kur'an-ı Kerim'deki peygamber kıssalarının amacı, sadece geçmiş olayları anlatmaktır.", answer: "Y", explanation: "Peygamber kıssalarının amacı, insanlara öğüt vermek ve ders çıkarmalarını sağlamaktır.", theme: 'unit4', relatedConcept: "Öğüt" },
                 { id: 'tf13', type: 'trueFalse', question: "Ülülazm peygamberler, inkârcılara karşı büyük mücadeleler vermişlerdir.", answer: "D", explanation: "Ülülazm, büyük mücadeleler ve sabır göstermiş peygamberlere verilen isimdir.", theme: 'unit4', relatedConcept: "Ülülazm" },
                 { id: 'tf14', type: 'trueFalse', question: "Hz. Nuh, kavmini yalnızca Allah'a (cc) inanmaya davet etmiştir.", answer: "D", explanation: "Hz. Nuh'un temel görevi, kavmini tevhit inancına davet etmekti.", theme: 'unit4', relatedConcept: "Tevhit" },
-                { id: 'tf15', type: 'trueFalse', question: "Hz. Nuh'un kavmi onun davetini kabul etmeyince, Allah (cc) onlara büyük bir tufan göndermiştir.", answer: "D", explanation: "Kavminin inkârda direnmesi üzerine tufan gerçekleşmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
+                { id: 'tf15', type: 'trueFalse', question: "Hz. Nuh'un kavminde onun davetini hemen kabul etmiştir.", answer: "Y", explanation: "Hz. Nuh'un kavmi onun davetini reddetmiş, alay etmiş ve inanmamakta direnmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
                 { id: 'tf16', type: 'trueFalse', question: "Hz. İbrahim, putlara tapan Babil halkına gönderilmiştir.", answer: "D", explanation: "Hz. İbrahim, putperest Babil halkını tevhide davet etmiştir.", theme: 'unit4', relatedConcept: "Hz. İbrahim" },
                 { id: 'tf17', type: 'trueFalse', question: "Hz. İbrahim, putları kırdıktan sonra suçu en küçük puta atmıştır.", answer: "Y", explanation: "Hz. İbrahim, baltayı en büyük putun boynuna asmıştır.", theme: 'unit4', relatedConcept: "Hz. İbrahim" },
                 { id: 'tf18', type: 'trueFalse', question: "Hz. İbrahim, Kâbe'yi tek başına inşa etmiştir.", answer: "Y", explanation: "Hz. İbrahim, oğlu Hz. İsmail ile birlikte Kâbe'yi yeniden inşa etmiştir.", theme: 'unit4', relatedConcept: "Kâbe" },
@@ -679,7 +671,7 @@
                 { id: 'tf31', type: 'trueFalse', question: "Hz. Salih'in mucizesi, kayadan deve çıkarmasıdır.", answer: "D", explanation: "Hz. Salih'in kavminde Semud'a gösterdiği en büyük mucizesi, kayadan bir dişi deve çıkarmasıdır.", theme: 'unit4', relatedConcept: "Mucize" },
                 { id: 'tf32', type: 'trueFalse', question: "Hz. Lut, Hz. İbrahim'in yeğenidir.", answer: "D", explanation: "Hz. Lut, Hz. İbrahim'in yeğeni olup, Lut kavmine peygamber olarak gönderilmiştir.", theme: 'unit4', relatedConcept: "Hz. Lut" },
                 { id: 'tf33', type: 'trueFalse', question: "Hz. Yakup'un diğer adı İsrail'dir.", answer: "D", explanation: "Hz. Yakup'un lakabı İsrail'dir ve İsrailoğulları onun soyundan gelmektedir.", theme: 'unit4', relatedConcept: "Hz. Yakup" },
-                { id: 'tf34', type: 'trueFalse', question: "Hz. Yusuf'un kıssası, sabır ve tevekkülün önemini vurgular.", answer: "D", explanation: "Hz. Yusuf'un hayatı, zorluklar karşısında sabretmenin ve Allah'a güvenmenin güzel bir örneğidir.", theme: 'unit4', relatedConcept: "Sabır" },
+                { id: 'tf34', type: 'trueFalse', question: "Hz. Yusuf'un kıssası, sabır ve tevekkülün önemini vurgular.", answer: "D", explanation: "Hz. Yusuf'un hayatı, zorluklar karşında sabretmenin ve Allah'a güvenmenin güzel bir örneğidir.", theme: 'unit4', relatedConcept: "Sabır" },
                 { id: 'tf35', type: 'trueFalse', question: "Hz. Eyyub'un hastalığı, onun peygamberliğini kaybetmesine neden olmuştur.", answer: "Y", explanation: "Hz. Eyyub'un hastalığı, onun sabrını ve Allah'a olan bağlılığını artırmıştır.", theme: 'unit4', relatedConcept: "Hz. Eyyub" },
                 { id: 'tf36', type: 'trueFalse', question: "Hz. Yunus, kavmini terk ettikten sonra hemen affedilmiştir.", answer: "Y", explanation: "Hz. Yunus, balığın karnında tövbe edip Allah'a yalvarmış, sonra affedilmiştir.", theme: 'unit4', relatedConcept: "Tövbe" },
                 { id: 'tf37', type: 'trueFalse', question: "Hz. Zekeriya'nın duası, Allah'ın (cc) kudretinin bir göstergesidir.", answer: "D", explanation: "Yaşlılık ve kısırlık durumunda çocuk istemesi ve buna karşılık verilmesi Allah'ın kudretini gösterir.", theme: 'unit4', relatedConcept: "Mucize" },
@@ -740,7 +732,7 @@
                 { id: 'fb26', type: 'fillInTheBlanks', question: "Hz. Yusuf'un rüyası, ........................ ve on bir yıldızın kendisine secde etmesidir.", answer: "güneşin", options: ["güneşin", "ayın", "gezegenin", "dünyanın"], explanation: "Hz. Yusuf'un rüyası, ilerideki yüce makamına işaret etmektedir.", theme: 'unit4', relatedConcept: "Hz. Yusuf" },
                 { id: 'fb27', type: 'fillInTheBlanks', question: "Hz. Eyyub, ........................ ve sabrıyla bilinen bir peygamberdir.", answer: "imtihanlara", options: ["imtihanlara", "zenginliğe", "güce", "hızlılığa"], explanation: "Hz. Eyyub, büyük hastalıklara ve kayıplara karşı gösterdiği sabırla bilinir.", theme: 'unit4', relatedConcept: "Sabır" },
                 { id: 'fb28', type: 'fillInTheBlanks', question: "Hz. Yunus, balığın karnında ........................ Allah'a (cc) dua etmiştir.", answer: "pişmanlıkla", options: ["pişmanlıkla", "sevinçle", "öfkeyle", "korkuyla"], explanation: "Hz. Yunus, hatasını anlayıp balığın karnında Allah'tan af dilemiştir.", theme: 'unit4', relatedConcept: "Tövbe" },
-                { id: 'fb29', type: 'fillInTheBlanks', question: "Hz. Zekeriya ve Hz. Yahya kıssası, Allah'ın (cc) ........................ her şeye kadir olduğunu gösterir.", answer: "dilemesiyle", options: ["dilemesiyle", "istemesiyle", "yapmasıyla", "olmasıyla"], explanation: "Yaşlılık ve kısırlık durumunda çocuk sahibi olmaları, Allah'ın kudretini gösterir.", theme: 'unit4', relatedConcept: "Mucize" },
+                { id: 'fb29', type: 'fillInTheBlanks', question: "Hz. Zekeriya ve Hz. Yahya kıssası, Allah'ın (cc) ........................ her şeye kadir olduğunu gösterir.", answer: "dilemesiyle", options: ["dilemesiyle", "istemesiyle", "yapmasıyla", "olmasıyla"], explanation: "Yaşlılık ve kısırlık durumunda çocuk istemesi ve buna karşılık verilmesi Allah'ın kudretini gösterir.", theme: 'unit4', relatedConcept: "Mucize" },
                 { id: 'fb30', type: 'fillInTheBlanks', question: "Hz. Süleyman, ........................ ve cinlere hükmeden bir peygamberdir.", answer: "hayvanlara", options: ["hayvanlara", "insanlara", "bitkilere", "dağlara"], explanation: "Hz. Süleyman'a hayvanların ve cinlerin dilini anlama mucizesi verilmiştir.", theme: 'unit4', relatedConcept: "Hz. Süleyman" },
                 { id: 'fb31', type: 'fillInTheBlanks', question: "Hz. Davut, ........................ ve adaletle hükmeden bir peygamberdir.", answer: "hikmetle", options: ["hikmetle", "güçle", "zenginlikle", "hızla"], explanation: "Hz. Davut'a hikmet ve adaletle hükmetme yeteneği verilmiştir.", theme: 'unit4', relatedConcept: "Hikmet" },
                 { id: 'fb32', type: 'fillInTheBlanks', question: "Hz. Lokman'ın oğluna verdiği öğütler, ........................ ve ahlaki değerlere vurgu yapar.", answer: "bilgeliğe", options: ["bilgeliğe", "zenginliğe", "güce", "şöhrete"], explanation: "Lokman Suresi'nde yer alan öğütler, ahlaki ve manevi değerlere odaklanır.", theme: 'unit4', relatedConcept: "Hikmet" },
@@ -800,7 +792,7 @@
                 { id: 'mc20', type: 'multipleChoice', question: "Peygamberlerin insanlara rehber olarak gönderilmesi Allah'ın hangi sıfatını gösterir?", options: ["Kudret", "İrade", "Sevgi ve Merhamet", "Yaratıcılık"], answer: "Sevgi ve Merhamet", explanation: "Peygamber göndermek, Allah'ın insanlara olan sevgisinin ve merhametinin bir göstergesidir.", theme: 'unit4', relatedConcept: "Rahmet" },
                 { id: 'mc21', type: 'multipleChoice', question: "Peygamberlerin söz ve davranışlarını öğrenip uygulayarak neye sahip olunabilir?", options: ["Zenginliğe", "Güzel ahlaka", "Güce", "Ün şöhrete"], answer: "Güzel ahlaka", explanation: "Peygamberlerin ahlakı, insanlara güzel ahlak edinme yolunda rehberlik eder.", theme: 'unit4', relatedConcept: "Ahlak" },
                 { id: 'mc22', type: 'multipleChoice', question: "Kur'an-ı Kerim'deki peygamber kıssalarının amacı nedir?", options: ["Sadece tarihi olayları anlatmak", "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak", "Peygamberlerin üstünlüklerini göstermek", "İnsanları korkutmak"], answer: "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak", explanation: "Kıssalar, ibret almak ve doğru yolu bulmak için anlatılır.", theme: 'unit4', relatedConcept: "Öğüt" },
-                { id: 'mc23', type: 'multipleChoice', question: "Peygamberlerin dürüstlük, adalet gibi ahlaki ilkeleri kendi hayatlarında uygulamaları ne anlama gelir?", options: ["Sadece kendileri için yaşadıkları", "İnsanlara örnek oldukları", "Bu ilkelerin sadece peygamberlere özel olduğu", "Bu ilkelerin önemsiz olduğu"], answer: "İnsanlara örnek oldukları", explanation: "Peygamberler, ahlaki değerleri yaşayarak insanlara yol gösterirler.", theme: 'unit4', relatedConcept: "Sünnet" },
+                { id: 'mc23', type: 'multipleChoice', question: "Peygamberlerin dürüstlük, adalet gibi ahlaki ilkeleri kendi hayatlarında uygulamaları ne anlama gelir?", options: ["Sadece kendileri için yaşadıkları", "İnsanlara örnek oldukları", "Bu ilkelerin sadece peygamberlere özel olduğu", "This is an important topic.", "Bu ilkelerin önemsiz olduğu"], answer: "İnsanlara örnek oldukları", explanation: "Peygamberler, ahlaki değerleri yaşayarak insanlara yol gösterirler.", theme: 'unit4', relatedConcept: "Sünnet" },
                 { id: 'mc24', 'type': 'multipleChoice', question: "Kureyş Suresi'nin temel konularından biri Kureyş'in geçimini nasıl sağladığına dikkat çekmesidir. Bu geçim şekli nedir?", options: ["Tarım", "Hayvancılık", "Ticari yolculuklar", "Balıkçılık"], answer: "Ticari yolculuklar", explanation: "Kureyş kabilesi, yaz ve kış ticari yolculuklar yaparak geçimini sağlamıştır.", theme: 'unit4', relatedConcept: "Kureyş" },
                 { id: 'mc25', type: 'multipleChoice', question: "Peygamberlerin de sıkıntılar yaşadığının anlaşılması, Müslümanlara ne kazandırır?", options: ["İnanç uğruna mücadele etmemeyi", "Cesaret ve sabırla mücadele etmeyi", "Sıkıntılardan kaçınmayı", "Peygamberlere isyan etmeyi"], answer: "Cesaret ve sabırla mücadele etmeyi", explanation: "Peygamberlerin yaşadığı zorluklar, Müslümanlara inanç uğruna sabır ve cesaretle mücadele etme ilhamı verir.", theme: 'unit4', relatedConcept: "Sabır" },
                 { id: 'mc26', type: 'multipleChoice', question: "Hz. Yusuf'un kardeşleri onu nereye atmışlardır?", options: ["Denize", "Kuyuya", "Mağaraya", "Çöle"], answer: "Kuyuya", explanation: "Hz. Yusuf'un kardeşleri onu kıskançlıklarından dolayı bir kuyuya atmışlardır.", theme: 'unit4', relatedConcept: "Hz. Yusuf" },
@@ -818,7 +810,7 @@
                 { id: 'mc38', type: 'multipleChoice', question: "Hz. Musa'nın Firavun'a karşı gösterdiği en bilinen mucizelerden biri nedir?", options: ["Ölüleri diriltmek", "Ayı ikiye bölmek", "Asasının yılana dönüşmesi", "Kuşlarla konuşmak"], answer: "Asasının yılana dönüşmesi", explanation: "Hz. Musa'nın asasının yılana dönüşmesi, Firavun'un sihirbazlarına karşı gösterdiği en büyük mucizelerdendir.", theme: 'unit4', relatedConcept: "Mucize" },
                 { id: 'mc39', type: 'multipleChoice', question: "Hz. Davut'un en belirgin özelliklerinden biri nedir?", options: ["Çok zengin olması", "Çok hızlı koşması", "Çok güzel sesi olması", "Çok uzun boylu olması"], answer: "Çok güzel sesi olması", explanation: "Hz. Davut'a güzel ses ve Zebur'u okurken dağların ve kuşların ona eşlik etmesi mucizesi verilmiştir.", theme: 'unit4', relatedConcept: "Hz. Davut" },
                 { id: 'mc40', type: 'multipleChoice', question: "Hz. Süleyman'a verilen özel yeteneklerden biri nedir?", options: ["Denizde yürüme", "Zamanı durdurma", "Hayvanların dilini anlama", "Geleceği görme"], answer: "Hayvanların dilini anlama", explanation: "Hz. Süleyman'a hayvanların dilini anlama ve onlarla konuşma yeteneği verilmiştir.", theme: 'unit4', relatedConcept: "Mucize" },
-                { id: 'mc41', type: 'multipleChoice', question: "Hz. Eyyub'un kıssasından çıkarılan en önemli ders nedir?", options: ["Zenginliğin önemi", "Sabrın ve tevekkülün önemi", "Gücün önemi", "Hızlı kararlar almanın önemi"], answer: "Sabrın ve tevekkülün önemi", explanation: "Hz. Eyyub'un hayatı, zorluklar karşısında sabretmenin ve Allah'a güvenmenin en güzel örneğidir.", theme: 'unit4', relatedConcept: "Tevekkül" },
+                { id: 'mc41', type: 'multipleChoice', question: "Hz. Eyyub'un sabrı hangi konuda örnek teşkil eder?", options: ["Zenginliğin önemi", "Sağlıkta ve mal kaybında", "Güç ve iktidarda", "Bilimde"], answer: "Sağlıkta ve mal kaybında", explanation: "Hz. Eyyub, büyük hastalıklara ve mal kaybına karşı gösterdiği sabırla bilinir.", theme: 'unit4', relatedConcept: "Sabır" },
                 { id: 'mc42', type: 'multipleChoice', question: "Hz. Yunus'un balığın karnında iken yaptığı dua neyi ifade eder?", options: ["Öfkesini", "Korkusunu", "Pişmanlığını ve tövbesini", "Sevinçini"], answer: "Pişmanlığını ve tövbesini", explanation: "Hz. Yunus, balığın karnında iken yaptığı hatadan dolayı pişman olup Allah'a tövbe etmiştir.", theme: 'unit4', relatedConcept: "Tövbe" },
                 { id: 'mc43', type: 'multipleChoice', question: "Peygamberlerin insanlara rehberlik etmesinin amacı nedir?", options: ["İnsanları köleleştirmek", "İnsanları korkutmak", "İnsanları dünya hayatında zengin etmek", " "], answer: "İnsanlara doğru yolu göstermek ve onları kurtuluşa erdirmek", explanation: "Peygamberler, Allah'ın emir ve yasaklarını bildirerek onları hem dünya hem de ahiret saadetine ulaştırırlar.", theme: 'unit4', relatedConcept: "Tebliğ" },
                 { id: 'mc44', type: 'multipleChoice', question: "Hz. Zekeriya'nın yaşlılıkta çocuk sahibi olması hangi ilahi sıfatı gösterir?", options: ["Adalet", "Hikmet", "Kudret", "İrade"], answer: "Kudret", explanation: "Yaşlılık ve kısırlık durumunda çocuk sahibi olması, Allah'ın sınırsız kudretinin bir göstergesidir.", theme: 'unit4', relatedConcept: "Dua" },
@@ -847,74 +839,34 @@
             ]
         };
 
-        /**
-         * Ensures that the given array of questions contains exactly 100 questions.
-         * If the array has fewer than 100 questions, it duplicates existing questions randomly
-         * until the count reaches 100. If it has more, it truncates to 100.
-         * @param {Array<Object>} questionsArray The array of questions for a unit.
-         * @returns {Array<Object>} An array containing exactly 100 questions.
-         */
         function ensureOneHundredQuestions(questionsArray) {
-            let currentQuestions = [...questionsArray]; // Create a shallow copy to avoid modifying the original
+            let currentQuestions = [...questionsArray];
             const targetCount = 100;
 
             if (currentQuestions.length >= targetCount) {
-                return currentQuestions.slice(0, targetCount); // If already 100 or more, just take the first 100
+                return currentQuestions.slice(0, targetCount);
             }
 
-            // If less than 100, duplicate questions until it reaches 100
             const originalLength = currentQuestions.length;
             while (currentQuestions.length < targetCount) {
                 const randomIndex = Math.floor(Math.random() * originalLength);
                 const questionToDuplicate = currentQuestions[randomIndex];
-                // Create a new object for the duplicated question to ensure unique IDs if needed later,
-                // and to prevent unintended modifications if question objects are mutable.
-                // For now, just copying the object is sufficient as IDs are already unique per unit.
                 currentQuestions.push({ ...questionToDuplicate, id: `${questionToDuplicate.id}_copy_${currentQuestions.length}` });
             }
             return currentQuestions;
         }
 
-
-        // Initialize Firebase
-        async function initFirebase() {
-            try {
-                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-                if (Object.keys(firebaseConfig).length === 0) {
-                    console.error("Firebase config is missing. Cannot initialize Firebase.");
-                    return;
-                }
-
-                window.firebaseApp = initializeApp(firebaseConfig);
-                window.auth = getAuth(window.firebaseApp);
-                
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(window.auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(window.auth);
-                }
-                window.userId = window.auth.currentUser?.uid || crypto.randomUUID();
-                console.log("Firebase initialized. User ID:", window.userId);
-            } catch (e) {
-                console.error("Error initializing Firebase or authenticating:", e);
-            }
-        }
-
-        initFirebase(); // Call initFirebase when the script loads
-
-        // DOM elements (declared globally but assigned in onload)
-        let mainMenuScreen; // Main menu to select units
-        let playerSelectionScreen; // Screen for player/team selection
-        let gamePanel; // Main game area (score, grid, quiz content)
-        let scoreBoard;
-        let scoreBoardTeamsContainer;
+        let mainMenuScreen;
+        let playerSelectionScreen;
+        let teamNameInputScreen; // Yeni ekran
+        let teamNameInputsContainer; // Takım adı giriş alanlarını içeren div
+        let gamePanel;
+        let scoreBoardContainer; // Renamed from scoreBoard to avoid conflict with score-table-container
         let currentPlayerTurnDisplay;
         let quizContentContainer;
         let questionContainer;
         let feedbackDiv;
         let nextTurnButton;
-        let detailedExplanationContainer;
-        let loadingSpinner;
         let finalScoreContainer;
         let overallResultDiv;
         let resetGameButton;
@@ -924,46 +876,73 @@
         let gridInstructionMessage;
         let questionScreenInstructionMessage;
         let fullscreenOverlay;
-        let returnToMainMenuGridButton; // New button for returning to main menu from grid
-        let returnToQuestionGridButton; // New button for returning to question grid from question screen
-        
-        // Define color palette for buttons
-        const buttonColors = [
-            'bg-blue-600 hover:bg-blue-700 shadow-blue-500/50',
-            'bg-green-600 hover:bg-green-700 shadow-green-500/50',
-            'bg-purple-600 hover:bg-purple-700 shadow-purple-500/50',
-            'bg-yellow-600 hover:bg-yellow-700 shadow-yellow-500/50',
-            'bg-pink-600 hover:bg-pink-700 shadow-pink-500/50',
-            'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-500/50',
-            'bg-red-600 hover:bg-red-700 shadow-red-500/50',
-            'bg-teal-600 hover:bg-teal-700 shadow-teal-500/50'
+        let returnToMainMenuGridButton;
+        let returnToQuestionGridButton;
+        let finalTeamScoresDisplay; // Added for final score table
+
+        const teamColors = [
+            'bg-red-500',    // Team 1
+            'bg-blue-500',   // Team 2
+            'bg-green-500',  // Team 3
+            'bg-yellow-500', // Team 4
+            'bg-purple-500'  // Team 5
         ];
 
-        // Functions
-        window.selectUnit = function(unitId) {
-            console.log(`Selected unit: ${unitId}`);
+        // Helper to get team icon based on index
+        function getTeamIcon(index) {
+            const icons = ['🔴', '🔵', '🟢', '🟠', '🟣']; // Emojis for visual representation
+            return icons[index % icons.length];
+        }
+
+        window.selectUnit = async function(unitId) {
             window.currentUnit = unitId;
-            mainMenuScreen.classList.add('hidden'); // Hide main menu
-            playerSelectionScreen.classList.remove('hidden'); // Show player selection for the unit
-            setGameBackground(unitId); // Set background based on selected unit
+            mainMenuScreen.classList.add('hidden');
+            playerSelectionScreen.classList.remove('hidden');
+            setGameBackground(unitId);
         };
 
         window.selectNumTeams = function(num) {
-            console.log(`selectNumTeams called. Number of teams: ${num}`);
             window.numTeams = num;
-            window.teamScores = Array(window.numTeams).fill(0);
-            window.currentPlayer = 1; // Start with the first team
-            playerSelectionScreen.classList.add('hidden'); // Hide team selection screen
-            gamePanel.classList.remove('hidden'); // Show the main game panel
-            startGame(); // Initialize game state and show question grid
+            playerSelectionScreen.classList.add('hidden');
+            teamNameInputScreen.classList.remove('hidden');
+            renderTeamNameInputs();
+            applyButtonColors(); // Apply colors to the new "Başla" button
         };
 
-        window.startGame = function() {
-            console.log("startGame called for unit:", window.currentUnit);
-            window.currentQuestionIndex = 0;
-            window.answeredQuestions = {};
-            // Get questions specific to the selected unit and slice to 100 if more exist
-            // Ensure each unit has exactly 100 questions before shuffling and slicing
+        function renderTeamNameInputs() {
+            teamNameInputsContainer.innerHTML = '';
+            for (let i = 0; i < window.numTeams; i++) {
+                const inputGroup = document.createElement('div');
+                inputGroup.classList.add('flex', 'flex-col', 'items-center', 'gap-2', 'w-full');
+                inputGroup.innerHTML = `
+                    <label for="team-name-${i + 1}" class="font-medium text-lg text-gray-700">Takım ${i + 1} Adı:</label>
+                    <input type="text" id="team-name-${i + 1}" class="team-name-input w-full" placeholder="Takım ${i + 1}" value="Takım ${i + 1}">
+                `;
+                teamNameInputsContainer.appendChild(inputGroup);
+            }
+        }
+
+        window.setTeamNames = function() {
+            window.teamScores = []; // Initialize teamScores as array of objects
+            for (let i = 0; i < window.numTeams; i++) {
+                const inputElement = document.getElementById(`team-name-${i + 1}`);
+                window.teamScores.push({ name: inputElement.value.trim() || `Takım ${i + 1}`, score: 0 });
+            }
+            teamNameInputScreen.classList.add('hidden');
+            gamePanel.classList.remove('hidden');
+            // currentPlayer is already 0, which is the correct index for the first team
+            startGame();
+        };
+
+        window.startGame = function(resuming = false) {
+            if (!resuming) {
+                window.currentQuestionIndex = 0;
+                window.answeredQuestions = {};
+                // teamScores is already initialized with names in setTeamNames, just reset scores
+                window.teamScores.forEach(team => team.score = 0);
+                window.currentPlayer = 0; // Initialize current player to index 0 (first team)
+            }
+            
             shuffledQuestions = shuffleArray(ensureOneHundredQuestions(unitQuestions[window.currentUnit]));
             
             quizContentContainer.classList.add('hidden');
@@ -977,48 +956,54 @@
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.remove('hidden');
             }
-            setGameBackground(window.currentUnit); // Set background for the current unit's game
-            console.log("Game started. Showing question grid for Team", window.teamNames[window.currentPlayer - 1]);
+            setGameBackground(window.currentUnit);
         };
 
         function updateScoreBoard() {
-            console.log("updateScoreBoard called. Current Player:", window.currentPlayer, "Team Scores:", window.teamScores);
-            if (scoreBoard) scoreBoard.classList.remove('hidden');
+            if (scoreBoardContainer) scoreBoardContainer.classList.remove('hidden');
 
-            if (scoreBoardTeamsContainer && currentPlayerTurnDisplay) {
-                scoreBoardTeamsContainer.innerHTML = '';
-                for (let i = 0; i < window.numTeams; i++) {
-                    const teamName = window.teamNames[i];
-                    const teamScore = window.teamScores[i];
-                    const scoreBox = document.createElement('div');
-                    scoreBox.classList.add('player-score-box');
-                    scoreBox.innerHTML = `<div class="score-item">${teamName}: ${teamScore}</div>`;
-                    if (window.currentPlayer === (i + 1)) {
-                        scoreBox.classList.add('active-player-score');
-                        scoreBox.classList.remove('inactive-player-score');
-                    } else {
-                        scoreBox.classList.remove('active-player-score');
-                        scoreBox.classList.add('inactive-player-score');
+            if (scoreBoardContainer && currentPlayerTurnDisplay) {
+                scoreBoardContainer.innerHTML = ''; // Clear previous content
+                const scoreTable = document.createElement('div');
+                scoreTable.classList.add('score-table');
+
+                window.teamScores.forEach((team, index) => {
+                    const scoreCell = document.createElement('div');
+                    scoreCell.classList.add('score-cell', teamColors[index % teamColors.length]);
+                    if (window.currentPlayer === index) {
+                        scoreCell.classList.add('active-team');
                     }
-                    scoreBoardTeamsContainer.appendChild(scoreBox);
-                }
-                currentPlayerTurnDisplay.textContent = `Sıra: ${window.teamNames[window.currentPlayer - 1]}`;
+                    scoreCell.innerHTML = `
+                        <div class="flex flex-col items-center">
+                            <span class="team-name text-lg font-bold flex items-center gap-1">
+                                ${getTeamIcon(index)} ${team.name}
+                            </span>
+                        </div>
+                        <div class="flex flex-col items-center mt-2">
+                            <span class="text-sm opacity-80 mb-1">Puan</span>
+                            <span class="team-score text-3xl font-extrabold">${team.score}</span>
+                        </div>
+                    `;
+                    scoreTable.appendChild(scoreCell);
+                });
+                scoreBoardContainer.appendChild(scoreTable); // Append the score table to its container
+
+                const currentTurnPlayerName = window.teamScores[window.currentPlayer].name;
+                currentPlayerTurnDisplay.textContent = `Sıra: ${currentTurnPlayerName}`;
             }
             if (gridInstructionMessage) {
-                gridInstructionMessage.textContent = `Sıra ${window.teamNames[window.currentPlayer - 1]}'nda. Henüz cevaplanmamış bir soru seçin.`;
+                const currentTurnPlayerName = window.teamScores[window.currentPlayer].name;
+                gridInstructionMessage.textContent = `Sıra ${currentTurnPlayerName}'nda. Henüz cevaplanmamış bir soru seçin.`;
             }
         }
 
         function renderCurrentQuestion() {
-            console.log("renderCurrentQuestion called. Current Question Index:", window.currentQuestionIndex);
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
             }
 
-            feedbackDiv.classList.remove('show', 'correct', 'incorrect');
+            feedbackDiv.classList.remove('show', 'correct', 'incorrect', 'animate-in');
             feedbackDiv.innerHTML = '';
-            detailedExplanationContainer.innerHTML = '';
-            detailedExplanationContainer.classList.add('hidden');
             
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
@@ -1027,11 +1012,10 @@
             
             const q = shuffledQuestions[window.currentQuestionIndex];
             
-            // Logic to show/hide "Soru Ekranına Dön" button
             if (window.answeredQuestions[q.id]) {
-                returnToQuestionGridButton.classList.add('hidden'); // Hide if answered
+                returnToQuestionGridButton.classList.add('hidden');
             } else {
-                returnToQuestionGridButton.classList.remove('hidden'); // Show if not answered
+                returnToQuestionGridButton.classList.remove('hidden');
             }
 
             const allAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id]);
@@ -1040,7 +1024,7 @@
                 return;
             }
 
-            setGameBackground(q.theme || window.currentUnit); // Use question theme if available, else unit theme
+            setGameBackground(q.theme || window.currentUnit);
             questionCounterDisplay.textContent = `Soru ${shuffledQuestions.indexOf(q) + 1} / ${shuffledQuestions.length}`;
             
             questionContainer.classList.add('question-block-closed');
@@ -1052,11 +1036,15 @@
             if (q.type === 'trueFalse') {
                 optionsToShuffle = ["Doğru", "Yanlış"];
             } else if (q.type === 'fillInTheBlanks' || q.type === 'multipleChoice') {
-                optionsToShuffle = [...q.options];
+                // Ensure only 4 options are used
+                optionsToShuffle = [...q.options.slice(0, 4)]; 
             }
             
             const shuffledOptions = shuffleArray(optionsToShuffle);
-            const optionColors = ['option-color-1', 'option-color-2', 'option-color-3', 'option-color-4', 'option-color-5'];
+            // Use only the first 4 colors for options
+            const optionColors = [
+                'option-color-1', 'option-color-2', 'option-color-3', 'option-color-4' 
+            ];
 
             shuffledOptions.forEach((option, optIndex) => {
                 const colorClass = optionColors[optIndex % optionColors.length];
@@ -1076,11 +1064,13 @@
                 questionContainer.classList.remove('question-block-closed');
             }, 50);
 
+            const isCurrentPlayerActive = true; 
+
             if (window.answeredQuestions[q.id]) {
                 const currentAnswerState = window.answeredQuestions[q.id]; 
                 nextTurnButton.classList.remove('hidden');
                 
-                const selectedRadio = document.querySelector(`input[name="${q.id}"]:checked`);
+                const selectedRadio = document.querySelector(`input[name="${q.id}"][value="${currentAnswerState.userAnswer}"]`);
                 if (selectedRadio) {
                     selectedRadio.checked = true;
                     if (!currentAnswerState.isCorrect) {
@@ -1093,25 +1083,35 @@
                 document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
                 displayFeedback(currentAnswerState.isCorrect, q.answer, currentAnswerState.userAnswer, q.explanation);
-
+                
                 let actualAnswerValue = q.answer;
                 if (q.type === 'trueFalse') {
                     actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
                 }
-                const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
-                if (correctRadio) {
-                    const correctLabel = correctRadio.closest('label');
-                    if (correctLabel) {
-                        correctLabel.classList.add('correct-option-highlight');
+                // Only highlight the correct answer if the stored answer was correct
+                if (currentAnswerState.isCorrect) {
+                    const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
+                    if (correctRadio) {
+                        const correctLabel = correctRadio.closest('label');
+                        if (correctLabel) {
+                            correctLabel.classList.add('correct-option-highlight');
+                        }
                     }
                 }
 
-                questionScreenInstructionMessage.textContent = `Cevaplandı. Sırayı ${window.teamNames[window.currentPlayer % window.numTeams]}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
+                // Use 0-indexed answeredBy to get the team name
+                const answeredByPlayerName = window.teamScores[currentAnswerState.answeredBy].name; 
+                // Calculate next player's index using modulo for 0-indexed
+                const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
+                const nextPlayerName = window.teamScores[nextPlayerIndex].name;
+                questionScreenInstructionMessage.textContent = `Bu soru ${answeredByPlayerName} tarafından cevaplandı. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
                 questionScreenInstructionMessage.classList.remove('hidden');
 
             } else {
                 nextTurnButton.classList.add('hidden');
                 startTimer();
+                questionScreenInstructionMessage.textContent = `Sıra sizde! Soruyu cevaplamak için süreniz var.`;
+                questionScreenInstructionMessage.classList.remove('hidden');
             }
 
             updateScoreBoard();
@@ -1119,7 +1119,7 @@
         }
 
         function startTimer() {
-            timer = 40;
+            timer = initialTimerValue;
             timerDisplay.classList.remove('hidden');
             timerDisplay.classList.remove('warning', 'critical');
             timerDisplay.textContent = `Kalan Süre: ${timer} saniye`;
@@ -1131,9 +1131,13 @@
                 if (timer <= 10 && timer > 5) {
                     timerDisplay.classList.add('warning');
                     timerDisplay.classList.remove('critical');
+                    Tone.start(); // Ensure audio context is started
+                    timerSynth.triggerAttackRelease("A4", "16n"); // Tone.js ile uyarı sesi
                 } else if (timer <= 5) {
                     timerDisplay.classList.add('critical');
                     timerDisplay.classList.remove('warning');
+                    Tone.start(); // Ensure audio context is started
+                    timerSynth.triggerAttackRelease("A4", "16n"); // Tone.js ile kritik uyarı sesi
                 } else {
                     timerDisplay.classList.remove('warning', 'critical');
                 }
@@ -1144,45 +1148,54 @@
             }, 1000);
         }
 
-        function handleTimeout() {
+        async function handleTimeout() {
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
+            Tone.start(); // Ensure audio context is started
+            incorrectSynth.triggerAttackRelease("C3", "8n"); // Tone.js ile yanlış sesi
 
             const q = shuffledQuestions[window.currentQuestionIndex];
             if (!window.answeredQuestions[q.id]) {
-                window.answeredQuestions[q.id] = { isCorrect: false, userAnswer: 'Süre Doldu', answeredBy: window.currentPlayer };
+                // Store answeredBy as 0-indexed currentPlayer
+                const newAnswerState = { isCorrect: false, userAnswer: 'Süre Doldu', answeredBy: window.currentPlayer, timeTaken: initialTimerValue }; 
+                window.answeredQuestions[q.id] = newAnswerState;
             }
             
             document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
             displayFeedback(false, q.answer, 'Süre Doldu', q.explanation);
+            
+            // DO NOT highlight the correct answer when timeout occurs
+            // let actualAnswerValue = q.answer;
+            // if (q.type === 'trueFalse') {
+            //     actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+            // }
+            // const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
+            // if (correctRadio) {
+            //     const correctLabel = correctRadio.closest('label');
+            //     if (correctLabel) {
+            //         correctLabel.classList.add('correct-option-highlight');
+            //     }
+            // }
 
-            let actualAnswerValue = q.answer;
-            if (q.type === 'trueFalse') {
-                actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-            }
-            const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
-            if (correctRadio) {
-                const correctLabel = correctRadio.closest('label');
-                if (correctLabel) {
-                    correctLabel.classList.add('correct-option-highlight');
-                }
-            }
-
-            renderQuestionNumbers();
-            questionScreenInstructionMessage.textContent = `Süreyi kullandınız. Sırayı ${window.teamNames[window.currentPlayer % window.numTeams]}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
+            renderQuestionNumbers(); // This will re-shuffle the display order
+            // Calculate next player's index using modulo for 0-indexed
+            const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
+            const nextPlayerName = window.teamScores[nextPlayerIndex].name;
+            questionScreenInstructionMessage.textContent = `Süreyi kullandınız. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
             questionScreenInstructionMessage.classList.remove('hidden');
             nextTurnButton.classList.remove('hidden');
-            returnToQuestionGridButton.classList.add('hidden'); // Hide if timed out (considered answered)
+            returnToQuestionGridButton.classList.add('hidden');
         }
 
-        window.checkCurrentAnswer = function() {
+        window.checkCurrentAnswer = async function() {
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
 
             const q = shuffledQuestions[window.currentQuestionIndex];
             let userAnswer;
             let isCorrect = false;
+            let timeTaken = initialTimerValue - timer;
 
             const selected = document.querySelector(`input[name="${q.id}"]:checked`);
             userAnswer = selected ? selected.value : '';
@@ -1194,46 +1207,75 @@
 
             isCorrect = (userAnswer === actualAnswer);
 
-            if (isCorrect) {
-                window.teamScores[window.currentPlayer - 1]++;
+            if (selected) {
+                selected.closest('label').classList.add('selected-animation');
             }
 
-            window.answeredQuestions[q.id] = { isCorrect: isCorrect, userAnswer: userAnswer, answeredBy: window.currentPlayer };
-            
-            displayFeedback(isCorrect, q.answer, userAnswer, q.explanation);
+            if (isCorrect) {
+                const playerIndex = window.currentPlayer; // currentPlayer is already 0-indexed
+                if (playerIndex !== -1) { // Should always be valid if game started
+                    let pointsToAdd = 0;
+                    if (q.type === 'trueFalse') {
+                        pointsToAdd = 5;
+                    } else if (q.type === 'fillInTheBlanks' || q.type === 'multipleChoice') {
+                        pointsToAdd = 10;
+                    }
+                    
+                    window.teamScores[playerIndex].score += pointsToAdd; // Update score for the team object
 
-            document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
+                    if (timeTaken <= 10) {
+                        window.teamScores[playerIndex].score += 5; // Bonus 5 puan
+                    }
+                }
+                Tone.start(); // Ensure audio context is started
+                correctSynth.triggerAttackRelease("C5", "8n"); // Tone.js ile doğru sesi
 
-            if (!isCorrect) {
+                // Highlight correct option ONLY IF answered correctly
+                let correctOptionValue = q.answer;
+                if (q.type === 'trueFalse') {
+                    correctOptionValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+                }
+                const correctRadio = document.querySelector(`input[name="${q.id}"][value="${correctOptionValue}"]`);
+                if (correctRadio) {
+                    const correctLabel = correctRadio.closest('label');
+                    if (correctLabel) {
+                        correctLabel.classList.add('correct-option-highlight');
+                        correctLabel.classList.add('correct-animation');
+                    }
+                }
+
+            } else { // If incorrect
+                Tone.start(); // Ensure audio context is started
+                incorrectSynth.triggerAttackRelease("C3", "8n"); // Tone.js ile yanlış sesi
+
                 const selectedLabel = selected.closest('label');
                 if (selectedLabel) {
                     selectedLabel.classList.add('incorrect-selected-option');
+                    selectedLabel.classList.add('incorrect-animation');
                 }
+                // DO NOT highlight the correct answer here.
             }
-            let correctOptionValue = q.answer;
-            if (q.type === 'trueFalse') {
-                correctOptionValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-            }
-            const correctRadio = document.querySelector(`input[name="${q.id}"][value="${correctOptionValue}"]`);
-            if (correctRadio) {
-                const correctLabel = correctRadio.closest('label');
-                if (correctLabel) {
-                    correctLabel.classList.add('correct-option-highlight');
-                }
-            }
+
+            // Store answeredBy as 0-indexed currentPlayer
+            const newAnswerState = { isCorrect: isCorrect, userAnswer: userAnswer, answeredBy: window.currentPlayer, timeTaken: timeTaken }; 
+            window.answeredQuestions[q.id] = newAnswerState;
+            
+            displayFeedback(isCorrect, q.answer, userAnswer, q.explanation);
+            
+            document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
             updateScoreBoard();
             renderQuestionNumbers();
-            questionScreenInstructionMessage.textContent = `Cevaplandı. Sırayı ${window.teamNames[window.currentPlayer % window.numTeams]}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
+            // Calculate next player's index using modulo for 0-indexed
+            const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
+            const nextPlayerName = window.teamScores[nextPlayerIndex].name;
+            questionScreenInstructionMessage.textContent = `Cevaplandı. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
             questionScreenInstructionMessage.classList.remove('hidden');
             nextTurnButton.classList.remove('hidden');
-            returnToQuestionGridButton.classList.add('hidden'); // Hide if answered
+            returnToQuestionGridButton.classList.add('hidden');
         }
 
-        window.moveToNextTurn = function() {
-            detailedExplanationContainer.innerHTML = '';
-            detailedExplanationContainer.classList.add('hidden');
-
+        window.moveToNextTurn = async function() {
             const allAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id]);
 
             if (allAnswered) {
@@ -1241,69 +1283,111 @@
                 return;
             }
 
-            window.currentPlayer = (window.currentPlayer % window.numTeams) + 1;
+            // Increment currentPlayer and wrap around using modulo
+            window.currentPlayer = (window.currentPlayer + 1) % window.numTeams;
             updateScoreBoard();
             returnToQuestionsGrid();
         }
 
         function displayFeedback(isCorrect, correctAnswer, userAnswer, explanation) {
+            feedbackDiv.classList.add('show'); 
+            feedbackDiv.classList.remove('animate-in', 'correct', 'incorrect'); 
+
             if (isCorrect) {
-                feedbackDiv.classList.remove('show', 'correct', 'incorrect');
-                feedbackDiv.innerHTML = ``;
+                feedbackDiv.classList.add('correct');
+                let icon = '✅';
+                feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Doğru!`;
             } else {
-                feedbackDiv.classList.add('show', 'incorrect');
-                feedbackDiv.classList.remove('correct');
+                feedbackDiv.classList.add('incorrect');
                 let icon = '❌';
                 feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Yanlış.`;
-                if (explanation) {
-                    feedbackDiv.innerHTML += `<p class="explanation-text">${explanation}</p>`;
-                }
-                let actualAnswerValue = correctAnswer;
-                if (shuffledQuestions[window.currentQuestionIndex].type === 'trueFalse') {
-                    actualAnswerValue = (correctAnswer === 'D' ? 'Doğru' : 'Yanlış');
-                }
-                feedbackDiv.innerHTML += `<p class="explanation-text mt-2">Doğru cevap: <span class="font-bold text-green-700">${actualAnswerValue}</span></p>`;
+                // REMOVED: display of correct answer here
+                // let actualAnswerValue = correctAnswer;
+                // if (shuffledQuestions[window.currentQuestionIndex].type === 'trueFalse') {
+                //     actualAnswerValue = (correctAnswer === 'D' ? 'Doğru' : 'Yanlış');
+                // }
+                // feedbackDiv.innerHTML += `<p class="explanation-text mt-2">Doğru cevap: <span class="font-bold text-green-700">${actualAnswerValue}</span></p>`;
             }
+            feedbackDiv.classList.add('animate-in');
         }
 
         function renderQuestionNumbers() {
             questionNavigationContainer.innerHTML = '';
             
-            shuffledQuestions.forEach((q, index) => {
+            // Create a temporary array for display and shuffle it
+            const questionsForDisplay = [...shuffledQuestions]; // Create a copy
+            shuffleArray(questionsForDisplay); // Shuffle the copy for display order
+
+            questionsForDisplay.forEach((q, displayIndex) => { // Use displayIndex for visual numbering
                 const navItem = document.createElement('span');
                 navItem.classList.add('question-nav-item');
-                navItem.textContent = index + 1;
+                navItem.textContent = displayIndex + 1; // Display sequential number based on current shuffled order
                 
-                if (!window.answeredQuestions[q.id]) {
-                    navItem.onclick = () => selectQuestion(index);
+                // Store the original question ID to retrieve it later
+                navItem.dataset.questionId = q.id; 
+
+                // Check if the question is answered
+                if (window.answeredQuestions[q.id]) {
+                    if (window.answeredQuestions[q.id].isCorrect) {
+                        navItem.classList.add('answered-correctly');
+                    } else {
+                        navItem.classList.add('answered-incorrectly');
+                    }
+                    // Answered questions are always clickable to review
+                    navItem.onclick = () => {
+                        selectQuestionById(q.id);
+                    };
+                } else {
+                    // Unanswered questions are clickable
+                    navItem.onclick = () => {
+                        selectQuestionById(q.id);
+                    };
                 }
 
-                if (index === window.currentQuestionIndex && !quizContentContainer.classList.contains('hidden')) {
+                // If the question is currently displayed in quiz-content, mark it active
+                if (q.id === shuffledQuestions[window.currentQuestionIndex]?.id && !quizContentContainer.classList.contains('hidden')) {
                     navItem.classList.add('active-question');
                 } else {
                     navItem.classList.remove('active-question');
                 }
-
-                if (window.answeredQuestions[q.id]) {
-                    if (window.answeredQuestions[q.id].isCorrect) {
-                        navItem.classList.add('answered-correctly');
-                        navItem.classList.remove('answered-incorrectly');
-                    } else {
-                        navItem.classList.add('answered-incorrectly');
-                        navItem.classList.remove('answered-correctly');
-                    }
-                    navItem.classList.add('disabled-selection');
-                } else {
-                    navItem.classList.remove('answered-correctly', 'answered-incorrectly', 'disabled-selection');
-                }
+                
                 questionNavigationContainer.appendChild(navItem);
             });
         }
 
-        window.selectQuestion = function(index) {
-            const q = shuffledQuestions[index];
+        // New function to select a question by its ID
+        window.selectQuestionById = function(questionId) {
+            const originalIndex = shuffledQuestions.findIndex(q => q.id === questionId);
+            if (originalIndex !== -1) {
+                // Now call the existing selectQuestion with the original index
+                selectQuestion(originalIndex);
+            } else {
+                console.error("Question with ID not found:", questionId);
+            }
+        };
 
-            if (window.answeredQuestions[q.id]) {
+        window.selectQuestion = function(index) {
+            window.currentQuestionIndex = index; // This is the original index in shuffledQuestions
+            const q = shuffledQuestions[window.currentQuestionIndex];
+
+            if (window.answeredQuestions[q.id]) { 
+                window.currentQuestionIndex = index;
+                quizContentContainer.classList.remove('hidden');
+                questionNavigationContainer.classList.add('hidden');
+                
+                fullscreenOverlay.classList.remove('hidden');
+                setTimeout(() => fullscreenOverlay.classList.add('show'), 10);
+                quizContentContainer.classList.add('fullscreen-active');
+
+                renderCurrentQuestion();
+                hideFinalScore();
+                gridInstructionMessage.classList.add('hidden');
+                questionScreenInstructionMessage.classList.add('hidden');
+                return;
+            }
+
+            const isCurrentPlayerActive = true; 
+            if (!isCurrentPlayerActive) { 
                 return;
             }
 
@@ -1319,8 +1403,6 @@
             hideFinalScore();
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
-            detailedExplanationContainer.innerHTML = '';
-            detailedExplanationContainer.classList.add('hidden');
         }
 
         window.returnToQuestionsGrid = function() {
@@ -1334,9 +1416,7 @@
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
             nextTurnButton.classList.add('hidden');
-            returnToQuestionGridButton.classList.add('hidden'); // Hide return to grid button when on grid
-            detailedExplanationContainer.innerHTML = '';
-            detailedExplanationContainer.classList.add('hidden');
+            returnToQuestionGridButton.classList.add('hidden');
             
             nextTurnButton.textContent = "Sonraki Oyuncu";
             nextTurnButton.onclick = window.moveToNextTurn;
@@ -1345,7 +1425,7 @@
             gridInstructionMessage.classList.remove('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
 
-            setGameBackground(window.currentUnit); // Return to unit specific background
+            setGameBackground(window.currentUnit);
 
             fullscreenOverlay.classList.remove('show');
             setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
@@ -1357,16 +1437,14 @@
             questionNavigationContainer.classList.add('hidden');
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
-            detailedExplanationContainer.innerHTML = '';
-            detailedExplanationContainer.classList.add('hidden');
-            returnToQuestionGridButton.classList.add('hidden'); // Hide return to grid button on final score
+            returnToQuestionGridButton.classList.add('hidden');
 
             finalScoreContainer.classList.remove('hidden');
             resetGameButton.classList.remove('hidden');
             nextTurnButton.classList.add('hidden');
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
-            setGameBackground(window.currentUnit); // Keep unit specific background for final score
+            setGameBackground(window.currentUnit);
 
             fullscreenOverlay.classList.remove('show');
             setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
@@ -1374,15 +1452,15 @@
 
             let maxScore = 0;
             for (let i = 0; i < window.numTeams; i++) {
-                if (window.teamScores[i] > maxScore) {
-                    maxScore = window.teamScores[i];
+                if (window.teamScores[i].score > maxScore) { // Access score property
+                    maxScore = window.teamScores[i].score;
                 }
             }
 
             let winners = [];
             for (let i = 0; i < window.numTeams; i++) {
-                if (window.teamScores[i] === maxScore) {
-                    winners.push(window.teamNames[i]);
+                if (window.teamScores[i].score === maxScore) { // Access score property
+                    winners.push(window.teamScores[i].name); 
                 }
             }
 
@@ -1395,19 +1473,35 @@
                 winnerMessage = `${winners.join(' ve ')} berabere kaldı! 🤝`;
                 overallResultDiv.classList.remove('correct', 'incorrect');
             } else {
-                winnerMessage = `Oyun berabere bitti! 🤝`;
+                winnerMessage = `Oyun berabere bitti! �`;
                 overallResultDiv.classList.remove('correct', 'incorrect');
             }
 
-            let scoreSummaryHtml = '';
-            for (let i = 0; i < window.numTeams; i++) {
-                scoreSummaryHtml += `<p>${window.teamNames[i]} Puanı: ${window.teamScores[i]} / ${shuffledQuestions.length}</p>`;
-            }
+            // Render final team scores in the new table format
+            finalTeamScoresDisplay.innerHTML = ''; // Clear previous content
+            const finalScoreTable = document.createElement('div');
+            finalScoreTable.classList.add('score-table');
 
-            overallResultDiv.innerHTML = `
-                ${scoreSummaryHtml}
-                <p class="mt-4 text-xl font-bold">${winnerMessage}</p>
-            `;
+            window.teamScores.forEach((team, index) => {
+                const scoreCell = document.createElement('div');
+                scoreCell.classList.add('score-cell', teamColors[index % teamColors.length]);
+                scoreCell.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <span class="team-name text-lg font-bold flex items-center gap-1">
+                            ${getTeamIcon(index)} ${team.name}
+                        </span>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <span class="text-sm opacity-80 mb-1">Puan</span>
+                        <span class="team-score text-3xl font-extrabold">${team.score}</span>
+                    </div>
+                `;
+                finalScoreTable.appendChild(scoreCell);
+            });
+            finalTeamScoresDisplay.appendChild(finalScoreTable);
+
+
+            overallResultDiv.innerHTML = `<p class="mt-4 text-xl font-bold">${winnerMessage}</p>`;
             overallResultDiv.classList.add('show');
         }
 
@@ -1432,20 +1526,20 @@
             window.answeredQuestions = {};
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
-            shuffledQuestions = []; // Clear questions
+            shuffledQuestions = [];
             window.currentUnit = null;
+            window.teamNames = []; // Reset team names
 
             quizContentContainer.classList.add('hidden');
             hideFinalScore();
             questionNavigationContainer.classList.add('hidden');
             gamePanel.classList.add('hidden');
             playerSelectionScreen.classList.add('hidden');
-            mainMenuScreen.classList.remove('hidden'); // Show main menu
+            teamNameInputScreen.classList.add('hidden'); // Hide team name input screen
+            mainMenuScreen.classList.remove('hidden');
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
-            detailedExplanationContainer.innerHTML = '';
-            detailedExplanationContainer.classList.add('hidden');
-            returnToQuestionGridButton.classList.add('hidden'); // Hide on reset
+            returnToQuestionGridButton.classList.add('hidden');
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
             }
@@ -1456,19 +1550,18 @@
             quizContentContainer.classList.remove('fullscreen-active');
 
             if (currentPlayerTurnDisplay) {
-                currentPlayerTurnDisplay.textContent = "Sıra: A Takımı";
+                // Set default text for display, will be updated on game start
+                currentPlayerTurnDisplay.textContent = "Sıra: Takım 1"; 
                 currentPlayerTurnDisplay.classList.remove('text-gray-600', 'font-normal');
                 currentPlayerTurnDisplay.classList.add('current-turn');
             }
-            if (scoreBoard) {
-                scoreBoard.classList.remove('hidden');
+            if (scoreBoardContainer) {
+                scoreBoardContainer.classList.remove('hidden');
             }
-            applyButtonColors(); // Re-apply colors on reset
+            applyButtonColors();
         }
 
-        // New function to return to main menu from any game screen
         window.returnToMainMenu = function() {
-            console.log("Returning to main menu.");
             window.teamScores = [];
             window.numTeams = 0;
             window.currentPlayer = 0;
@@ -1478,18 +1571,18 @@
             timerDisplay.classList.add('hidden');
             shuffledQuestions = [];
             window.currentUnit = null;
+            window.teamNames = []; // Reset team names
 
             quizContentContainer.classList.add('hidden');
             hideFinalScore();
             questionNavigationContainer.classList.add('hidden');
             gamePanel.classList.add('hidden');
             playerSelectionScreen.classList.add('hidden');
-            mainMenuScreen.classList.remove('hidden'); // Show main menu
+            teamNameInputScreen.classList.add('hidden'); // Hide team name input screen
+            mainMenuScreen.classList.remove('hidden');
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
-            detailedExplanationContainer.innerHTML = '';
-            detailedExplanationContainer.classList.add('hidden');
-            returnToQuestionGridButton.classList.add('hidden'); // Hide on return to main menu
+            returnToQuestionGridButton.classList.add('hidden');
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
             }
@@ -1500,43 +1593,63 @@
             quizContentContainer.classList.remove('fullscreen-active');
 
             if (currentPlayerTurnDisplay) {
-                currentPlayerTurnDisplay.textContent = "Sıra: A Takımı";
+                // Set default text for display, will be updated on game start
+                currentPlayerTurnDisplay.textContent = "Sıra: Takım 1"; 
                 currentPlayerTurnDisplay.classList.remove('text-gray-600', 'font-normal');
                 currentPlayerTurnDisplay.classList.add('current-turn');
             }
-            if (scoreBoard) {
-                scoreBoard.classList.remove('hidden');
+            if (scoreBoardContainer) {
+                scoreBoardContainer.classList.remove('hidden');
             }
-            applyButtonColors(); // Re-apply colors on return to main menu
+            applyButtonColors();
         }
 
-        // Function to navigate to the external site
-        window.goToExternalSite = function() {
-            window.location.href = "https://ozeme42.github.io/yunus/index.html";
-        };
-
-        // Function to apply colors to buttons
         function applyButtonColors() {
-            // Helper to remove all classes from buttonColors array
             const removeAllButtonColors = (element) => {
-                buttonColors.forEach(colorSet => {
-                    element.classList.remove(...colorSet.split(' '));
-                });
+                const allColors = [
+                    'bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50',
+                    'bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50',
+                    'bg-purple-600', 'hover:bg-purple-700', 'shadow-purple-500/50',
+                    'bg-yellow-600', 'hover:bg-yellow-700', 'shadow-yellow-500/50',
+                    'bg-pink-600', 'hover:bg-pink-700', 'shadow-pink-500/50',
+                    'bg-indigo-600', 'hover:bg-indigo-700', 'shadow-indigo-500/50',
+                    'bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50',
+                    'bg-teal-600', 'hover:bg-teal-700', 'shadow-teal-500/50',
+                    // Add all team colors here too if they are used on buttons
+                    'bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-purple-500'
+                ];
+                element.classList.remove(...allColors);
             };
 
-            const unitButtons = document.querySelectorAll('#main-menu-screen .action-button');
+            const buttonColorSets = [
+                ['bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50'],
+                ['bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50'],
+                ['bg-purple-600', 'hover:bg-purple-700', 'shadow-purple-500/50'],
+                ['bg-yellow-600', 'hover:bg-yellow-700', 'shadow-yellow-500/50'],
+                ['bg-pink-600', 'hover:bg-pink-700', 'shadow-pink-500/50'],
+                ['bg-indigo-600', 'hover:bg-indigo-700', 'shadow-indigo-500/50'],
+                ['bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50'],
+                ['bg-teal-600', 'hover:bg-teal-700', 'shadow-teal-500/50']
+            ];
+
+            const unitButtons = document.querySelectorAll('#main-menu-screen .action-button'); 
             unitButtons.forEach((button, index) => {
-                removeAllButtonColors(button); // Remove previous colors
-                button.classList.add(...buttonColors[index % buttonColors.length].split(' '));
+                removeAllButtonColors(button);
+                button.classList.add(...buttonColorSets[index % buttonColorSets.length]);
             });
 
             const teamButtons = document.querySelectorAll('#player-selection-screen .action-button');
             teamButtons.forEach((button, index) => {
-                removeAllButtonColors(button); // Remove previous colors
-                button.classList.add(...buttonColors[index % buttonColors.length].split(' '));
+                removeAllButtonColors(button);
+                button.classList.add(...buttonColorSets[index % buttonColorSets.length]);
             });
 
-            // Specific action buttons
+            const startQuizButton = document.getElementById('start-quiz-button');
+            if (startQuizButton) {
+                removeAllButtonColors(startQuizButton);
+                startQuizButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+            }
+
             if (nextTurnButton) {
                 removeAllButtonColors(nextTurnButton);
                 nextTurnButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
@@ -1558,31 +1671,20 @@
                 removeAllButtonColors(finalReturnButton);
                 finalReturnButton.classList.add('bg-orange-600', 'hover:bg-orange-700', 'shadow-orange-500/50');
             }
-            if (document.querySelector('#main-menu-screen .return-button')) { // "Siteye Dön" button
-                const siteyeDonButton = document.querySelector('#main-menu-screen .return-button');
-                removeAllButtonColors(siteyeDonButton);
-                siteyeDonButton.classList.add('bg-teal-600', 'hover:bg-teal-700', 'shadow-teal-500/50');
-            }
         }
 
-
-        // Initial setup on page load
         window.onload = async function() { 
-            console.log("Window loaded. Starting application setup.");
-
-            // Assign DOM elements here to ensure they are loaded
             mainMenuScreen = document.getElementById('main-menu-screen');
             playerSelectionScreen = document.getElementById('player-selection-screen'); 
+            teamNameInputScreen = document.getElementById('team-name-input-screen'); // Yeni atama
+            teamNameInputsContainer = document.getElementById('team-name-inputs-container'); // Yeni atama
             gamePanel = document.getElementById('game-panel');
-            scoreBoard = document.getElementById('score-board');
-            scoreBoardTeamsContainer = document.getElementById('score-board-teams-container');
+            scoreBoardContainer = document.getElementById('score-board-container'); // Updated ID
             currentPlayerTurnDisplay = document.getElementById('current-player-turn');
             quizContentContainer = document.getElementById('quiz-content');
             questionContainer = document.getElementById('current-question-container');
             feedbackDiv = document.getElementById('current-question-feedback');
             nextTurnButton = document.getElementById('next-turn-button'); 
-            detailedExplanationContainer = document.getElementById('detailed-explanation-container'); 
-            loadingSpinner = document.getElementById('loading-spinner'); 
             
             finalScoreContainer = document.getElementById('final-score-container');
             overallResultDiv = document.getElementById('overall-result');
@@ -1593,34 +1695,18 @@
             gridInstructionMessage = document.getElementById('grid-instruction-message'); 
             questionScreenInstructionMessage = document.getElementById('question-screen-instruction-message'); 
             fullscreenOverlay = document.getElementById('fullscreen-overlay');
-            returnToMainMenuGridButton = document.getElementById('return-to-main-menu-grid-button'); // Assign the new grid button
-            returnToQuestionGridButton = document.getElementById('return-to-question-grid-button'); // Assign the new button
+            returnToMainMenuGridButton = document.getElementById('return-to-main-menu-grid-button');
+            returnToQuestionGridButton = document.getElementById('return-to-question-grid-button');
+            finalTeamScoresDisplay = document.getElementById('final-team-scores-display'); // New element
 
-            // Log to confirm elements are found
-            const elementsToCheck = {
-                mainMenuScreen, playerSelectionScreen, gamePanel, scoreBoard, scoreBoardTeamsContainer, currentPlayerTurnDisplay,
-                quizContentContainer, questionContainer, feedbackDiv, nextTurnButton,
-                detailedExplanationContainer, loadingSpinner, 
-                finalScoreContainer, overallResultDiv, resetGameButton,
-                questionCounterDisplay, questionNavigationContainer, timerDisplay,
-                gridInstructionMessage, questionScreenInstructionMessage, fullscreenOverlay,
-                returnToMainMenuGridButton, returnToQuestionGridButton
-            };
-
-            for (const key in elementsToCheck) {
-                if (elementsToCheck[key] === null) {
-                    console.error(`ERROR: DOM element '${key}' not found! This is critical for the app to function.`);
-                } else {
-                    console.log(`DOM element '${key}' found.`);
-                }
-            }
-
-            // Initially hide all game-related panels and show main menu
             if (gamePanel) {
                 gamePanel.classList.add('hidden');
             }
             if (playerSelectionScreen) {
                 playerSelectionScreen.classList.add('hidden');
+            }
+            if (teamNameInputScreen) { // Yeni ekranı gizle
+                teamNameInputScreen.classList.add('hidden');
             }
             if (mainMenuScreen) {
                 mainMenuScreen.classList.remove('hidden');
@@ -1629,13 +1715,17 @@
                 questionCounterDisplay.classList.add('hidden');
             }
             if (returnToQuestionGridButton) {
-                returnToQuestionGridButton.classList.add('hidden'); // Ensure it's hidden initially
+                returnToQuestionGridButton.classList.add('hidden');
             }
-            setGameBackground('general');
-            console.log("Application setup complete. Showing main menu screen.");
 
-            applyButtonColors(); // Apply colors on initial load
-            await initFirebase(); 
+            setGameBackground('general');
+
+            applyButtonColors();
+
+            // Tone.js ses sentezleyicilerini başlatıyoruz
+            correctSynth = new Tone.Synth().toDestination();
+            incorrectSynth = new Tone.Synth().toDestination();
+            timerSynth = new Tone.Synth().toDestination();
         };
     </script>
 </head>
@@ -1644,7 +1734,6 @@
 
     <div class="container">
         <h1>Din Kültürü ve Ahlak Bilgisi Bilgi Yarışması</h1>
-
         <div id="main-menu-screen" class="player-selection-screen">
             <h2>Ünite Seçimi</h2>
             <div class="team-selection-buttons">
@@ -1654,7 +1743,6 @@
                 <button class="action-button" onclick="selectUnit('unit4')">4. Ünite: Peygamber Kıssaları</button>
                 <button class="action-button" onclick="selectUnit('unit5')">5. Ünite: Mimarimizde Dinî Motifler</button>
             </div>
-            <button class="action-button" onclick="goToExternalSite()">Siteye Dön</button>
         </div>
 
         <div id="player-selection-screen" class="player-selection-screen hidden">
@@ -1668,12 +1756,17 @@
             </div>
         </div>
 
+        <div id="team-name-input-screen" class="player-selection-screen hidden">
+            <h2>Takım Adlarını Belirle</h2>
+            <div id="team-name-inputs-container" class="team-name-input-group">
+                </div>
+            <button id="start-quiz-button" class="action-button" onclick="setTeamNames()">Başla</button>
+        </div>
+
         <div id="game-panel" class="hidden">
-            <div id="score-board" class="score-board">
-                <div id="score-board-teams-container" class="flex flex-wrap justify-center items-center">
-                    </div>
-                <div id="current-player-turn" class="current-turn">Sıra: A Takımı</div>
-            </div>
+            <div id="score-board-container" class="score-table-container">
+                </div>
+            <div id="current-player-turn" class="current-turn">Sıra: A Takımı</div>
 
             <div id="grid-instruction-message" class="text-center text-md font-medium text-gray-700 mb-4"></div>
             <div id="question-navigation" class="question-navigation">
@@ -1691,17 +1784,16 @@
                         </div>
                 </div>
                 <div id="current-question-feedback" class="feedback-message"></div>
-                <div class="button-group">
+                <div class="button-group mt-4">
                     <button id="next-turn-button" class="action-button hidden" onclick="moveToNextTurn()">Sonraki Oyuncu</button>
                     <button id="return-to-question-grid-button" class="action-button hidden" onclick="returnToQuestionsGrid()">Soru Ekranına Dön</button>
                 </div>
-                <div id="loading-spinner" class="loading-spinner"></div>
-                <div id="detailed-explanation-container" class="detailed-explanation-container hidden"></div>
                 <div id="question-screen-instruction-message" class="text-center text-md font-medium text-gray-700 mt-2 hidden"></div>
             </div>
 
             <div id="final-score-container" class="hidden">
                 <div id="overall-result" class="feedback-message"></div>
+                <div id="final-team-scores-display" class="score-table-container"></div>
                 <button id="reset-game-button" class="action-button" onclick="resetGame()">Yeniden Başla</button>
                 <button id="return-to-main-menu-from-final-button" class="action-button mt-4" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
             </div>
@@ -1709,3 +1801,4 @@
     </div>
 </body>
 </html>
+�
