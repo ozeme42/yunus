@@ -39,10 +39,10 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             background-color: #FFFFFF; /* White Card Background */
             border-radius: 1.5rem;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            padding: 2.2rem; /* Increased padding for larger text */
-            max-width: 980px; /* Increased max-width */
+            padding: 2.5rem; /* Increased padding for larger text */
+            max-width: 1024px; /* Increased max-width for larger text */
             width: 100%;
-            height: 88vh; /* Slightly increased height for presentation slides */
+            height: 90vh; /* Slightly increased height for presentation slides */
             display: flex;
             flex-direction: column;
             justify-content: space-between; /* Space out content and footer */
@@ -53,7 +53,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
         .slide {
             display: none; /* Hidden by default */
             flex-grow: 1;
-            padding-bottom: 3.5rem; /* Space for controls at bottom */
+            padding-bottom: 4rem; /* Space for controls at bottom */
             text-align: left;
         }
         .slide.active {
@@ -61,48 +61,48 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
         }
         .main-title {
             color: #073642;
-            font-size: 3.5rem; /* Even Larger */
+            font-size: 4rem; /* Even Larger */
             font-weight: 800;
             line-height: 1.1;
-            margin-bottom: 1rem; /* Larger margin */
+            margin-bottom: 1.2rem; /* Larger margin */
             text-align: center;
         }
         .subtitle {
             color: #268BD2;
-            font-size: 1.8rem; /* Even Larger */
+            font-size: 2rem; /* Even Larger */
             font-weight: 600;
-            margin-bottom: 2.5rem; /* Larger margin */
+            margin-bottom: 3rem; /* Larger margin */
             text-align: center;
         }
         .unit-title {
             color: #073642;
-            font-size: 2.2rem; /* Even Larger */
+            font-size: 2.5rem; /* Even Larger */
             font-weight: 700;
-            margin-bottom: 1.5rem; /* Larger margin */
+            margin-bottom: 1.8rem; /* Larger margin */
             display: flex;
             align-items: center;
-            gap: 0.85rem; /* Adjusted */
+            gap: 0.95rem; /* Adjusted */
             justify-content: center;
             text-align: center;
         }
         .unit-content p {
-            font-size: 1.1rem; /* Even Larger */
-            line-height: 1.6; /* Adjusted */
+            font-size: 1.2rem; /* Even Larger */
+            line-height: 1.7; /* Adjusted */
             color: #586E75;
-            margin-bottom: 0.9rem; /* Larger margin */
+            margin-bottom: 1rem; /* Larger margin */
         }
         .unit-content ul {
             list-style: none; /* Remove default bullet */
             padding-left: 0; /* Remove default padding */
-            margin-bottom: 0.9rem; /* Larger margin */
+            margin-bottom: 1rem; /* Larger margin */
         }
         .unit-content ul li {
             position: relative;
-            padding-left: 1.8em; /* Adjusted */
-            font-size: 1.05rem; /* Even Larger */
-            line-height: 1.5; /* Adjusted */
+            padding-left: 1.9em; /* Adjusted */
+            font-size: 1.15rem; /* Even Larger */
+            line-height: 1.6; /* Adjusted */
             color: #586E75;
-            margin-bottom: 0.4rem; /* Larger margin */
+            margin-bottom: 0.5rem; /* Larger margin */
         }
         .unit-content ul li::before {
             content: '➤'; /* Default symbol for new bullet points */
@@ -111,7 +111,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             left: 0;
             top: 0;
             font-weight: bold;
-            font-size: 1.1em; /* Even Larger */
+            font-size: 1.2em; /* Even Larger */
         }
         /* Specific styling for lists that already use emojis */
         .unit-content ul.emoji-list li::before {
@@ -125,27 +125,27 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             color: #073642;
         }
         .emoji-icon {
-            font-size: 1.7rem; /* Even Larger */
+            font-size: 2rem; /* Even Larger */
             line-height: 1;
         }
         .sub-heading {
             color: #268BD2;
-            font-size: 1.4rem; /* Even Larger */
+            font-size: 1.5rem; /* Even Larger */
             font-weight: 600;
-            margin-top: 1.2rem; /* Larger margin */
-            margin-bottom: 0.7rem; /* Larger margin */
+            margin-top: 1.4rem; /* Larger margin */
+            margin-bottom: 0.8rem; /* Larger margin */
         }
         .sure-box {
             background-color: #F5F5F5;
             border: 1px solid #EEE8D5;
-            padding: 1rem; /* Larger padding */
+            padding: 1.2rem; /* Larger padding */
             border-radius: 0.5rem;
-            margin-top: 1rem; /* Larger margin */
+            margin-top: 1.2rem; /* Larger margin */
             font-style: italic;
         }
         .sure-box p {
-            margin-bottom: 0.5rem; /* Larger margin */
-            font-size: 1.05rem; /* Even Larger */
+            margin-bottom: 0.6rem; /* Larger margin */
+            font-size: 1.15rem; /* Even Larger */
         }
         .sure-box .font-semibold {
             font-style: normal;
@@ -153,92 +153,92 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
         }
         .cami-bolum-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjusted min-width */
-            gap: 0.7rem; /* Larger gap */
-            margin-top: 1.2rem; /* Larger margin */
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Adjusted min-width */
+            gap: 0.8rem; /* Larger gap */
+            margin-top: 1.4rem; /* Larger margin */
             justify-items: center;
             text-align: center;
         }
         .cami-bolum-item {
             background-color: #A6D6F5;
             color: #073642;
-            padding: 0.8rem 0.6rem; /* Larger padding */
+            padding: 0.9rem 0.7rem; /* Larger padding */
             border-radius: 0.5rem;
-            font-size: 0.95rem; /* Even Larger */
+            font-size: 1.05rem; /* Even Larger */
             font-weight: 500;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.25rem; /* Adjusted */
+            gap: 0.3rem; /* Adjusted */
             border: 1px solid #268BD2;
         }
         .cami-bolum-item .emoji {
-            font-size: 1.6rem; /* Even Larger */
+            font-size: 1.8rem; /* Even Larger */
             line-height: 1;
         }
         .concept-tag-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 0.6rem; /* Larger gap */
-            margin-top: 1rem; /* Larger margin */
+            gap: 0.7rem; /* Larger gap */
+            margin-top: 1.2rem; /* Larger margin */
         }
         .concept-tag {
             background-color: #A6D6F5;
             color: #073642;
-            padding: 0.4rem 0.8rem; /* Larger padding */
+            padding: 0.5rem 0.9rem; /* Larger padding */
             border-radius: 9999px;
-            font-size: 0.95rem; /* Even Larger */
+            font-size: 1.05rem; /* Even Larger */
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 0.25rem; /* Adjusted */
+            gap: 0.3rem; /* Adjusted */
         }
         .visual-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Adjusted min-width */
-            gap: 0.6rem; /* Larger gap */
-            margin-top: 1.2rem; /* Larger margin */
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Adjusted min-width */
+            gap: 0.7rem; /* Larger gap */
+            margin-top: 1.4rem; /* Larger margin */
             justify-items: center;
             text-align: center;
         }
         .visual-item {
-            font-size: 2.2rem; /* Even Larger */
+            font-size: 2.5rem; /* Even Larger */
             line-height: 1;
             color: #2AA198;
         }
         .visual-item-label {
-            font-size: 0.85rem; /* Even Larger */
+            font-size: 0.95rem; /* Even Larger */
             color: #586E75;
-            margin-top: 0.25rem; /* Adjusted */
+            margin-top: 0.3rem; /* Adjusted */
         }
         .horizontal-bar-chart {
             display: flex;
             flex-direction: column;
-            gap: 0.6rem; /* Larger gap */
-            margin-top: 1.2rem; /* Larger margin */
+            gap: 0.7rem; /* Larger gap */
+            margin-top: 1.4rem; /* Larger margin */
         }
         .chart-bar-item {
             display: flex;
             align-items: center;
-            gap: 0.6rem; /* Larger gap */
+            gap: 0.7rem; /* Larger gap */
             background-color: #A6D6F5;
-            padding: 0.45rem 0.8rem; /* Larger padding */
+            padding: 0.55rem 0.9rem; /* Larger padding */
             border-radius: 0.4rem;
             color: #073642;
-            font-size: 1rem; /* Even Larger */
+            font-size: 1.1rem; /* Even Larger */
             font-weight: 500;
         }
         .chart-bar-item .label {
             flex-shrink: 0;
-            width: 80px; /* Adjusted */
+            width: 90px; /* Adjusted */
             text-align: right;
         }
         .chart-bar-item .value-bar {
             flex-grow: 1;
             display: flex;
             align-items: center;
-            height: 1.1rem; /* Larger */
+            height: 1.2rem; /* Larger */
             background-color: #268BD2;
             border-radius: 0.2rem;
         }
@@ -251,20 +251,20 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             background-color: rgba(253, 246, 227, 0.95); /* Semi-transparent Solarized Light */
             backdrop-filter: blur(5px);
             z-index: 100; /* Higher z-index to be on top */
-            padding: 0.9rem 1.2rem; /* Larger padding */
+            padding: 1rem 1.5rem; /* Larger padding */
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             border-bottom: 1px solid #EEE8D5;
             display: flex;
             justify-content: center;
-            gap: 0.9rem; /* Larger gap */
+            gap: 1rem; /* Larger gap */
             flex-wrap: wrap; /* Allow wrapping on smaller screens */
         }
         .top-nav-button {
             background-color: #073642; /* Darker accent for buttons */
             color: white;
-            padding: 0.6rem 1.1rem; /* Larger padding */
+            padding: 0.7rem 1.2rem; /* Larger padding */
             border-radius: 0.75rem;
-            font-size: 1rem; /* Larger */
+            font-size: 1.1rem; /* Larger */
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.1s ease;
@@ -283,9 +283,9 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
         .return-site-button {
             background-color: #B58900; /* Solarized Yellow for return button */
             color: white;
-            padding: 0.6rem 1.1rem;
+            padding: 0.7rem 1.2rem; /* Larger padding */
             border-radius: 0.75rem;
-            font-size: 1rem;
+            font-size: 1.1rem; /* Larger */
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.1s ease;
@@ -305,8 +305,8 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             right: 0;
             display: flex;
             justify-content: center;
-            gap: 1.2rem; /* Larger gap */
-            padding: 0.9rem 2.2rem; /* Larger padding */
+            gap: 1.4rem; /* Larger gap */
+            padding: 1rem 2.5rem; /* Larger padding */
             background-color: #FFFFFF;
             border-top: 1px solid #EEE8D5;
             border-bottom-left-radius: 1.5rem;
@@ -316,9 +316,9 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
         .nav-button {
             background-color: #268BD2;
             color: white;
-            padding: 0.7rem 1.4rem; /* Larger padding */
+            padding: 0.8rem 1.6rem; /* Larger padding */
             border-radius: 0.75rem;
-            font-size: 1.1rem; /* Larger */
+            font-size: 1.2rem; /* Larger */
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s ease;
@@ -334,9 +334,9 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
         .slide-counter {
             background-color: #EEE8D5;
             color: #073642;
-            padding: 0.7rem 1.2rem; /* Larger padding */
+            padding: 0.8rem 1.4rem; /* Larger padding */
             border-radius: 0.75rem;
-            font-size: 1.1rem; /* Larger */
+            font-size: 1.2rem; /* Larger */
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -345,39 +345,57 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
 
         @media (max-width: 768px) {
             .presentation-container {
-                padding: 1.2rem; /* Adjusted for mobile */
-                height: 92vh; /* Adjusted for mobile */
+                padding: 1rem; /* Adjusted for mobile */
+                height: 90vh; /* Adjusted for mobile */
             }
             .main-title {
-                font-size: 2.8rem; /* Adjusted for mobile */
+                font-size: 2.5rem; /* Adjusted for mobile */
             }
             .subtitle {
-                font-size: 1.4rem; /* Adjusted for mobile */
-            }
-            .unit-title {
-                font-size: 1.8rem; /* Adjusted for mobile */
-            }
-            .unit-content p, .unit-content ul li {
-                font-size: 1rem; /* Adjusted for mobile */
-            }
-            .sub-heading {
                 font-size: 1.2rem; /* Adjusted for mobile */
             }
+            .unit-title {
+                font-size: 1.6rem; /* Adjusted for mobile */
+            }
+            .unit-content p {
+                font-size: 0.9rem; /* Adjusted for mobile */
+            }
+            .unit-content ul li {
+                font-size: 0.9rem; /* Adjusted for mobile */
+            }
+            .unit-content ul li::before {
+                font-size: 1em; /* Adjusted for mobile */
+            }
+            .emoji-icon {
+                font-size: 1.5rem; /* Adjusted for mobile */
+            }
+            .sub-heading {
+                font-size: 1.1rem; /* Adjusted for mobile */
+            }
             .sure-box p {
-                font-size: 0.95rem; /* Adjusted for mobile */
+                font-size: 0.85rem; /* Adjusted for mobile */
             }
             .cami-bolum-grid {
-                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Adjusted for mobile */
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Adjusted for mobile */
+                gap: 0.5rem; /* Adjusted for mobile */
             }
             .cami-bolum-item {
-                font-size: 0.85rem; /* Adjusted for mobile */
-                padding: 0.5rem; /* Adjusted for mobile */
+                font-size: 0.75rem; /* Adjusted for mobile */
+                padding: 0.4rem; /* Adjusted for mobile */
             }
             .cami-bolum-item .emoji {
-                font-size: 1.4rem; /* Adjusted for mobile */
+                font-size: 1.2rem; /* Adjusted for mobile */
+            }
+            .concept-tag-grid {
+                gap: 0.5rem; /* Adjusted for mobile */
+            }
+            .concept-tag {
+                font-size: 0.85rem; /* Adjusted for mobile */
+                padding: 0.3rem 0.7rem; /* Adjusted for mobile */
             }
             .visual-grid {
                 grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Adjusted for mobile */
+                gap: 0.5rem; /* Adjusted for mobile */
             }
             .visual-item {
                 font-size: 1.8rem; /* Adjusted for mobile */
@@ -385,11 +403,18 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             .visual-item-label {
                 font-size: 0.75rem; /* Adjusted for mobile */
             }
+            .horizontal-bar-chart {
+                gap: 0.5rem; /* Adjusted for mobile */
+            }
             .chart-bar-item {
-                font-size: 0.9rem; /* Adjusted for mobile */
+                font-size: 0.8rem; /* Adjusted for mobile */
+                padding: 0.35rem 0.7rem; /* Adjusted for mobile */
             }
             .chart-bar-item .label {
                 width: 70px; /* Adjusted for mobile */
+            }
+            .chart-bar-item .value-bar {
+                height: 1rem; /* Adjusted for mobile */
             }
             .nav-button {
                 padding: 0.6rem 1.1rem; /* Adjusted for mobile */
@@ -405,11 +430,11 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             }
             .top-nav-button {
                 padding: 0.5rem 0.9rem; /* Adjusted for mobile */
-                font-size: 0.9rem; /* Adjusted for mobile */
+                font-size: 0.8rem; /* Adjusted for mobile */
             }
             .return-site-button {
                 padding: 0.5rem 0.9rem; /* Adjusted for mobile */
-                font-size: 0.9rem; /* Adjusted for mobile */
+                font-size: 0.8rem; /* Adjusted for mobile */
             }
         }
     </style>
@@ -726,6 +751,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
                 </ul>
                 <div class="sure-box">
                     <p class="font-semibold">Anlamı:</p>
+                    <p>Rahman ve Rahîm olan Allah'ın adıyla.</p>
                     <p>1. Şüphesiz biz sana Kevser'i (bol nimeti) verdik.</p>
                     <p>2. Öyleyse Rabbin için namaz kıl ve kurban kes.</p>
                     <p>3. Doğrusu, sana karşı nefret duyandır soyu kesik olan.</p>
