@@ -126,15 +126,25 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
         }
-        .question-card.answered {
-            background-color: #a0aec0;
-            color: #718096;
-            cursor: not-allowed;
-            opacity: 0.7;
+        .question-card.correctly-answered {
+            background-color: #a7f3d0; /* Light green */
+            border-color: #34d399; /* Green border */
+            color: #065f46; /* Darker green text */
+            cursor: not-allowed; /* Correctly answered questions are not clickable */
+            opacity: 0.9;
         }
-        .question-card.answered:hover {
-            transform: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        .question-card.incorrectly-answered {
+            background-color: #fecaca; /* Light red */
+            border-color: #ef4444; /* Red border */
+            color: #991b1b; /* Darker red text */
+            /* Incorrectly answered questions remain clickable, so no 'cursor: not-allowed' */
+            opacity: 0.9; /* Slightly less opaque to show it's been attempted */
+        }
+
+        /* Ensure hover effect is applied only to clickable cards */
+        .question-card:not(.correctly-answered):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
         }
         .question-block {
             background-color: #ebf8ff;
@@ -748,7 +758,7 @@
     let numTeams = 1; // Default to 1 team
     let teamScores = []; // Array to store scores for each team
     let currentTeamIndex = 0; // Index of the current team whose turn it is
-    let answeredQuestions = {}; // Track answered questions for the current unit
+    let answeredQuestionsStatus = {}; // Track answered questions status ('correct' or 'incorrect')
     let timer;
     const quizTime = 30; // seconds per question
     let timeLeft = quizTime;
@@ -927,7 +937,7 @@
     function startTeamQuiz() {
         teamScores = Array(numTeams).fill(0);
         currentTeamIndex = 0;
-        answeredQuestions = {}; // Reset answered questions for a new game
+        answeredQuestionsStatus = {}; // Reset answered questions status for a new game
 
         teamSelectionScreen.classList.add('hidden');
         questionGridScreen.classList.remove('hidden');
@@ -942,7 +952,7 @@
         numTeams = 1;
         teamScores = [];
         currentTeamIndex = 0;
-        answeredQuestions = {};
+        answeredQuestionsStatus = {}; // Reset answered questions status
         finalScoreContainer.classList.add('hidden');
         renderUnitSelection();
     }
@@ -975,9 +985,15 @@
             questionCard.dataset.questionId = questionId; // Store unique ID
             questionCard.onclick = () => showQuestion(index);
 
-            if (answeredQuestions[questionId]) {
-                questionCard.classList.add('answered');
-                questionCard.onclick = null; // Disable click for answered questions
+            // Apply visual status based on answeredQuestionsStatus
+            if (answeredQuestionsStatus[questionId]) {
+                if (answeredQuestionsStatus[questionId] === 'correct') {
+                    questionCard.classList.add('correctly-answered');
+                    questionCard.onclick = null; // Correctly answered questions are not clickable
+                } else if (answeredQuestionsStatus[questionId] === 'incorrect') {
+                    questionCard.classList.add('incorrectly-answered');
+                    // Incorrectly answered questions remain clickable, so no 'onclick = null'
+                }
             }
             questionGrid.appendChild(questionCard);
         });
@@ -1012,8 +1028,8 @@
         const originalIndex = questions.findIndex(originalQ => originalQ.question === currentQuestionData.question && originalQ.category === currentQuestionData.category);
         const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`;
 
-        if (answeredQuestions[questionId]) {
-            showCustomModal('Bilgi', 'Bu soruyu zaten cevapladınız!');
+        if (answeredQuestionsStatus[questionId] === 'correct') { // Only prevent if correctly answered
+            showCustomModal('Bilgi', 'Bu soruyu zaten doğru cevapladınız!');
             return;
         }
 
@@ -1092,18 +1108,17 @@
             feedbackMessage.className = 'feedback-message correct';
             teamScores[currentTeamIndex] += currentQuestionPoints; // Update current team's score
             currentQuestionAnsweredCorrectly = true;
+            answeredQuestionsStatus[questionId] = 'correct'; // Mark as correctly answered
         } else {
             selectedButton.classList.add('incorrect');
             feedbackMessage.textContent = `Yanlış Cevap.`; // Only show "Yanlış Cevap."
             feedbackMessage.className = 'feedback-message incorrect';
+            answeredQuestionsStatus[questionId] = 'incorrect'; // Mark as incorrectly answered
             // Do NOT highlight the correct answer or reveal it
         }
         feedbackMessage.classList.remove('hidden');
         timerDisplay.classList.add('hidden'); // Hide timer after answer
         returnToQuestionGridButton.classList.add('hidden'); // Hide button after answer
-
-        // Mark question as answered
-        answeredQuestions[questionId] = true;
 
         // Show navigation buttons
         nextTurnButton.classList.remove('hidden');
@@ -1141,11 +1156,11 @@
                 questionScreenInstructionMessage.classList.add('hidden'); // Hide instruction
                 returnToQuestionGridButton.classList.add('hidden'); // Hide button when time runs out
 
-                // Mark question as answered (even if time ran out)
+                // Mark as incorrectly answered due to timeout
                 const currentQuestionData = currentQuestions[currentQuestionIndex];
                 const originalIndex = questions.findIndex(originalQ => originalQ.question === currentQuestionData.question && originalQ.category === currentQuestionData.category);
                 const questionId = `${currentQuestionData.category}-${currentQuestionData.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`;
-                answeredQuestions[questionId] = true;
+                answeredQuestionsStatus[questionId] = 'incorrect';
 
                 // Do NOT highlight correct answer
                 nextTurnButton.classList.remove('hidden');
@@ -1204,12 +1219,14 @@
 
     function resetGame() {
         showCustomModal('Oyunu Sıfırla', 'Oyunu sıfırlamak istediğinizden emin misiniz? Tüm ilerlemeniz kaybolacak.', () => {
-            score = 0;
+            // Reset all game state variables
+            currentUnit = null;
+            currentQuestions = [];
             currentQuestionIndex = 0;
             numTeams = 1;
             teamScores = [];
             currentTeamIndex = 0;
-            answeredQuestions = {};
+            answeredQuestionsStatus = {}; // Reset answered questions status
             finalScoreContainer.classList.add('hidden');
             renderUnitSelection(); // Go back to unit selection
         });
@@ -1217,17 +1234,16 @@
 
     function checkAllQuestionsAnswered() {
         const totalQuestionsInUnit = currentQuestions.length;
-        // Count how many questions in currentQuestions have been answered
-        let answeredCount = 0;
+        let correctlyAnsweredCount = 0;
         currentQuestions.forEach(q => {
             // Use the original index from the 'questions' array for the questionId to ensure persistence
             const originalIndex = questions.findIndex(originalQ => originalQ.question === q.question && originalQ.category === q.category);
             const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`;
-            if (answeredQuestions[questionId]) {
-                answeredCount++;
+            if (answeredQuestionsStatus[questionId] === 'correct') { // Only count correctly answered questions
+                correctlyAnsweredCount++;
             }
         });
-        return answeredCount >= totalQuestionsInUnit;
+        return correctlyAnsweredCount >= totalQuestionsInUnit;
     }
 
     // Event Listeners
