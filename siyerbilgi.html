@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Din Kültürü ve Ahlak Bilgisi 6. Sınıf Ünite Etkinlikleri</title>
+    <title>Peygamberimizin Hayatı 6. Sınıf Ünite Etkinlikleri</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -133,13 +133,7 @@
             cursor: not-allowed; /* Correctly answered questions are not clickable */
             opacity: 0.9;
         }
-        .question-card.incorrectly-answered {
-            background-color: #fecaca; /* Light red */
-            border-color: #ef4444; /* Red border */
-            color: #991b1b; /* Darker red text */
-            /* Incorrectly answered questions remain clickable, so no 'cursor: not-allowed' */
-            opacity: 0.9; /* Slightly less opaque to show it's been attempted */
-        }
+        /* Removed .question-card.incorrectly-answered styles to make them appear normal */
 
         /* Ensure hover effect is applied only to clickable cards */
         .question-card:not(.correctly-answered):hover {
@@ -453,7 +447,7 @@
 <body>
     <div class="container">
         <div id="main-menu" class="">
-            <h1 class="mb-8">Din Kültürü ve Ahlak Bilgisi 6. Sınıf Ünite Etkinlikleri</h1>
+            <h1 class="mb-8">Peygamberimizin Hayatı 6. Sınıf Ünite Etkinlikleri</h1>
             <div id="unit-selection-grid" class="unit-grid">
                 </div>
             <button id="start-quiz-button" class="start-button hidden">Yarışmayı Başlat</button>
@@ -872,7 +866,8 @@
     let timer;
     const quizTime = 30; // seconds per question
     let timeLeft = quizTime;
-    const pointsPerQuestion = 1; // All questions are now 1 point
+    const pointsPerQuestion = 10; // Updated: All questions are now 10 points
+    const bonusPoints = 5; // New: Bonus points for answering within the first 10 seconds
     let currentQuestionAnsweredCorrectly = false;
 
     // Define team colors (Tailwind CSS classes)
@@ -1153,9 +1148,9 @@
             questionCard.onclick = () => showQuestion(currentQuestions.indexOf(q)); // Pass original index in currentQuestions
 
             // Apply visual status based on answeredQuestionsStatus
-            if (answeredQuestionsStatus[questionId] === 'incorrect') {
-                questionCard.classList.add('incorrectly-answered');
-                // Incorrectly answered questions remain clickable
+            // Removed the addition of 'incorrectly-answered' class here
+            if (answeredQuestionsStatus[questionId] === 'correct') {
+                questionCard.classList.add('correctly-answered');
             }
             questionGrid.appendChild(questionCard);
         });
@@ -1277,9 +1272,18 @@
 
         if (selectedOption === correctOption) {
             selectedButton.classList.add('correct');
-            feedbackMessage.textContent = 'Doğru Cevap!';
+            let feedbackText = 'Doğru Cevap!';
+            let pointsAwarded = pointsPerQuestion;
+
+            // Check for bonus points
+            if (timeLeft >= (quizTime - 10)) { // If answered within the first 10 seconds (i.e., 20 seconds or more remaining)
+                pointsAwarded += bonusPoints;
+                feedbackText += ` (+${bonusPoints} Bonus Puan!)`;
+            }
+
+            feedbackMessage.textContent = feedbackText;
             feedbackMessage.className = 'feedback-message correct';
-            teamScores[currentTeamIndex].score += pointsPerQuestion; // Update current team's score with fixed points
+            teamScores[currentTeamIndex].score += pointsAwarded; // Update current team's score with fixed points
             currentQuestionAnsweredCorrectly = true;
             answeredQuestionsStatus[questionId] = 'correct'; // Mark as correctly answered
 
@@ -1291,7 +1295,7 @@
             feedbackMessage.textContent = `Yanlış Cevap.`; // Only show "Yanlış Cevap."
             feedbackMessage.className = 'feedback-message incorrect';
             answeredQuestionsStatus[questionId] = 'incorrect'; // Mark as incorrectly answered
-            // Do NOT highlight the correct answer or reveal it
+            // Do NOT remove the question from currentQuestions array, so it can be re-attempted
         }
         feedbackMessage.classList.remove('hidden');
         timerDisplay.classList.add('hidden'); // Hide timer after answer
