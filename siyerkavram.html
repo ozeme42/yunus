@@ -6,189 +6,6 @@
     <title>Peygamberimizin Hayatı - Kavram Bilgi Yarışması</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, addDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Global Firebase değişkenlerini tanımla
-        window.firebaseApp = null;
-        window.db = null;
-        window.auth = null;
-        window.userId = null;
-        window.userName = localStorage.getItem('quizUserName') || ''; // Kullanıcı adını yerel depolamadan al
-
-        // Özel modal (uyarı/onay) fonksiyonları
-        window.showModal = function(title, message, type, onConfirm, onCancel, input1Placeholder = '', input2Placeholder = '', textareaPlaceholder = '') {
-            const customModalOverlay = document.getElementById('customModalOverlay');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalMessage = document.getElementById('modalMessage');
-            const modalInput1 = document.getElementById('modalInput1');
-            const modalInput2 = document.getElementById('modalInput2');
-            const modalTextarea = document.getElementById('modalTextarea');
-            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-            const modalSaveBtn = document.getElementById('modalSaveBtn');
-            const modalCancelBtn = document.getElementById('modalCancelBtn');
-
-            modalTitle.textContent = title;
-            modalMessage.textContent = message;
-
-            modalInput1.style.display = 'none';
-            modalInput2.style.display = 'none';
-            modalTextarea.style.display = 'none';
-            modalConfirmBtn.style.display = 'none';
-            modalSaveBtn.style.display = 'none';
-            modalCancelBtn.style.display = 'inline-block';
-
-            // Reset event listeners
-            modalConfirmBtn.onclick = null;
-            modalSaveBtn.onclick = null;
-            modalCancelBtn.onclick = null;
-            modalCancelBtn.textContent = 'İptal'; // Reset text
-
-            if (type === 'alert') {
-                modalCancelBtn.textContent = 'Tamam';
-                modalCancelBtn.onclick = () => {
-                    window.hideModal();
-                    if (onConfirm) onConfirm();
-                };
-            } else if (type === 'confirm') {
-                modalConfirmBtn.style.display = 'inline-block';
-                modalCancelBtn.textContent = 'İptal';
-                modalConfirmBtn.onclick = () => {
-                    window.hideModal();
-                    if (onConfirm) onConfirm();
-                };
-                modalCancelBtn.onclick = () => {
-                    window.hideModal();
-                    if (onCancel) onCancel();
-                };
-            } else if (type === 'prompt') {
-                modalInput1.style.display = 'block';
-                modalInput1.placeholder = input1Placeholder;
-                modalInput1.value = '';
-                modalSaveBtn.style.display = 'inline-block';
-                modalCancelBtn.textContent = 'İptal';
-                modalSaveBtn.onclick = () => {
-                    window.hideModal();
-                    if (onConfirm) onConfirm(modalInput1.value);
-                };
-                modalCancelBtn.onclick = () => {
-                    window.hideModal();
-                    if (onCancel) onCancel();
-                };
-            } else if (type === 'form') {
-                modalInput1.style.display = 'block';
-                modalInput1.placeholder = input1Placeholder;
-                modalInput1.value = '';
-                modalTextarea.style.display = 'block';
-                modalTextarea.placeholder = textareaPlaceholder;
-                modalTextarea.value = '';
-                modalSaveBtn.style.display = 'inline-block';
-                modalCancelBtn.textContent = 'İptal';
-                modalSaveBtn.onclick = () => {
-                    window.hideModal();
-                    if (onConfirm) onConfirm(modalInput1.value, modalTextarea.value);
-                };
-                modalCancelBtn.onclick = () => {
-                    window.hideModal();
-                    if (onCancel) onCancel();
-                };
-            }
-
-            customModalOverlay.style.display = 'flex';
-        };
-
-        window.hideModal = function() {
-            const customModalOverlay = document.getElementById('customModalOverlay');
-            const modalInput1 = document.getElementById('modalInput1');
-            const modalInput2 = document.getElementById('modalInput2');
-            const modalTextarea = document.getElementById('modalTextarea');
-            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-            const modalSaveBtn = document.getElementById('modalSaveBtn');
-            const modalCancelBtn = document.getElementById('modalCancelBtn');
-
-            customModalOverlay.style.display = 'none';
-            modalInput1.value = '';
-            modalInput2.value = '';
-            modalTextarea.value = '';
-            modalConfirmBtn.onclick = null;
-            modalSaveBtn.onclick = null;
-            modalCancelBtn.onclick = null;
-            modalCancelBtn.textContent = 'İptal';
-        };
-
-        // Kullanıcı adı isteme fonksiyonu
-        window.promptForUserName = function() {
-            window.showModal(
-                'Kullanıcı Adı Belirle',
-                'Liderlik tablosunda görünmek için bir kullanıcı adı girin:',
-                'prompt',
-                (name) => {
-                    if (name && name.trim() !== '') {
-                        window.userName = name.trim();
-                        localStorage.setItem('quizUserName', window.userName);
-                        console.log("Kullanıcı adı ayarlandı:", window.userName);
-                    } else {
-                        window.userName = 'Anonim Kullanıcı'; // Varsayılan kullanıcı adı
-                        localStorage.setItem('quizUserName', window.userName);
-                        console.log("Kullanıcı adı boş bırakıldı, varsayılan olarak ayarlandı:", window.userName);
-                    }
-                },
-                () => {
-                    window.userName = 'Anonim Kullanıcı'; // İptal edilirse varsayılan kullanıcı adı
-                    localStorage.setItem('quizUserName', window.userName);
-                    console.log("Kullanıcı adı ayarlanması iptal edildi, varsayılan olarak ayarlandı:", window.userName);
-                },
-                'Kullanıcı Adınız'
-            );
-        };
-
-        // Firebase'i başlat ve kimlik doğrulamasını yap
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-
-                if (Object.keys(firebaseConfig).length === 0) {
-                    console.error("Firebase yapılandırması bulunamadı. Liderlik tablosu çalışmayabilir.");
-                    return;
-                }
-
-                window.firebaseApp = initializeApp(firebaseConfig);
-                window.db = getFirestore(window.firebaseApp);
-                window.auth = getAuth(window.firebaseApp);
-
-                onAuthStateChanged(window.auth, async (user) => {
-                    if (user) {
-                        window.userId = user.uid;
-                        console.log("Firebase Auth Ready. User ID:", window.userId);
-                        // Kullanıcı adı yoksa veya varsayılan ise, kullanıcıdan iste
-                        if (!window.userName || window.userName === 'Anonim Kullanıcı') {
-                            window.promptForUserName();
-                        }
-                    } else {
-                        // Anonim olarak oturum aç
-                        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                        if (initialAuthToken) {
-                            await signInWithCustomToken(window.auth, initialAuthToken);
-                        } else {
-                            await signInAnonymously(window.auth);
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error("Firebase başlatılırken hata oluştu:", error);
-                // Firebase hatası durumunda liderlik tablosu butonunu devre dışı bırak
-                const leaderboardBtn = document.getElementById('showLeaderboardBtn');
-                if (leaderboardBtn) {
-                    leaderboardBtn.disabled = true;
-                    leaderboardBtn.textContent = 'Liderlik Tablosu (Hata)'; // Yazım hatası düzeltildi
-                    leaderboardBtn.classList.add('bg-red-500', 'hover:bg-red-600');
-                }
-            }
-        });
-    </script>
     <style>
         /* Temel stil tanımlamaları */
         body {
@@ -561,7 +378,7 @@
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 0 3px #3b82f6;
             border-color: #3b82f6;
         }
-        .main-quiz-content, #leaderboardScreen {
+        .main-quiz-content { /* Liderlik ekranı kaldırıldığı için sadece main-quiz-content kaldı */
             display: none;
             width: 100%;
             height: 100%;
@@ -641,46 +458,6 @@
         .modal-confirm-btn:hover {
             background-color: #da190b;
         }
-
-        /* Liderlik Tablosu Stilleri */
-        .leaderboard-list {
-            width: 100%;
-            max-width: 600px;
-            background-color: #f0f9ff;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        .leaderboard-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .leaderboard-item:last-child {
-            border-bottom: none;
-        }
-        .leaderboard-item span {
-            font-weight: 500;
-            color: #4a5568;
-        }
-        .leaderboard-item .score {
-            font-weight: 700;
-            color: #10B981;
-        }
-        .leaderboard-item .rank {
-            font-weight: bold;
-            color: #3b82f6;
-            width: 30px;
-            text-align: left;
-        }
-        .leaderboard-item.current-user {
-            background-color: #e0f2fe; /* Current user highlight */
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-            border: 2px solid #3b82f6;
-        }
     </style>
 </head>
 <body>
@@ -691,7 +468,6 @@
             <div id="unitCardsContainer" class="unit-grid">
                 </div>
             <button id="startQuizBtn" class="action-button px-8 py-3 text-xl" style="display: none;">Yarışmayı Başlat</button>
-            <button id="showLeaderboardBtn" class="action-button bg-blue-500 hover:bg-blue-600 mt-4 px-8 py-3 text-xl">Liderlik Tablosu</button>
             <button id="returnToHomePageBtn" class="action-button bg-purple-600 hover:bg-purple-700 mt-4 px-8 py-3 text-xl">Ana Sayfaya Dön</button>
         </div>
 
@@ -717,14 +493,6 @@
             <button id="returnToMainMenuFromQuizBtn" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Ana Menüye Dön</button>
         </div>
 
-        <div id="leaderboardScreen" class="main-quiz-content">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6">Liderlik Tablosu</h2>
-            <div id="leaderboardList" class="leaderboard-list">
-                <p class="text-gray-600">Yükleniyor...</p>
-            </div>
-            <button id="returnToMainMenuFromLeaderboardBtn" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Ana Menüye Dön</button>
-        </div>
-
     </div>
 
     <div id="customModalOverlay" class="modal-overlay" style="display: none;">
@@ -742,9 +510,7 @@
         </div>
     </div>
 
-    <script type="module">
-        import { collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
+    <script>
         // Ünite ve kavram verileri (Peygamberimizin Hayatı kitabına göre güncellendi)
         let units = [
             {
@@ -1355,10 +1121,6 @@
         const timerDisplay = document.getElementById('timerDisplay');
         const scoreDisplay = document.getElementById('scoreDisplay'); // Skor göstergesi
         const showAnswerBtn = document.getElementById('showAnswerBtn');
-        const showLeaderboardBtn = document.getElementById('showLeaderboardBtn'); // Liderlik tablosu butonu
-        const leaderboardScreen = document.getElementById('leaderboardScreen'); // Liderlik tablosu ekranı
-        const leaderboardList = document.getElementById('leaderboardList'); // Liderlik tablosu listesi
-        const returnToMainMenuFromLeaderboardBtn = document.getElementById('returnToMainMenuFromLeaderboardBtn'); // Liderlik tablosundan ana menüye dön butonu
 
         let selectedUnitId = null;
         let currentQuestion = null;
@@ -1376,6 +1138,69 @@
                 [array[i], array[j]] = [array[j], array[i]];
             }
             return array;
+        }
+
+        // Custom Modal Logic
+        const customModalOverlay = document.getElementById('customModalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalInput1 = document.getElementById('modalInput1');
+        const modalInput2 = document.getElementById('modalInput2');
+        const modalTextarea = document.getElementById('modalTextarea');
+        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+        const modalSaveBtn = document.getElementById('modalSaveBtn');
+        const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+        function showModal(title, message, type, onConfirm, onCancel, input1Placeholder = '', input2Placeholder = '', textareaPlaceholder = '') {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            modalInput1.style.display = 'none';
+            modalInput2.style.display = 'none';
+            modalTextarea.style.display = 'none';
+            modalConfirmBtn.style.display = 'none';
+            modalSaveBtn.style.display = 'none';
+            modalCancelBtn.style.display = 'inline-block';
+
+            // Reset event listeners
+            modalConfirmBtn.onclick = null;
+            modalSaveBtn.onclick = null;
+            modalCancelBtn.onclick = null;
+            modalCancelBtn.textContent = 'İptal'; // Reset text
+
+            if (type === 'alert') {
+                modalCancelBtn.textContent = 'Tamam';
+                modalCancelBtn.onclick = () => {
+                    hideModal();
+                    if (onConfirm) onConfirm();
+                };
+            } else if (type === 'confirm') {
+                modalConfirmBtn.style.display = 'inline-block';
+                modalCancelBtn.textContent = 'İptal';
+                modalConfirmBtn.onclick = () => {
+                    hideModal();
+                    if (onConfirm) onConfirm();
+                };
+                modalCancelBtn.onclick = () => {
+                    hideModal();
+                    if (onCancel) onCancel();
+                };
+            }
+            // 'prompt' ve 'form' tipleri kaldırıldı, çünkü kullanıcı adı isteme ve diğer form işlemleri artık yok.
+            // Eğer gelecekte başka bir prompt veya form ihtiyacı olursa buraya eklenebilir.
+
+            customModalOverlay.style.display = 'flex';
+        }
+
+        function hideModal() {
+            customModalOverlay.style.display = 'none';
+            modalInput1.value = '';
+            modalInput2.value = '';
+            modalTextarea.value = '';
+            modalConfirmBtn.onclick = null;
+            modalSaveBtn.onclick = null;
+            modalCancelBtn.onclick = null;
+            modalCancelBtn.textContent = 'İptal';
         }
 
         // Skor göstergesini güncelle
@@ -1445,10 +1270,9 @@
             const availableQuestions = getAvailableQuestions();
 
             if (availableQuestions.length === 0) {
-                // Tüm sorular cevaplandı, skoru kaydet ve liderlik tablosunu göster
-                window.showModal('Yarışma Bitti!', `Tüm soruları cevapladınız. Puanınız: ${currentScore}.`, 'alert', () => {
-                    saveScore(currentScore);
-                    showLeaderboardScreen(); // Liderlik tablosunu göster
+                // Tüm sorular cevaplandı, sadece bilgilendir ve ana menüye dön
+                showModal('Yarışma Bitti!', `Tüm soruları cevapladınız. Puanınız: ${currentScore}.`, 'alert', () => {
+                    returnToMainMenuScreen();
                 });
                 return;
             }
@@ -1576,7 +1400,6 @@
 
         function resetQuiz() {
             stopTimer();
-            saveScore(currentScore); // Quiz sıfırlanırken mevcut skoru kaydet
             currentScore = 0; // Skoru sıfırla
             updateScoreDisplay(); // Skoru güncelle
             selectedUnitId = null;
@@ -1595,11 +1418,9 @@
 
         function returnToMainMenuScreen() {
             stopTimer();
-            saveScore(currentScore); // Ana menüye dönerken skoru kaydet
             currentScore = 0; // Skoru sıfırla
             updateScoreDisplay(); // Skoru güncelle
             mainQuizContent.style.display = 'none';
-            leaderboardScreen.style.display = 'none'; // Liderlik ekranını da gizle
             mainMenuScreen.style.display = 'flex';
             mainTitle.style.display = 'block';
             selectedUnitId = null;
@@ -1612,92 +1433,10 @@
             timerDisplay.classList.remove('warning');
         }
 
-        // Firebase: Skoru kaydetme fonksiyonu
-        async function saveScore(score) {
-            if (!window.db || !window.userId) {
-                console.warn("Firestore veya kullanıcı kimliği hazır değil. Skor kaydedilemedi.");
-                return;
-            }
-            if (score <= 0) { // Sadece pozitif skorları kaydet
-                console.log("Sıfır veya negatif skor kaydedilmedi.");
-                return;
-            }
-
-            const leaderboardCollectionRef = collection(window.db, `/artifacts/${window.__app_id}/public/data/leaderboard`);
-            try {
-                await addDoc(leaderboardCollectionRef, {
-                    userId: window.userId,
-                    userName: window.userName || 'Anonim Kullanıcı', // Kullanıcı adı yoksa varsayılan kullan
-                    score: score,
-                    timestamp: new Date().toISOString() // ISO formatında tarih ve saat
-                });
-                console.log("Skor başarıyla kaydedildi:", score);
-            } catch (e) {
-                console.error("Skor kaydedilirken hata oluştu: ", e);
-                window.showModal('Hata', 'Skor kaydedilirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin.', 'alert');
-            }
-        }
-
-        // Firebase: Liderlik tablosunu çekme ve gösterme fonksiyonu
-        async function fetchLeaderboard() {
-            if (!window.db) {
-                leaderboardList.innerHTML = '<p class="text-red-500">Liderlik tablosu yüklenemedi: Veritabanı hazır değil.</p>';
-                return;
-            }
-
-            leaderboardList.innerHTML = '<p class="text-gray-600">Yükleniyor...</p>'; // Yükleniyor mesajı
-            const leaderboardCollectionRef = collection(window.db, `/artifacts/${window.__app_id}/public/data/leaderboard`);
-            // Firestore'da orderBy kullanırken indeks hatası almamak için, veriyi çekip JS tarafında sıralayacağız.
-            // const q = query(leaderboardCollectionRef, orderBy("score", "desc"), limit(10)); // Bu satırı yorumladık
-            const q = query(leaderboardCollectionRef); // Tüm skorları çek
-
-            try {
-                const querySnapshot = await getDocs(q);
-                let scores = []; // let olarak tanımlandı
-                querySnapshot.forEach((doc) => {
-                    scores.push(doc.data());
-                });
-
-                // Skorları JavaScript tarafında sırala
-                scores.sort((a, b) => b.score - a.score);
-                // En yüksek 10 skoru al
-                scores = scores.slice(0, 10);
-
-                renderLeaderboard(scores);
-            } catch (e) {
-                console.error("Liderlik tablosu çekilirken hata oluştu: ", e);
-                leaderboardList.innerHTML = '<p class="text-red-500">Liderlik tablosu yüklenirken bir hata oluştu.</p>';
-            }
-        }
-
-        // Liderlik tablosunu HTML'e render et
-        function renderLeaderboard(scores) {
-            leaderboardList.innerHTML = ''; // Önceki listeyi temizle
-            if (scores.length === 0) {
-                leaderboardList.innerHTML = '<p class="text-gray-600">Henüz hiç skor kaydedilmedi.</p>';
-                return;
-            }
-
-            scores.forEach((entry, index) => {
-                const listItem = document.createElement('div');
-                listItem.classList.add('leaderboard-item');
-                if (entry.userId === window.userId) {
-                    listItem.classList.add('current-user'); // Mevcut kullanıcıyı vurgula
-                }
-                listItem.innerHTML = `
-                    <span class="rank">#${index + 1}</span>
-                    <span>${entry.userName || 'Anonim'}</span>
-                    <span class="score">${entry.score} Puan</span>
-                `;
-                leaderboardList.appendChild(listItem);
-            });
-        }
-
-
         // Event Listeners
         nextQuestionBtn.addEventListener('click', displayQuestion);
         resetQuizBtn.addEventListener('click', () => {
-            window.showModal('Yarışmayı Yeniden Başlat', 'Mevcut yarışmayı sıfırlamak istediğinizden emin misiniz? Bu işlem mevcut ilerlemenizi silecektir.', 'confirm', () => {
+            showModal('Yarışmayı Yeniden Başlat', 'Mevcut yarışmayı sıfırlamak istediğinizden emin misiniz? Bu işlem mevcut ilerlemenizi silecektir.', 'confirm', () => {
                 resetQuiz();
             }, () => {
                 // İptal edilirse bir şey yapma
@@ -1720,18 +1459,6 @@
                 correctBox.classList.remove('correct');
             }, 1000);
         });
-
-        // Liderlik Tablosu butonuna tıklama olayı
-        showLeaderboardBtn.addEventListener('click', () => {
-            mainMenuScreen.style.display = 'none';
-            mainTitle.style.display = 'none';
-            leaderboardScreen.style.display = 'flex';
-            fetchLeaderboard(); // Liderlik tablosunu çek ve göster
-        });
-
-        // Liderlik tablosundan ana menüye dön
-        returnToMainMenuFromLeaderboardBtn.addEventListener('click', returnToMainMenuScreen);
-
 
         // Main Menu Logic
         function renderUnitCards() {
@@ -1770,7 +1497,7 @@
                 updateScoreDisplay(); // Skoru ekranda da sıfırla
                 displayQuestion();
             } else {
-                window.showModal('Ünite Seçilmedi', 'Lütfen bir ünite seçerek yarışmayı başlatın.', 'alert');
+                showModal('Ünite Seçilmedi', 'Lütfen bir ünite seçerek yarışmayı başlatın.', 'alert');
             }
         });
 
@@ -1810,7 +1537,6 @@
 
             renderUnitCards();
             mainQuizContent.style.display = 'none';
-            leaderboardScreen.style.display = 'none'; // Liderlik ekranını başlangıçta gizle
             mainMenuScreen.style.display = 'flex';
             mainTitle.style.display = 'block';
             updateScoreDisplay(); // Başlangıçta skoru göster
