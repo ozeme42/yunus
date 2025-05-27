@@ -310,24 +310,15 @@
         /* Ünite ızgarası için duyarlı stil */
         .unit-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Masaüstü için 3 sütun */
+            /* Ekran genişliğine göre otomatik sütun sayısı, her sütun minimum 180px */
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1.5rem;
-            width: 90%;
-            max-width: 1200px;
+            width: 90%; /* Yüzde tabanlı genişlik */
+            max-width: 1400px; /* Daha geniş ekranlar için maksimum genişliği artır */
             justify-items: center;
             margin: 0 auto;
             flex-grow: 1;
             align-items: center;
-        }
-        @media (max-width: 768px) {
-            .unit-grid {
-                grid-template-columns: repeat(2, 1fr); /* Tabletler için 2 sütun */
-            }
-        }
-        @media (max-width: 480px) {
-            .unit-grid {
-                grid-template-columns: repeat(1, 1fr); /* Mobil için 1 sütun */
-            }
         }
         .unit-card {
             padding: 1.5rem;
@@ -976,6 +967,113 @@
                         { question: 'Peygamberimizin Veda Hutbesi\'nde insan hakları ve hukukun üstünlüğünü vurgulaması.' },
                         { question: 'Herkesin hakkına riayet etme ve adaleti tesis etme çabası.' },
                         { question: 'Peygamberimizin toplumda düzeni ve eşitliği sağlama ilkesi.' }
+                    ]}
+                ]
+            },
+            {
+                id: 'unit5',
+                name: 'Ünite 5: Sahabenin Fazileti',
+                bgColor: 'bg-red-100',
+                concepts: [
+                    { id: 'sahabe', name: 'Sahabe', color: 'bg-blue-600', questions: [
+                        { question: 'Peygamberimizi gören, ona iman eden ve Müslüman olarak vefat eden kişilere verilen genel ad.' },
+                        { question: 'Peygamberimizin arkadaşları ve öğrencileri.' },
+                        { question: 'İslam\'ın ilk neslini oluşturan mübarek topluluk.' }
+                    ]},
+                    { id: 'hz-ebu-bekir', name: 'Hz. Ebu Bekir', color: 'bg-green-600', questions: [
+                        { question: 'İlk Müslümanlardan olan, Peygamberimizin en yakın dostu ve ilk halife.' },
+                        { question: 'Sıddîk lakabıyla tanınan, Peygamberimizin hicret arkadaşı.' },
+                        { question: 'Peygamberimizin vefatından sonra İslam devletinin başına geçen ilk kişi.' }
+                    ]},
+                    { id: 'hz-omer', name: 'Hz. Ömer', color: 'bg-purple-600', questions: [
+                        { question: '"Faruk" lakabıyla tanınan, hak ile batılı ayırt etmedeki keskin zekasıyla bilinen ve ikinci halife.' },
+                        { question: 'İslam devletinin sınırlarını genişleten ve adaletli yönetimiyle bilinen halife.' },
+                        { question: 'Müslümanların güç kazanmasında önemli rol oynayan sahabi.' }
+                    ]},
+                    { id: 'hz-osman', name: 'Hz. Osman', color: 'bg-red-600', questions: [
+                        { question: '"Zinnureyn" (İki Nur Sahibi) lakabıyla tanınan, Peygamberimizin iki kızıyla evlenen ve üçüncü halife.' },
+                        { question: 'Kur\'an-ı Kerim\'i çoğaltarak İslam alemine yayılmasına öncülük eden halife.' },
+                        { question: 'Haya ve cömertliğiyle bilinen sahabi.' }
+                    ]},
+                    { id: 'hz-ali', name: 'Hz. Ali', color: 'bg-yellow-600', questions: [
+                        { question: 'Peygamberimizin amcasının oğlu ve damadı olan, ilmi ve cesaretiyle bilinen, dördüncü halife.' },
+                        { question: 'Genç yaşta İslam\'ı kabul eden ve Peygamberimizin yatağına yatan sahabi.' },
+                        { question: 'İlim kapısı olarak nitelendirilen büyük sahabi.' }
+                    ]},
+                    { id: 'ashab-i-suffe', name: 'Ashab-ı Suffe', color: 'bg-indigo-600', questions: [
+                        { question: 'Medine\'de Mescid-i Nebi\'nin yanında kalan, kendilerini tamamen ilim öğrenmeye ve ibadete adayan fakir sahabiler.' },
+                        { question: 'İslam\'ın ilk eğitim kurumlarından biri olarak kabul edilen Suffe\'de yetişen kişiler.' },
+                        { question: 'Peygamberimizden doğrudan ders alan ve İslam\'ı öğrenmede örnek olan topluluk.' }
+                    ]},
+                    { id: 'sunnete-baglilik', name: 'Sünnet\'e Bağlılık', color: 'bg-pink-600', questions: [
+                        { question: 'Sahabenin Peygamberimizin her söz ve davranışını dikkatle takip etmesi, öğrenmesi ve hayatlarına uygulaması.' },
+                        { question: 'Peygamberimizin yaşantısını örnek alma ve ona uyma konusundaki titizlikleri.' },
+                        { question: 'Sahabenin İslam\'ı yaşama biçimlerinin temelini oluşturan prensip.' }
+                    ]},
+                    { id: 'kuranin-toplanmasi', name: 'Kur\'an\'ın Toplanması', color: 'bg-teal-600', questions: [
+                        { question: 'Sahabenin, özellikle Hz. Ebu Bekir ve Hz. Osman dönemlerinde, Kur\'an ayetlerinin bir araya getirilmesi ve mushaf haline getirilmesine öncülük etmesi.' },
+                        { question: 'Vahiy katiplerinin yazdığı ayetlerin toplanarak kitap haline getirilmesi süreci.' },
+                        { question: 'Kur\'an\'ın bozulmadan günümüze ulaşmasında sahabenin rolü.' }
+                    ]},
+                    { id: 'bilgi-aktarimi', name: 'Bilgi Aktarımı', color: 'bg-orange-600', questions: [
+                        { question: 'Sahabenin Peygamberimizden öğrendikleri dini bilgileri, hadisleri ve uygulamaları sonraki nesillere eksiksiz ve doğru bir şekilde aktarması.' },
+                        { question: 'İslam ilimlerinin temelini oluşturan rivayet zincirinin ilk halkasını teşkil etmeleri.' },
+                        { question: 'Peygamberimizin mirasını gelecek nesillere ulaştırma görevini üstlenmeleri.' }
+                    ]},
+                    { id: 'hicret-sahabe', name: 'Hicret', color: 'bg-cyan-600', questions: [
+                        { question: 'Sahabenin dinlerini hürriyetle yaşamak ve İslam\'ı yaymak amacıyla Mekke\'den Medine\'ye göç etmesi.' },
+                        { question: 'Allah rızası için yurtlarını terk etme fedakarlığı.' },
+                        { question: 'İslam tarihinde dönüm noktası olan büyük göç.' }
+                    ]},
+                    { id: 'muahat-sahabe', name: 'Muahat', color: 'bg-lime-600', questions: [
+                        { question: 'Medine\'de Muhacir ve Ensar arasında kurulan kardeşlik antlaşması.' },
+                        { question: 'Müslümanlar arasında dayanışma, yardımlaşma ve mal paylaşımını sağlayan uygulama.' },
+                        { question: 'İslam toplumunda birlik ve beraberliği pekiştiren örnek davranış.' }
+                    ]},
+                    { id: 'fedakarlik-sahabe', name: 'Fedakarlık', color: 'bg-emerald-600', questions: [
+                        { question: 'Sahabenin İslam uğruna mallarını, canlarını ve yurtlarını feda etmeleri.' },
+                        { question: 'Savaşlarda ve tebliğ faaliyetlerinde gösterdikleri özveri.' },
+                        { question: 'Allah yolunda her türlü zorluğa katlanma.' }
+                    ]},
+                    { id: 'ilim-ogrenme-sahabe', name: 'İlim Öğrenme', color: 'bg-rose-600', questions: [
+                        { question: 'Sahabenin Peygamberimizden doğrudan ilim öğrenmeye büyük önem vermesi ve bu uğurda çaba göstermesi.' },
+                        { question: 'Peygamberimizin meclislerinde bulunarak dini bilgileri bizzat edinmeleri.' },
+                        { question: 'İslam ilimlerinin temelini atan ilk öğrenciler olmaları.' }
+                    ]},
+                    { id: 'dini-anlama-sahabe', name: 'Dini Anlama', color: 'bg-fuchsia-600', questions: [
+                        { question: 'Sahabenin Peygamberimizin en yakın öğrencileri olarak dini en iyi anlayan ve uygulayan nesil olması.' },
+                        { question: 'Kur\'an ve Sünnet\'i doğru bir şekilde yorumlama ve yaşama yeteneği.' },
+                        { question: 'İslam\'ın ruhunu ve özünü kavrama konusundaki derinlikleri.' }
+                    ]},
+                    { id: 'cihad-sahabe', name: 'Cihad', color: 'bg-violet-600', questions: [
+                        { question: 'Sahabenin İslam\'ı yaymak ve korumak için gösterdiği her türlü çaba ve mücadele.' },
+                        { question: 'Allah yolunda malıyla ve canıyla savaşma.' },
+                        { question: 'İslam\'ın tebliği ve savunmasında gösterdikleri azim.' }
+                    ]},
+                    { id: 'adalet-sahabe', name: 'Adalet', color: 'bg-amber-600', questions: [
+                        { question: 'Sahabenin kendi aralarında ve diğer insanlarla ilişkilerinde adaleti gözetmeleri.' },
+                        { question: 'Hz. Ömer\'in adaletli yönetimiyle öne çıkması.' },
+                        { question: 'İslam toplumunda hak ve hukuka riayet etme.' }
+                    ]},
+                    { id: 'tevazu-sahabe', name: 'Tevazu', color: 'bg-sky-600', questions: [
+                        { question: 'Sahabenin makamlarına rağmen alçakgönüllü olmaları ve kibirden uzak durmaları.' },
+                        { question: 'Hz. Ebu Bekir\'in halife olmasına rağmen sade bir hayat sürmesi.' },
+                        { question: 'Peygamberimizin ahlakını yansıtan önemli bir özellik.' }
+                    ]},
+                    { id: 'sabir-sahabe', name: 'Sabır', color: 'bg-gray-600', questions: [
+                        { question: 'Sahabenin Mekke dönemindeki işkencelere ve zorluklara karşı gösterdiği dayanıklılık.' },
+                        { question: 'İslam uğruna karşılaştıkları sıkıntılara metanetle göğüs germeleri.' },
+                        { question: 'Peygamberimizin sabrını örnek almaları.' }
+                    ]},
+                    { id: 'sehadet-sahabe', name: 'Şehadet', color: 'bg-blue-700', questions: [
+                        { question: 'Sahabenin Allah yolunda canlarını feda etmeleri ve şehitlik mertebesine ulaşmaları.' },
+                        { question: 'Uhud, Bedir gibi savaşlarda gösterdikleri kahramanlık ve fedakarlık.' },
+                        { question: 'İslam\'ın yayılması için canlarını ortaya koymaları.' }
+                    ]},
+                    { id: 'ornek-nesil', name: 'Örnek Nesil', color: 'bg-green-700', questions: [
+                        { question: 'Sahabenin İslam\'ın ilk ve en iyi anlayan, yaşayan ve aktaran nesil olması.' },
+                        { question: 'Peygamberimizin "Ashabım yıldızlar gibidir, hangisine uyarsanız hidayeti bulursunuz" hadisiyle övülen nesil.' },
+                        { question: 'Tüm Müslümanlar için rehber ve model teşkil eden topluluk.' }
                     ]}
                 ]
             }
