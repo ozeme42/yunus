@@ -279,12 +279,35 @@
             .concept-grid {
                 grid-template-columns: repeat(2, 1fr); /* 768px altı için 2 sütun */
             }
+            /* Mobil cihazlar için kavram kutusu boyutlarını küçült */
+            .concept-box {
+                min-width: 90px; /* Daha küçük minimum genişlik */
+                max-width: 150px; /* Daha küçük maksimum genişlik */
+                min-height: 80px; /* Daha küçük minimum yükseklik */
+                font-size: 0.9rem; /* Daha küçük font boyutu */
+                padding: 0.5rem 0.75rem; /* Daha küçük padding */
+            }
+            .concept-box span {
+                padding: 0.5rem 0.75rem; /* İç metin padding'i */
+            }
         }
         @media (max-width: 480px) {
             .concept-grid {
                 grid-template-columns: repeat(1, 1fr); /* 480px altı (mobil) için tek sütun */
             }
+            /* Çok küçük mobil ekranlar için kavram kutusu boyutlarını daha da küçült */
+            .concept-box {
+                min-width: 80px;
+                max-width: 120px;
+                min-height: 70px;
+                font-size: 0.8rem;
+                padding: 0.4rem 0.6rem;
+            }
+            .concept-box span {
+                padding: 0.4rem 0.6rem;
+            }
         }
+
 
         /* Baloncuk animasyonu tanımı */
         @keyframes bubbleFloat {
@@ -437,7 +460,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 id="mainTitle" class="text-4xl font-bold text-gray-800 mb-6">Peygamberimizin Hayatı - Kavram Bilgi Yarışması</h1>
+        <h1 id="mainTitle" class="text-4xl font-bold text-gray-800 mb-6">Peygamberimizin Hayatı<br>Kavram Bilgi Yarışması</h1>
 
         <div id="mainMenuScreen">
             <div id="unitCardsContainer" class="unit-grid">
