@@ -33,10 +33,12 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             color: #657B83; /* Solarized Base00 Text */
             display: flex;
             flex-direction: column; /* Arrange children vertically */
+            min-height: 100vh; /* Ensure body takes full viewport height */
             padding: 0; /* Remove body padding, let containers handle it */
             margin: 0; /* Remove default body margin */
             box-sizing: border-box;
             /* overflow: hidden; REMOVED: Let the body scroll if anything escapes, though the goal is for .presentation-container to scroll. */
+            align-items: center; /* NEW: Centers items horizontally in a column flex container */
         }
 
         /* Top Navigation Bar - Fixed at the top of the viewport */
@@ -159,7 +161,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             overflow-y: auto; /* This is where the main content scrolling happens */
             border: 2px solid #EEE8D5;
             box-sizing: border-box; /* Ensure padding is included in width/height */
-            align-self: center; /* Center horizontally within the flex column body */
+            /* align-self: center; REMOVED: Parent body now handles centering */
         }
 
         /* Individual Slide Styles */
@@ -411,7 +413,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             <div class="unit-content">
                 <p>Namazın sahih (geçerli) olabilmesi için belirli şartların yerine getirilmesi gerekir:</p>
                 <ul>
-                    <li><strong>Hadesten Taharet:</b> Abdest/gusül ile manevi temizlik. <span class="emoji-icon">💧</span></li>
+                    <li><strong>Hadesten Taharet:</strong> Abdest/gusül ile manevi temizlik. <span class="emoji-icon">💧</span></li>
                     <li><strong>Necasetten Taharet:</strong> Vücut, elbise ve yerin temizliği. <span class="emoji-icon">🧼</span></li>
                     <li><strong>Setr-i Avret:</strong> Avret yerini örtmek. <span class="emoji-icon">👕</span></li>
                     <li><strong>İstikbal-i Kıble:</strong> Kıbleye yönelmek. <span class="emoji-icon">🕋</span></li>
