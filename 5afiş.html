@@ -103,7 +103,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             position: relative; /* For absolute positioning of slides */
             overflow-y: auto; /* This is where the main content scrolling happens */
             border: 2px solid #EEE8D5;
-            height: calc(100vh - 8rem); /* Adjusted height for desktop: top-nav (3rem) + controls (3rem) + margins (2rem) */
+            /* Height calculated dynamically in JS based on top/bottom bar heights */
         }
 
         /* Individual Slide Styles */
@@ -111,7 +111,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             display: none; /* Hidden by default */
             flex-shrink: 0; /* Prevents slide content from shrinking */
             width: 100%;
-            padding-bottom: 5rem; /* Increased padding to make space for sticky controls */
+            padding-bottom: 0; /* No padding-bottom here, as controls are fixed outside */
             text-align: left;
         }
         .slide.active {
@@ -301,23 +301,23 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             border-radius: 0.2rem;
         }
 
-        /* Presentation Controls - Now sticky inside the container */
+        /* Presentation Controls - Fixed at the bottom of the viewport */
         .presentation-controls {
-            position: sticky; /* Make it sticky */
-            bottom: 0; /* Stick to the bottom of its parent's scroll area */
-            left: 0; /* Ensure it spans full width */
-            right: 0; /* Ensure it spans full width */
-            width: 100%; /* Ensure it spans full width */
+            flex-shrink: 0; /* Prevent it from shrinking */
+            width: 100%;
             display: flex;
             justify-content: center;
             gap: 1.4rem; /* Larger gap for desktop */
             padding: 1rem 2.5rem; /* Larger padding for desktop */
             background-color: #FFFFFF;
             border-top: 1px solid #EEE8D5;
-            border-radius: 0 0 1.5rem 1.5rem; /* Rounded bottom corners for the container */
+            border-radius: 1.5rem 1.5rem 0 0; /* Rounded top corners */
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
-            margin-top: auto; /* Push to the bottom within flex container */
-            z-index: 10; /* Ensure it's above slide content if needed */
+            z-index: 10; /* Ensure it's above other content */
+            position: fixed; /* Fixed to the viewport */
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
         .nav-button {
             background-color: #268BD2;
@@ -363,7 +363,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             .presentation-container {
                 padding: 0.8rem;
                 margin: 0.5rem auto; /* Smaller margin for mobile */
-                height: calc(100vh - 4rem); /* Adjusted height for mobile: top-nav (1.5rem) + controls (1.5rem) + margins (1rem) */
+                /* Height will be calculated by JS dynamically */
             }
 
             /* Mobile font sizes */
@@ -447,9 +447,6 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             .nav-button, .slide-counter {
                 padding: 0.6rem 1rem;
                 font-size: 0.9rem;
-            }
-            .slide {
-                padding-bottom: 4rem; /* Adjusted for mobile to give more space for sticky controls */
             }
         }
     </style>
@@ -952,12 +949,12 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
                 </ul>
             </div>
         </div>
+    </div>
 
-        <div class="presentation-controls">
-            <button id="prevBtn" class="nav-button">Önceki</button>
-            <span id="slideCounter" class="slide-counter">1 / 28</span>
-            <button id="nextBtn" class="nav-button">Sonraki</button>
-        </div>
+    <div class="presentation-controls">
+        <button id="prevBtn" class="nav-button">Önceki</button>
+        <span id="slideCounter" class="slide-counter">1 / 28</span>
+        <button id="nextBtn" class="nav-button">Sonraki</button>
     </div>
 
     <script>
@@ -1081,6 +1078,19 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
                 showSlide(currentSlideIndex);
             });
         });
+
+        // Function to set the height of the presentation container dynamically
+        function setPresentationContainerHeight() {
+            const topNavHeight = document.querySelector('.top-nav').offsetHeight;
+            const controlsHeight = document.querySelector('.presentation-controls').offsetHeight;
+            const containerVerticalMargin = parseFloat(getComputedStyle(document.querySelector('.presentation-container')).marginTop) + parseFloat(getComputedStyle(document.querySelector('.presentation-container')).marginBottom);
+            
+            document.querySelector('.presentation-container').style.height = `calc(100vh - ${topNavHeight + controlsHeight + containerVerticalMargin}px)`;
+        }
+
+        // Initial height setting and on resize
+        window.addEventListener('load', setPresentationContainerHeight);
+        window.addEventListener('resize', setPresentationContainerHeight);
 
         // Initial load
         showSlide(currentSlideIndex);
