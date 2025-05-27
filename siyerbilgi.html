@@ -316,34 +316,137 @@
             color: #2c5282;
             margin-bottom: 0.75rem;
         }
-        .team-score-display {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #2c5282;
+        
+        /* New styles for the score table */
+        .score-table-container {
             margin-top: 1rem;
             margin-bottom: 1rem;
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            width: 100%;
         }
-        .team-score-item {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            background-color: #e2e8f0;
-            color: #2d3748;
-        }
-        .team-score-item.current-team {
-            background-color: #4299e1;
+        .score-table {
+            display: flex;
+            justify-content: center; /* Center the teams */
+            gap: 1rem; /* Space between team score cards */
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 600;
             color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            flex-wrap: wrap;
+            padding: 0.5rem; /* Add some padding around the entire score table */
+        }
+        .score-cell {
+            padding: 1rem 1.5rem; /* Increased padding */
+            display: flex;
+            flex-direction: column; /* Stack name and score vertically */
+            align-items: center;
+            justify-content: center;
+            min-width: 140px; /* Increased min-width */
+            box-sizing: border-box;
+            border-radius: 0.5rem; /* Rounded corners for individual cells */
+            transition: all 0.3s ease; /* Smooth transition for active state */
+            position: relative;
+            z-index: 1; /* Ensure cells are above each other for shadow/outline */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for each cell */
+        }
+        .score-cell.active-team {
+            transform: translateY(-5px); /* Lift up active team */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* More prominent shadow for active team */
+            outline: 4px solid #fcd34d; /* Thicker yellow outline */
+            outline-offset: -4px;
+            z-index: 2; /* Bring active team further to front */
+        }
+        .score-cell .team-name {
+            font-size: 1.1em; /* Slightly larger for name */
+            margin-bottom: 0.5rem; /* More space below name */
+            opacity: 1; /* Full opacity for name */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* Space between icon and name */
+        }
+        .score-cell .team-score {
+            font-size: 2.5em; /* Significantly larger for score */
+            font-weight: 900; /* Extra bold */
+            line-height: 1; /* Adjust line height for large numbers */
         }
 
-        /* New styles for responsive team count buttons */
+        /* Colors for teams */
+        .team-color-0 { background-color: #ef4444; } /* Red */
+        .team-color-1 { background-color: #3b82f6; } /* Blue */
+        .team-color-2 { background-color: #22c55e; } /* Green */
+        .team-color-3 { background-color: #f97316; } /* Orange */
+        .team-color-4 { background-color: #8b5cf6; } /* Purple */
+        /* Add more colors if more than 5 teams are possible */
+
+
+        /* Updated styles for responsive team count buttons to look like score cards */
+        .team-count-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust min-width for larger cards */
+            gap: 1.5rem; /* More space between cards */
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
         .team-count-button {
-            flex-grow: 1; /* Allow buttons to grow and take available space */
-            min-width: 120px; /* Ensure buttons don't get too small on narrow screens */
-            /* Inherits other styles from action-button */
+            background-color: #e0f2f7; /* Light blue background for default */
+            color: #2c5282; /* Darker blue text */
+            padding: 1.5rem 1rem; /* More padding */
+            border-radius: 0.75rem; /* More rounded corners */
+            font-size: 1.5rem; /* Larger font size */
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+            border: 2px solid #a0d9e7; /* Light blue border */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100px; /* Fixed height for consistency */
+        }
+        .team-count-button:hover {
+            background-color: #ccecf4; /* Lighter blue on hover */
+            transform: translateY(-5px); /* More pronounced lift effect */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        .team-count-button.selected-team {
+            background-color: #3182ce; /* Darker blue for selected */
+            color: white;
+            border-color: #2b6cb0; /* Even darker border */
+            box-shadow: 0 6px 15px rgba(49, 130, 206, 0.6); /* Stronger shadow for selected */
+            transform: translateY(-2px); /* Slightly lifted */
+        }
+
+        /* Styles for team name input modal */
+        .team-name-input-modal {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .team-name-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .team-name-input {
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px; /* Limit input width */
+            margin: 0 auto; /* Center inputs */
         }
     </style>
 </head>
@@ -359,27 +462,34 @@
 
         <div id="team-selection-screen" class="hidden">
             <h1 class="mb-8">Takım Sayısını Seçin</h1>
-            <div id="team-count-selection" class="flex flex-wrap justify-center gap-4 mb-8">
-                <button class="team-count-button action-button" data-teams="1">1 Takım</button>
-                <button class="team-count-button action-button" data-teams="2">2 Takım</button>
-                <button class="team-count-button action-button" data-teams="3">3 Takım</button>
-                <button class="team-count-button action-button" data-teams="4">4 Takım</button>
-                <button class="team-count-button action-button" data-teams="5">5 Takım</button>
+            <div id="team-count-selection" class="team-count-selection">
+                <button class="team-count-button" data-teams="1">1 Takım</button>
+                <button class="team-count-button" data-teams="2">2 Takım</button>
+                <button class="team-count-button" data-teams="3">3 Takım</button>
+                <button class="team-count-button" data-teams="4">4 Takım</button>
+                <button class="team-count-button" data-teams="5">5 Takım</button>
             </div>
-            <button id="start-team-quiz-button" class="start-button hidden">Takımlı Yarışmayı Başlat</button>
+            <button id="proceed-to-name-input-button" class="start-button hidden">Takım İsimlerini Gir</button>
             <button id="return-to-unit-selection-button" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Ünite Seçimine Geri Dön</button>
+        </div>
+
+        <div id="team-name-input-screen" class="hidden team-name-input-modal">
+            <h1 class="mb-8">Takım İsimlerini Girin</h1>
+            <div id="team-name-inputs-container" class="flex flex-col gap-4">
+            </div>
+            <button id="start-team-quiz-button" class="start-button">Yarışmayı Başlat</button>
+            <button id="return-to-team-selection-button" class="action-button bg-gray-500 hover:bg-gray-700 mt-4">Takım Sayısı Seçimine Geri Dön</button>
         </div>
 
         <div id="question-grid-screen" class="hidden">
             <h1 id="unit-title" class="mb-4"></h1>
-            <div id="team-score-display" class="team-score-display"></div>
+            <div id="team-score-display" class="score-table-container"></div>
             <div id="question-grid" class="question-grid">
                 </div>
             <button id="return-to-units-button" class="action-button mt-4">Ünitelere Geri Dön</button>
         </div>
 
         <div id="question-screen" class="hidden">
-            <div class="question-counter"><span id="current-question-number"></span> / <span id="total-questions"></span></div>
             <div id="timer-display" class="timer-display hidden"></div>
             <div id="current-question-container" class="question-block">
                 <h2 id="question-text"></h2>
@@ -398,7 +508,7 @@
 
         <div id="final-score-container" class="hidden">
             <div id="overall-result" class="feedback-message"></div>
-            <div id="final-team-scores" class="team-score-display flex-col"></div>
+            <div id="final-team-scores" class="score-table-container"></div>
             <button id="reset-game-button" class="action-button" onclick="resetGame()">Yeniden Başla</button>
             <button id="return-to-main-menu-from-final-button" class="action-button mt-4" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
         </div>
@@ -409,373 +519,387 @@
     // Each question object has: question (string), answer (string), category (string - unit name), points (number)
     let questions = [
         // Ünite 1: Peygamberimizin Gençlik Yılları
-        { question: "Peygamber Efendimiz Hz. Muhammed (s.a.v)'in Miladi 571 yılında dünyaya geldiği şehir.", answer: "Mekke", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Kâbe'nin bulunduğu ve İslamiyet'in doğduğu kutsal şehir.", answer: "Mekke", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin doğup büyüdüğü, ilk vahyin geldiği şehir.", answer: "Mekke", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin doğduğu yıl gerçekleşen ve Kur'an-ı Kerim'de Fil Suresi'nde bahsedilen olay.", answer: "Fil Vakası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Ebrehe'nin Kâbe'yi yıkmak için fillerle Mekke'ye yürümesi olayı.", answer: "Fil Vakası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Allah'ın Kâbe'yi korumak için Ebabil kuşlarını gönderdiği mucizevi olay.", answer: "Fil Vakası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin doğmadan önce vefat eden babasının adı.", answer: "Abdullah", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin annesi Hz. Amine'nin eşi.", answer: "Abdullah", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin dedesi Abdülmuttalib'in oğlu.", answer: "Abdullah", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin annesinin adı.", answer: "Amine", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizi altı yaşına kadar büyüten annesi.", answer: "Amine", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin babası Abdullah'ın eşi.", answer: "Amine", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin sütannesi.", answer: "Halime", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizi dört yaşına kadar yanında büyüten kadın.", answer: "Halime", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Beni Sa'd kabilesinden olan ve Peygamberimize süt anneliği yapan.", answer: "Halime", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin dedesi.", answer: "Abdülmuttalib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizi sekiz yaşına kadar himaye eden kişi.", answer: "Abdülmuttalib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Kâbe'nin bakımıyla ilgilenen ve Mekke'nin ileri gelenlerinden olan.", answer: "Abdülmuttalib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin amcası ve dedesi vefat ettikten sonra onu himaye eden kişi.", answer: "Ebu Talib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin gençlik yıllarında ticaret kervanlarına götürdüğü amcası.", answer: "Ebu Talib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Hz. Ali'nin babası olan Peygamberimizin amcası.", answer: "Ebu Talib", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Arap toplumunda İslam'dan önceki putperestlik, haksızlık, kan davası, içki, kumar gibi kötü davranışların yaygın olduğu dönem.", answer: "Cahiliye Dönemi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "İslamiyet öncesi Arap Yarımadası'nda cehaletin ve ahlaki yozlaşmanın hüküm sürdüğü dönem.", answer: "Cahiliye Dönemi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin risaletiyle sona eren, ahlaki ve sosyal bozuklukların yaşandığı dönem.", answer: "Cahiliye Dönemi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin gençlik yıllarında katıldığı ve haksızlıkların önlenmesi amacıyla kurulan topluluk.", answer: "Hilfü'l-Fudûl", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mekke'de zulme uğrayanlara yardım etmek için kurulan \"Erdemliler Topluluğu\".", answer: "Hilfü'l-Fudûl", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin de desteklediği, haksızlığa uğrayanların hakkını savunan antlaşma.", answer: "Hilfü'l-Fudûl", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mekkelilerin ticaretle uğraşan Peygamberimize dürüstlüğü ve güvenilirliği sebebiyle verdikleri lakap.", answer: "El-Emin", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin güvenilirliğini ve emanete sadakatini ifade eden lakap.", answer: "El-Emin", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mekke halkı tarafından kendisine verilen \"güvenilir kişi\" anlamındaki unvan.", answer: "El-Emin", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin ilk eşi ve kendisine ilk iman eden kişi.", answer: "Hz. Hatice", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mekke'nin zengin ve saygın kadınlarından olup, Peygamberimizle evlenen.", answer: "Hz. Hatice", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin tüm çocuklarının annesi (İbrahim hariç).", answer: "Hz. Hatice", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamber Efendimizin kırk yaşlarına yaklaştığı sıralarda tefekkür etmek için inzivaya çekildiği yer.", answer: "Hira Mağarası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "İlk vahyin geldiği ve Peygamberimizin yalnız kalmayı tercih ettiği mağara.", answer: "Hira Mağarası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Cebrail'in Peygamberimize Alak Suresi'nin ilk ayetlerini getirdiği yer.", answer: "Hira Mağarası", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimize Alak Suresi'nin ilk ayetleriyle gelen ilahi mesaj.", answer: "İlk Vahiy", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Cebrail (a.s)'ın Hira Mağarası'nda Peygamberimize getirdiği ilk emir.", answer: "İlk Vahiy", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberliğin başlangıcı olan ve \"Oku!\" emriyle başlayan olay.", answer: "İlk Vahiy", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Allah'tan peygamberlere vahiy getirmekle görevli melek.", answer: "Cebrail", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Hira Mağarası'nda Peygamberimize ilk vahyi getiren melek.", answer: "Cebrail", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Vahiy meleği olarak da bilinen büyük melek.", answer: "Cebrail", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mekke'de Müslümanlara uygulanan ekonomik ve sosyal abluka.", answer: "Boykot", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Müşriklerin Müslümanlarla evlenmeyi, alışveriş yapmayı ve görüşmeyi yasakladığı dönem.", answer: "Boykot", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Müslümanları dinlerinden döndürmek amacıyla uygulanan toplumsal baskı.", answer: "Boykot", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Müslümanlara uygulanan boykottan sonra Peygamberimizin amcası Ebu Talib ve eşi Hz. Hatice'yi kaybettiği yıl.", answer: "Hüzün Yılı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin peş peşe iki büyük destekçisini kaybettiği ve çok üzüldüğü yıl.", answer: "Hüzün Yılı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "İslam tarihinde yaşanan büyük acıların yaşandığı yıl.", answer: "Hüzün Yılı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin İslam'ı anlatmak için gittiği ancak taşlanarak geri döndüğü şehir.", answer: "Taif", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mekke'nin yakınlarında bulunan ve Peygamberimizin davetini kabul etmeyen şehir.", answer: "Taif", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin büyük üzüntü yaşadığı davet yolculuğu yaptığı yer.", answer: "Taif", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Medine'den gelenlerin Peygamberimizle buluşarak İslam'ı kabul ettikleri ve ona bağlılık yemini ettikleri yer.", answer: "Akabe Biatları", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Hicret öncesinde Medinelilerin Peygamberimizle yaptığı gizli antlaşmalar.", answer: "Akabe Biatları", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "İslam'ın Medine'ye yayılmasında önemli rol oynayan biatlar.", answer: "Akabe Biatları", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin ve Müslümanların Mekke'den Medine'ye göç etmesi olayı.", answer: "Hicret", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "İslam takviminin başlangıcı kabul edilen büyük göç.", answer: "Hicret", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mekke'deki baskılardan dolayı dinlerini hürriyetle yaşamak için yapılan yolculuk.", answer: "Hicret", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mekke'den Medine'ye göç eden Müslümanlara verilen ad.", answer: "Muhacir", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Dinlerini yaşayabilmek için yurtlarını terk eden Müslümanlar.", answer: "Muhacir", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Medine'de Ensar tarafından kardeş edinilen Müslümanlar.", answer: "Muhacir", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimize ve Mekke'den gelen Müslümanlara (Muhacir) yardım eden Medineli Müslümanlar.", answer: "Ensar", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Medine'de Müslümanlara kucak açan ve onlara destek olan yerli halk.", answer: "Ensar", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Yardım edenler anlamına gelen ve Medineli Müslümanlara verilen lakap.", answer: "Ensar", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin Medine'de farklı din ve kabilelerden oluşan topluluklar arasında barışı sağlamak için imzaladığı antlaşma.", answer: "Medine Sözleşmesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Medine'de yaşayan Müslümanlar, Yahudiler ve diğer gruplar arasında yapılan ilk yazılı anayasa niteliğindeki belge.", answer: "Medine Sözleşmesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin adalet ve hoşgörüsünü gösteren önemli bir belge.", answer: "Medine Sözleşmesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin Medine'ye hicret ettiğinde ilk iş olarak inşa ettiği cami.", answer: "Mescid-i Nebi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Medine'de bulunan ve Peygamberimizin kabrinin de yer aldığı kutsal cami.", answer: "Mescid-i Nebi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "İslam tarihinde ilk üniversite sayılan Suffe'nin de bulunduğu cami.", answer: "Mescid-i Nebi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Müslümanlarla Mekkeli müşrikler arasında gerçekleşen ilk büyük savaş.", answer: "Bedir Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Sayıca az olmalarına rağmen Müslümanların zafer kazandığı önemli savaş.", answer: "Bedir Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "İslam'ın ilk zaferi olarak bilinen savaş.", answer: "Bedir Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Müslümanların okçuların yerini terk etmesiyle zor durumda kaldığı savaş.", answer: "Uhud Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin Uhud Dağı'nda okçuları yerleştirdiği ancak emre uyulmadığı için yaşanan savaş.", answer: "Uhud Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Müslümanların büyük kayıplar verdiği ancak dersler çıkardığı savaş.", answer: "Uhud Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Düşmanın şehre rahatça girebileceği tarafa büyük bir hendek kazma fikrinin Selman-ı Fârisî tarafından verildiği savaş.", answer: "Hendek Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Medine'nin etrafına hendek kazılarak savunma yapıldığı savaş.", answer: "Hendek Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Müşrik ordusunun kuşatmasının uzun sürdüğü ve sonuçsuz kaldığı savaş.", answer: "Hendek Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mekkelilerle Müslümanlar arasında imzalanan ve Mekke'nin fethine zemin hazırlayan barış antlaşması.", answer: "Hudeybiye Antlaşması", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "İlk bakışta Müslümanların aleyhine gibi görünen ancak büyük hayırlar içeren antlaşma.", answer: "Hudeybiye Antlaşması", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin stratejik dehasını gösteren önemli bir diplomatik başarı.", answer: "Hudeybiye Antlaşması", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Hudeybiye Barış Antlaşması'nı bozan Mekkeli müşriklere karşı Peygamberimizin 630 yılında gerçekleştirdiği olay.", answer: "Mekke'nin Fethi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin kan dökmeden, genel af ilan ederek gerçekleştirdiği büyük zafer.", answer: "Mekke'nin Fethi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Kâbe'nin putlardan temizlendiği ve İslam'ın Mekke'de kesin olarak yayıldığı olay.", answer: "Mekke'nin Fethi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin ilk ve son haccı olan \"Veda Haccı\"nda, Arafat'ta yüz binden fazla Müslüman'a hitaben yaptığı konuşma.", answer: "Veda Hutbesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "İnsan hakları, eşitlik, adalet gibi evrensel mesajları içeren tarihi konuşma.", answer: "Veda Hutbesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin vefatından kısa bir süre önce yaptığı son kapsamlı nasihatler.", answer: "Veda Hutbesi", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin Miladi 632 yılında Medine'de gerçekleşen vefatı.", answer: "Vefat", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Peygamberimizin dünya hayatına veda ettiği olay.", answer: "Vefat", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Müslümanlar için büyük bir hüzün kaynağı olan Peygamberimizin vefatı.", answer: "Vefat", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Mescid-i Nebi içinde Peygamberimizin kabri ile minberi arasındaki bölüme verilen ad.", answer: "Ravza-i Mutahhara", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Cennet bahçelerinden bir bahçe olarak kabul edilen kutsal mekan.", answer: "Ravza-i Mutahhara", category: "Peygamberimizin Gençlik Yılları", points: 100 },
-        { question: "Medine'de ziyaret edilen önemli yerlerden biri.", answer: "Ravza-i Mutahhara", category: "Peygamberimizin Gençlik Yılları", points: 100 },
+        { question: "Peygamber Efendimiz Hz. Muhammed (s.a.v)'in Miladi 571 yılında dünyaya geldiği şehir.", answer: "Mekke", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Kâbe'nin bulunduğu ve İslamiyet'in doğduğu kutsal şehir.", answer: "Mekke", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin doğup büyüdüğü, ilk vahyin geldiği şehir.", answer: "Mekke", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin doğduğu yıl gerçekleşen ve Kur'an-ı Kerim'de Fil Suresi'nde bahsedilen olay.", answer: "Fil Vakası", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Ebrehe'nin Kâbe'yi yıkmak için fillerle Mekke'ye yürümesi olayı.", answer: "Fil Vakası", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Allah'ın Kâbe'yi korumak için Ebabil kuşlarını gönderdiği mucizevi olay.", answer: "Fil Vakası", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin doğmadan önce vefat eden babasının adı.", answer: "Abdullah", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin annesi Hz. Amine'nin eşi.", answer: "Abdullah", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin dedesi Abdülmuttalib'in oğlu.", answer: "Abdullah", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin annesinin adı.", answer: "Amine", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizi altı yaşına kadar büyüten annesi.", answer: "Amine", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin babası Abdullah'ın eşi.", answer: "Amine", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin sütannesi.", answer: "Halime", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizi dört yaşına kadar yanında büyüten kadın.", answer: "Halime", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Beni Sa'd kabilesinden olan ve Peygamberimize süt anneliği yapan.", answer: "Halime", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin dedesi.", answer: "Abdülmuttalib", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizi sekiz yaşına kadar himaye eden kişi.", answer: "Abdülmuttalib", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Kâbe'nin bakımıyla ilgilenen ve Mekke'nin ileri gelenlerinden olan.", answer: "Abdülmuttalib", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin amcası ve dedesi vefat ettikten sonra onu himaye eden kişi.", answer: "Ebu Talib", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin gençlik yıllarında ticaret kervanlarına götürdüğü amcası.", answer: "Ebu Talib", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Hz. Ali'nin babası olan Peygamberimizin amcası.", answer: "Ebu Talib", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Arap toplumunda İslam'dan önceki putperestlik, haksızlık, kan davası, içki, kumar gibi kötü davranışların yaygın olduğu dönem.", answer: "Cahiliye Dönemi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "İslamiyet öncesi Arap Yarımadası'nda cehaletin ve ahlaki yozlaşmanın hüküm sürdüğü dönem.", answer: "Cahiliye Dönemi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin risaletiyle sona eren, ahlaki ve sosyal bozuklukların yaşandığı dönem.", answer: "Cahiliye Dönemi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin gençlik yıllarında katıldığı ve haksızlıkların önlenmesi amacıyla kurulan topluluk.", answer: "Hilfü'l-Fudûl", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mekke'de zulme uğrayanlara yardım etmek için kurulan \"Erdemliler Topluluğu\".", answer: "Hilfü'l-Fudûl", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin de desteklediği, haksızlığa uğrayanların hakkını savunan antlaşma.", answer: "Hilfü'l-Fudûl", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mekkelilerin ticaretle uğraşan Peygamberimize dürüstlüğü ve güvenilirliği sebebiyle verdikleri lakap.", answer: "El-Emin", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin güvenilirliğini ve emanete sadakatini ifade eden lakap.", answer: "El-Emin", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mekke halkı tarafından kendisine verilen \"güvenilir kişi\" anlamındaki unvan.", answer: "El-Emin", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin ilk eşi ve kendisine ilk iman eden kişi.", answer: "Hz. Hatice", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mekke'nin zengin ve saygın kadınlarından olup, Peygamberimizle evlenen.", answer: "Hz. Hatice", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin tüm çocuklarının annesi (İbrahim hariç).", answer: "Hz. Hatice", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamber Efendimizin kırk yaşlarına yaklaştığı sıralarda tefekkür etmek için inzivaya çekildiği yer.", answer: "Hira Mağarası", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "İlk vahyin geldiği ve Peygamberimizin yalnız kalmayı tercih ettiği mağara.", answer: "Hira Mağarası", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Cebrail'in Peygamberimize Alak Suresi'nin ilk ayetlerini getirdiği yer.", answer: "Hira Mağarası", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimize Alak Suresi'nin ilk ayetleriyle gelen ilahi mesaj.", answer: "İlk Vahiy", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Cebrail (a.s)'ın Hira Mağarası'nda Peygamberimize getirdiği ilk emir.", answer: "İlk Vahiy", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberliğin başlangıcı olan ve \"Oku!\" emriyle başlayan olay.", answer: "İlk Vahiy", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Allah'tan peygamberlere vahiy getirmekle görevli melek.", answer: "Cebrail", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Hira Mağarası'nda Peygamberimize ilk vahyi getiren melek.", answer: "Cebrail", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Vahiy meleği olarak da bilinen büyük melek.", answer: "Cebrail", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mekke'de Müslümanlara uygulanan ekonomik ve sosyal abluka.", answer: "Boykot", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Müşriklerin Müslümanlarla evlenmeyi, alışveriş yapmayı ve görüşmeyi yasakladığı dönem.", answer: "Boykot", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Müslümanları dinlerinden döndürmek amacıyla uygulanan toplumsal baskı.", answer: "Boykot", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Müslümanlara uygulanan boykottan sonra Peygamberimizin amcası Ebu Talib ve eşi Hz. Hatice'yi kaybettiği yıl.", answer: "Hüzün Yılı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin peş peşe iki büyük destekçisini kaybettiği ve çok üzüldüğü yıl.", answer: "Hüzün Yılı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "İslam tarihinde yaşanan büyük acıların yaşandığı yıl.", answer: "Hüzün Yılı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin İslam'ı anlatmak için gittiği ancak taşlanarak geri döndüğü şehir.", answer: "Taif", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mekke'nin yakınlarında bulunan ve Peygamberimizin davetini kabul etmeyen şehir.", answer: "Taif", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin büyük üzüntü yaşadığı davet yolculuğu yaptığı yer.", answer: "Taif", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Medine'den gelenlerin Peygamberimizle buluşarak İslam'ı kabul ettikleri ve ona bağlılık yemini ettikleri yer.", answer: "Akabe Biatları", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Hicret öncesinde Medinelilerin Peygamberimizle yaptığı gizli antlaşmalar.", answer: "Akabe Biatları", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "İslam'ın Medine'ye yayılmasında önemli rol oynayan biatlar.", answer: "Akabe Biatları", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin ve Müslümanların Mekke'den Medine'ye göç etmesi olayı.", answer: "Hicret", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "İslam takviminin başlangıcı kabul edilen büyük göç.", answer: "Hicret", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mekke'deki baskılardan dolayı dinlerini hürriyetle yaşamak için yapılan yolculuk.", answer: "Hicret", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mekke'den Medine'ye göç eden Müslümanlara verilen ad.", answer: "Muhacir", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Dinlerini yaşayabilmek için yurtlarını terk eden Müslümanlar.", answer: "Muhacir", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Medine'de Ensar tarafından kardeş edinilen Müslümanlar.", answer: "Muhacir", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimize ve Mekke'den gelen Müslümanlara (Muhacir) yardım eden Medineli Müslümanlar.", answer: "Ensar", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Medine'de Müslümanlara kucak açan ve onlara destek olan yerli halk.", answer: "Ensar", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Yardım edenler anlamına gelen ve Medineli Müslümanlara verilen lakap.", answer: "Ensar", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin Medine'de farklı din ve kabilelerden oluşan topluluklar arasında barışı sağlamak için imzaladığı antlaşma.", answer: "Medine Sözleşmesi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Medine'de yaşayan Müslümanlar, Yahudiler ve diğer gruplar arasında yapılan ilk yazılı anayasa niteliğindeki belge.", answer: "Medine Sözleşmesi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin adalet ve hoşgörüsünü gösteren önemli bir belge.", answer: "Medine Sözleşmesi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin Medine'ye hicret ettiğinde ilk iş olarak inşa ettiği cami.", answer: "Mescid-i Nebi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Medine'de bulunan ve Peygamberimizin kabrinin de yer aldığı kutsal cami.", answer: "Mescid-i Nebi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "İslam tarihinde ilk üniversite sayılan Suffe'nin de bulunduğu cami.", answer: "Mescid-i Nebi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Müslümanlarla Mekkeli müşrikler arasında gerçekleşen ilk büyük savaş.", answer: "Bedir Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Sayıca az olmalarına rağmen Müslümanların zafer kazandığı önemli savaş.", answer: "Bedir Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "İslam'ın ilk zaferi olarak bilinen savaş.", answer: "Bedir Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Müslümanların okçuların yerini terk etmesiyle zor durumda kaldığı savaş.", answer: "Uhud Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin Uhud Dağı'nda okçuları yerleştirdiği ancak emre uyulmadığı için yaşanan savaş.", answer: "Uhud Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Müslümanların büyük kayıplar verdiği ancak dersler çıkardığı savaş.", answer: "Uhud Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Düşmanın şehre rahatça girebileceği tarafa büyük bir hendek kazma fikrinin Selman-ı Fârisî tarafından verildiği savaş.", answer: "Hendek Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Medine'nin etrafına hendek kazılarak savunma yapıldığı savaş.", answer: "Hendek Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Müşrik ordusunun kuşatmasının uzun sürdüğü ve sonuçsuz kaldığı savaş.", answer: "Hendek Savaşı", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mekkelilerle Müslümanlar arasında imzalanan ve Mekke'nin fethine zemin hazırlayan barış antlaşması.", answer: "Hudeybiye Antlaşması", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "İlk bakışta Müslümanların aleyhine gibi görünen ancak büyük hayırlar içeren antlaşma.", answer: "Hudeybiye Antlaşması", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin stratejik dehasını gösteren önemli bir diplomatik başarı.", answer: "Hudeybiye Antlaşması", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Hudeybiye Barış Antlaşması'nı bozan Mekkeli müşriklere karşı Peygamberimizin 630 yılında gerçekleştirdiği olay.", answer: "Mekke'nin Fethi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin kan dökmeden, genel af ilan ederek gerçekleştirdiği büyük zafer.", answer: "Mekke'nin Fethi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Kâbe'nin putlardan temizlendiği ve İslam'ın Mekke'de kesin olarak yayıldığı olay.", answer: "Mekke'nin Fethi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin ilk ve son haccı olan \"Veda Haccı\"nda, Arafat'ta yüz binden fazla Müslüman'a hitaben yaptığı konuşma.", answer: "Veda Hutbesi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "İnsan hakları, eşitlik, adalet gibi evrensel mesajları içeren tarihi konuşma.", answer: "Veda Hutbesi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin vefatından kısa bir süre önce yaptığı son kapsamlı nasihatler.", answer: "Veda Hutbesi", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin Miladi 632 yılında Medine'de gerçekleşen vefatı.", answer: "Vefat", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Peygamberimizin dünya hayatına veda ettiği olay.", answer: "Vefat", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Müslümanlar için büyük bir hüzün kaynağı olan Peygamberimizin vefatı.", answer: "Vefat", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Mescid-i Nebi içinde Peygamberimizin kabri ile minberi arasındaki bölüme verilen ad.", answer: "Ravza-i Mutahhara", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Cennet bahçelerinden bir bahçe olarak kabul edilen kutsal mekan.", answer: "Ravza-i Mutahhara", category: "Peygamberimizin Gençlik Yılları", points: 10 },
+        { question: "Medine'de ziyaret edilen önemli yerlerden biri.", answer: "Ravza-i Mutahhara", category: "Peygamberimizin Gençlik Yılları", points: 10 },
 
         // Ünite 2: Kur'an-ı Kerim'de Peygamberimiz
-        { question: "Kur'an-ı Kerim'de Peygamber Efendimiz için kullanılan en yaygın isim.", answer: "Muhammed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin dedesi tarafından verilen ve \"övülmüş\" anlamına gelen isim.", answer: "Muhammed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an'da dört yerde geçen Peygamberimizin ismi.", answer: "Muhammed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an-ı Kerim'de Peygamber Efendimiz için kullanılan diğer bir isim.", answer: "Ahmed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Hz. İsa'nın İncil'de müjdelediği Peygamberimizin ismi.", answer: "Ahmed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Çok hamdeden, öven anlamına gelen Peygamberimizin ismi.", answer: "Ahmed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin bütün insanlığa ve alemlere rahmet olarak gönderildiğini ifade eden Kur'anî ifade.", answer: "Rahmeten lil-Alemin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Enbiya Suresi 107. ayette geçen, Peygamberimizin evrensel merhametini vurgulayan ifade.", answer: "Rahmeten lil-Alemin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin sadece Müslümanlara değil, tüm varlıklara karşı şefkatli olduğunu belirten sıfat.", answer: "Rahmeten lil-Alemin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin hayatının her alanında Müslümanlara en güzel örnek olduğunu ifade eden kavram.", answer: "Üsve-i Hasene", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Ahzab Suresi 21. ayette geçen ve Peygamberimizin örnek kişiliğini vurgulayan ifade.", answer: "Üsve-i Hasene", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin söz, fiil ve onaylarının Müslümanlar için rehber olması.", answer: "Üsve-i Hasene", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an-ı Kerim'de Peygamberimize itaat etmenin, Allah'a itaat etmekle eşdeğer olduğu belirtilen eylem.", answer: "İtaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin emir ve yasaklarına uymak.", answer: "İtaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an'da sıkça vurgulanan, Peygamberimizin rehberliğine uymak.", answer: "İtaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an-ı Kerim'de Peygamberimizin insanlara karşı tutumunu tasvir eden özellikler.", answer: "Merhamet ve Şefkat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Tevbe Suresi 128. ayette geçen, Peygamberimizin müminlere karşı duyduğu derin acıma ve acıma duygusu.", answer: "Merhamet ve Şefkat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin her canlıya karşı gösterdiği yumuşaklık ve anlayış.", answer: "Merhamet ve Şefkat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin Allah'tan aldığı vahiyleri insanlara eksiksiz ve olduğu gibi ulaştırma görevi.", answer: "Tebliğ", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberliğin temel görevlerinden biri olan, ilahi mesajı insanlara duyurma.", answer: "Tebliğ", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an'ı ve İslam'ın hükümlerini insanlara bildirme.", answer: "Tebliğ", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin Kur'an ayetlerini açıklama, detaylandırma ve yorumlama görevi.", answer: "Tebyin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an'daki genel hükümleri somutlaştırma ve uygulama örnekleri gösterme.", answer: "Tebyin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin söz ve fiilleriyle Kur'an'ı anlaşılır kılma.", answer: "Tebyin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin son peygamber olduğunu ifade eden Kur'anî kavram.", answer: "Hâtemü'n-Nebiyyîn", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberlik mührü anlamına gelen ve ondan sonra peygamber gelmeyeceğini belirten sıfat.", answer: "Hâtemü'n-Nebiyyîn", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Ahzab Suresi 40. ayette geçen, Peygamberimizin peygamberler zincirinin son halkası olduğunu bildiren ifade.", answer: "Hâtemü'n-Nebiyyîn", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Allah'ın (c.c.) peygamberlerine Cebrail aracılığıyla gönderdiği ilahi bilgiler.", answer: "Vahiy", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberlerin Allah ile iletişim kurma şekli ve ilahi mesajları alma süreci.", answer: "Vahiy", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an-ı Kerim'in kaynağı olan ilahi bildirim.", answer: "Vahiy", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin en büyük ve kalıcı mucizesi olarak kabul edilen ilahi kitap.", answer: "Kur'an (Mucize)", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Benzerinin getirilemeyeceği bildirilen, eşsiz belagat ve içerik sahibi kitap.", answer: "Kur'an (Mucize)", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin risaletinin en büyük delili olan kutsal kitap.", answer: "Kur'an (Mucize)", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin okuma yazma bilmemesi özelliği.", answer: "Ümmî", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Risaletinin delillerinden biri olarak gösterilen, herhangi bir eğitim almamış olması.", answer: "Ümmî", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Allah'tan aldığı vahyin kendi sözü olmadığını kanıtlayan özellik.", answer: "Ümmî", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an-ı Kerim'de Peygamberimize yönelik saygı ve sevginin ifadesi olarak getirilmesi emredilen dua.", answer: "Salavat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "\"Allahümme salli ala Muhammed\" gibi ifadelerle Peygamberimize yapılan dua.", answer: "Salavat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin anıldığı zamanlarda ona duyulan saygıyı gösteren ifade.", answer: "Salavat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin kıyamet gününde Allah'ın izniyle günahkâr müminler için af dilemesi yetkisi.", answer: "Şefaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Allah'ın iznine bağlı olan ve Peygamberimize verilen özel bir yetki.", answer: "Şefaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin ümmetine olan merhametinin bir göstergesi.", answer: "Şefaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin insanları yaptıkları hatalara karşı nazikçe uyarması ve iyi yaşam sürmeleri halinde cennete gideceklerini bildirmesi görevleri.", answer: "Uyarıcı ve Müjdeleyici", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberlerin insanlara baskı kurmadan, sadece doğru yolu göstererek ve güzel sonuçları müjdeleyerek yaptıkları görev.", answer: "Uyarıcı ve Müjdeleyici", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an'da Peygamberimizin temel görevlerinden biri olarak belirtilen özellik.", answer: "Uyarıcı ve Müjdeleyici", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin Allah'tan aldığı vahyi insanlara ulaştırma ve tebliğ etme görevi.", answer: "Risalet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberlik görevi ve bu görevin getirdiği sorumluluklar.", answer: "Risalet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin Allah'ın elçisi olarak gönderilmesi.", answer: "Risalet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin Kur'an'da \"Nur\" olarak nitelendirilmesi.", answer: "Nur", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "İnsanlığa yol gösteren, aydınlatan bir ışık olarak Peygamberimizin vasfı.", answer: "Nur", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin getirdiği vahyin ve İslam'ın aydınlatıcı özelliği.", answer: "Nur", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin insanları davet ettiği \"dosdoğru yol\".", answer: "Sırat-ı Müstakim", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an ve Sünnet'e uygun, Allah'ın razı olduğu yaşam biçimi.", answer: "Sırat-ı Müstakim", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin insanlara gösterdiği doğru ve hak yol.", answer: "Sırat-ı Müstakim", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an-ı Kerim'in bölümlerine verilen ad.", answer: "Ayet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Allah'ın sözlerini içeren ve Peygamberimize indirilen ilahi mesajların her bir parçası.", answer: "Ayet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an'da geçen ve bir anlam bütünlüğü taşıyan cümle veya cümleler topluluğu.", answer: "Ayet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Kur'an-ı Kerim'in ayetlerden oluşan bölümlerine verilen ad.", answer: "Sure", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
-        { question: "Besmele ile başlayan ve belirli sayıda ayetten oluşan Kur'an bölümü.", answer: "Sure", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 100 },
+        { question: "Kur'an-ı Kerim'de Peygamber Efendimiz için kullanılan en yaygın isim.", answer: "Muhammed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin dedesi tarafından verilen ve \"övülmüş\" anlamına gelen isim.", answer: "Muhammed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an'da dört yerde geçen Peygamberimizin ismi.", answer: "Muhammed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an-ı Kerim'de Peygamber Efendimiz için kullanılan diğer bir isim.", answer: "Ahmed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Hz. İsa'nın İncil'de müjdelediği Peygamberimizin ismi.", answer: "Ahmed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Çok hamdeden, öven anlamına gelen Peygamberimizin ismi.", answer: "Ahmed", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin bütün insanlığa ve alemlere rahmet olarak gönderildiğini ifade eden Kur'anî ifade.", answer: "Rahmeten lil-Alemin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Enbiya Suresi 107. ayette geçen, Peygamberimizin evrensel merhametini vurgulayan ifade.", answer: "Rahmeten lil-Alemin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin sadece Müslümanlara değil, tüm varlıklara karşı şefkatli olduğunu belirten sıfat.", answer: "Rahmeten lil-Alemin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin hayatının her alanında Müslümanlara en güzel örnek olduğunu ifade eden kavram.", answer: "Üsve-i Hasene", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Ahzab Suresi 21. ayette geçen ve Peygamberimizin örnek kişiliğini vurgulayan ifade.", answer: "Üsve-i Hasene", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin söz, fiil ve onaylarının Müslümanlar için rehber olması.", answer: "Üsve-i Hasene", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an-ı Kerim'de Peygamberimize itaat etmenin, Allah'a itaat etmekle eşdeğer olduğu belirtilen eylem.", answer: "İtaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin emir ve yasaklarına uymak.", answer: "İtaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an'da sıkça vurgulanan, Peygamberimizin rehberliğine uymak.", answer: "İtaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an-ı Kerim'de Peygamberimizin insanlara karşı tutumunu tasvir eden özellikler.", answer: "Merhamet ve Şefkat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Tevbe Suresi 128. ayette geçen, Peygamberimizin müminlere karşı duyduğu derin acıma ve acıma duygusu.", answer: "Merhamet ve Şefkat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin her canlıya karşı gösterdiği yumuşaklık ve anlayış.", answer: "Merhamet ve Şefkat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin Allah'tan aldığı vahiyleri insanlara eksiksiz ve olduğu gibi ulaştırma görevi.", answer: "Tebliğ", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberliğin temel görevlerinden biri olan, ilahi mesajı insanlara duyurma.", answer: "Tebliğ", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an'ı ve İslam'ın hükümlerini insanlara bildirme.", answer: "Tebliğ", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin Kur'an ayetlerini açıklama, detaylandırma ve yorumlama görevi.", answer: "Tebyin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an'daki genel hükümleri somutlaştırma ve uygulama örnekleri gösterme.", answer: "Tebyin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin söz ve fiilleriyle Kur'an'ı anlaşılır kılma.", answer: "Tebyin", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin son peygamber olduğunu ifade eden Kur'anî kavram.", answer: "Hâtemü'n-Nebiyyîn", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberlik mührü anlamına gelen ve ondan sonra peygamber gelmeyeceğini belirten sıfat.", answer: "Hâtemü'n-Nebiyyîn", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Ahzab Suresi 40. ayette geçen, Peygamberimizin peygamberler zincirinin son halkası olduğunu bildiren ifade.", answer: "Hâtemü'n-Nebiyyîn", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Allah'ın (c.c.) peygamberlerine Cebrail aracılığıyla gönderdiği ilahi bilgiler.", answer: "Vahiy", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberlerin Allah ile iletişim kurma şekli ve ilahi mesajları alma süreci.", answer: "Vahiy", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an-ı Kerim'in kaynağı olan ilahi bildirim.", answer: "Vahiy", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin en büyük ve kalıcı mucizesi olarak kabul edilen ilahi kitap.", answer: "Kur'an (Mucize)", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Benzerinin getirilemeyeceği bildirilen, eşsiz belagat ve içerik sahibi kitap.", answer: "Kur'an (Mucize)", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin risaletinin en büyük delili olan kutsal kitap.", answer: "Kur'an (Mucize)", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin okuma yazma bilmemesi özelliği.", answer: "Ümmî", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Risaletinin delillerinden biri olarak gösterilen, herhangi bir eğitim almamış olması.", answer: "Ümmî", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Allah'tan aldığı vahyin kendi sözü olmadığını kanıtlayan özellik.", answer: "Ümmî", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an-ı Kerim'de Peygamberimize yönelik saygı ve sevginin ifadesi olarak getirilmesi emredilen dua.", answer: "Salavat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "\"Allahümme salli ala Muhammed\" gibi ifadelerle Peygamberimize yapılan dua.", answer: "Salavat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin anıldığı zamanlarda ona duyulan saygıyı gösteren ifade.", answer: "Salavat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin kıyamet gününde Allah'ın izniyle günahkâr müminler için af dilemesi yetkisi.", answer: "Şefaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Allah'ın iznine bağlı olan ve Peygamberimize verilen özel bir yetki.", answer: "Şefaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin ümmetine olan merhametinin bir göstergesi.", answer: "Şefaat", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin insanları yaptıkları hatalara karşı nazikçe uyarması ve iyi yaşam sürmeleri halinde cennete gideceklerini bildirmesi görevleri.", answer: "Uyarıcı ve Müjdeleyici", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberlerin insanlara baskı kurmadan, sadece doğru yolu göstererek ve güzel sonuçları müjdeleyerek yaptıkları görev.", answer: "Uyarıcı ve Müjdeleyici", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an'da Peygamberimizin temel görevlerinden biri olarak belirtilen özellik.", answer: "Uyarıcı ve Müjdeleyici", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin Allah'tan aldığı vahyi insanlara ulaştırma ve tebliğ etme görevi.", answer: "Risalet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberlik görevi ve bu görevin getirdiği sorumluluklar.", answer: "Risalet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin Allah'ın elçisi olarak gönderilmesi.", answer: "Risalet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin Kur'an'da \"Nur\" olarak nitelendirilmesi.", answer: "Nur", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "İnsanlığa yol gösteren, aydınlatan bir ışık olarak Peygamberimizin vasfı.", answer: "Nur", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin getirdiği vahyin ve İslam'ın aydınlatıcı özelliği.", answer: "Nur", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin insanları davet ettiği \"dosdoğru yol\".", answer: "Sırat-ı Müstakim", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an ve Sünnet'e uygun, Allah'ın razı olduğu yaşam biçimi.", answer: "Sırat-ı Müstakim", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin insanlara gösterdiği doğru ve hak yol.", answer: "Sırat-ı Müstakim", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an-ı Kerim'in bölümlerine verilen ad.", answer: "Ayet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Allah'ın sözlerini içeren ve Peygamberimize indirilen ilahi mesajların her bir parçası.", answer: "Ayet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an'da geçen ve bir anlam bütünlüğü taşıyan cümle veya cümleler topluluğu.", answer: "Ayet", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Kur'an-ı Kerim'in ayetlerden oluşan bölümlerine verilen ad.", answer: "Sure", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
+        { question: "Besmele ile başlayan ve belirli sayıda ayetten oluşan Kur'an bölümü.", answer: "Sure", category: "Kur'an-ı Kerim'de Peygamberimiz", points: 10 },
 
         // Ünite 3: Peygamberimiz ve Gençler
-        { question: "Peygamber Efendimiz (s.a.v.)'in gençleri toplumun geleceği ve dinamik gücü olarak görmesi.", answer: "Gençlere Önem", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere güvenmesi ve onlara önemli görevler vermesi.", answer: "Gençlere Önem", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlerin enerjilerini doğru yöne kanalize etme çabası.", answer: "Gençlere Önem", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin genç sahabilerden olup, kendisine ilmi konularda özel eğitim verdiği kişi.", answer: "Hz. Ali", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin damadı ve amcasının oğlu.", answer: "Hz. Ali", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Genç yaşta İslam'ı kabul eden ilk erkeklerden biri.", answer: "Hz. Ali", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere görev verirken onların yeteneklerine ve liyakatine dikkat etmesi.", answer: "Sorumluluk Verme", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençleri aktif hale getirmek için onlara önemli görevler yüklemesi.", answer: "Sorumluluk Verme", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Gençlerin potansiyellerini ortaya çıkarmalarına fırsat tanıma.", answer: "Sorumluluk Verme", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere öğrettiği ahlaki değerlerden biri olan sözde ve davranışta doğru olma.", answer: "Dürüstlük", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Yalan söylememek, hile yapmamak gibi erdemleri içeren ahlaki ilke.", answer: "Dürüstlük", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere kazandırmaya çalıştığı temel ahlaki özelliklerden biri.", answer: "Dürüstlük", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere öğrettiği, elindekini başkalarıyla paylaşma ve yardımseverlik özelliği.", answer: "Cömertlik", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "İnfak etme, ihtiyaç sahiplerine yardım etme gibi davranışları içeren ahlaki değer.", answer: "Cömertlik", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere kazandırmaya çalıştığı güzel ahlaklardan biri.", answer: "Cömertlik", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere öğrettiği, farklı düşünce ve inançlara sahip insanlara anlayışla yaklaşma.", answer: "Hoşgörü", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Kendi görüşünden farklı olanları kabul etme ve onlara tahammül etme erdemi.", answer: "Hoşgörü", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere kazandırdığı önemli bir toplumsal değer.", answer: "Hoşgörü", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençleri eğitirken kendi yaşantısıyla onlara rehberlik etmesi (üsve-i hasene).", answer: "Örnek Olma", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Söz ve fiilleriyle gençlere yol gösterme.", answer: "Örnek Olma", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin ahlakının ve davranışlarının gençler için bir model teşkil etmesi.", answer: "Örnek Olma", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Genç sahabilerin İslam'ı yeni bölgelere götürmek ve insanlara duyurmak için üstlendiği önemli rol.", answer: "Tebliğ Görevi", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençleri İslam'ı yayma konusunda görevlendirmesi.", answer: "Tebliğ Görevi", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Gençlerin cesaret ve fedakarlıkla İslam mesajını ulaştırması.", answer: "Tebliğ Görevi", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin genç yaşta orduya komutan tayin ettiği sahabi.", answer: "Üsame b. Zeyd", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Babası da komutan olan ve genç yaşına rağmen önemli bir göreve getirilen sahabi.", answer: "Üsame b. Zeyd", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere olan güvenini gösteren bir örnek.", answer: "Üsame b. Zeyd", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere gösterdiği ilgi ve sevginin, onların kendilerine inanmalarına katkı sağlaması.", answer: "Özgüven", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençleri cesaretlendirerek onların potansiyellerini keşfetmelerine yardımcı olması.", answer: "Özgüven", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Gençlerin kendi yeteneklerine inanarak sorumluluk alabilme yetisi.", answer: "Özgüven", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençleri bilgiye ve öğrenmeye teşvik etmesi.", answer: "İlim Öğrenme", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Ashab-ı Suffe gibi gençlerin ilim öğrenmek için Mescid-i Nebi'de kalması.", answer: "İlim Öğrenme", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin \"İlim öğrenmek her Müslüman erkek ve kadına farzdır\" hadisiyle gençleri yönlendirmesi.", answer: "İlim Öğrenme", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin genç yaşına rağmen Yemen'e vali olarak gönderdiği sahabi.", answer: "Hz. Muaz b. Cebel", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere liderlik vasıflarını geliştirmeleri için fırsat tanıması.", answer: "Hz. Muaz b. Cebel", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Genç yaşta önemli bir idari göreve getirilen ilim sahibi sahabi.", answer: "Hz. Muaz b. Cebel", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlerle fikir alışverişinde bulunması ve onların görüşlerine değer vermesi.", answer: "İstişare", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Karar alma süreçlerinde gençlerin katılımını teşvik etme.", answer: "İstişare", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin liderlik anlayışında önemli bir yer tutan danışma ilkesi.", answer: "İstişare", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere dürüstlük, cömertlik, adalet, hoşgörü gibi öğrettiği temel prensipler.", answer: "Ahlaki Değerler", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Gençlerin karakter gelişimini sağlamak için Peygamberimizin vurguladığı erdemler.", answer: "Ahlaki Değerler", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin \"Ben ancak güzel ahlakı tamamlamak için gönderildim\" hadisiyle gençlere öğütlediği değerler.", answer: "Ahlaki Değerler", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere karşı gösterdiği yumuşak ve anlayışlı tutum.", answer: "Sevgi ve Şefkat", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Gençlerin kalbini kazanmada Peygamberimizin kullandığı etkili yöntem.", answer: "Sevgi ve Şefkat", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere olan derin sevgisi ve merhameti.", answer: "Sevgi ve Şefkat", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlerin dinamik ve coşkulu enerjilerini İslam'a hizmet ve ilim öğrenme gibi faydalı alanlara yönlendirmesi.", answer: "Enerjiyi Kanalize Etme", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Gençlerin potansiyelini doğru ve yapıcı işlerde kullanmalarını teşvik etme.", answer: "Enerjiyi Kanalize Etme", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlerin gücünü olumlu yönde değerlendirme çabası.", answer: "Enerjiyi Kanalize Etme", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Genç sahabilerin İslam uğruna zorluklara göğüs germeleri ve korkusuzca mücadele etmeleri.", answer: "Cesaret", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere aşıladığı, hak yolunda korkusuzca ilerleme özelliği.", answer: "Cesaret", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Gençlerin İslam'ı tebliğ ederken gösterdikleri yiğitlik.", answer: "Cesaret", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Genç sahabilerin dinleri uğruna mallarını, canlarını ve yurtlarını feda etmeleri.", answer: "Fedakarlık", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Savaşlarda ve tebliğ faaliyetlerinde gösterdikleri özveri.", answer: "Fedakarlık", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Allah yolunda her türlü zorluğa katlanma.", answer: "Fedakarlık", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençlere ahiret bilinci ve dini sorumluluklarını öğretmesi.", answer: "Dini Bilinç", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Gençlerin İslam'ın temel prensiplerini anlamaları ve hayatlarına uygulamaları.", answer: "Dini Bilinç", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençleri dini konularda bilinçli ve duyarlı hale getirme çabası.", answer: "Dini Bilinç", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençleri toplumun aktif birer ferdi olmaya ve sosyal sorumluluklar üstlenmeye teşvik etmesi.", answer: "Toplumsal Katılım", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Gençlerin sadece ibadetle değil, aynı zamanda toplumun sorunlarıyla ilgilenmeleri.", answer: "Toplumsal Katılım", category: "Peygamberimiz ve Gençler", points: 100 },
-        { question: "Peygamberimizin gençleri toplumun her alanında faydalı olmaya yönlendirmesi.", answer: "Toplumsal Katılım", category: "Peygamberimiz ve Gençler", points: 100 },
+        { question: "Peygamber Efendimiz (s.a.v.)'in gençleri toplumun geleceği ve dinamik gücü olarak görmesi.", answer: "Gençlere Önem", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere güvenmesi ve onlara önemli görevler vermesi.", answer: "Gençlere Önem", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlerin enerjilerini doğru yöne kanalize etme çabası.", answer: "Gençlere Önem", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin genç sahabilerden olup, kendisine ilmi konularda özel eğitim verdiği kişi.", answer: "Hz. Ali", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin damadı ve amcasının oğlu.", answer: "Hz. Ali", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Genç yaşta İslam'ı kabul eden ilk erkeklerden biri.", answer: "Hz. Ali", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere görev verirken onların yeteneklerine ve liyakatine dikkat etmesi.", answer: "Sorumluluk Verme", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençleri aktif hale getirmek için onlara önemli görevler yüklemesi.", answer: "Sorumluluk Verme", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Gençlerin potansiyellerini ortaya çıkarmalarına fırsat tanıma.", answer: "Sorumluluk Verme", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere öğrettiği ahlaki değerlerden biri olan sözde ve davranışta doğru olma.", answer: "Dürüstlük", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Yalan söylememek, hile yapmamak gibi erdemleri içeren ahlaki ilke.", answer: "Dürüstlük", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere kazandırmaya çalıştığı temel ahlaki özelliklerden biri.", answer: "Dürüstlük", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere öğrettiği, elindekini başkalarıyla paylaşma ve yardımseverlik özelliği.", answer: "Cömertlik", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "İnfak etme, ihtiyaç sahiplerine yardım etme gibi davranışları içeren ahlaki değer.", answer: "Cömertlik", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere kazandırmaya çalıştığı güzel ahlaklardan biri.", answer: "Cömertlik", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere öğrettiği, farklı düşünce ve inançlara sahip insanlara anlayışla yaklaşma.", answer: "Hoşgörü", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Kendi görüşünden farklı olanları kabul etme ve onlara tahammül etme erdemi.", answer: "Hoşgörü", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere kazandırdığı önemli bir toplumsal değer.", answer: "Hoşgörü", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençleri eğitirken kendi yaşantısıyla onlara rehberlik etmesi (üsve-i hasene).", answer: "Örnek Olma", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Söz ve fiilleriyle gençlere yol gösterme.", answer: "Örnek Olma", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin ahlakının ve davranışlarının gençler için bir model teşkil etmesi.", answer: "Örnek Olma", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Genç sahabilerin İslam'ı yeni bölgelere götürmek ve insanlara duyurmak için üstlendiği önemli rol.", answer: "Tebliğ Görevi", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençleri İslam'ı yayma konusunda görevlendirmesi.", answer: "Tebliğ Görevi", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Gençlerin cesaret ve fedakarlıkla İslam mesajını ulaştırması.", answer: "Tebliğ Görevi", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin genç yaşta orduya komutan tayin ettiği sahabi.", answer: "Üsame b. Zeyd", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Babası da komutan olan ve genç yaşına rağmen önemli bir göreve getirilen sahabi.", answer: "Üsame b. Zeyd", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere olan güvenini gösteren bir örnek.", answer: "Üsame b. Zeyd", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere gösterdiği ilgi ve sevginin, onların kendilerine inanmalarına katkı sağlaması.", answer: "Özgüven", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençleri cesaretlendirerek onların potansiyellerini keşfetmelerine yardımcı olması.", answer: "Özgüven", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Gençlerin kendi yeteneklerine inanarak sorumluluk alabilme yetisi.", answer: "Özgüven", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençleri bilgiye ve öğrenmeye teşvik etmesi.", answer: "İlim Öğrenme", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Ashab-ı Suffe gibi gençlerin ilim öğrenmek için Mescid-i Nebi'de kalması.", answer: "İlim Öğrenme", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin \"İlim öğrenmek her Müslüman erkek ve kadına farzdır\" hadisiyle gençleri yönlendirmesi.", answer: "İlim Öğrenme", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin genç yaşına rağmen Yemen'e vali olarak gönderdiği sahabi.", answer: "Hz. Muaz b. Cebel", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere liderlik vasıflarını geliştirmeleri için fırsat tanıması.", answer: "Hz. Muaz b. Cebel", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Genç yaşta önemli bir idari göreve getirilen ilim sahibi sahabi.", answer: "Hz. Muaz b. Cebel", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlerle fikir alışverişinde bulunması ve onların görüşlerine değer vermesi.", answer: "İstişare", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Karar alma süreçlerinde gençlerin katılımını teşvik etme.", answer: "İstişare", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin liderlik anlayışında önemli bir yer tutan danışma ilkesi.", answer: "İstişare", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere dürüstlük, cömertlik, adalet, hoşgörü gibi öğrettiği temel prensipler.", answer: "Ahlaki Değerler", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Gençlerin karakter gelişimini sağlamak için Peygamberimizin vurguladığı erdemler.", answer: "Ahlaki Değerler", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin \"Ben ancak güzel ahlakı tamamlamak için gönderildim\" hadisiyle gençlere öğütlediği değerler.", answer: "Ahlaki Değerler", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere karşı gösterdiği yumuşak ve anlayışlı tutum.", answer: "Sevgi ve Şefkat", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Gençlerin kalbini kazanmada Peygamberimizin kullandığı etkili yöntem.", answer: "Sevgi ve Şefkat", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere olan derin sevgisi ve merhameti.", answer: "Sevgi ve Şefkat", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlerin dinamik ve coşkulu enerjilerini İslam'a hizmet ve ilim öğrenme gibi faydalı alanlara yönlendirmesi.", answer: "Enerjiyi Kanalize Etme", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Gençlerin potansiyelini doğru ve yapıcı işlerde kullanmalarını teşvik etme.", answer: "Enerjiyi Kanalize Etme", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlerin gücünü olumlu yönde değerlendirme çabası.", answer: "Enerjiyi Kanalize Etme", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Genç sahabilerin İslam uğruna zorluklara göğüs germeleri ve korkusuzca mücadele etmeleri.", answer: "Cesaret", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere aşıladığı, hak yolunda korkusuzca ilerleme özelliği.", answer: "Cesaret", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Gençlerin İslam'ı tebliğ ederken gösterdikleri yiğitlik.", answer: "Cesaret", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Genç sahabilerin dinleri uğruna mallarını, canlarını ve yurtlarını feda etmeleri.", answer: "Fedakarlık", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Savaşlarda ve tebliğ faaliyetlerinde gösterdikleri özveri.", answer: "Fedakarlık", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Allah yolunda her türlü zorluğa katlanma.", answer: "Fedakarlık", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençlere ahiret bilinci ve dini sorumluluklarını öğretmesi.", answer: "Dini Bilinç", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Gençlerin İslam'ın temel prensiplerini anlamaları ve hayatlarına uygulamaları.", answer: "Dini Bilinç", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençleri dini konularda bilinçli ve duyarlı hale getirme çabası.", answer: "Dini Bilinç", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençleri toplumun aktif birer ferdi olmaya ve sosyal sorumluluklar üstlenmeye teşvik etmesi.", answer: "Toplumsal Katılım", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Gençlerin sadece ibadetle değil, aynı zamanda toplumun sorunlarıyla ilgilenmeleri.", answer: "Toplumsal Katılım", category: "Peygamberimiz ve Gençler", points: 10 },
+        { question: "Peygamberimizin gençleri toplumun her alanında faydalı olmaya yönlendirmesi.", answer: "Toplumsal Katılım", category: "Peygamberimiz ve Gençler", points: 10 },
 
         // Ünite 4: En Güzel Örnek Peygamberimiz
-        { question: "Peygamberimizin hayatının her alanında Müslümanlara en güzel örnek olması.", answer: "Üsve-i Hasene", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Ahzab Suresi 21. ayette geçen ve Peygamberimizin örnek kişiliğini vurgulayan ifade.", answer: "Üsve-i Hasene", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin söz, fiil ve onaylarının Müslümanlar için rehber olması.", answer: "Üsve-i Hasene", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin örnek ahlakının temelini oluşturan en önemli kaynak.", answer: "Kur'an Ahlakı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Hz. Aişe'nin \"Onun ahlakı Kur'an idi\" sözüyle ifade edilen durum.", answer: "Kur'an Ahlakı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin tüm davranışlarının Kur'an'ın ilkeleriyle uyumlu olması.", answer: "Kur'an Ahlakı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin dürüstlüğü ve güvenilirliği ile ilgili Mekke döneminde kendisine verilen lakap.", answer: "El-Emin", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin emanete sadakatini ve sözünde durmasını ifade eden unvan.", answer: "El-Emin", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Mekke halkının kendisine verdiği \"güvenilir kişi\" anlamındaki lakap.", answer: "El-Emin", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin herkese, din, dil, ırk ayrımı yapmaksızın eşit ve tarafsız davranması.", answer: "Adalet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Hak sahibine hakkını verme ve zulme karşı durma ilkesi.", answer: "Adalet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin yönetiminde ve ilişkilerinde temel aldığı prensip.", answer: "Adalet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin farklı düşünce ve inançlara sahip insanlara anlayışla yaklaşması ve düşmanlarını dahi affetmesi.", answer: "Hoşgörü ve Affedicilik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Mekke'nin fethinde genel af ilan etmesiyle gösterdiği özellik.", answer: "Hoşgörü ve Affedicilik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Taif'te taşlanmasına rağmen beddua etmemesiyle ortaya çıkan özelliği.", answer: "Hoşgörü ve Affedicilik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin eşlerine karşı merhametli ve adil olması, çocuklarına sevgi ve şefkatle yaklaşması.", answer: "Aile Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Aile içinde istişareye önem vermesi ve örnek bir eş-baba olması.", answer: "Aile Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Müslümanlar için aile içi ilişkilerde rehber olan Peygamberimizin yaşantısı.", answer: "Aile Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin komşularının haklarına büyük önem vermesi ve onlara karşı iyi davranması.", answer: "Komşuluk İlişkileri", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Cebrail'in komşu hakkı konusunda o kadar çok tavsiyede bulunmasıyla ilgili hadis.", answer: "Komşuluk İlişkileri", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Müslümanların sosyal ilişkilerinde örnek alması gereken davranış.", answer: "Komşuluk İlişkileri", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin toplumun her kesimiyle ilgilenmesi, sorunlarına çözüm bulması ve toplumsal adaleti gözetmesi.", answer: "Sosyal Hayat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Hasta ziyaretleri, cenaze törenlerine katılım gibi sosyal görevleri yerine getirmesi.", answer: "Sosyal Hayat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin aktif bir toplum lideri olması.", answer: "Sosyal Hayat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin makamına rağmen sade bir hayat yaşaması, halkla iç içe olması ve kibirden uzak durması.", answer: "Tevazu", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Kendisini diğer insanlardan üstün görmemesi ve alçakgönüllü olması.", answer: "Tevazu", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin mütevazı kişiliği.", answer: "Tevazu", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin zorluklar ve sıkıntılar karşısında metanetli olması ve sonucunu Allah'a bırakması.", answer: "Sabır ve Tevekkül", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Taif yolculuğu, boykot gibi olaylarda gösterdiği dayanıklılık.", answer: "Sabır ve Tevekkül", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Bir işi yaparken tüm gayreti gösterdikten sonra sonucunu Allah'a bırakma.", answer: "Sabır ve Tevekkül", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin israf ve savurganlıktan uzak durması, elindekiyle yetinmesi.", answer: "Kanaatkarlık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Azla yetinme ve şükretme özelliği.", answer: "Kanaatkarlık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin sade yaşam tarzı.", answer: "Kanaatkarlık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin çevresine karşı duyarlılığı ve ağaç dikmeye teşvik etmesi.", answer: "Çevre Bilinci", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Doğayı koruma ve israf etmeme konusundaki hassasiyeti.", answer: "Çevre Bilinci", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin ekolojik dengeye verdiği önem.", answer: "Çevre Bilinci", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin ibadetlerini içtenlikle, gösterişten uzak ve ihlasla yapması.", answer: "İbadet Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Namaz, oruç gibi ibadetlerdeki samimiyeti ve derinliği.", answer: "İbadet Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Müslümanlar için ibadetlerde örnek teşkil eden Peygamberimizin yaşantısı.", answer: "İbadet Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin Medine'de Müslümanlar arasında kardeşliği ve birliği sağlamak için Muhacir ile Ensar'ı kardeş ilan etmesi.", answer: "Muahat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "İslam toplumunda dayanışmayı ve yardımlaşmayı pekiştiren uygulama.", answer: "Muahat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Medine döneminde kurulan kardeşlik antlaşması.", answer: "Muahat", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin kendisine bırakılan emanetleri titizlikle koruması ve sahiplerine teslim etmesi.", answer: "Emanet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Hicret gecesi Hz. Ali'yi yatağında bırakarak emanetleri sahiplerine vermesi.", answer: "Emanet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin güvenilirliğini gösteren önemli bir özellik.", answer: "Emanet", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin sözleri ile davranışları arasında çelişki bulunmaması.", answer: "Tutarlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Söylediğini yapan, yaptığını söyleyen bir lider olması.", answer: "Tutarlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin güvenilirliğinin temelini oluşturan özellik.", answer: "Tutarlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin hedeflerine ulaşmak için azimle çalışması ve zorluklar karşısında pes etmemesi.", answer: "Kararlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "İslam'ı tebliğde gösterdiği sebat ve azim.", answer: "Kararlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Liderlik vasıflarından biri olan, verdiği kararların arkasında durma.", answer: "Kararlılık", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin yaşam tarzında gösterişten uzak durması ve basit bir hayat sürmesi.", answer: "Sadelik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Yeme, içme, giyim ve barınmada aşırıya kaçmaması.", answer: "Sadelik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin mütevazı ve gösterişsiz yaşamı.", answer: "Sadelik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin hastaları ziyaret etmesi, düşkünlere, yetimlere ve fakirlere yardım etmesi.", answer: "Yardımseverlik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Toplumun ihtiyaç sahiplerine karşı duyarlı olması.", answer: "Yardımseverlik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin sosyal dayanışmaya verdiği önem.", answer: "Yardımseverlik", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin Veda Hutbesi'nde insan hakları ve hukukun üstünlüğünü vurgulaması.", answer: "Hak ve Hukuk", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Herkesin hakkına riayet etme ve adaleti tesis etme çabası.", answer: "Hak ve Hukuk", category: "En Güzel Örnek Peygamberimiz", points: 100 },
-        { question: "Peygamberimizin toplumda düzeni ve eşitliği sağlama ilkesi.", answer: "Hak ve Hukuk", category: "En Güzel Örnek Peygamberimiz", points: 100 },
+        { question: "Peygamberimizin hayatının her alanında Müslümanlara en güzel örnek olması.", answer: "Üsve-i Hasene", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Ahzab Suresi 21. ayette geçen ve Peygamberimizin örnek kişiliğini vurgulayan ifade.", answer: "Üsve-i Hasene", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin söz, fiil ve onaylarının Müslümanlar için rehber olması.", answer: "Üsve-i Hasene", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin örnek ahlakının temelini oluşturan en önemli kaynak.", answer: "Kur'an Ahlakı", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Hz. Aişe'nin \"Onun ahlakı Kur'an idi\" sözüyle ifade edilen durum.", answer: "Kur'an Ahlakı", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin tüm davranışlarının Kur'an'ın ilkeleriyle uyumlu olması.", answer: "Kur'an Ahlakı", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin dürüstlüğü ve güvenilirliği ile ilgili Mekke döneminde kendisine verilen lakap.", answer: "El-Emin", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin emanete sadakatini ve sözünde durmasını ifade eden unvan.", answer: "El-Emin", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Mekke halkının kendisine verdiği \"güvenilir kişi\" anlamındaki lakap.", answer: "El-Emin", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin herkese, din, dil, ırk ayrımı yapmaksızın eşit ve tarafsız davranması.", answer: "Adalet", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Hak sahibine hakkını verme ve zulme karşı durma ilkesi.", answer: "Adalet", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin yönetiminde ve ilişkilerinde temel aldığı prensip.", answer: "Adalet", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin farklı düşünce ve inançlara sahip insanlara anlayışla yaklaşması ve düşmanlarını dahi affetmesi.", answer: "Hoşgörü ve Affedicilik", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Mekke'nin fethinde genel af ilan etmesiyle gösterdiği özellik.", answer: "Hoşgörü ve Affedicilik", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Taif'te taşlanmasına rağmen beddua etmemesiyle ortaya çıkan özelliği.", answer: "Hoşgörü ve Affedicilik", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin eşlerine karşı merhametli ve adil olması, çocuklarına sevgi ve şefkatle yaklaşması.", answer: "Aile Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Aile içinde istişareye önem vermesi ve örnek bir eş-baba olması.", answer: "Aile Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Müslümanlar için aile içi ilişkilerde rehber olan Peygamberimizin yaşantısı.", answer: "Aile Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin komşularının haklarına büyük önem vermesi ve onlara karşı iyi davranması.", answer: "Komşuluk İlişkileri", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Cebrail'in komşu hakkı konusunda o kadar çok tavsiyede bulunmasıyla ilgili hadis.", answer: "Komşuluk İlişkileri", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Müslümanların sosyal ilişkilerinde örnek alması gereken davranış.", answer: "Komşuluk İlişkileri", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin toplumun her kesimiyle ilgilenmesi, sorunlarına çözüm bulması ve toplumsal adaleti gözetmesi.", answer: "Sosyal Hayat", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Hasta ziyaretleri, cenaze törenlerine katılım gibi sosyal görevleri yerine getirmesi.", answer: "Sosyal Hayat", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin aktif bir toplum lideri olması.", answer: "Sosyal Hayat", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin makamına rağmen sade bir hayat yaşaması, halkla iç içe olması ve kibirden uzak durması.", answer: "Tevazu", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Kendisini diğer insanlardan üstün görmemesi ve alçakgönüllü olması.", answer: "Tevazu", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin mütevazı kişiliği.", answer: "Tevazu", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin zorluklar ve sıkıntılar karşısında metanetli olması ve sonucunu Allah'a bırakması.", answer: "Sabır ve Tevekkül", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Taif yolculuğu, boykot gibi olaylarda gösterdiği dayanıklılık.", answer: "Sabır ve Tevekkül", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Bir işi yaparken tüm gayreti gösterdikten sonra sonucunu Allah'a bırakma.", answer: "Sabır ve Tevekkül", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin israf ve savurganlıktan uzak durması, elindekiyle yetinmesi.", answer: "Kanaatkarlık", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Azla yetinme ve şükretme özelliği.", answer: "Kanaatkarlık", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin sade yaşam tarzı.", answer: "Kanaatkarlık", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin çevresine karşı duyarlılığı ve ağaç dikmeye teşvik etmesi.", answer: "Çevre Bilinci", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Doğayı koruma ve israf etmeme konusundaki hassasiyeti.", answer: "Çevre Bilinci", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin ekolojik dengeye verdiği önem.", answer: "Çevre Bilinci", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin ibadetlerini içtenlikle, gösterişten uzak ve ihlasla yapması.", answer: "İbadet Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Namaz, oruç gibi ibadetlerdeki samimiyeti ve derinliği.", answer: "İbadet Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Müslümanlar için ibadetlerde örnek teşkil eden Peygamberimizin yaşantısı.", answer: "İbadet Hayatı", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin Medine'de Müslümanlar arasında kardeşliği ve birliği sağlamak için Muhacir ile Ensar'ı kardeş ilan etmesi.", answer: "Muahat", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "İslam toplumunda dayanışmayı ve yardımlaşmayı pekiştiren uygulama.", answer: "Muahat", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Medine döneminde kurulan kardeşlik antlaşması.", answer: "Muahat", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin kendisine bırakılan emanetleri titizlikle koruması ve sahiplerine teslim etmesi.", answer: "Emanet", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Hicret gecesi Hz. Ali'yi yatağında bırakarak emanetleri sahiplerine vermesi.", answer: "Emanet", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin güvenilirliğini gösteren önemli bir özellik.", answer: "Emanet", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin sözleri ile davranışları arasında çelişki bulunmaması.", answer: "Tutarlılık", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Söylediğini yapan, yaptığını söyleyen bir lider olması.", answer: "Tutarlılık", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin güvenilirliğinin temelini oluşturan özellik.", answer: "Tutarlılık", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin hedeflerine ulaşmak için azimle çalışması ve zorluklar karşısında pes etmemesi.", answer: "Kararlılık", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "İslam'ı tebliğde gösterdiği sebat ve azim.", answer: "Kararlılık", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Liderlik vasıflarından biri olan, verdiği kararların arkasında durma.", answer: "Kararlılık", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin yaşam tarzında gösterişten uzak durması ve basit bir hayat sürmesi.", answer: "Sadelik", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Yeme, içme, giyim ve barınmada aşırıya kaçmaması.", answer: "Sadelik", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin mütevazı ve gösterişsiz yaşamı.", answer: "Sadelik", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin hastaları ziyaret etmesi, düşkünlere, yetimlere ve fakirlere yardım etmesi.", answer: "Yardımseverlik", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Toplumun ihtiyaç sahiplerine karşı duyarlı olması.", answer: "Yardımseverlik", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin sosyal dayanışmaya verdiği önem.", answer: "Yardımseverlik", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin Veda Hutbesi'nde insan hakları ve hukukun üstünlüğünü vurgulaması.", answer: "Hak ve Hukuk", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Herkesin hakkına riayet etme ve adaleti tesis etme çabası.", answer: "Hak ve Hukuk", category: "En Güzel Örnek Peygamberimiz", points: 10 },
+        { question: "Peygamberimizin toplumda düzeni ve eşitliği sağlama ilkesi.", answer: "Hak ve Hukuk", category: "En Güzel Örnek Peygamberimiz", points: 10 },
 
         // Ünite 5: Sahabenin Fazileti
-        { question: "Peygamberimizi gören, ona iman eden ve Müslüman olarak vefat eden kişilere verilen genel ad.", answer: "Sahabe", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizin arkadaşları ve öğrencileri.", answer: "Sahabe", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam'ın ilk neslini oluşturan mübarek topluluk.", answer: "Sahabe", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İlk Müslümanlardan olan, Peygamberimizin en yakın dostu ve ilk halife.", answer: "Hz. Ebu Bekir", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sıddîk lakabıyla tanınan, Peygamberimizin hicret arkadaşı.", answer: "Hz. Ebu Bekir", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizin vefatından sonra İslam devletinin başına geçen ilk kişi.", answer: "Hz. Ebu Bekir", category: "Sahabenin Fazileti", points: 100 },
-        { question: "\"Faruk\" lakabıyla tanınan, hak ile batılı ayırt etmedeki keskin zekasıyla bilinen ve ikinci halife.", answer: "Hz. Ömer", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam devletinin sınırlarını genişleten ve adaletli yönetimiyle bilinen halife.", answer: "Hz. Ömer", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Müslümanların güç kazanmasında önemli rol oynayan sahabi.", answer: "Hz. Ömer", category: "Sahabenin Fazileti", points: 100 },
-        { question: "\"Zinnureyn\" (İki Nur Sahibi) lakabıyla tanınan, Peygamberimizin iki kızıyla evlenen ve üçüncü halife.", answer: "Hz. Osman", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Kur'an-ı Kerim'i çoğaltarak İslam alemine yayılmasına öncülük eden halife.", answer: "Hz. Osman", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Haya ve cömertliğiyle bilinen sahabi.", answer: "Hz. Osman", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizin amcasının oğlu ve damadı olan, ilmi ve cesaretiyle bilinen, dördüncü halife.", answer: "Hz. Ali", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Genç yaşta İslam'ı kabul eden ve Peygamberimizin yatağına yatan sahabi.", answer: "Hz. Ali", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İlim kapısı olarak nitelendirilen büyük sahabi.", answer: "Hz. Ali", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Medine'de Mescid-i Nebi'nin yanında kalan, kendilerini tamamen ilim öğrenmeye ve ibadete adayan fakir sahabiler.", answer: "Ashab-ı Suffe", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam'ın ilk eğitim kurumlarından biri olarak kabul edilen Suffe'de yetişen kişiler.", answer: "Ashab-ı Suffe", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizden doğrudan ders alan ve İslam'ı öğrenmede örnek olan topluluk.", answer: "Ashab-ı Suffe", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin Peygamberimizin her söz ve davranışını dikkatle takip etmesi, öğrenmesi ve hayatlarına uygulaması.", answer: "Sünnet'e Bağlılık", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizin yaşantısını örnek alma ve ona uyma konusundaki titizlikleri.", answer: "Sünnet'e Bağlılık", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin İslam'ı yaşama biçimlerinin temelini oluşturan prensip.", answer: "Sünnet'e Bağlılık", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin, özellikle Hz. Ebu Bekir ve Hz. Osman dönemlerinde, Kur'an ayetlerinin bir araya getirilmesi ve mushaf haline getirilmesine öncülük etmesi.", answer: "Kur'an'ın Toplanması", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Vahiy katiplerinin yazdığı ayetlerin toplanarak kitap haline getirilmesi süreci.", answer: "Kur'an'ın Toplanması", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Kur'an'ın bozulmadan günümüze ulaşmasında sahabenin rolü.", answer: "Kur'an'ın Toplanması", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin Peygamberimizden öğrendikleri dini bilgileri, hadisleri ve uygulamaları sonraki nesillere eksiksiz ve doğru bir şekilde aktarması.", answer: "Bilgi Aktarımı", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam ilimlerinin temelini oluşturan rivayet zincirinin ilk halkasını teşkil etmeleri.", answer: "Bilgi Aktarımı", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizin mirasını gelecek nesillere ulaştırma görevini üstlenmeleri.", answer: "Bilgi Aktarımı", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin dinlerini hürriyetle yaşamak ve İslam'ı yaymak amacıyla Mekke'den Medine'ye göç etmesi.", answer: "Hicret", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Allah rızası için yurtlarını terk etme fedakarlığı.", answer: "Hicret", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam tarihinde dönüm noktası olan büyük göç.", answer: "Hicret", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Medine'de Muhacir ve Ensar arasında kurulan kardeşlik antlaşması.", answer: "Muahat", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Müslümanlar arasında dayanışma, yardımlaşma ve mal paylaşımını sağlayan uygulama.", answer: "Muahat", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam toplumunda birlik ve beraberliği pekiştiren örnek davranış.", answer: "Muahat", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin İslam uğruna mallarını, canlarını ve yurtlarını feda etmeleri.", answer: "Fedakarlık", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Savaşlarda ve tebliğ faaliyetlerinde gösterdikleri özveri.", answer: "Fedakarlık", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Allah yolunda her türlü zorluğa katlanma.", answer: "Fedakarlık", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin Peygamberimizden doğrudan ilim öğrenmeye büyük önem vermesi ve bu uğurda çaba göstermesi.", answer: "İlim Öğrenme", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizin meclislerinde bulunarak dini bilgileri bizzat edinmeleri.", answer: "İlim Öğrenme", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam ilimlerinin temelini atan ilk öğrenciler olmaları.", answer: "İlim Öğrenme", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin Peygamberimizin en yakın öğrencileri olarak dini en iyi anlayan ve uygulayan nesil olması.", answer: "Dini Anlama", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Kur'an ve Sünnet'i doğru bir şekilde yorumlama ve yaşama yeteneği.", answer: "Dini Anlama", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam'ın ruhunu ve özünü kavrama konusundaki derinlikleri.", answer: "Dini Anlama", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin İslam'ı yaymak ve korumak için gösterdiği her türlü çaba ve mücadele.", answer: "Cihad", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Allah yolunda malıyla ve canıyla savaşma.", answer: "Cihad", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam'ın tebliği ve savunmasında gösterdikleri azim.", answer: "Cihad", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin kendi aralarında ve diğer insanlarla ilişkilerinde adaleti gözetmeleri.", answer: "Adalet", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Hz. Ömer'in adaletli yönetimiyle öne çıkması.", answer: "Adalet", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam toplumunda hak ve hukuka riayet etme.", answer: "Adalet", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin makamlarına rağmen alçakgönüllü olmaları ve kibirden uzak durmaları.", answer: "Tevazu", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Hz. Ebu Bekir'in halife olmasına rağmen sade bir hayat sürmesi.", answer: "Tevazu", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizin ahlakını yansıtan önemli bir özellik.", answer: "Tevazu", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin Mekke dönemindeki işkencelere ve zorluklara karşı gösterdiği dayanıklılık.", answer: "Sabır", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam uğruna karşılaştıkları sıkıntılara metanetle göğüs germeleri.", answer: "Sabır", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizin sabrını örnek almaları.", answer: "Sabır", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin Allah yolunda canlarını feda etmeleri ve şehitlik mertebesine ulaşmaları.", answer: "Şehadet", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Uhud, Bedir gibi savaşlarda gösterdikleri kahramanlık ve fedakarlık.", answer: "Şehadet", category: "Sahabenin Fazileti", points: 100 },
-        { question: "İslam'ın yayılması için canlarını ortaya koymaları.", answer: "Şehadet", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Sahabenin İslam'ın ilk ve en iyi anlayan, yaşayan ve aktaran nesil olması.", answer: "Örnek Nesil", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Peygamberimizin \"Ashabım yıldızlar gibidir, hangisine uyarsanız hidayeti bulursunuz\" hadisiyle övülen nesil.", answer: "Örnek Nesil", category: "Sahabenin Fazileti", points: 100 },
-        { question: "Tüm Müslümanlar için rehber ve model teşkil eden topluluk.", answer: "Örnek Nesil", category: "Sahabenin Fazileti", points: 100 },
+        { question: "Peygamberimizi gören, ona iman eden ve Müslüman olarak vefat eden kişilere verilen genel ad.", answer: "Sahabe", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizin arkadaşları ve öğrencileri.", answer: "Sahabe", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam'ın ilk neslini oluşturan mübarek topluluk.", answer: "Sahabe", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İlk Müslümanlardan olan, Peygamberimizin en yakın dostu ve ilk halife.", answer: "Hz. Ebu Bekir", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sıddîk lakabıyla tanınan, Peygamberimizin hicret arkadaşı.", answer: "Hz. Ebu Bekir", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizin vefatından sonra İslam devletinin başına geçen ilk kişi.", answer: "Hz. Ebu Bekir", category: "Sahabenin Fazileti", points: 10 },
+        { question: "\"Faruk\" lakabıyla tanınan, hak ile batılı ayırt etmedeki keskin zekasıyla bilinen ve ikinci halife.", answer: "Hz. Ömer", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam devletinin sınırlarını genişleten ve adaletli yönetimiyle bilinen halife.", answer: "Hz. Ömer", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Müslümanların güç kazanmasında önemli rol oynayan sahabi.", answer: "Hz. Ömer", category: "Sahabenin Fazileti", points: 10 },
+        { question: "\"Zinnureyn\" (İki Nur Sahibi) lakabıyla tanınan, Peygamberimizin iki kızıyla evlenen ve üçüncü halife.", answer: "Hz. Osman", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Kur'an-ı Kerim'i çoğaltarak İslam alemine yayılmasına öncülük eden halife.", answer: "Hz. Osman", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Haya ve cömertliğiyle bilinen sahabi.", answer: "Hz. Osman", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizin amcasının oğlu ve damadı olan, ilmi ve cesaretiyle bilinen, dördüncü halife.", answer: "Hz. Ali", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Genç yaşta İslam'ı kabul eden ve Peygamberimizin yatağına yatan sahabi.", answer: "Hz. Ali", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İlim kapısı olarak nitelendirilen büyük sahabi.", answer: "Hz. Ali", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Medine'de Mescid-i Nebi'nin yanında kalan, kendilerini tamamen ilim öğrenmeye ve ibadete adayan fakir sahabiler.", answer: "Ashab-ı Suffe", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam'ın ilk eğitim kurumlarından biri olarak kabul edilen Suffe'de yetişen kişiler.", answer: "Ashab-ı Suffe", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizden doğrudan ders alan ve İslam'ı öğrenmede örnek olan topluluk.", answer: "Ashab-ı Suffe", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin Peygamberimizin her söz ve davranışını dikkatle takip etmesi, öğrenmesi ve hayatlarına uygulaması.", answer: "Sünnet'e Bağlılık", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizin yaşantısını örnek alma ve ona uyma konusundaki titizlikleri.", answer: "Sünnet'e Bağlılık", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin İslam'ı yaşama biçimlerinin temelini oluşturan prensip.", answer: "Sünnet'e Bağlılık", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin, özellikle Hz. Ebu Bekir ve Hz. Osman dönemlerinde, Kur'an ayetlerinin bir araya getirilmesi ve mushaf haline getirilmesine öncülük etmesi.", answer: "Kur'an'ın Toplanması", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Vahiy katiplerinin yazdığı ayetlerin toplanarak kitap haline getirilmesi süreci.", answer: "Kur'an'ın Toplanması", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Kur'an'ın bozulmadan günümüze ulaşmasında sahabenin rolü.", answer: "Kur'an'ın Toplanması", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin Peygamberimizden öğrendikleri dini bilgileri, hadisleri ve uygulamaları sonraki nesillere eksiksiz ve doğru bir şekilde aktarması.", answer: "Bilgi Aktarımı", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam ilimlerinin temelini oluşturan rivayet zincirinin ilk halkasını teşkil etmeleri.", answer: "Bilgi Aktarımı", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizin mirasını gelecek nesillere ulaştırma görevini üstlenmeleri.", answer: "Bilgi Aktarımı", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin dinlerini hürriyetle yaşamak ve İslam'ı yaymak amacıyla Mekke'den Medine'ye göç etmesi.", answer: "Hicret", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Allah rızası için yurtlarını terk etme fedakarlığı.", answer: "Hicret", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam tarihinde dönüm noktası olan büyük göç.", answer: "Hicret", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Medine'de Muhacir ve Ensar arasında kurulan kardeşlik antlaşması.", answer: "Muahat", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Müslümanlar arasında dayanışma, yardımlaşma ve mal paylaşımını sağlayan uygulama.", answer: "Muahat", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam toplumunda birlik ve beraberliği pekiştiren örnek davranış.", answer: "Muahat", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin İslam uğruna mallarını, canlarını ve yurtlarını feda etmeleri.", answer: "Fedakarlık", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Savaşlarda ve tebliğ faaliyetlerinde gösterdikleri özveri.", answer: "Fedakarlık", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Allah yolunda her türlü zorluğa katlanma.", answer: "Fedakarlık", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin Peygamberimizden doğrudan ilim öğrenmeye büyük önem vermesi ve bu uğurda çaba göstermesi.", answer: "İlim Öğrenme", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizin meclislerinde bulunarak dini bilgileri bizzat edinmeleri.", answer: "İlim Öğrenme", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam ilimlerinin temelini atan ilk öğrenciler olmaları.", answer: "İlim Öğrenme", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin Peygamberimizin en yakın öğrencileri olarak dini en iyi anlayan ve uygulayan nesil olması.", answer: "Dini Anlama", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Kur'an ve Sünnet'i doğru bir şekilde yorumlama ve yaşama yeteneği.", answer: "Dini Anlama", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam'ın ruhunu ve özünü kavrama konusundaki derinlikleri.", answer: "Dini Anlama", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin İslam'ı yaymak ve korumak için gösterdiği her türlü çaba ve mücadele.", answer: "Cihad", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Allah yolunda malıyla ve canıyla savaşma.", answer: "Cihad", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam'ın tebliği ve savunmasında gösterdikleri azim.", answer: "Cihad", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin kendi aralarında ve diğer insanlarla ilişkilerinde adaleti gözetmeleri.", answer: "Adalet", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Hz. Ömer'in adaletli yönetimiyle öne çıkması.", answer: "Adalet", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam toplumunda hak ve hukuka riayet etme.", answer: "Adalet", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin makamlarına rağmen alçakgönüllü olmaları ve kibirden uzak durmaları.", answer: "Tevazu", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Hz. Ebu Bekir'in halife olmasına rağmen sade bir hayat sürmesi.", answer: "Tevazu", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizin ahlakını yansıtan önemli bir özellik.", answer: "Tevazu", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin Mekke dönemindeki işkencelere ve zorluklara karşı gösterdiği dayanıklılık.", answer: "Sabır", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam uğruna karşılaştıkları sıkıntılara metanetle göğüs germeleri.", answer: "Sabır", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizin sabrını örnek almaları.", answer: "Sabır", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin Allah yolunda canlarını feda etmeleri ve şehitlik mertebesine ulaşmaları.", answer: "Şehadet", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Uhud, Bedir gibi savaşlarda gösterdikleri kahramanlık ve fedakarlık.", answer: "Şehadet", category: "Sahabenin Fazileti", points: 10 },
+        { question: "İslam'ın yayılması için canlarını ortaya koymaları.", answer: "Şehadet", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Sahabenin İslam'ın ilk ve en iyi anlayan, yaşayan ve aktaran nesil olması.", answer: "Örnek Nesil", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Peygamberimizin \"Ashabım yıldızlar gibidir, hangisine uyarsanız hidayeti bulursunuz\" hadisiyle övülen nesil.", answer: "Örnek Nesil", category: "Sahabenin Fazileti", points: 10 },
+        { question: "Tüm Müslümanlar için rehber ve model teşkil eden topluluk.", answer: "Örnek Nesil", category: "Sahabenin Fazileti", points: 10 },
     ];
 
     // Global variables
     let currentUnit = null;
-    let currentQuestions = [];
-    let currentQuestionIndex = 0;
+    let currentQuestions = []; // This will now only hold unanswered questions for the current unit
+    let currentQuestionIndex = 0; // Index within the currentQuestions array
     let numTeams = 1; // Default to 1 team
-    let teamScores = []; // Array to store scores for each team
+    let teamScores = []; // Array to store objects like { name: 'Takım 1', score: 0 }
     let currentTeamIndex = 0; // Index of the current team whose turn it is
-    let answeredQuestionsStatus = {}; // Track answered questions status ('correct' or 'incorrect')
+    let answeredQuestionsStatus = {}; // Track answered questions status ('correct' or 'incorrect') for all questions across all units
     let timer;
     const quizTime = 30; // seconds per question
     let timeLeft = quizTime;
-    let currentQuestionPoints = 0;
+    const pointsPerQuestion = 1; // All questions are now 1 point
     let currentQuestionAnsweredCorrectly = false;
+
+    // Define team colors (Tailwind CSS classes)
+    const teamColors = [
+        'bg-red-500',    // Team 1
+        'bg-blue-500',   // Team 2
+        'bg-green-500',  // Team 3
+        'bg-yellow-500', // Team 4
+        'bg-purple-500'  // Team 5
+    ];
 
     // DOM Elements
     const mainMenuScreen = document.getElementById('main-menu');
     const unitSelectionGrid = document.getElementById('unit-selection-grid');
     const startQuizButton = document.getElementById('start-quiz-button');
-    const goToMainSiteButton = document.getElementById('go-to-main-site-button'); // New DOM element for the main site button
+    const goToMainSiteButton = document.getElementById('go-to-main-site-button');
 
 
     const teamSelectionScreen = document.getElementById('team-selection-screen');
     const teamCountSelection = document.getElementById('team-count-selection');
-    const startTeamQuizButton = document.getElementById('start-team-quiz-button');
+    const proceedToNameInputButton = document.getElementById('proceed-to-name-input-button'); // New button
     const returnToUnitSelectionButton = document.getElementById('return-to-unit-selection-button');
+
+    const teamNameInputScreen = document.getElementById('team-name-input-screen'); // New screen
+    const teamNameInputsContainer = document.getElementById('team-name-inputs-container'); // Container for inputs
+    const startTeamQuizButton = document.getElementById('start-team-quiz-button'); // Moved to this screen
+    const returnToTeamSelectionButton = document.getElementById('return-to-team-selection-button'); // New button
 
     const questionGridScreen = document.getElementById('question-grid-screen');
     const unitTitle = document.getElementById('unit-title');
@@ -784,8 +908,6 @@
     const returnToUnitsButton = document.getElementById('return-to-units-button');
 
     const questionScreen = document.getElementById('question-screen');
-    const currentQuestionNumberSpan = document.getElementById('current-question-number');
-    const totalQuestionsSpan = document.getElementById('total-questions');
     const timerDisplay = document.getElementById('timer-display');
     const questionTextElement = document.getElementById('question-text');
     const optionsContainer = document.getElementById('options-container');
@@ -841,6 +963,12 @@
         "Tüm Üniteler": "bg-indigo-200 hover:bg-indigo-300" // New color for "Tüm Üniteler"
     };
 
+    // Helper to get team icon based on index
+    function getTeamIcon(index) {
+        const icons = ['🔴', '🔵', '🟢', '🟠', '🟣']; // Emojis for visual representation
+        return icons[index % icons.length];
+    }
+
     // --- Main Menu Functions ---
     function renderUnitSelection() {
         unitSelectionGrid.innerHTML = '';
@@ -871,6 +999,7 @@
 
         mainMenuScreen.classList.remove('hidden');
         teamSelectionScreen.classList.add('hidden'); // Hide team selection
+        teamNameInputScreen.classList.add('hidden'); // Hide team name input
         questionGridScreen.classList.add('hidden');
         questionScreen.classList.add('hidden');
         finalScoreContainer.classList.add('hidden');
@@ -911,36 +1040,75 @@
         }
         mainMenuScreen.classList.add('hidden');
         teamSelectionScreen.classList.remove('hidden');
-        startTeamQuizButton.classList.add('hidden'); // Hide until team count is selected
+        proceedToNameInputButton.classList.add('hidden'); // Hide until team count is selected
         // Reset selected team count button style
         document.querySelectorAll('.team-count-button').forEach(button => {
-            button.classList.remove('bg-blue-700', 'text-white');
-            button.classList.add('bg-blue-500', 'hover:bg-blue-600');
+            button.classList.remove('selected-team'); // Use the new class
         });
         numTeams = 1; // Reset to default 1 team selected visually
-        document.querySelector('.team-count-button[data-teams="1"]').classList.remove('bg-blue-500', 'hover:bg-blue-600');
-        document.querySelector('.team-count-button[data-teams="1"]').classList.add('bg-blue-700', 'text-white');
-        startTeamQuizButton.classList.remove('hidden'); // Show start button immediately for 1 team
+        document.querySelector('.team-count-button[data-teams="1"]').classList.add('selected-team'); // Use the new class
+        proceedToNameInputButton.classList.remove('hidden'); // Show proceed button immediately for 1 team
     }
 
     function selectTeamCount(selectedCount, selectedButton) {
         numTeams = selectedCount;
         document.querySelectorAll('.team-count-button').forEach(button => {
-            button.classList.remove('bg-blue-700', 'text-white');
-            button.classList.add('bg-blue-500', 'hover:bg-blue-600');
+            button.classList.remove('selected-team');
         });
-        selectedButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
-        selectedButton.classList.add('bg-blue-700', 'text-white');
-        startTeamQuizButton.classList.remove('hidden');
+        selectedButton.classList.add('selected-team');
+        proceedToNameInputButton.classList.remove('hidden');
+    }
+
+    function showTeamNameInputScreen() {
+        teamSelectionScreen.classList.add('hidden');
+        teamNameInputScreen.classList.remove('hidden');
+        renderTeamNameInputs();
+    }
+
+    function renderTeamNameInputs() {
+        teamNameInputsContainer.innerHTML = '';
+        for (let i = 0; i < numTeams; i++) {
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'team-name-input-group';
+            inputGroup.innerHTML = `
+                <label for="team-name-${i}" class="text-lg font-medium text-gray-700">Takım ${i + 1} Adı:</label>
+                <input type="text" id="team-name-${i}" class="team-name-input" placeholder="Takım ${i + 1}" value="Takım ${i + 1}">
+            `;
+            teamNameInputsContainer.appendChild(inputGroup);
+        }
     }
 
     function startTeamQuiz() {
-        teamScores = Array(numTeams).fill(0);
+        teamScores = [];
+        let allNamesValid = true;
+        for (let i = 0; i < numTeams; i++) {
+            const inputElement = document.getElementById(`team-name-${i}`);
+            let teamName = inputElement.value.trim();
+            if (teamName === '') {
+                teamName = `Takım ${i + 1}`; // Default name if empty
+            }
+            teamScores.push({ name: teamName, score: 0 });
+        }
+
+        if (!allNamesValid) {
+            showCustomModal('Hata', 'Lütfen tüm takım isimlerini girin.');
+            return;
+        }
+
         currentTeamIndex = 0;
         answeredQuestionsStatus = {}; // Reset answered questions status for a new game
 
-        teamSelectionScreen.classList.add('hidden');
+        teamNameInputScreen.classList.add('hidden');
         questionGridScreen.classList.remove('hidden');
+
+        // Initialize currentQuestions based on selected unit and filter out already answered ones
+        if (currentUnit === "Tüm Üniteler") {
+            currentQuestions = [...questions];
+        } else {
+            currentQuestions = questions.filter(q => q.category === currentUnit);
+        }
+        shuffleArray(currentQuestions); // Shuffle initially
+
         renderQuestionGrid();
     }
 
@@ -960,40 +1128,34 @@
     // --- Question Grid Screen Functions ---
     function renderQuestionGrid() {
         questionGrid.innerHTML = '';
-        if (currentUnit === "Tüm Üniteler") {
-            currentQuestions = [...questions]; // Copy all questions
-        } else {
-            currentQuestions = questions.filter(q => q.category === currentUnit);
-        }
-        shuffleArray(currentQuestions); // Shuffle questions within the selected unit for new order
+        // Filter out correctly answered questions from currentQuestions for rendering
+        const questionsToRender = currentQuestions.filter(q => {
+            const originalIndex = questions.findIndex(originalQ => originalQ.question === q.question && originalQ.category === q.category);
+            const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`;
+            return answeredQuestionsStatus[questionId] !== 'correct';
+        });
 
         // Display current team's turn and scores
-        unitTitle.textContent = `${currentUnit === "Tüm Üniteler" ? "Tüm Üniteler" : currentUnit} - Takım ${currentTeamIndex + 1} Sırası`;
-        renderTeamScores();
+        unitTitle.textContent = `${currentUnit === "Tüm Üniteler" ? "Tüm Üniteler" : currentUnit} - ${teamScores[currentTeamIndex].name} Sırası`;
+        renderTeamScores(teamScoreDisplay); // Pass the display element
 
         // Create a unique ID for each question based on its content and category to track answered status
-        currentQuestions.forEach((q, index) => {
-            // Use the original index from the 'questions' array for the questionId to ensure persistence
+        questionsToRender.forEach((q, index) => {
             const originalIndex = questions.findIndex(originalQ => originalQ.question === q.question && originalQ.category === q.category);
             const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`; // Use originalIndex for ID
 
             const questionCard = document.createElement('div');
             questionCard.className = 'question-card';
-            // Display only the question number
-            questionCard.textContent = `${index + 1}`; // Display current shuffled order number
-            questionCard.dataset.questionIndex = index; // Store current shuffled index
+            // Display sequential number for remaining questions
+            questionCard.textContent = `${index + 1}`;
+            questionCard.dataset.questionIndex = currentQuestions.indexOf(q); // Store original index in currentQuestions array
             questionCard.dataset.questionId = questionId; // Store unique ID
-            questionCard.onclick = () => showQuestion(index);
+            questionCard.onclick = () => showQuestion(currentQuestions.indexOf(q)); // Pass original index in currentQuestions
 
             // Apply visual status based on answeredQuestionsStatus
-            if (answeredQuestionsStatus[questionId]) {
-                if (answeredQuestionsStatus[questionId] === 'correct') {
-                    questionCard.classList.add('correctly-answered');
-                    questionCard.onclick = null; // Correctly answered questions are not clickable
-                } else if (answeredQuestionsStatus[questionId] === 'incorrect') {
-                    questionCard.classList.add('incorrectly-answered');
-                    // Incorrectly answered questions remain clickable, so no 'onclick = null'
-                }
+            if (answeredQuestionsStatus[questionId] === 'incorrect') {
+                questionCard.classList.add('incorrectly-answered');
+                // Incorrectly answered questions remain clickable
             }
             questionGrid.appendChild(questionCard);
         });
@@ -1004,14 +1166,28 @@
         }
     }
 
-    function renderTeamScores() {
-        teamScoreDisplay.innerHTML = '';
-        teamScores.forEach((score, index) => {
-            const teamScoreItem = document.createElement('div');
-            teamScoreItem.className = `team-score-item ${index === currentTeamIndex ? 'current-team' : ''}`;
-            teamScoreItem.textContent = `Takım ${index + 1}: ${score} Puan`;
-            teamScoreDisplay.appendChild(teamScoreItem);
+    function renderTeamScores(displayElement) {
+        displayElement.innerHTML = '';
+        const scoreTable = document.createElement('div');
+        scoreTable.className = 'score-table';
+
+        teamScores.forEach((team, index) => {
+            const scoreCell = document.createElement('div');
+            scoreCell.className = `score-cell ${teamColors[index % teamColors.length]} ${index === currentTeamIndex ? 'active-team' : ''}`;
+            scoreCell.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <span class="team-name text-lg font-bold flex items-center gap-1">
+                        ${getTeamIcon(index)} ${team.name}
+                    </span>
+                </div>
+                <div class="flex flex-col items-center mt-2">
+                    <span class="text-sm opacity-80 mb-1">Puan</span>
+                    <span class="team-score text-3xl font-extrabold">${team.score}</span>
+                </div>
+            `;
+            scoreTable.appendChild(scoreCell);
         });
+        displayElement.appendChild(scoreTable);
     }
 
     function returnToQuestionsGrid() {
@@ -1022,7 +1198,7 @@
 
     // --- Question Screen Functions ---
     function showQuestion(index) {
-        currentQuestionIndex = index;
+        currentQuestionIndex = index; // This index is now the index within the currentQuestions array
         const currentQuestionData = currentQuestions[currentQuestionIndex];
         // Use the original index from the 'questions' array for the questionId to ensure persistence
         const originalIndex = questions.findIndex(originalQ => originalQ.question === currentQuestionData.question && originalQ.category === currentQuestionData.category);
@@ -1038,10 +1214,7 @@
         detailedExplanationContainer.classList.add('hidden'); // Hide explanation
         questionScreenInstructionMessage.classList.add('hidden'); // Hide instruction
 
-        currentQuestionNumberSpan.textContent = `${index + 1}`; // Display current shuffled order number
-        totalQuestionsSpan.textContent = currentQuestions.length;
         questionTextElement.textContent = currentQuestionData.question;
-        currentQuestionPoints = currentQuestionData.points;
         currentQuestionAnsweredCorrectly = false; // Reset for new question
 
         renderOptions(currentQuestionData);
@@ -1106,9 +1279,13 @@
             selectedButton.classList.add('correct');
             feedbackMessage.textContent = 'Doğru Cevap!';
             feedbackMessage.className = 'feedback-message correct';
-            teamScores[currentTeamIndex] += currentQuestionPoints; // Update current team's score
+            teamScores[currentTeamIndex].score += pointsPerQuestion; // Update current team's score with fixed points
             currentQuestionAnsweredCorrectly = true;
             answeredQuestionsStatus[questionId] = 'correct'; // Mark as correctly answered
+
+            // Remove the question from the currentQuestions array
+            currentQuestions.splice(currentQuestionIndex, 1);
+
         } else {
             selectedButton.classList.add('incorrect');
             feedbackMessage.textContent = `Yanlış Cevap.`; // Only show "Yanlış Cevap."
@@ -1188,26 +1365,17 @@
         questionGridScreen.classList.add('hidden');
         finalScoreContainer.classList.remove('hidden');
 
-        let resultMessage = "Yarışma Bitti! Takım Puanları:\n";
-        finalTeamScoresDisplay.innerHTML = '';
-        teamScores.forEach((score, index) => {
-            resultMessage += `Takım ${index + 1}: ${score} Puan\n`;
-            const teamScoreItem = document.createElement('div');
-            teamScoreItem.className = 'team-score-item';
-            teamScoreItem.textContent = `Takım ${index + 1}: ${score} Puan`;
-            finalTeamScoresDisplay.appendChild(teamScoreItem);
-        });
+        renderTeamScores(finalTeamScoresDisplay); // Render final scores in the new table format
 
         // Determine winner(s)
-        const maxScore = Math.max(...teamScores);
-        const winningTeams = teamScores.map((score, index) => ({ score, index: index + 1 }))
-                                      .filter(team => team.score === maxScore);
+        const maxScore = Math.max(...teamScores.map(team => team.score));
+        const winningTeams = teamScores.filter(team => team.score === maxScore);
 
         if (winningTeams.length === 1) {
-            overallResult.textContent = `Kazanan: Takım ${winningTeams[0].index}! Tebrikler!`;
+            overallResult.textContent = `Kazanan: ${winningTeams[0].name}! Tebrikler!`;
             overallResult.className = 'feedback-message correct';
         } else if (winningTeams.length > 1) {
-            const winnersList = winningTeams.map(team => `Takım ${team.index}`).join(', ');
+            const winnersList = winningTeams.map(team => team.name).join(', ');
             overallResult.textContent = `Berabere! Kazanan Takımlar: ${winnersList}!`;
             overallResult.className = 'feedback-message correct';
         } else {
@@ -1233,22 +1401,24 @@
     }
 
     function checkAllQuestionsAnswered() {
-        const totalQuestionsInUnit = currentQuestions.length;
+        // Check if all questions from the original set for the current unit have been correctly answered
+        const totalOriginalQuestionsInUnit = (currentUnit === "Tüm Üniteler") ? questions.length : questions.filter(q => q.category === currentUnit).length;
         let correctlyAnsweredCount = 0;
-        currentQuestions.forEach(q => {
-            // Use the original index from the 'questions' array for the questionId to ensure persistence
-            const originalIndex = questions.findIndex(originalQ => originalQ.question === q.question && originalQ.category === q.category);
-            const questionId = `${q.category}-${q.question.replace(/\s/g, '').substring(0, 20)}-${originalIndex}`;
-            if (answeredQuestionsStatus[questionId] === 'correct') { // Only count correctly answered questions
-                correctlyAnsweredCount++;
+        for (const questionId in answeredQuestionsStatus) {
+            if (answeredQuestionsStatus[questionId] === 'correct') {
+                // Check if this question belongs to the current unit
+                const [category] = questionId.split('-');
+                if (currentUnit === "Tüm Üniteler" || category === currentUnit) {
+                    correctlyAnsweredCount++;
+                }
             }
-        });
-        return correctlyAnsweredCount >= totalQuestionsInUnit;
+        }
+        return correctlyAnsweredCount === totalOriginalQuestionsInUnit;
     }
 
     // Event Listeners
-    startQuizButton.addEventListener('click', showTeamSelectionScreen); // Changed to show team selection
-    returnToUnitsButton.addEventListener('click', returnToMainMenu); // Renamed for clarity
+    startQuizButton.addEventListener('click', showTeamSelectionScreen);
+    returnToUnitsButton.addEventListener('click', returnToMainMenu);
     resetGameButton.addEventListener('click', resetGame);
     returnToMainMenuFromFinalButton.addEventListener('click', returnToMainMenu);
 
@@ -1259,8 +1429,10 @@
             selectTeamCount(selectedCount, event.target);
         });
     });
+    proceedToNameInputButton.addEventListener('click', showTeamNameInputScreen); // New event listener
     startTeamQuizButton.addEventListener('click', startTeamQuiz);
-    returnToUnitSelectionButton.addEventListener('click', returnToMainMenu); // Back to unit selection from team selection
+    returnToUnitSelectionButton.addEventListener('click', returnToMainMenu);
+    returnToTeamSelectionButton.addEventListener('click', showTeamSelectionScreen); // New event listener to go back to team count selection
 
     // New event listener for the "Site Ana Sayfası" button
     goToMainSiteButton.addEventListener('click', () => {
