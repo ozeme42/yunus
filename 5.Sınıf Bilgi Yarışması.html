@@ -154,6 +154,16 @@
             font-weight: 500;
             line-height: 1.8;
         }
+        .question-points {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #d1e7dd; /* Light green background for points */
+            border-radius: 6px;
+            display: inline-block; /* To make padding effective */
+        }
         .options-container {
             display: flex;
             flex-direction: row;
@@ -548,11 +558,11 @@
         window.currentPlayer = 0; // 0-indexed: represents the index of the current team in window.teamNames
         window.currentQuestionIndex = 0; // This will now be the index in the `shuffledQuestions` array
         window.answeredQuestions = {}; // Stores {questionId: {isCorrect: boolean, userAnswer: string, answeredBy: index, timeTaken: number}}
-        let timer = 40;
+        let timer = 30; // Timer set to 30 seconds
         let timerInterval;
         let shuffledQuestions = []; // This array holds the questions for the current unit, shuffled
         window.currentUnit = null;
-        let initialTimerValue = 40;
+        let initialTimerValue = 30; // Initial timer value set to 30 seconds
 
         // Tone.js ses sentezleyicilerini tanımlıyoruz
         let correctSynth;
@@ -1035,7 +1045,16 @@
             
             questionContainer.classList.add('question-block-closed');
 
-            let questionHtml = `<p class="question-text">${q.question}</p>`;
+            // Calculate points for the current question
+            let questionPoints = 0;
+            if (q.type === 'trueFalse') {
+                questionPoints = 5;
+            } else if (q.type === 'fillInTheBlanks' || q.type === 'multipleChoice') {
+                questionPoints = 10;
+            }
+
+            let questionHtml = `<p class="question-points">${questionPoints} Puan</p>`; // Display points
+            questionHtml += `<p class="question-text">${q.question}</p>`;
             let optionsHtml = '<div class="options-container">';
             let optionsToShuffle = [];
 
@@ -1216,6 +1235,7 @@
                     
                     window.teamScores[playerIndex].score += pointsToAdd; // Update score for the team object
 
+                    // Bonus points for answering quickly (within first 10 seconds)
                     if (timeTaken <= 10) {
                         window.teamScores[playerIndex].score += 5; // Bonus 5 puan
                     }
