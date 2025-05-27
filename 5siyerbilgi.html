@@ -1,1 +1,1847 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Din Kültürü ve Ahlak Bilgisi 5. Sınıf Ünite Etkinlikleri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        /* CSS still applies to make the game visually appealing and responsive */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-size: 1.25rem;
+            transition: background-image 1s ease-in-out;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 2rem;
+            background-color: #e6f0f5;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.8rem;
+        }
+        /* START: Score Board Styles from siyerbilgi.html */
+        .score-table-container {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        .score-table {
+            display: flex;
+            justify-content: center; /* Center the teams */
+            gap: 1rem; /* Space between team score cards */
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            flex-wrap: wrap;
+            padding: 0.5rem; /* Add some padding around the entire score table */
+        }
+        .score-cell {
+            padding: 1rem 1.5rem; /* Increased padding */
+            display: flex;
+            flex-direction: column; /* Stack name and score vertically */
+            align-items: center;
+            justify-content: center;
+            min-width: 140px; /* Increased min-width */
+            box-sizing: border-box;
+            border-radius: 0.5rem; /* Rounded corners for individual cells */
+            transition: all 0.3s ease; /* Smooth transition for active state */
+            position: relative;
+            z-index: 1; /* Ensure cells are above each other for shadow/outline */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for each cell */
+        }
+        .score-cell.active-team {
+            transform: translateY(-5px); /* Lift up active team */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* More prominent shadow for active team */
+            outline: 4px solid #fcd34d; /* Thicker yellow outline */
+            outline-offset: -4px;
+            z-index: 2; /* Bring active team further to front */
+        }
+        .score-cell .team-name {
+            font-size: 1.1em; /* Slightly larger for name */
+            margin-bottom: 0.5rem; /* More space below name */
+            opacity: 1; /* Full opacity for name */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* Space between icon and name */
+        }
+        .score-cell .team-score {
+            font-size: 2.5em; /* Significantly larger for score */
+            font-weight: 900; /* Extra bold */
+            line-height: 1; /* Adjust line height for large numbers */
+        }
 
+        /* Colors for teams */
+        .team-color-0 { background-color: #ef4444; } /* Red */
+        .team-color-1 { background-color: #3b82f6; } /* Blue */
+        .team-color-2 { background-color: #22c55e; } /* Green */
+        .team-color-3 { background-color: #f97316; } /* Orange */
+        .team-color-4 { background-color: #8b5cf6; } /* Purple */
+        /* END: Score Board Styles from siyerbilgi.html */
+
+        .current-turn {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+            margin: 0.5rem;
+            text-align: center; /* Center the turn display */
+        }
+        .question-area {
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 0;
+            flex-grow: 1;
+        }
+        .question-block {
+            padding: 2rem;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            border: 1px solid #90caf9;
+            width: 100%;
+            box-sizing: border-box;
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            margin-bottom: 1.5rem;
+        }
+        .question-block.question-block-closed {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        .question-text {
+            font-size: 1.6rem;
+            margin-bottom: 1.8rem;
+            font-weight: 500;
+            line-height: 1.8;
+        }
+        .question-points {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #d1e7dd; /* Light green background for points */
+            border-radius: 6px;
+            display: inline-block; /* To make padding effective */
+        }
+        .options-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 1.2rem 1.8rem;
+            border-radius: 10px;
+            transition: all 0.2s ease-in-out;
+            flex-basis: calc(50% - 0.6rem);
+            max-width: calc(50% - 0.6rem);
+            min-width: 200px;
+            box-sizing: border-box;
+            font-size: 1.35rem;
+            font-weight: 500;
+            text-align: center;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        .option-label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+        .option-label input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+
+        .option-color-1 { background-color: #dbeafe; border-color: #93c5fd; color: #1e40af; }
+        .option-color-2 { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; }
+        .option-color-3 { background-color: #ffe4e6; border-color: #fca5a5; color: #be123c; }
+        .option-color-4 { background-color: #fffbeb; border-color: #fcd34d; color: #92400e; }
+        .option-color-5 { background-color: #e0e7ff; border-color: #a78bfa; color: #4338ca; }
+        .option-color-6 { background-color: #e6ffed; border-color: #81c784; color: #1b5e20; }
+
+        .option-label.correct-option-highlight {
+            background-color: #a7f3d0 !important;
+            border-color: #065f46 !important;
+            color: #065f46 !important;
+            transform: none;
+            box-shadow: 0 4px 10px rgba(6, 95, 70, 0.2);
+        }
+        .option-label.incorrect-selected-option {
+            background-color: #fecaca !important;
+            border-color: #991b1b !important;
+            color: #991b1b !important;
+            transform: none;
+            box-shadow: 0 4px 10px rgba(153, 27, 27, 0.2);
+        }
+
+        .option-label span {
+            display: block;
+            width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .option-label {
+                max-width: 100%;
+                min-width: unset;
+                flex-basis: 100%;
+            }
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0;
+        }
+        .action-button {
+            padding: 0.9rem 2.2rem;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+        }
+        .action-button:active {
+            transform: translateY(0);
+        }
+        .action-button:disabled {
+            background-color: #a7a7a7 !important;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        .feedback-message {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 0.9rem;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .feedback-message.show {
+            opacity: 1;
+        }
+        .feedback-message.incorrect {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+        .feedback-message.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+        .explanation-text {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-top: 0.6rem;
+            color: #4a5568;
+        }
+        .score-display {
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            padding: 1.1rem;
+            background-color: #e0f2fe;
+            border-radius: 8px;
+            color: #0c4a6e;
+        }
+        .question-counter {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 1.1rem;
+        }
+        .question-navigation {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.9rem;
+            margin-bottom: 2.2rem;
+            padding: 1.2rem;
+            background-color: #e0f2fe;
+            border-radius: 8px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+        }
+        .question-nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background-color: #bfdbfe;
+            color: #1e40af;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 1.2rem;
+        }
+        .question-nav-item:hover {
+            background-color: #93c5fd;
+            transform: translateY(-2px);
+        }
+        .question-nav-item.active-question {
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        .question-nav-item.answered-correctly {
+            background-color: #a7f3d0;
+            color: #065f46;
+        }
+        /* Removed .answered-incorrectly styling to make it look like an unanswered question */
+        /* .question-nav-item.answered-incorrectly {
+            background-color: #fecaca;
+            color: #991b1b;
+        } */
+        /* Removed disabled-selection for answered-incorrectly to allow re-selection */
+        /* .question-nav-item.disabled-selection {
+            cursor: not-allowed;
+            opacity: 0.6;
+        } */
+        .hidden {
+            display: none !important; /* Added !important to ensure it overrides other styles */
+        }
+        .feedback-icon {
+            font-size: 1.3em;
+            margin-right: 0.4em;
+        }
+        .timer-display {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ef4444;
+            margin-bottom: 1.1rem;
+            text-align: center;
+        }
+        .timer-display.warning {
+            color: #f59e0b;
+        }
+        .timer-display.critical {
+            color: #dc2626;
+        }
+        .player-selection-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 2.2rem;
+            text-align: center;
+        }
+        .player-selection-screen h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .player-selection-screen .action-button {
+            min-width: 220px;
+        }
+        .team-selection-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        #fullscreen-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #fullscreen-overlay.show {
+            opacity: 1;
+        }
+
+        #quiz-content.fullscreen-active {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 50;
+            background-color: #e6f0f5;
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 2.5rem 1.5rem;
+            overflow-y: auto;
+            transition: all 0.5s ease-in-out;
+        }
+
+        #quiz-content.fullscreen-active #timer-display {
+            margin-top: 1.2rem;
+            margin-bottom: 1.2rem;
+            font-size: 2rem;
+            width: 100%;
+            text-align: center;
+            color: #ef4444;
+        }
+
+        #quiz-content.fullscreen-active .question-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        #quiz-content.fullscreen-active .question-block {
+            width: 100%;
+            padding: 2rem;
+            box-sizing: border-box;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            border: 1px solid #90caf9;
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            margin-bottom: 1.5rem;
+        }
+
+        #quiz-content.fullscreen-active .button-group {
+            margin-top: 2.5rem;
+            width: 100%;
+            max-width: 900px;
+        }
+        .question-screen-instruction-message {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #555;
+            margin-top: 1rem;
+        }
+
+        .option-label.selected-animation {
+            animation: pulse-selected 0.3s ease-out forwards;
+        }
+
+        .option-label.correct-animation {
+            animation: pop-correct 0.4s ease-out forwards;
+        }
+
+        .option-label.incorrect-animation {
+            animation: shake-incorrect 0.5s ease-out forwards;
+        }
+
+        @keyframes pulse-selected {
+            0% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
+            50% { transform: scale(1.02); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
+            100% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
+        }
+
+        @keyframes pop-correct {
+            0% { transform: scale(1); box-shadow: 0 4px 10px rgba(6, 95, 70, 0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 20px rgba(6, 95, 70, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 4px 10px rgba(6, 95, 70, 0.2); }
+        }
+
+        @keyframes shake-incorrect {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .feedback-message.animate-in {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .team-name-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .team-name-input {
+            padding: 0.8rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #333;
+            transition: border-color 0.2s ease;
+        }
+
+        .team-name-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+    </style>
+    <script type="module">
+        // Removed Firebase imports as multiplayer mode is disabled
+
+        window.teamScores = []; // Array to store objects like { name: 'Takım 1', score: 0 }
+        window.numTeams = 0;
+        window.currentPlayer = 0; // 0-indexed: represents the index of the current team in window.teamNames
+        window.currentQuestionIndex = 0; // This will now be the index in the `shuffledQuestions` array
+        window.answeredQuestions = {}; // Stores {questionId: {isCorrect: boolean, userAnswer: string, answeredBy: index, timeTaken: number}}
+        let timer = 30; // Timer set to 30 seconds
+        let timerInterval;
+        let shuffledQuestions = []; // This array holds the questions for the current unit, shuffled
+        window.currentUnit = null;
+        let initialTimerValue = 30; // Initial timer value set to 30 seconds
+
+        // Tone.js ses sentezleyicilerini tanımlıyoruz
+        let correctSynth;
+        let incorrectSynth;
+        let timerSynth;
+
+        const backgroundThemes = {
+            'unit1': 'url("https://placehold.co/1920x1080/81D4FA/000000?text=Peygamberimizin+Cocukluk+Yillari")',
+            'unit2': 'url("https://placehold.co/1920x1080/FFCDD2/000000?text=Peygamberimizin+Cocuklarla+Iletisimi")',
+            'unit3': 'url("https://placehold.co/1920x1080/B3E5FC/000000?text=Peygamberimizin+Temizlik+ve+Adabi")',
+            'unit4': 'url("https://placehold.co/1920x1080/C8E6C9/000000?text=Peygamberimizin+Aile+Hayati")',
+            'allUnits': 'url("https://placehold.co/1920x1080/D0F0C0/000000?text=Tum+Uniteler")', // New theme for all units
+            'general': 'url("https://placehold.co/1920x1080/E0F2F7/000000?text=Din+Kulturu+Bilgi+Yarismasi+-+Bilgini+Test+Et")'
+        };
+
+        function setGameBackground(themeKey) {
+            const imageUrl = backgroundThemes[themeKey] || backgroundThemes['general'];
+            document.body.style.backgroundImage = imageUrl;
+        }
+
+        const unitQuestions = {
+            'unit1': [
+                { id: 'u1_mc1', type: 'multipleChoice', question: "Peygamberimizin doğduğu şehir neresidir?", options: ["Medine", "Şam", "Mekke", "Taif"], answer: "Mekke", explanation: "Peygamberimiz Hz. Muhammed (sav) Mekke şehrinde doğmuştur.", theme: 'unit1', relatedConcept: "Mekke" },
+                { id: 'u1_mc2', type: 'multipleChoice', question: "Kâbe kimler tarafından yeniden inşa edilmiştir?", options: ["Hz. Adem ve Hz. Nuh", "Hz. İbrahim ve oğlu Hz. İsmail", "Hz. Musa ve Hz. Harun", "Hz. Süleyman ve Hz. Davut"], answer: "Hz. İbrahim ve oğlu Hz. İsmail", explanation: "Kâbe, Hz. İbrahim ve oğlu Hz. İsmail tarafından yeniden inşa edilmiştir.", theme: 'unit1', relatedConcept: "Kâbe" },
+                { id: 'u1_mc3', type: 'multipleChoice', question: "Fil Vakası'nda Kâbe'yi yıkmaya gelen Yemen Valisi kimdir?", options: ["Amr bin Hişam", "Ebrehe", "Utbe bin Rabia", "Sümeyye"], answer: "Ebrehe", explanation: "Kâbe'yi yıkmaya gelen Yemen Valisi Ebrehe'dir.", theme: 'unit1', relatedConcept: "Fil Vakası" },
+                { id: 'u1_mc4', type: 'multipleChoice', question: "Fil Vakası'nı anlatan sure hangisidir?", options: ["Bakara Suresi", "Fil Suresi", "Ayetel Kürsi", "Nas Suresi"], answer: "Fil Suresi", explanation: "Fil Vakası, Kur'an-ı Kerim'deki Fil Suresi'nde anlatılır.", theme: 'unit1', relatedConcept: "Fil Suresi" },
+                { id: 'u1_mc5', type: 'multipleChoice', question: "Peygamberimiz Hz. Muhammed (sav) hangi yılda doğmuştur?", options: ["610", "622", "571", "632"], answer: "571", explanation: "Peygamberimiz Hz. Muhammed (sav) 571 yılında doğmuştur.", theme: 'unit1', relatedConcept: "Doğum" },
+                { id: 'u1_mc6', type: 'multipleChoice', question: "Peygamberimizin annesinin adı nedir?", options: ["Halime", "Amine", "Hatice", "Süveybe"], answer: "Amine", explanation: "Peygamberimizin annesinin adı Amine'dir.", theme: 'unit1', relatedConcept: "Amine" },
+                { id: 'u1_mc7', type: 'multipleChoice', question: "Peygamberimizin dedesi Abdülmuttalib, ona hangi ismi vermiştir?", options: ["Mustafa", "Mahmud", "Ahmed", "Muhammed"], answer: "Muhammed", explanation: "Peygamberimizin dedesi Abdülmuttalib, ona Muhammed ismini vermiştir.", theme: 'unit1', relatedConcept: "İsim" },
+                { id: 'u1_mc8', type: 'multipleChoice', question: "Peygamberimizin sütannesi kimdir?", options: ["Süveybe Hanım", "Amine Hatun", "Halime Hatun", "Fatıma binti Esed"], answer: "Halime Hatun", explanation: "Peygamberimizin sütannesi Halime Hatun'dur.", theme: 'unit1', relatedConcept: "Sütanne" },
+                { id: 'u1_mc9', type: 'multipleChoice', question: "Peygamberimiz kaç yaşına kadar sütannesi Halime'nin yanında kalmıştır?", options: ["İki", "Üç", "Dört", "Beş"], answer: "Dört", explanation: "Peygamberimiz dört yaşına kadar sütannesi Halime'nin yanında kalmıştır.", theme: 'unit1', relatedConcept: "Çocukluk" },
+                { id: 'u1_mc10', type: 'multipleChoice', question: "Peygamberimizin annesi Amine kaç yaşındayken vefat etmiştir?", options: ["Dört", "Altı", "Sekiz", "On"], answer: "Altı", explanation: "Peygamberimizin annesi Amine altı yaşındayken vefat etmiştir.", theme: 'unit1', relatedConcept: "Annesinin Vefatı" },
+                { id: 'u1_mc11', type: 'multipleChoice', question: "Peygamberimizin dedesi Abdülmuttalib vefat etmeden önce onu kime emanet etmiştir?", options: ["Amcası Abbas'a", "Amcası Hamza'ya", "Amcası Ebu Talib'e", "Amcası Ebuleheb'e"], answer: "Amcası Ebu Talib'e", explanation: "Dedesi Abdülmuttalib, onu amcası Ebu Talib'e emanet etmiştir.", theme: 'unit1', relatedConcept: "Emanet" },
+                { id: 'u1_mc12', type: 'multipleChoice', question: "Peygamberimizin çocukluk döneminde yaptığı işlerden biri nedir?", options: ["Ticaret kervanına katılmak", "Çobanlık yapmak", "Kuyumculuk yapmak", "Dokumacılık yapmak"], answer: "Çobanlık yapmak", explanation: "Peygamberimiz çocukluk döneminde çobanlık yapmıştır.", theme: 'unit1', relatedConcept: "Çobanlık" },
+                { id: 'u1_mc13', type: 'multipleChoice', question: "Peygamberimizin amcasıyla Şam'a ticaret kervanına katıldığı yaş kaçtır?", options: ["On", "On iki", "On beş", "On yedi"], answer: "On iki", explanation: "Peygamberimiz on iki yaşındayken amcasıyla Şam'a ticaret kervanına katılmıştır.", theme: 'unit1', relatedConcept: "Ticaret" },
+                { id: 'u1_mc14', type: 'multipleChoice', question: "Ticaret yolculuğu sırasında Peygamberimizdeki özel işaretleri fark eden rahip kimdir?", options: ["Nestura", "Bahira", "Sergius", "Paulus"], answer: "Bahira", explanation: "Ticaret yolculuğu sırasında Rahip Bahira, Peygamberimizdeki özel işaretleri fark etmiştir.", theme: 'unit1', relatedConcept: "Rahip Bahira" },
+                { id: 'u1_mc15', type: 'multipleChoice', question: "Cahiliye Dönemi'nde Arap toplumunda yaygın olan olumsuzluklardan biri hangisidir?", options: ["Bilime önem verme", "Hukuka uyma", "Putlara tapma", "Kadın-erkek eşitliği"], answer: "Putlara tapma", explanation: "Cahiliye Dönemi'nde putlara tapma yaygın bir olumsuzluktu.", theme: 'unit1', relatedConcept: "Cahiliye" },
+                { id: 'u1_mc16', type: 'multipleChoice', question: "Peygamberimizin babası Abdullah nerede vefat etmiştir?", options: ["Mekke", "Medine", "Şam", "Taif"], answer: "Medine", explanation: "Peygamberimizin babası Abdullah, ticaret yolculuğu dönüşünde Medine'de vefat etmiştir.", theme: 'unit1', relatedConcept: "Abdullah" },
+                { id: 'u1_mc17', type: 'multipleChoice', question: "Cahiliye Dönemi'nde kabileler arası savaşların yasak olduğu aylara ne ad verilirdi?", options: ["Ramazan ayları", "Haram aylar", "Bayram ayları", "Panayır ayları"], answer: "Haram aylar", explanation: "Cahiliye Dönemi'nde savaşmanın yasak olduğu aylara Haram Aylar denirdi.", theme: 'unit1', relatedConcept: "Haram Aylar" },
+                { id: 'u1_mc18', type: 'multipleChoice', question: "Mekke'de Kâbe yakınında bulunan kutsal kuyu hangisidir?", options: ["Kevser Kuyusu", "Zemzem Kuyusu", "Cennet Kuyusu", "Hira Kuyusu"], answer: "Zemzem Kuyusu", explanation: "Mekke'de Kâbe yakınında bulunan kutsal kuyu Zemzem Kuyusu'dur.", theme: 'unit1', relatedConcept: "Zemzem" },
+                { id: 'u1_mc19', type: 'multipleChoice', question: "Peygamberimizin doğduğu gün hangi kandil olarak kutlanır?", options: ["Miraç Kandili", "Regaip Kandili", "Mevlit Kandili", "Berat Kandili"], answer: "Mevlit Kandili", explanation: "Peygamberimizin doğduğu gün Mevlit Kandili olarak kutlanır.", theme: 'unit1', relatedConcept: "Mevlit" },
+                { id: 'u1_mc20', type: 'multipleChoice', question: "Peygamberimizin amcası Ebu Talib'in eşi, Peygamberimizin 'annemden sonraki annem' dediği kişi kimdir?", options: ["Amine", "Halime", "Fatıma binti Esed", "Ümmü Eymen"], answer: "Fatıma binti Esed", explanation: "Peygamberimiz, amcası Ebu Talib'in eşi Fatıma binti Esed'e 'annemden sonraki annem' demiştir.", theme: 'unit1', relatedConcept: "Fatıma binti Esed" },
+                { id: 'u1_tf1', type: 'trueFalse', question: "Peygamberimizin doğduğu şehir Medine'dir.", answer: "Y", explanation: "Peygamberimiz Mekke'de doğmuştur.", theme: 'unit1', relatedConcept: "Mekke" },
+                { id: 'u1_tf2', type: 'trueFalse', question: "Kâbe, Hz. Adem'den beri ibadet için yapılmış ilk mabettir.", answer: "D", explanation: "Kâbe, Hz. Adem'den beri ibadet için yapılmış ilk mabettir.", theme: 'unit1', relatedConcept: "Kâbe" },
+                { id: 'u1_tf3', type: 'trueFalse', question: "Ebrehe, Kâbe'yi yıkmak için devesiyle gelmiştir.", answer: "Y", explanation: "Ebrehe, Kâbe'yi yıkmak için fillerle desteklenmiş büyük bir orduyla gelmiştir.", theme: 'unit1', relatedConcept: "Fil Vakası" },
+                { id: 'u1_tf4', type: 'trueFalse', question: "Fil Vakası'nın gerçekleştiği yıla 'Fil Yılı' denir.", answer: "D", explanation: "Fil Vakası'nın gerçekleştiği yıla 'Fil Yılı' denir.", theme: 'unit1', relatedConcept: "Fil Yılı" },
+                { id: 'u1_tf5', type: 'trueFalse', question: "Peygamberimiz Hz. Muhammed (sav) 571 yılında doğmuştur.", answer: "D", explanation: "Peygamberimiz Hz. Muhammed (sav) 571 yılında doğmuştur.", theme: 'unit1', relatedConcept: "Doğum" },
+                { id: 'u1_tf6', type: 'trueFalse', question: "Peygamberimizin babası Abdullah, Peygamberimiz doğduktan sonra vefat etmiştir.", answer: "Y", explanation: "Peygamberimizin babası Abdullah, Peygamberimiz doğmadan önce vefat etmiştir.", theme: 'unit1', relatedConcept: "Abdullah" },
+                { id: 'u1_tf7', type: 'trueFalse', question: "Peygamberimizin dedesi Abdülmuttalib, ona 'Ahmed' ismini vermiştir.", answer: "Y", explanation: "Peygamberimizin dedesi Abdülmuttalib, ona 'Muhammed' ismini vermiştir.", theme: 'unit1', relatedConcept: "İsim" },
+                { id: 'u1_tf8', type: 'trueFalse', question: "Mekke iklimi bebeklerin sağlıklı büyümesine uygun olduğu için sütanneye verilmezdi.", answer: "Y", explanation: "Mekke ikliminin bebeklerin sağlıklı büyümesine uygun olmaması nedeniyle sütanneye verilirdi.", theme: 'unit1', relatedConcept: "Sütanne" },
+                { id: 'u1_tf9', type: 'trueFalse', question: "Peygamberimizin gelişiyle sütannesi Halime Hatun'un ailesine bereket gelmiştir.", answer: "D", explanation: "Peygamberimizin gelişiyle Halime Hatun'un ailesine bereket gelmiştir.", theme: 'unit1', relatedConcept: "Bereket" },
+                { id: 'u1_tf10', type: 'trueFalse', question: "Peygamberimizin annesi Amine, Medine dönüş yolunda vefat etmiştir.", answer: "D", explanation: "Peygamberimizin annesi Amine, Medine dönüş yolunda Ebva köyünde vefat etmiştir.", theme: 'unit1', relatedConcept: "Annesinin Vefatı" },
+                { id: 'u1_tf11', type: 'trueFalse', question: "Peygamberimiz sekiz yaşındayken dedesi Abdülmuttalib vefat etmiştir.", answer: "D", explanation: "Peygamberimiz sekiz yaşındayken dedesi Abdülmuttalib vefat etmiştir.", theme: 'unit1', relatedConcept: "Dedesinin Vefatı" },
+                { id: 'u1_tf12', type: 'trueFalse', question: "Peygamberimiz amcası Ebu Talib'e destek olmak için ticaretle uğraşmıştır.", answer: "Y", explanation: "Peygamberimiz amcasına destek olmak için çobanlık yapmıştır.", theme: 'unit1', relatedConcept: "Çobanlık" },
+                { id: 'u1_tf13', type: 'trueFalse', question: "Rahip Bahira, Peygamberimizin beklenen peygamber olabileceğini söylemiştir.", answer: "D", explanation: "Rahip Bahira, Peygamberimizin beklenen peygamber olabileceğini söylemiştir.", theme: 'unit1', relatedConcept: "Rahip Bahira" },
+                { id: 'u1_tf14', type: 'trueFalse', question: "Cahiliye Dönemi'nde kabileler arası savaşlar yaygındı.", answer: "D", explanation: "Cahiliye Dönemi'nde kabileler arası savaşlar yaygındı.", theme: 'unit1', relatedConcept: "Cahiliye" },
+                { id: 'u1_tf15', type: 'trueFalse', question: "İslamiyet öncesi Arap toplumunda en yaygın inanç Haniflikti.", answer: "Y", explanation: "İslamiyet öncesi Arap toplumunda en yaygın inanç putperestlikti.", theme: 'unit1', relatedConcept: "Putperestlik" },
+                { id: 'u1_tf16', type: 'trueFalse', question: "Hicaz bölgesi Mekke, Medine ve Taif şehirlerini kapsar.", answer: "D", explanation: "Hicaz bölgesi Mekke, Medine (Yesrib) ve Taif şehirlerini kapsar.", theme: 'unit1', relatedConcept: "Hicaz" },
+                { id: 'u1_tf17', type: 'trueFalse', question: "Ebrehe'nin ordusundaki filler Kâbe yönüne hareket etmiştir.", answer: "Y", explanation: "Ebrehe'nin ordusundaki filler Kâbe yönüne hareket etmemiştir.", theme: 'unit1', relatedConcept: "Fil Vakası" },
+                { id: 'u1_tf18', type: 'trueFalse', question: "Peygamberimizin babası Abdullah, Peygamberimiz doğduktan sonra vefat etmiştir.", answer: "Y", explanation: "Peygamberimizin babası Abdullah, Peygamberimiz doğmadan önce vefat etmiştir.", theme: 'unit1', relatedConcept: "Abdullah" },
+                { id: 'u1_tf19', type: 'trueFalse', question: "Peygamberimiz on iki yaşındayken amcasıyla Şam'a ticaret kervanına katılmıştır.", answer: "D", explanation: "Peygamberimiz on iki yaşındayken amcasıyla Şam'a ticaret kervanına katılmıştır.", theme: 'unit1', relatedConcept: "Ticaret" },
+                { id: 'u1_tf20', type: 'trueFalse', question: "Cahiliye Dönemi'nde toplumda kadın-erkek eşitliği vardı.", answer: "Y", explanation: "Cahiliye Dönemi'nde kadın-erkek eşitsizliği vardı.", theme: 'unit1', relatedConcept: "Cahiliye" },
+                { id: 'u1_fb1', type: 'fillInTheBlanks', question: "Peygamberimiz Hz. Muhammed (sav), son ............ .", answer: "Peygamberdir", options: ["Peygamberdir", "Kraldır", "Liderdir", "Tüccardır"], explanation: "Peygamberimiz Hz. Muhammed (sav), son peygamberdir.", theme: 'unit1', relatedConcept: "Peygamber" },
+                { id: 'u1_fb2', type: 'fillInTheBlanks', question: "Mekke, Arap Yarımadası'nın ............ bölgesinde, çöl iklimine sahip bir yerdir.", answer: "Hicaz", options: ["Hicaz", "Necid", "Yemen", "Şam"], explanation: "Mekke, Arap Yarımadası'nın Hicaz bölgesinde yer alır.", theme: 'unit1', relatedConcept: "Hicaz" },
+                { id: 'u1_fb3', type: 'fillInTheBlanks', question: "Yemen Valisi Ebrehe, Hristiyanlığı yaymak ve ticareti kendi şehri ............ çekmek için bir kilise yaptırdı.", answer: "San'a'ya", options: ["San'a'ya", "Mekke'ye", "Medine'ye", "Taif'e"], explanation: "Ebrehe, San'a'ya kilise yaptırmıştır.", theme: 'unit1', relatedConcept: "Ebrehe" },
+                { id: 'u1_fb4', type: 'fillInTheBlanks', question: "Ebrehe'nin ordusundaki ............ Kâbe yönüne hareket etmedi.", answer: "filler", options: ["develer", "atlar", "filler", "köpekler"], explanation: "Ebrehe'nin ordusundaki filler Kâbe yönüne hareket etmemiştir.", theme: 'unit1', relatedConcept: "Fil Vakası" },
+                { id: 'u1_fb5', type: 'fillInTheBlanks', question: "Bu olay İslam tarihinde 'Fil Vakası', gerçekleştiği yıl ise 'Fil ............ ' olarak anılır.", answer: "Yılı", options: ["Yılı", "Ayı", "Günü", "Asrı"], explanation: "Bu olay İslam tarihinde 'Fil Vakası', gerçekleştiği yıl ise 'Fil Yılı' olarak anılır.", theme: 'unit1', relatedConcept: "Fil Yılı" },
+                { id: 'u1_fb6', type: 'fillInTheBlanks', question: "Peygamberimiz Hz. Muhammed (sav) 571 yılında, Fil Vakası'nın olduğu yılın ............ ayının on ikinci gecesi Mekke'de doğmuştur.", answer: "Rebiyülevvel", options: ["Rebiyülevvel", "Ramazan", "Şaban", "Muharrem"], explanation: "Peygamberimiz Rebiyülevvel ayının on ikinci gecesi doğmuştur.", theme: 'unit1', relatedConcept: "Doğum" },
+                { id: 'u1_fb7', type: 'fillInTheBlanks', question: "Babası Abdullah, Peygamberimiz doğmadan önce ticaret yolculuğu dönüşünde ............ vefat etmiştir.", answer: "Medine'de", options: ["Mekke'de", "Medine'de", "Şam'da", "Taif'te"], explanation: "Babası Abdullah Medine'de vefat etmiştir.", theme: 'unit1', relatedConcept: "Abdullah" },
+                { id: 'u1_fb8', type: 'fillInTheBlanks', question: "Peygamberimizin dedesi Abdülmuttalib, ona 'yerde ve gökte övülmüş' anlamına gelen ............ ismini vermiştir.", answer: "Muhammed", options: ["Muhammed", "Ahmed", "Mahmud", "Mustafa"], explanation: "Peygamberimizin dedesi ona Muhammed ismini vermiştir.", theme: 'unit1', relatedConcept: "İsim" },
+                { id: 'u1_fb9', type: 'fillInTheBlanks', question: "Peygamberimiz sütannesi Halime Hatun'un yanında ............ bir aile ortamında büyüdü.", answer: "sıcak", options: ["soğuk", "sıcak", "uzak", "kalabalık"], explanation: "Peygamberimiz sıcak bir aile ortamında büyüdü.", theme: 'unit1', relatedConcept: "Çocukluk" },
+                { id: 'u1_fb10', type: 'fillInTheBlanks', question: "Altı yaşındayken annesi Amine ve yardımcısı ............ ile Medine'ye gitti.", answer: "Ümmü Eymen", options: ["Hz. Hatice", "Hz. Aişe", "Ümmü Eymen", "Halime"], explanation: "Annesi Amine ve yardımcısı Ümmü Eymen ile Medine'ye gitti.", theme: 'unit1', relatedConcept: "Ümmü Eymen" },
+                { id: 'u1_fb11', type: 'fillInTheBlanks', question: "Dedesi Abdülmuttalib vefat etmeden önce onu amcası ............ emanet etti.", answer: "Ebu Talib'e", options: ["Ebu Talib'e", "Hz. Hamza'ya", "Hz. Abbas'a", "Hz. Ömer'e"], explanation: "Dedesi onu amcası Ebu Talib'e emanet etti.", theme: 'unit1', relatedConcept: "Ebu Talib" },
+                { id: 'u1_fb12', type: 'fillInTheBlanks', question: "Peygamberimiz ailesine destek olmak için ............ yaptı.", answer: "çobanlık", options: ["ticaret", "çobanlık", "dokumacılık", "marangozluk"], explanation: "Peygamberimiz ailesine destek olmak için çobanlık yapmıştır.", theme: 'unit1', relatedConcept: "Çobanlık" },
+                { id: 'u1_fb13', type: 'fillInTheBlanks', question: "Cahiliye Dönemi: İslamiyet öncesi Arap toplumunda dinî ve kültürel bozulmuşluk, ............ tapma, soyla övünme, hukuksuzluk, kibir ve zayıfları ezme gibi olumsuzlukların hâkim olduğu dönemdir.", answer: "putlara", options: ["putlara", "Allah'a", "ateşe", "güneşe"], explanation: "Cahiliye Dönemi'nde putlara tapma yaygındı.", theme: 'unit1', relatedConcept: "Cahiliye" },
+                { id: 'u1_fb14', type: 'fillInTheBlanks', question: "Haram aylar; ............ , recep, zilkade, zilhicce aylarıdır.", answer: "muharrem", options: ["muharrem", "şevval", "cemaziyelahir", "rebiyülahir"], explanation: "Haram aylar muharrem, recep, zilkade, zilhicce aylarıdır.", theme: 'unit1', relatedConcept: "Haram Aylar" },
+                { id: 'u1_fb15', type: 'fillInTheBlanks', question: "Mekke'de en büyük putun adı ............ idi.", answer: "Hubel", options: ["Lat", "Menat", "Uzza", "Hubel"], explanation: "Mekke'de en büyük put Hubel idi.", theme: 'unit1', relatedConcept: "Putperestlik" },
+                { id: 'u1_fb16', type: 'fillInTheBlanks', question: "Hz. Hacer'in oğlu Hz. İsmail için su ararken Allah'ın bir lütfu olarak ortaya çıkan kuyu ............ Kuyusu'dur.", answer: "Zemzem", options: ["Kevser", "Zemzem", "Cennet", "Hira"], explanation: "Zemzem Kuyusu, Hz. Hacer ve Hz. İsmail ile ilgilidir.", theme: 'unit1', relatedConcept: "Zemzem" },
+                { id: 'u1_fb17', type: 'fillInTheBlanks', question: "Peygamberimizin doğduğu gün Mevlit Kandili olarak ............ .", answer: "kutlanır", options: ["kutlanır", "anılır", "unutulur", "yas tutulur"], explanation: "Peygamberimizin doğduğu gün Mevlit Kandili olarak kutlanır.", theme: 'unit1', relatedConcept: "Mevlit" },
+                { id: 'u1_fb18', type: 'fillInTheBlanks', question: "Peygamberimizin süt kardeşlerinden biri ............ idi.", answer: "Hz. Hamza", options: ["Hz. Ali", "Hz. Ömer", "Hz. Hamza", "Hz. Zeyd"], explanation: "Hz. Hamza, Peygamberimizin süt kardeşidir.", theme: 'unit1', relatedConcept: "Süt Kardeşliği" },
+                { id: 'u1_fb19', type: 'fillInTheBlanks', question: "Peygamberimiz, yengesi Fatıma için 'annemden sonraki ............ ' demiştir.", answer: "annem", options: ["annem", "ablam", "teyzem", "halem"], explanation: "Peygamberimiz yengesi Fatıma'yı annesi gibi görmüştür.", theme: 'unit1', relatedConcept: "Fatıma binti Esed" },
+                { id: 'u1_fb20', type: 'fillInTheBlanks', question: "Peygamberimiz Cahiliye âdetlerinden uzak durmuş, ahlaki özellikleriyle öne çıkmıştır; dürüst, adaletli, merhametli, vefalı, sabırlı ve ............ (el-Emin) bir insandı.", answer: "güvenilir", options: ["güvenilir", "kurnaz", "hırslı", "sert"], explanation: "Peygamberimiz 'el-Emin' yani güvenilir olarak bilinirdi.", theme: 'unit1', relatedConcept: "el-Emin" }
+            ],
+            'unit2': [
+                { id: 'u2_mc1', type: 'multipleChoice', question: "Peygamberimizin çocuklarla iletişiminin temel unsurları arasında hangisi bulunmaz?", options: ["Sevgi", "Şefkat", "Kayıtsızlık", "Güven"], answer: "Kayıtsızlık", explanation: "Peygamberimiz çocuklara karşı kayıtsız değildi, onlara sevgi ve şefkatle yaklaşırdı.", theme: 'unit2', relatedConcept: "İletişim" },
+                { id: 'u2_mc2', type: 'multipleChoice', question: "Peygamberimiz, yolculuktan döndüğünde kendisini karşılayan çocuklara nasıl davranırdı?", options: ["Onlara sert davranırdı", "Onları görmezden gelirdi", "Onlara ilgi gösterir, bazılarını bineğine alırdı", "Onları evlerine gönderirdi"], answer: "Onlara ilgi gösterir, bazılarını bineğine alırdı", explanation: "Peygamberimiz çocuklara ilgi gösterir, onlarla şakalaşırdı.", theme: 'unit2', relatedConcept: "Çocuk Sevgisi" },
+                { id: 'u2_mc3', type: 'multipleChoice', question: "Peygamberimiz, hurma ağacını taşlayan çocuğu nasıl cezalandırmıştır?", options: ["Ona nasihat etmiştir", "Onu dövmüştür", "Onu sürgün etmiştir", "Onu azarlamıştır"], answer: "Ona nasihat etmiştir", explanation: "Peygamberimiz hurma ağacını taşlayan çocuğu nasihat ederek eğitmiştir.", theme: 'unit2', relatedConcept: "Eğitim" },
+                { id: 'u2_mc4', type: 'multipleChoice', question: "Peygamberimiz anne babalara çocuklarına neyi öğretmelerini tavsiye etmiştir?", options: ["Resim yapmayı", "Yüzmeyi", "Namazı", "Şiir yazmayı"], answer: "Namazı", explanation: "Peygamberimiz anne babalara çocuklarına namazı öğretmelerini tavsiye etmiştir.", theme: 'unit2', relatedConcept: "Namaz Eğitimi" },
+                { id: 'u2_mc5', type: 'multipleChoice', question: "Peygamberimiz, namaz kıldırırken ağlayan çocuk sesi işittiğinde ne yapardı?", options: ["Namazı bozardı", "Namazı kısa tutardı", "Çocuğu sustururdu", "Namazı uzatırdı"], answer: "Namazı kısa tutardı", explanation: "Peygamberimiz namaz kıldırırken ağlayan çocuk sesi işittiğinde namazı kısa tutardı.", theme: 'unit2', relatedConcept: "Merhamet" },
+                { id: 'u2_mc6', type: 'multipleChoice', question: "Peygamberimiz, kız ve erkek çocukları arasında ne yapmazdı?", options: ["Sevgi gösterirdi", "Fark gözetmezdi", "Ayrım yapmazdı", "İsim verirdi"], answer: "Ayrım yapmazdı", explanation: "Peygamberimiz kız ve erkek çocukları arasında ayrım yapmazdı.", theme: 'unit2', relatedConcept: "Adalet" },
+                { id: 'u2_mc7', type: 'multipleChoice', question: "Peygamberimiz, hasta olan hangi ailenin çocuğunu ziyaret etmiştir?", options: ["Müslüman", "Hristiyan", "Yahudi", "Putperest"], answer: "Yahudi", explanation: "Peygamberimiz hasta olan Yahudi bir ailenin çocuğunu ziyaret etmiştir.", theme: 'unit2', relatedConcept: "Hoşgörü" },
+                { id: 'u2_mc8', type: 'multipleChoice', question: "Peygamberimiz, yetimlere kol kanat geren kimsenin cennette nerede olacağını buyurmuştur?", options: ["Uzak bir köşede", "Yan yana", "Ön sırada", "Alt katmanda"], answer: "Yan yana", explanation: "Peygamberimiz, yetime kol kanat geren kimsenin cennette kendisiyle yan yana olacağını buyurmuştur.", theme: 'unit2', relatedConcept: "Yetim Hakları" },
+                { id: 'u2_mc9', type: 'multipleChoice', question: "Peygamberimizin yaşadığı döneme ne ad verilir?", options: ["Karanlık Çağ", "Mutluluk Asrı (Asrısaadet)", "Fetret Devri", "İlk Çağ"], answer: "Mutluluk Asrı (Asrısaadet)", explanation: "Peygamberimizin yaşadığı döneme 'Asrısaadet' denir.", theme: 'unit2', relatedConcept: "Asrısaadet" },
+                { id: 'u2_mc10', type: 'multipleChoice', question: "Babası Uhud'da şehit olan Beşir adlı çocuğu Peygamberimiz nasıl teselli etmiştir?", options: ["Ona yeni bir ev almıştır", "Ona para vermiştir", "'Ben senin baban olayım, eşim Aişe de senin annen olsun' demiştir", "Onu bir akrabasına emanet etmiştir"], answer: "'Ben senin baban olayım, eşim Aişe de senin annen olsun' demiştir", explanation: "Peygamberimiz, Beşir adlı çocuğu bu sözlerle teselli etmiştir.", theme: 'unit2', relatedConcept: "Teselli" },
+                { id: 'u2_mc11', type: 'multipleChoice', question: "Müslümanların evleri arasındaki en hayırlı evin hangi ev olduğunu Peygamberimiz bildirmiştir?", options: ["İçinde zenginlerin bulunduğu ev", "İçinde iyi davranılan bir yetimin bulunduğu ev", "İçinde çok misafir ağırlanan ev", "İçinde çok kitap olan ev"], answer: "İçinde iyi davranılan bir yetimin bulunduğu ev", explanation: "Peygamberimiz, içinde iyi davranılan bir yetimin bulunduğu evin en hayırlı ev olduğunu bildirmiştir.", theme: 'unit2', relatedConcept: "Yetim" },
+                { id: 'u2_mc12', type: 'multipleChoice', question: "Peygamberimizin kızı Hz. Fatıma'ya, Bedir yetimlerinin daha öncelikli olduğunu söyleyerek neye verdiği önemi göstermiştir?", options: ["Zengini sevdiğini", "Yetimlere verdiği önemi", "Savaşlara önem verdiğini", "Kadınlara değer verdiğini"], answer: "Yetimlere verdiği önemi", explanation: "Peygamberimiz, yetimlere büyük önem vermiştir.", theme: 'unit2', relatedConcept: "Yetim Hakları" },
+                { id: 'u2_mc13', type: 'multipleChoice', question: "Kültürümüzde Peygamberimize duyulan sevginin bir sembolü nedir?", options: ["Lale", "Zambak", "Gül", "Menekşe"], answer: "Gül", explanation: "Kültürümüzde gül, Peygamberimize duyulan sevginin bir sembolüdür.", theme: 'unit2', relatedConcept: "Peygamber Sevgisi" },
+                { id: 'u2_mc14', type: 'multipleChoice', question: "Hz. Ali kaç yaşından itibaren Peygamberimizin himayesinde büyüdü?", options: ["Üç", "Beş", "Yedi", "Dokuz"], answer: "Beş", explanation: "Hz. Ali beş yaşından itibaren Peygamberimizin himayesinde büyüdü.", theme: 'unit2', relatedConcept: "Hz. Ali" },
+                { id: 'u2_mc15', type: 'multipleChoice', question: "Hz. Ali kaç yaşında Müslüman olmuş ve ilk Müslüman çocuk olmuştur?", options: ["Sekiz", "Dokuz", "On", "On bir"], answer: "On", explanation: "Hz. Ali on yaşında Müslüman olmuş ve ilk Müslüman çocuk olmuştur.", theme: 'unit2', relatedConcept: "İlk Müslümanlar" },
+                { id: 'u2_mc16', type: 'multipleChoice', question: "Peygamberimiz çocuklara karşı nasıl bir tutum sergilemezdi?", options: ["Merhametli", "Şefkatli", "Kibirli", "Anlayışlı"], answer: "Kibirli", explanation: "Peygamberimiz çocuklara karşı kibirli bir tutum sergilemezdi.", theme: 'unit2', relatedConcept: "Tevazu" },
+                { id: 'u2_mc17', type: 'multipleChoice', question: "Peygamberimiz, çocukların mescide gelmelerine izin verir miydi?", options: ["Evet", "Hayır", "Bazen", "Sadece erkek çocuklarına"], answer: "Evet", explanation: "Peygamberimiz çocukların mescide gelmelerine izin verirdi.", theme: 'unit2', relatedConcept: "Mescit" },
+                { id: 'u2_mc18', type: 'multipleChoice', question: "Peygamberimiz, ikramda bulunurken kime öncelik tanımak için izin istemiştir?", options: ["Sağında oturan küçük çocuğa", "Solunda oturan yaşlıya", "En zengin kişiye", "En güçlü kişiye"], answer: "Sağında oturan küçük çocuğa", explanation: "Peygamberimiz, ikramda bulunurken sağında oturan küçük çocuğa öncelik tanımak için izin istemiştir.", theme: 'unit2', relatedConcept: "İkram Adabı" },
+                { id: 'u2_mc19', type: 'multipleChoice', question: "Peygamberimizin küçük hizmetkârı olarak anılan sahabi kimdir?", options: ["Hz. Ali", "Hz. Zeyd bin Harise", "Hz. Enes bin Malik", "Hz. Ebu Mahzure"], answer: "Hz. Enes bin Malik", explanation: "Hz. Enes bin Malik, Peygamberimizin küçük hizmetkârı olarak anılırdı.", theme: 'unit2', relatedConcept: "Hz. Enes" },
+                { id: 'u2_mc20', type: 'multipleChoice', question: "Hz. Zeyd bin Harise hangi savaşta şehit olmuştur?", options: ["Bedir Savaşı", "Uhud Savaşı", "Hendek Savaşı", "Mute Savaşı"], answer: "Mute Savaşı", explanation: "Hz. Zeyd bin Harise Mute Savaşı'nda şehit olmuştur.", theme: 'unit2', relatedConcept: "Mute Savaşı" },
+                { id: 'u2_tf1', type: 'trueFalse', question: "Peygamberimiz çocuklara karşı her zaman merhametliydi.", answer: "D", explanation: "Peygamberimiz çocuklara karşı her zaman merhametliydi.", theme: 'unit2', relatedConcept: "Merhamet" },
+                { id: 'u2_tf2', type: 'trueFalse', question: "Peygamberimiz, sohbet meclislerinde çocukların bulunmasına izin vermezdi.", answer: "Y", explanation: "Peygamberimiz, sohbet meclislerinde çocukların bulunmasına izin verirdi.", theme: 'unit2', relatedConcept: "Sohbet" },
+                { id: 'u2_tf3', type: 'trueFalse', question: "Peygamberimiz, çocukların sevinçleriyle mutlu olur, üzüntüleriyle üzülmezdi.", answer: "Y", explanation: "Peygamberimiz, çocukların sevinçleriyle mutlu olur, üzüntüleriyle üzülürdü.", theme: 'unit2', relatedConcept: "Duygusallık" },
+                { id: 'u2_tf4', type: 'trueFalse', question: "Peygamberimiz, Numan (ra) adlı çocuğa hoşgörülü davranmış ve vefalı olması gerektiğini hatırlatmıştır.", answer: "D", explanation: "Peygamberimiz, Numan (ra) adlı çocuğa hoşgörülü davranmış ve vefalı olması gerektiğini hatırlatmıştır.", theme: 'unit2', relatedConcept: "Hoşgörü" },
+                { id: 'u2_tf5', type: 'trueFalse', question: "Peygamberimiz, çocuklara günlük hayatta yapabilecekleri görevler vermezdi.", answer: "Y", explanation: "Peygamberimiz, çocuklara günlük hayatta yapabilecekleri görevler vererek özgüvenlerini pekiştirirdi.", theme: 'unit2', relatedConcept: "Özgüven" },
+                { id: 'u2_tf6', type: 'trueFalse', question: "Peygamberimiz, çocukların incinmesine razı olmazdı.", answer: "D", explanation: "Peygamberimiz, çocukların incinmesine razı olmazdı.", theme: 'unit2', relatedConcept: "Koruma" },
+                { id: 'u2_tf7', type: 'trueFalse', question: "Peygamberimiz, maddi kaygılardan dolayı çocuklara zarar vermeyi teşvik etmiştir.", answer: "Y", explanation: "Peygamberimiz, maddi kaygılardan dolayı çocuklara zarar vermeyi yasaklamıştır.", theme: 'unit2', relatedConcept: "Çocuk Hakları" },
+                { id: 'u2_tf8', type: 'trueFalse', question: "Peygamberimiz, ikramda bulunurken, solunda oturan küçük çocuğa öncelik tanırdı.", answer: "Y", explanation: "Peygamberimiz, ikramda bulunurken, sağında oturan küçük çocuğa öncelik tanırdı.", theme: 'unit2', relatedConcept: "Sofra Adabı" },
+                { id: 'u2_tf9', type: 'trueFalse', question: "Asrısaadet döneminde çocuklar Peygamberimizi çok severdi.", answer: "D", explanation: "Asrısaadet döneminde çocuklar Peygamberimizi çok severdi.", theme: 'unit2', relatedConcept: "Asrısaadet" },
+                { id: 'u2_tf10', type: 'trueFalse', question: "Peygamberimiz, özellikle zengin çocuklarla daha az ilgilenirdi.", answer: "Y", explanation: "Peygamberimiz, özellikle yetim ve korunmaya muhtaç çocuklarla daha çok ilgilenirdi.", theme: 'unit2', relatedConcept: "Yetim" },
+                { id: 'u2_tf11', type: 'trueFalse', question: "Peygamberimiz, Hz. Cafer şehit olunca ailesine yemek götürülmesini emretmiştir.", answer: "D", explanation: "Peygamberimiz, Hz. Cafer şehit olunca ailesine yemek götürülmesini emretmiştir.", theme: 'unit2', relatedConcept: "Hz. Cafer" },
+                { id: 'u2_tf12', type: 'trueFalse', question: "Hz. Ali, Peygamberimizin amcası Ebu Talib'in oğludur.", answer: "D", explanation: "Hz. Ali, Peygamberimizin amcası Ebu Talib'in oğludur.", theme: 'unit2', relatedConcept: "Hz. Ali" },
+                { id: 'u2_tf13', type: 'trueFalse', question: "Hz. Ali, Hicret sırasında müşrikleri oyalamak için Peygamberimizin yatağına yatmamıştır.", answer: "Y", explanation: "Hz. Ali, Hicret sırasında müşrikleri oyalamak için Peygamberimizin yatağına yatmıştır.", theme: 'unit2', relatedConcept: "Hicret" },
+                { id: 'u2_tf14', type: 'trueFalse', question: "Hz. Zeyd bin Harise aslen Medineliydi.", answer: "Y", explanation: "Hz. Zeyd bin Harise aslen Yemenliydi.", theme: 'unit2', relatedConcept: "Hz. Zeyd" },
+                { id: 'u2_tf15', type: 'trueFalse', question: "Hz. Zeyd bin Harise, Taif yolculuğunda Peygamberimize atılan taşlara karşı kendini siper etmiştir.", answer: "D", explanation: "Hz. Zeyd bin Harise, Taif yolculuğunda Peygamberimize atılan taşlara karşı kendini siper etmiştir.", theme: 'unit2', relatedConcept: "Taif Yolculuğu" },
+                { id: 'u2_tf16', type: 'trueFalse', question: "Peygamberimiz çocuklara günlük hayatta görevler vererek özgüvenlerini pekiştirirdi.", answer: "D", explanation: "Peygamberimiz çocuklara günlük hayatta görevler vererek özgüvenlerini pekiştirirdi.", theme: 'unit2', relatedConcept: "Özgüven" },
+                { id: 'u2_tf17', type: 'trueFalse', question: "Peygamberimiz 'Küçüğümüze merhamet etmeyen bizden değildir' buyurmuştur.", answer: "D", explanation: "Peygamberimiz 'Küçüğümüze merhamet etmeyen ve büyüğümüzün saygınlığını kabul etmeyen bizden değildir' buyurmuştur.", theme: 'unit2', relatedConcept: "Merhamet" },
+                { id: 'u2_tf18', type: 'trueFalse', question: "Peygamberimiz kız ve erkek çocukları arasında ayrım yapardı.", answer: "Y", explanation: "Peygamberimiz kız ve erkek çocukları arasında ayrım yapmazdı.", theme: 'unit2', relatedConcept: "Adalet" },
+                { id: 'u2_tf19', type: 'trueFalse', question: "Peygamberimiz, yetim ve korunmaya muhtaç çocuklarla daha az ilgilenirdi.", answer: "Y", explanation: "Peygamberimiz, yetim ve korunmaya muhtaç çocuklarla daha çok ilgilenirdi.", theme: 'unit2', relatedConcept: "Yetim" },
+                { id: 'u2_tf20', type: 'trueFalse', question: "Hz. Enes bin Malik, Peygamberimize on yıl hizmet etmiştir.", answer: "D", explanation: "Hz. Enes bin Malik, Peygamberimize on yıl hizmet etmiştir.", theme: 'unit2', relatedConcept: "Hz. Enes" },
+                { id: 'u2_fb1', type: 'fillInTheBlanks', question: "Peygamberimiz çocuklara karşı her zaman ............ idi, onlarla oyunlar oynar, şefkatle yaklaşırdı.", answer: "merhametli", options: ["merhametli", "sert", "kayıtsız", "kibirli"], explanation: "Peygamberimiz çocuklara karşı merhametliydi.", theme: 'unit2', relatedConcept: "Merhamet" },
+                { id: 'u2_fb2', type: 'fillInTheBlanks', question: "Peygamberimiz, çocukların ............ gözeter, ahlaki gelişimlerini desteklerdi.", answer: "ihtiyaçlarını", options: ["ihtiyaçlarını", "oyunlarını", "sınavlarını", "derslerini"], explanation: "Peygamberimiz çocukların ihtiyaçlarını gözetirdi.", theme: 'unit2', relatedConcept: "Eğitim" },
+                { id: 'u2_fb3', type: 'fillInTheBlanks', question: "'Küçüğümüze merhamet etmeyen ve büyüğümüzün saygınlığını kabul etmeyen ............ değildir' buyurmuştur.", answer: "bizden", options: ["bizden", "onlardan", "sizden", "hiçbirimizden"], explanation: "Peygamberimiz 'Küçüğümüze merhamet etmeyen ve büyüğümüzün saygınlığını kabul etmeyen bizden değildir' buyurmuştur.", theme: 'unit2', relatedConcept: "Merhamet" },
+                { id: 'u2_fb4', type: 'fillInTheBlanks', question: "Peygamberimiz maddi kaygılardan dolayı çocuklara zarar vermeyi ............ , yetimlerin ve kadınların haklarının korunmasını istemiştir.", answer: "yasaklamış", options: ["yasaklamış", "teşvik etmiş", "izin vermiş", "önemsememiş"], explanation: "Peygamberimiz çocuklara zarar vermeyi yasaklamıştır.", theme: 'unit2', relatedConcept: "Çocuk Hakları" },
+                { id: 'u2_fb5', type: 'fillInTheBlanks', question: "'Ben ve yetime kol kanat geren kimse cennette böyle ............ olacağız' buyurmuştur.", answer: "yan yana", options: ["yan yana", "uzak", "farklı", "ayrı"], explanation: "Peygamberimiz yetime kol kanat geren kimsenin cennette kendisiyle yan yana olacağını buyurmuştur.", theme: 'unit2', relatedConcept: "Yetim" },
+                { id: 'u2_fb6', type: 'fillInTheBlanks', question: "Peygamberimizin yaşadığı döneme 'Asrısaadet' (Mutluluk ............ ) denir.", answer: "Asrı", options: ["Asrı", "Yılı", "Günü", "Dönemi"], explanation: "Peygamberimizin yaşadığı döneme 'Asrısaadet' denir.", theme: 'unit2', relatedConcept: "Asrısaadet" },
+                { id: 'u2_fb7', type: 'fillInTheBlanks', question: "Hz. Cafer şehit olunca ailesine yemek götürülmesini emretmiş, çocuklarının ............ kendisi olduğunu söyleyerek anneyi teselli etmişti.", answer: "velisinin", options: ["velisinin", "babasının", "amcasının", "dayısının"], explanation: "Peygamberimiz, Hz. Cafer'in çocuklarının velisinin kendisi olduğunu söylemiştir.", theme: 'unit2', relatedConcept: "Hz. Cafer" },
+                { id: 'u2_fb8', type: 'fillInTheBlanks', question: "Hz. Ali, Hicret sırasında, müşrikleri oyalamak için Peygamberimizin yatağına ............ .", answer: "yatmıştır", options: ["yatmıştır", "gitmiştir", "saklanmıştır", "kaçmıştır"], explanation: "Hz. Ali, Hicret sırasında Peygamberimizin yatağına yatmıştır.", theme: 'unit2', relatedConcept: "Hicret" },
+                { id: 'u2_fb9', type: 'fillInTheBlanks', question: "Hz. Ali, Hicret'in ikinci yılında Peygamberimizin kızı ............ ile evlendi.", answer: "Hz. Fatıma", options: ["Hz. Fatıma", "Hz. Zeynep", "Hz. Rukıyye", "Hz. Ümmü Gülsüm"], explanation: "Hz. Ali, Peygamberimizin kızı Hz. Fatıma ile evlenmiştir.", theme: 'unit2', relatedConcept: "Hz. Ali" },
+                { id: 'u2_fb10', type: 'fillInTheBlanks', question: "Hz. Zeyd bin Harise, esir düşüp köle olarak satılmış, ............ tarafından alınıp Peygamberimize hediye edilmişti.", answer: "Hz. Hatice", options: ["Hz. Hatice", "Hz. Aişe", "Hz. Fatıma", "Hz. Amine"], explanation: "Hz. Zeyd bin Harise, Hz. Hatice tarafından Peygamberimize hediye edilmiştir.", theme: 'unit2', relatedConcept: "Hz. Zeyd" },
+                { id: 'u2_fb11', type: 'fillInTheBlanks', question: "Hz. Zeyd bin Harise, Kur'an-ı Kerim'de adı geçen tek ............ .", answer: "sahabidir", options: ["sahabidir", "peygamberdir", "halifedir", "alimdir"], explanation: "Hz. Zeyd bin Harise, Kur'an-ı Kerim'de adı geçen tek sahabidir.", theme: 'unit2', relatedConcept: "Hz. Zeyd" },
+                { id: 'u2_fb12', type: 'fillInTheBlanks', question: "Hz. Enes bin Malik, Medine'de doğdu. 'Hâdimü'n-Nebi' (Peygamber'in küçük ............ ) olarak anılırdı.", answer: "hizmetkârı", options: ["hizmetkârı", "arkadaşı", "öğrencisi", "akrabası"], explanation: "Hz. Enes bin Malik, Peygamberimizin küçük hizmetkârı olarak anılırdı.", theme: 'unit2', relatedConcept: "Hz. Enes" },
+                { id: 'u2_fb13', type: 'fillInTheBlanks', question: "Hz. Enes bin Malik'in annesi ............ , onu hizmet etmesi için Peygamberimize verdi.", answer: "Ümmü Süleym", options: ["Ümmü Süleym", "Halime", "Amine", "Fatıma"], explanation: "Hz. Enes bin Malik'in annesi Ümmü Süleym'dir.", theme: 'unit2', relatedConcept: "Ümmü Süleym" },
+                { id: 'u2_fb14', type: 'fillInTheBlanks', question: "Hz. Enes bin Malik, Peygamberimize ............ yıl hizmet etti.", answer: "on", options: ["beş", "on", "on beş", "yirmi"], explanation: "Hz. Enes bin Malik, Peygamberimize on yıl hizmet etmiştir.", theme: 'unit2', relatedConcept: "Hz. Enes" },
+                { id: 'u2_fb15', type: 'fillInTheBlanks', question: "Peygamberimizden dua almış, uzun bir ömür yaşamış, evlatları ve malları ............ .", answer: "çoğalmıştır", options: ["çoğalmıştır", "azalmıştır", "değişmemiştir", "kaybolmuştur"], explanation: "Peygamberimizin duasıyla Hz. Enes'in evlatları ve malları çoğalmıştır.", theme: 'unit2', relatedConcept: "Dua" },
+                { id: 'u2_fb16', type: 'fillInTheBlanks', question: "Peygamberimiz huzuruna getirilen çocuklara seviyelerine göre ............ ve kısa ayetleri öğretirdi.", answer: "kelime-i tevhidi", options: ["kelime-i tevhidi", "şiirleri", "şarkıları", "hikayeleri"], explanation: "Peygamberimiz çocuklara kelime-i tevhidi öğretirdi.", theme: 'unit2', relatedConcept: "Eğitim" },
+                { id: 'u2_fb17', type: 'fillInTheBlanks', question: "Peygamberimiz, anne babalardan çocuklarına ............ öğretmelerini tavsiye ederdi.", answer: "namazı", options: ["namazı", "yüzmeyi", "okumayı", "yazmayı"], explanation: "Peygamberimiz çocuklara namazı öğretmelerini tavsiye ederdi.", theme: 'unit2', relatedConcept: "Namaz Eğitimi" },
+                { id: 'u2_fb18', type: 'fillInTheBlanks', question: "Peygamberimiz 'Ben ve yetime kol kanat geren kimse cennette böyle ............ olacağız' buyurmuştur.", answer: "yan yana", options: ["yan yana", "uzak", "farklı", "ayrı"], explanation: "Peygamberimiz yetime kol kanat geren kimsenin cennette kendisiyle yan yana olacağını buyurmuştur.", theme: 'unit2', relatedConcept: "Yetim" },
+                { id: 'u2_fb19', type: 'fillInTheBlanks', question: "Peygamberimizin yaşadığı döneme 'Asrısaadet' (Mutluluk ............ ) denir.", answer: "Asrı", options: ["Asrı", "Yılı", "Günü", "Dönemi"], explanation: "Peygamberimizin yaşadığı döneme 'Asrısaadet' denir.", theme: 'unit2', relatedConcept: "Asrısaadet" },
+                { id: 'u2_fb20', type: 'fillInTheBlanks', question: "Hz. Ali, Peygamberimizin amcası ............ oğludur.", answer: "Ebu Talib'in", options: ["Ebu Talib'in", "Hz. Hamza'nın", "Hz. Abbas'ın", "Hz. Ömer'in"], explanation: "Hz. Ali, Peygamberimizin amcası Ebu Talib'in oğludur.", theme: 'unit2', relatedConcept: "Hz. Ali" }
+            ],
+            'unit3': [
+                { id: 'u3_mc1', type: 'multipleChoice', question: "İslam'da temizlik (taharet) ne demektir?", options: ["Süslenmek", "Kirlerden arınmak", "Yeni kıyafetler giymek", "Yemek yapmak"], answer: "Kirlerden arınmak", explanation: "İslam'da temizlik, kirlerden arınmak anlamına gelir.", theme: 'unit3', relatedConcept: "Temizlik" },
+                { id: 'u3_mc2', type: 'multipleChoice', question: "Peygamberimiz temizliği ne olarak ifade etmiştir?", options: ["Gücün yarısı", "Zenginliğin yarısı", "İmanın yarısı", "Sağlığın yarısı"], answer: "İmanın yarısı", explanation: "Peygamberimiz temizliği 'imanın yarısı' olarak ifade etmiştir.", theme: 'unit3', relatedConcept: "İman" },
+                { id: 'u3_mc3', type: 'multipleChoice', question: "Peygamberimiz ağız ve diş temizliğine ne kullanarak önem vermiştir?", options: ["Fırça", "Macun", "Misvak", "Tuz"], answer: "Misvak", explanation: "Peygamberimiz misvak kullanmaya çok önem vermiştir.", theme: 'unit3', relatedConcept: "Misvak" },
+                { id: 'u3_mc4', type: 'multipleChoice', question: "Peygamberimiz saçı olanlara ne tavsiye etmiştir?", options: ["Saçlarını kesmelerini", "Saçlarını boyamalarını", "Ona iyi bakmalarını, özen göstermelerini", "Saçlarını uzatmalarını"], answer: "Ona iyi bakmalarını, özen göstermelerini", explanation: "Peygamberimiz saçı olanlara ona iyi bakmalarını tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Saç Bakımı" },
+                { id: 'u3_mc5', type: 'multipleChoice', question: "Peygamberimiz cuma günü mescide gelirken ne tavsiye etmiştir?", options: ["Yıkanıp güzel elbiseler giyilmesini", "Koşarak gelmeyi", "Uykulu gelmeyi", "Aç gelmeyi"], answer: "Yıkanıp güzel elbiseler giyilmesini", explanation: "Peygamberimiz cuma günü yıkanıp güzel elbiseler giyilmesini tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Cuma Adabı" },
+                { id: 'u3_mc6', type: 'multipleChoice', question: "Çevre temizliği hakkında Peygamberimiz neyi sadaka olarak belirtmiştir?", options: ["Yeni ağaç dikmeyi", "Rahatsızlık veren şeylerin ortadan kaldırılmasını", "Kuşlara yem vermeyi", "Komşuya yardım etmeyi"], answer: "Rahatsızlık veren şeylerin ortadan kaldırılmasını", explanation: "Peygamberimiz rahatsızlık veren şeylerin ortadan kaldırılmasını sadaka olarak belirtmiştir.", theme: 'unit3', relatedConcept: "Çevre Temizliği" },
+                { id: 'u3_mc7', type: 'multipleChoice', question: "Manevi temizlik nasıl gerçekleşir?", options: ["Çok uyuyarak", "Çok yemek yiyerek", "Tövbe etmekle", "Çok konuşarak"], answer: "Tövbe etmekle", explanation: "Manevi temizlik tövbe etmekle gerçekleşir.", theme: 'unit3', relatedConcept: "Manevi Temizlik" },
+                { id: 'u3_mc8', type: 'multipleChoice', question: "'Cennetin anahtarı namaz, namazın anahtarı da temizliktir' sözünü kim söylemiştir?", options: ["Hz. Ömer", "Hz. Ali", "Peygamberimiz", "Hz. Ebu Bekir"], answer: "Peygamberimiz", explanation: "Bu söz Peygamberimize aittir.", theme: 'unit3', relatedConcept: "Temizlik" },
+                { id: 'u3_mc9', type: 'multipleChoice', question: "Peygamberimiz yemekten önce ve sonra ne yapılmasını tavsiye etmiştir?", options: ["Dua etmeyi", "Ellerini yıkamayı", "Koşmayı", "Şarkı söylemeyi"], answer: "Ellerini yıkamayı", explanation: "Peygamberimiz yemekten önce ve sonra elleri yıkamayı tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Yeme İçme Adabı" },
+                { id: 'u3_mc10', type: 'multipleChoice', question: "Peygamberimiz yemeğe ne ile başlamayı tavsiye etmiştir?", options: ["Besmele ile", "Salavat ile", "Fatiha ile", "İstigfar ile"], answer: "Besmele ile", explanation: "Peygamberimiz yemeğe besmele ile başlamayı tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Besmele" },
+                { id: 'u3_mc11', type: 'multipleChoice', question: "Peygamberimiz suyu kaç defada içmeyi tavsiye etmiştir?", options: ["Bir", "İki", "Üç", "Dört"], answer: "Üç", explanation: "Peygamberimiz suyu üç defada içmeyi tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Su İçme Adabı" },
+                { id: 'u3_mc12', type: 'multipleChoice', question: "Kur'an'da israf edenleri Allah'ın sevmediği hangi surede belirtilmiştir?", options: ["Bakara Suresi", "A'raf Suresi", "Yasin Suresi", "Nisa Suresi"], answer: "A'raf Suresi", explanation: "A'raf Suresi'nde israftan kaçınmak gerektiği belirtilir.", theme: 'unit3', relatedConcept: "İsraf" },
+                { id: 'u3_mc13', type: 'multipleChoice', question: "Peygamberimiz midenin üçte birini neye ayırmayı tavsiye etmiştir?", options: ["Uykuya", "Konuşmaya", "Yemeğe", "Kitap okumaya"], answer: "Yemeğe", explanation: "Peygamberimiz midenin üçte birini yemeğe ayırmayı tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Sağlıklı Beslenme" },
+                { id: 'u3_mc14', type: 'multipleChoice', question: "Peygamberimiz ayakta bir şeyler yiyip içmeyi nasıl görmüştür?", options: ["Uygun", "Uygun görmemiştir", "Tavsiye etmiştir", "Serbest bırakmıştır"], answer: "Uygun görmemiştir", explanation: "Peygamberimiz ayakta yiyip içmeyi uygun görmemiştir.", theme: 'unit3', relatedConcept: "Yeme İçme Adabı" },
+                { id: 'u3_mc15', type: 'multipleChoice', question: "Peygamberimiz giyim kuşamda neyi tercih ederek itidalli davranmayı önermiştir?", options: ["Gösterişi", "Lüksü", "Sadeliği", "Abartıyı"], answer: "Sadeliği", explanation: "Peygamberimiz giyim kuşamda sadeliği tercih etmiştir.", theme: 'unit3', relatedConcept: "Giyim Kuşam Adabı" },
+                { id: 'u3_mc16', type: 'multipleChoice', question: "Peygamberimiz, eve girdiğinde ilk olarak ne yapardı?", options: ["Yemek yerdi", "Dişlerini temizlerdi", "Uyurdu", "Kitap okurdu"], answer: "Dişlerini temizlerdi", explanation: "Peygamberimiz eve girdiğinde ilk olarak dişlerini temizlerdi.", theme: 'unit3', relatedConcept: "Misvak" },
+                { id: 'u3_mc17', type: 'multipleChoice', question: "Peygamberimiz, saçı sakalı dağınık kişileri ne yapardı?", options: ["Överdi", "Uyarırdı", "Görmezden gelirdi", "Ödüllendirirdi"], answer: "Uyarırdı", explanation: "Peygamberimiz saçı sakalı dağınık kişileri uyarırdı.", theme: 'unit3', relatedConcept: "Kişisel Bakım" },
+                { id: 'u3_mc18', type: 'multipleChoice', question: "Peygamberimiz, mescide gelirken hangi kokulu yiyeceklerin yenilmemesini tavsiye etmiştir?", options: ["Elma, armut", "Soğan, sarımsak", "Hurma, üzüm", "Ekmek, peynir"], answer: "Soğan, sarımsak", explanation: "Peygamberimiz mescide gelirken soğan, sarımsak gibi kokulu yiyeceklerin yenilmemesini tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Mescit Adabı" },
+                { id: 'u3_mc19', type: 'multipleChoice', question: "Manevi temizlik ne ile gerçekleşir?", options: ["Yemek yemekle", "Tövbe etmekle", "Uyumakla", "Koşmakla"], answer: "Tövbe etmekle", explanation: "Manevi temizlik tövbe etmekle gerçekleşir.", theme: 'unit3', relatedConcept: "Tövbe" },
+                { id: 'u3_mc20', type: 'multipleChoice', question: "Peygamberimiz, ikram edilen hiçbir yemeği ne yapmazdı?", options: ["Beğenmezdi", "Eleştirmezdi", "Çok yerdi", "Az yerdi"], answer: "Eleştirmezdi", explanation: "Peygamberimiz ikram edilen hiçbir yemeği eleştirmezdi.", theme: 'unit3', relatedConcept: "Yeme İçme Adabı" },
+                { id: 'u3_tf1', type: 'trueFalse', question: "İslam'da temizlik (taharet), dinen pis kabul edilen şeyleri temizlemektir.", answer: "D", explanation: "İslam'da temizlik, dinen pis kabul edilen şeyleri temizlemektir.", theme: 'unit3', relatedConcept: "Taharet" },
+                { id: 'u3_tf2', type: 'trueFalse', question: "Peygamberimiz misvak kullanmaya önem vermemiştir.", answer: "Y", explanation: "Peygamberimiz misvak kullanmaya çok önem vermiştir.", theme: 'unit3', relatedConcept: "Misvak" },
+                { id: 'u3_tf3', type: 'trueFalse', question: "Peygamberimiz saç bakımı konusunda 'Saçı olan ona iyi baksın, özen göstersin' buyurmuştur.", answer: "D", explanation: "Peygamberimiz saç bakımı konusunda bu tavsiyede bulunmuştur.", theme: 'unit3', relatedConcept: "Saç Bakımı" },
+                { id: 'u3_tf4', type: 'trueFalse', question: "Peygamberimiz her gün banyo yapmayı tavsiye etmiştir.", answer: "Y", explanation: "Peygamberimiz her yedi günde bir banyo yapmayı tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Vücut Temizliği" },
+                { id: 'u3_tf5', type: 'trueFalse', question: "Namazın şartlarından biri elbise temizliğidir.", answer: "D", explanation: "Elbise temizliği namazın şartlarındandır.", theme: 'unit3', relatedConcept: "Elbise Temizliği" },
+                { id: 'u3_tf6', type: 'trueFalse', question: "Peygamberimiz evlerin önünün ve çevresinin kirli tutulmasını istemiştir.", answer: "Y", explanation: "Peygamberimiz evlerin önünün ve çevresinin temiz tutulmasını istemiştir.", theme: 'unit3', relatedConcept: "Çevre Temizliği" },
+                { id: 'u3_tf7', type: 'trueFalse', question: "Manevi temizlik, insanın kalbini ve zihnini kötü düşünce ve duygulardan korumasıdır.", answer: "D", explanation: "Manevi temizlik, kötü düşünce ve duygulardan arınmaktır.", theme: 'unit3', relatedConcept: "Manevi Temizlik" },
+                { id: 'u3_tf8', type: 'trueFalse', question: "Abdest, sadece maddi temizlik sağlar.", answer: "Y", explanation: "Abdest, hem maddi hem de manevi temizlik sağlar.", theme: 'unit3', relatedConcept: "Abdest" },
+                { id: 'u3_tf9', type: 'trueFalse', question: "Peygamberimiz rızkın Allah'tan geldiği ve helal yollardan aranması gerektiğini belirtmiştir.", answer: "D", explanation: "Peygamberimiz rızkın helal yollardan aranmasını vurgulamıştır.", theme: 'unit3', relatedConcept: "Rızık" },
+                { id: 'u3_tf10', type: 'trueFalse', question: "Peygamberimiz suyu tek bir defada içmeyi tavsiye etmiştir.", answer: "Y", explanation: "Peygamberimiz suyu üç defada içmeyi tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Su İçme Adabı" },
+                { id: 'u3_tf11', type: 'trueFalse', question: "Peygamberimiz yemek yerken tabağın her yerinden yemek yenmesini tavsiye etmiştir.", answer: "Y", explanation: "Peygamberimiz tabağın kendi önünden yemek yenmesini tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Yeme İçme Adabı" },
+                { id: 'u3_tf12', type: 'trueFalse', question: "Peygamberimiz, ikram edilen hiçbir yemeği eleştirmemeyi tavsiye etmiştir.", answer: "D", explanation: "Peygamberimiz ikram edilen hiçbir yemeği eleştirmemeyi tavsiye etmiştir.", theme: 'unit3', relatedConcept: "İkram Adabı" },
+                { id: 'u3_tf13', type: 'trueFalse', question: "İsraf, 'saçıp savurmak, ölçüyü aşmak' demektir.", answer: "D", explanation: "İsrafın tanımı budur.", theme: 'unit3', relatedConcept: "İsraf" },
+                { id: 'u3_tf14', type: 'trueFalse', question: "Peygamberimiz gösterişli giyinmeyi teşvik etmiştir.", answer: "Y", explanation: "Peygamberimiz gösterişli giyinmeyi uygun bulmamıştır.", theme: 'unit3', relatedConcept: "Giyim Kuşam Adabı" },
+                { id: 'u3_tf15', type: 'trueFalse', question: "Tesettür, sadece kadınların dinen örtünmesi gereken yerleri kapatmasıdır.", answer: "Y", explanation: "Tesettür, hem kadın hem de erkeklerin dinen örtülmesi gereken yerleri kapatmasıdır.", theme: 'unit3', relatedConcept: "Tesettür" },
+                { id: 'u3_tf16', type: 'trueFalse', question: "Peygamberimiz 'Allah temizdir, temiz olan şeyleri sever' buyurmuştur.", answer: "D", explanation: "Bu hadis Peygamberimize aittir.", theme: 'unit3', relatedConcept: "Temizlik" },
+                { id: 'u3_tf17', type: 'trueFalse', question: "Peygamberimiz tırnak temizliğine önem vermezdi.", answer: "Y", explanation: "Peygamberimiz tırnak temizliğine önem verirdi.", theme: 'unit3', relatedConcept: "Tırnak Temizliği" },
+                { id: 'u3_tf18', type: 'trueFalse', question: "Abdest sadece maddi temizlik sağlar.", answer: "Y", explanation: "Abdest hem maddi hem de manevi temizlik sağlar.", theme: 'unit3', relatedConcept: "Abdest" },
+                { id: 'u3_tf19', type: 'trueFalse', question: "Peygamberimiz yemekten sonra elleri yıkamayı tavsiye etmiştir.", answer: "D", explanation: "Peygamberimiz yemekten sonra elleri yıkamayı tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Yeme İçme Adabı" },
+                { id: 'u3_tf20', type: 'trueFalse', question: "Peygamberimiz, su kaplarının ağzının açık bırakılmasını uygun görmüştür.", answer: "Y", explanation: "Peygamberimiz su kaplarının ağzının kapalı tutulmasını tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Su İçme Adabı" },
+                { id: 'u3_fb1', type: 'fillInTheBlanks', question: "Peygamberimiz temizliği 'imanın ............ ' olarak ifade etmiştir.", answer: "yarısı", options: ["yarısı", "tamamı", "bir parçası", "önemsiz bir kısmı"], explanation: "Peygamberimiz temizliği 'imanın yarısı' olarak ifade etmiştir.", theme: 'unit3', relatedConcept: "İman" },
+                { id: 'u3_fb2', type: 'fillInTheBlanks', question: "Peygamberimiz 'Ümmetime sıkıntı verecek olmasaydı, onlara her namaz vaktinde ............ kullanmalarını emrederdim' buyurmuştur.", answer: "misvak", options: ["misvak", "fırça", "macun", "diş ipi"], explanation: "Peygamberimiz misvak kullanmaya önem vermiştir.", theme: 'unit3', relatedConcept: "Misvak" },
+                { id: 'u3_fb3', type: 'fillInTheBlanks', question: "Peygamberimiz 'Saçı olan ona iyi ............ , özen göstersin' buyurmuştur.", answer: "baksın", options: ["baksın", "kessin", "boyasın", "uzatsın"], explanation: "Peygamberimiz saçı olanlara iyi bakmalarını tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Saç Bakımı" },
+                { id: 'u3_fb4', type: 'fillInTheBlanks', question: "Peygamberimiz 'Her yedi günde bir saçını ve bedenini yıkayarak ............ yapması, Allah'ın bütün Müslümanlar üzerindeki bir hakkıdır' buyurmuştur.", answer: "banyo", options: ["banyo", "abdest", "gusül", "teyemmüm"], explanation: "Peygamberimiz her yedi günde bir banyo yapmayı tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Vücut Temizliği" },
+                { id: 'u3_fb5', type: 'fillInTheBlanks', question: "Peygamberimiz, namazın şartlarından olan ............ temizliğine önem verirdi.", answer: "elbise", options: ["elbise", "vücut", "mekan", "kalp"], explanation: "Elbise temizliği namazın şartlarındandır.", theme: 'unit3', relatedConcept: "Elbise Temizliği" },
+                { id: 'u3_fb6', type: 'fillInTheBlanks', question: "Peygamberimiz evlerin önünün ve çevresinin temiz tutulmasını, rahatsızlık veren şeylerin ortadan kaldırılmasının ............ olduğunu belirtmiştir.", answer: "sadaka", options: ["sadaka", "farz", "sünnet", "vacip"], explanation: "Rahatsızlık veren şeylerin ortadan kaldırılması sadakadır.", theme: 'unit3', relatedConcept: "Çevre Temizliği" },
+                { id: 'u3_fb7', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'de 'Şüphesiz Allah çok tövbe edenleri sever, çok ............ sever' (Bakara Suresi, 222. ayet) buyrulur.", answer: "temizlenenleri", options: ["temizlenenleri", "namaz kılanları", "oruç tutanları", "zekat verenleri"], explanation: "Allah tövbe edenleri ve temizlenenleri sever.", theme: 'unit3', relatedConcept: "Manevi Temizlik" },
+                { id: 'u3_fb8', type: 'fillInTheBlanks', question: "Yemeğe besmele ile başlamak, sonunda 'Elhamdülillah' diyerek ............ .", answer: "şükretmek", options: ["şükretmek", "dua etmek", "yemek yemek", "konuşmak"], explanation: "Yemek sonunda şükretmek gerekir.", theme: 'unit3', relatedConcept: "Yeme İçme Adabı" },
+                { id: 'u3_fb9', type: 'fillInTheBlanks', question: "Peygamberimiz yemek yerken tabağın kendi ............ yemek yenmesini tavsiye etmiştir.", answer: "önünden", options: ["önünden", "arkasından", "ortasından", "her yerinden"], explanation: "Peygamberimiz tabağın kendi önünden yemek yenmesini tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Yeme İçme Adabı" },
+                { id: 'u3_fb10', type: 'fillInTheBlanks', question: "Kur'an'da 'Yiyin için fakat ............ etmeyin. Çünkü O, israf edenleri sevmez' (A'raf Suresi, 31. ayet) buyrulur.", answer: "israf", options: ["israf", "tutumlu", "cimri", "cömert"], explanation: "Kur'an'da israftan kaçınmak gerektiği belirtilir.", theme: 'unit3', relatedConcept: "İsraf" },
+                { id: 'u3_fb11', type: 'fillInTheBlanks', question: "Peygamberimiz sade bir yer sofrasında, ............ ile diz üstü oturarak yemek yemeyi tercih etmiştir.", answer: "tevazu", options: ["tevazu", "kibir", "gurur", "gösteriş"], explanation: "Peygamberimiz tevazu ile yemek yemeyi tercih etmiştir.", theme: 'unit3', relatedConcept: "Sofra Adabı" },
+                { id: 'u3_fb12', type: 'fillInTheBlanks', question: "Peygamberimiz midenin üçte birini yemeğe, üçte birini içeceğe, üçte birini de ............ ayırmayı tavsiye etmiştir.", answer: "nefes almaya", options: ["nefes almaya", "uykuya", "konuşmaya", "kitap okumaya"], explanation: "Peygamberimiz midenin üçte birini nefes almaya ayırmayı tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Sağlıklı Beslenme" },
+                { id: 'u3_fb13', type: 'fillInTheBlanks', question: "Peygamberimiz 'Sadelik ............ ' buyurmuştur.", answer: "imandandır", options: ["imandandır", "zenginliktendir", "fakirliktendir", "güçtendir"], explanation: "Peygamberimiz 'Sadelik imandandır' buyurmuştur.", theme: 'unit3', relatedConcept: "Sadelik" },
+                { id: 'u3_fb14', type: 'fillInTheBlanks', question: "Peygamberimiz 'Allah sana mal vermişse bu malın varlığı, üzerine ............ ' demiştir.", answer: "yansımalı", options: ["yansımalı", "gizlenmeli", "kaybolmalı", "unutulmalı"], explanation: "Allah'ın verdiği nimetin kulun üzerinde görülmesi gerekir.", theme: 'unit3', relatedConcept: "Nimet" },
+                { id: 'u3_fb15', type: 'fillInTheBlanks', question: "Giyinmek; ısınma, ............ ve güzel görünme ihtiyacını karşılar.", answer: "örtünme", options: ["örtünme", "süsleme", "gösteriş", "saklanma"], explanation: "Giyinmenin amaçlarından biri örtünmedir.", theme: 'unit3', relatedConcept: "Giyim Kuşam Adabı" },
+                { id: 'u3_fb16', type: 'fillInTheBlanks', question: "Peygamberimiz 'Saçı olan ona iyi baksın, ............ göstersin' buyurmuştur.", answer: "özen", options: ["özen", "korku", "kayıtsızlık", "ilgisizlik"], explanation: "Peygamberimiz saçı olanlara özen göstermelerini tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Saç Bakımı" },
+                { id: 'u3_fb17', type: 'fillInTheBlanks', question: "Peygamberimiz 'Her yedi günde bir saçını ve bedenini yıkayarak ............ yapması, Allah'ın bütün Müslümanlar üzerindeki bir hakkıdır' buyurmuştur.", answer: "banyo", options: ["banyo", "abdest", "gusül", "teyemmüm"], explanation: "Peygamberimiz her yedi günde bir banyo yapmayı tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Vücut Temizliği" },
+                { id: 'u3_fb18', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'de 'Şüphesiz Allah çok tövbe edenleri sever, çok ............ sever' (Bakara Suresi, 222. ayet) buyrulur.", answer: "temizlenenleri", options: ["temizlenenleri", "namaz kılanları", "oruç tutanları", "zekat verenleri"], explanation: "Allah tövbe edenleri ve temizlenenleri sever.", theme: 'unit3', relatedConcept: "Manevi Temizlik" },
+                { id: 'u3_fb19', type: 'fillInTheBlanks', question: "Peygamberimiz, suyu ............ defada içmeyi tavsiye etmiştir.", answer: "üç", options: ["bir", "iki", "üç", "dört"], explanation: "Peygamberimiz suyu üç defada içmeyi tavsiye etmiştir.", theme: 'unit3', relatedConcept: "Su İçme Adabı" },
+                { id: 'u3_fb20', type: 'fillInTheBlanks', question: "Peygamberimiz 'Sadelik ............ ' buyurmuştur.", answer: "imandandır", options: ["imandandır", "zenginliktendir", "fakirliktendir", "güçtendir"], explanation: "Peygamberimiz 'Sadelik imandandır' buyurmuştur.", theme: 'unit3', relatedConcept: "Sadelik" }
+            ],
+            'unit4': [
+                { id: 'u4_mc1', type: 'multipleChoice', question: "Kur'an-ı Kerim'de eşlerin birbirleri için ne olduğu belirtilir?", options: ["Huzur kaynağı", "Zenginlik kaynağı", "Sıkıntı kaynağı", "Rekabet kaynağı"], answer: "Huzur kaynağı", explanation: "Kur'an-ı Kerim'de eşlerin birbirleri için huzur kaynağı olduğu belirtilir.", theme: 'unit4', relatedConcept: "Aile" },
+                { id: 'u4_mc2', type: 'multipleChoice', question: "Peygamberimiz kaç yaşındayken Hz. Hatice ile evlenmiştir?", options: ["Yirmi", "Yirmi beş", "Otuz", "Otuz beş"], answer: "Yirmi beş", explanation: "Peygamberimiz yirmi beş yaşındayken Hz. Hatice ile evlenmiştir.", theme: 'unit4', relatedConcept: "Evlilik" },
+                { id: 'u4_mc3', type: 'multipleChoice', question: "Hz. Hatice hangi lakapla anılan bir kadındı?", options: ["Zehra", "Sıddıka", "Tahire", "Zeynep"], answer: "Tahire", explanation: "Hz. Hatice 'Tahire' (temiz kadın) lakabıyla anılırdı.", theme: 'unit4', relatedConcept: "Hz. Hatice" },
+                { id: 'u4_mc4', type: 'multipleChoice', question: "Hz. Hatice'nin vefatından sonra Peygamberimiz kimin kızı Hz. Aişe ile evlendi?", options: ["Hz. Ömer", "Hz. Ali", "Hz. Ebu Bekir", "Hz. Osman"], answer: "Hz. Ebu Bekir", explanation: "Hz. Hatice'nin vefatından sonra Hz. Ebu Bekir'in kızı Hz. Aişe ile evlendi.", theme: 'unit4', relatedConcept: "Hz. Aişe" },
+                { id: 'u4_mc5', type: 'multipleChoice', question: "Peygamberimiz Hz. Aişe'ye hangi hitapları kullanırdı?", options: ["Sadece adıyla", "Uveyş (Ayşecik) veya Hümeyra", "Fatıma", "Zeyneb"], answer: "Uveyş (Ayşecik) veya Hümeyra", explanation: "Peygamberimiz Hz. Aişe'ye 'Uveyş' veya 'Hümeyra' diye hitap ederdi.", theme: 'unit4', relatedConcept: "Hz. Aişe" },
+                { id: 'u4_mc6', type: 'multipleChoice', question: "Hz. Aişe'nin sözüne göre Peygamberimiz ailesinin hangi işleriyle ilgilenirdi?", options: ["Sadece çocuk bakımı", "Sadece yemek yapmak", "Ailesinin işiyle (hizmetinde)", "Sadece dışarıdaki işlerle"], answer: "Ailesinin işiyle (hizmetinde)", explanation: "Peygamberimiz ailesinin işleriyle ilgilenirdi.", theme: 'unit4', relatedConcept: "Aile Hayatı" },
+                { id: 'u4_mc7', type: 'multipleChoice', question: "Peygamberimiz 'Sizin en hayırlınız ailesine karşı en hayırlı olanınızdır. Ben de aileme karşı en iyi olanınızım!' buyurmuştur. Bu söz neyi vurgular?", options: ["Dış ilişkilerin önemini", "Liderlik vasfını", "Aileye verilen önemi", "Sadece erkeklerin sorumluluğunu"], answer: "Aileye verilen önemi", explanation: "Bu söz aileye verilen önemi vurgular.", theme: 'unit4', relatedConcept: "Aileye Önem" },
+                { id: 'u4_mc8', type: 'multipleChoice', question: "Kur'an-ı Kerim'de çocuklar nasıl nitelendirilir?", options: ["Yük", "Dünya hayatının süsü", "Problem", "Gürültü"], answer: "Dünya hayatının süsü", explanation: "Kur'an-ı Kerim'de çocuklar 'dünya hayatının süsü' olarak nitelendirilir.", theme: 'unit4', relatedConcept: "Çocukların Değeri" },
+                { id: 'u4_mc9', type: 'multipleChoice', question: "Peygamberimizin Hz. Hatice'den kaç çocuğu olmuştur?", options: ["Dört", "Beş", "Altı", "Yedi"], answer: "Altı", explanation: "Peygamberimizin Hz. Hatice'den altı çocuğu olmuştur.", theme: 'unit4', relatedConcept: "Peygamberimizin Çocukları" },
+                { id: 'u4_mc10', type: 'multipleChoice', question: "Peygamberimizin Hz. Mariye'den kaç çocuğu olmuştur?", options: ["Bir", "İki", "Üç", "Dört"], answer: "Bir", explanation: "Peygamberimizin Hz. Mariye'den bir çocuğu olmuştur.", theme: 'unit4', relatedConcept: "Peygamberimizin Çocukları" },
+                { id: 'u4_mc11', type: 'multipleChoice', question: "Hz. Fatıma dışındaki bütün çocukları Peygamberimizden önce ne olmuştur?", options: ["Evlenmiş", "Hicret etmiş", "Vefat etmiştir", "Mekke'den ayrılmıştır"], answer: "Vefat etmiştir", explanation: "Hz. Fatıma dışındaki bütün çocukları Peygamberimizden önce vefat etmiştir.", theme: 'unit4', relatedConcept: "Peygamberimizin Çocukları" },
+                { id: 'u4_mc12', type: 'multipleChoice', question: "Peygamberimiz kızı Hz. Fatıma geldiğinde ne yapardı?", options: ["Ona sırtını dönerdi", "Ayakta karşılar, öper, kendi yerine oturturdu", "Ona oturacak yer göstermezdi", "Onu azarlardı"], answer: "Ayakta karşılar, öper, kendi yerine oturturdu", explanation: "Peygamberimiz kızı Hz. Fatıma geldiğinde onu ayakta karşılar, öper, kendi yerine oturturdu.", theme: 'unit4', relatedConcept: "Hz. Fatıma" },
+                { id: 'u4_mc13', type: 'multipleChoice', question: "Peygamberimiz oğlu İbrahim'in doğum haberine nasıl tepki vermiştir?", options: ["Üzülmüştür", "Kayıtsız kalmıştır", "Çok sevinmiş, müjdeyi getirene hediye vermiştir", "Hiç tepki vermemiştir"], answer: "Çok sevinmiş, müjdeyi getirene hediye vermiştir", explanation: "Peygamberimiz oğlu İbrahim'in doğum haberine çok sevinmiş, müjdeyi getirene hediye vermiştir.", theme: 'unit4', relatedConcept: "Oğlu İbrahim" },
+                { id: 'u4_mc14', type: 'multipleChoice', question: "Peygamberimizin soyu hangi torunları üzerinden devam etmiştir?", options: ["Ali ve Ümame", "Abdullah", "Hasan ve Hüseyin", "Muhassin ve Zeyneb"], answer: "Hasan ve Hüseyin", explanation: "Peygamberimizin soyu torunları Hz. Hasan ve Hz. Hüseyin üzerinden devam etmiştir.", theme: 'unit4', relatedConcept: "Torunlar" },
+                { id: 'u4_mc15', type: 'multipleChoice', question: "Torunlarının soyundan gelenlere hangi ünvanlar kullanılır?", options: ["Şeyh ve Derviş", "Emir ve Sultan", "Seyit ve Şerif", "Bey ve Paşa"], answer: "Seyit ve Şerif", explanation: "Torunlarının soyundan gelenlere 'seyit' ve 'şerif' ünvanları kullanılır.", theme: 'unit4', relatedConcept: "Ünvanlar" },
+                { id: 'u4_mc16', type: 'multipleChoice', question: "Peygamberimiz, Hz. Hatice'nin vefatından sonra kimin kızı Hz. Aişe ile evlendi?", options: ["Hz. Ömer", "Hz. Ali", "Hz. Ebu Bekir", "Hz. Osman"], answer: "Hz. Ebu Bekir", explanation: "Peygamberimiz, Hz. Hatice'nin vefatından sonra Hz. Ebu Bekir'in kızı Hz. Aişe ile evlendi.", theme: 'unit4', relatedConcept: "Hz. Aişe" },
+                { id: 'u4_mc17', type: 'multipleChoice', question: "Peygamberimiz, Hz. Aişe'ye hangi özel isimlerle hitap ederdi?", options: ["Fatıma, Zeynep", "Uveyş, Hümeyra", "Amine, Halime", "Asiye, Meryem"], answer: "Uveyş, Hümeyra", explanation: "Peygamberimiz Hz. Aişe'ye 'Uveyş' veya 'Hümeyra' diye hitap ederdi.", theme: 'unit4', relatedConcept: "Hz. Aişe" },
+                { id: 'u4_mc18', type: 'multipleChoice', question: "Kur'an-ı Kerim'de çocuklar nasıl nitelendirilir?", options: ["Yük", "Dünya hayatının süsü", "Problem", "Gürültü"], answer: "Dünya hayatının süsü", explanation: "Kur'an-ı Kerim'de çocuklar 'dünya hayatının süsü' olarak nitelendirilir.", theme: 'unit4', relatedConcept: "Çocukların Değeri" },
+                { id: 'u4_mc19', type: 'multipleChoice', question: "Peygamberimizin soyu hangi torunları üzerinden devam etmiştir?", options: ["Ali ve Ümame", "Abdullah", "Hasan ve Hüseyin", "Muhassin ve Zeyneb"], answer: "Hasan ve Hüseyin", explanation: "Peygamberimizin soyu torunları Hz. Hasan ve Hz. Hüseyin üzerinden devam etmiştir.", theme: 'unit4', relatedConcept: "Torunlar" },
+                { id: 'u4_mc20', type: 'multipleChoice', question: "Peygamberimiz, torunları doğduğunda ne yapmıştır?", options: ["Üzülmüştür", "Onlara güzel isimler vermiş, akika kurbanı kesmiştir", "Onları görmezden gelmiştir", "Onları başkasına emanet etmiştir"], answer: "Onlara güzel isimler vermiş, akika kurbanı kesmiştir", explanation: "Peygamberimiz torunları doğduğunda onlara güzel isimler vermiş, akika kurbanı kesmiştir.", theme: 'unit4', relatedConcept: "Torunlar" },
+                { id: 'u4_tf1', type: 'trueFalse', question: "Aile, insanın güvende hissettiği, huzur bulduğu bir ortamdır.", answer: "D", explanation: "Aile, insanın güvende hissettiği, huzur bulduğu bir ortamdır.", theme: 'unit4', relatedConcept: "Aile" },
+                { id: 'u4_tf2', type: 'trueFalse', question: "Peygamberimiz evliliğe ve aile birliğine önem vermemiştir.", answer: "Y", explanation: "Peygamberimiz evliliğe ve aile birliğine önem vermiştir.", theme: 'unit4', relatedConcept: "Evlilik" },
+                { id: 'u4_tf3', type: 'trueFalse', question: "Hz. Hatice, ilk vahyin heyecanını eşi Peygamberimizle paylaşmıştır.", answer: "Y", explanation: "Peygamberimiz, ilk vahyin heyecanını eşi Hz. Hatice ile paylaşmıştır.", theme: 'unit4', relatedConcept: "Vahiy" },
+                { id: 'u4_tf4', type: 'trueFalse', question: "Peygamberimiz, Hz. Hatice'nin vefatından sonra arkadaşlarını gözetmiş, onlara hediyeler göndermiştir.", answer: "D", explanation: "Peygamberimiz, Hz. Hatice'ye olan vefasını vefatından sonra da sürdürmüştür.", theme: 'unit4', relatedConcept: "Vefa" },
+                { id: 'u4_tf5', type: 'trueFalse', question: "Peygamberimiz gece ibadeti için eşinden izin istemezdi.", answer: "Y", explanation: "Peygamberimiz gece ibadeti için eşinden izin isterdi.", theme: 'unit4', relatedConcept: "Eşlere Saygı" },
+                { id: 'u4_tf6', type: 'trueFalse', question: "Peygamberimiz elbiselerini temizlemez, koyununu sağmazdı.", answer: "Y", explanation: "Peygamberimiz elbiselerini temizler, koyununu sağar, kendi ihtiyaçlarını kendisi görürdü.", theme: 'unit4', relatedConcept: "Ev İşleri" },
+                { id: 'u4_tf7', type: 'trueFalse', question: "Peygamberimiz 'Hiçbir anne baba, çocuğuna güzel terbiyeden daha kıymetli bir bağışta bulunmamıştır' buyurmuştur.", answer: "D", explanation: "Peygamberimiz bu hadisi söylemiştir.", theme: 'unit4', relatedConcept: "Çocuk Eğitimi" },
+                { id: 'u4_tf8', type: 'trueFalse', question: "Peygamberimiz çocukları arasında ayrım yapardı.", answer: "Y", explanation: "Peygamberimiz çocukları arasında adaleti gözetir, kız-erkek ayrımı yapmazdı.", theme: 'unit4', relatedConcept: "Adalet" },
+                { id: 'u4_tf9', type: 'trueFalse', question: "Peygamberimiz, çocuklarının vefatında büyük hüzün yaşamıştır.", answer: "D", explanation: "Peygamberimiz çocuklarının vefatında büyük hüzün yaşamıştır.", theme: 'unit4', relatedConcept: "Hüzün" },
+                { id: 'u4_tf10', type: 'trueFalse', question: "Peygamberimiz, Hz. Fatıma ve Hz. Ali arasındaki anlaşmazlıklarda ara buluculuk yapmazdı.", answer: "Y", explanation: "Peygamberimiz, Hz. Fatıma ve Hz. Ali arasındaki anlaşmazlıklarda ara buluculuk yapardı.", theme: 'unit4', relatedConcept: "Ara Buluculuk" },
+                { id: 'u4_tf11', type: 'trueFalse', question: "Peygamberimiz torunlarına sevgisini her fırsatta gösterirdi.", answer: "D", explanation: "Peygamberimiz torunlarına sevgisini her fırsatta gösterirdi.", theme: 'unit4', relatedConcept: "Torun Sevgisi" },
+                { id: 'u4_tf12', type: 'trueFalse', question: "Peygamberimiz namazda torunları sırtına çıktıklarında hemen inmelerini söylerdi.", answer: "Y", explanation: "Peygamberimiz namazda torunları sırtına çıktıklarında inmelerini sabırla bekler, secde süresini uzatırdı.", theme: 'unit4', relatedConcept: "Sabır" },
+                { id: 'u4_tf13', type: 'trueFalse', question: "Peygamberimiz torunları doğduğunda onlara güzel isimler vermemiştir.", answer: "Y", explanation: "Peygamberimiz torunları doğduğunda onlara güzel isimler vermiştir.", theme: 'unit4', relatedConcept: "İsim Verme" },
+                { id: 'u4_tf14', type: 'trueFalse', question: "Peygamberimiz Hz. Hasan ve Hz. Hüseyin için 'cennet gençlerinin iki efendisi' demiştir.", answer: "D", explanation: "Peygamberimiz bu ifadeyi torunları için kullanmıştır.", theme: 'unit4', relatedConcept: "Hz. Hasan ve Hz. Hüseyin" },
+                { id: 'u4_tf15', type: 'trueFalse', question: "Peygamberimiz torunlarının incitilmelerine göz yumardı.", answer: "Y", explanation: "Peygamberimiz torunlarının incitilmelerine göz yummaz, onları korurdu.", theme: 'unit4', relatedConcept: "Koruma" },
+                { id: 'u4_tf16', type: 'trueFalse', question: "Peygamberimiz ev işlerinde ailesine yardımcı olurdu.", answer: "D", explanation: "Peygamberimiz ailesinin işiyle ilgilenirdi.", theme: 'unit4', relatedConcept: "Ev İşleri" },
+                { id: 'u4_tf17', type: 'trueFalse', question: "Peygamberimiz 'Sizin en hayırlınız ailesine karşı en hayırlı olanınızdır' buyurmuştur.", answer: "D", explanation: "Bu hadis Peygamberimize aittir.", theme: 'unit4', relatedConcept: "Aileye İyilik" },
+                { id: 'u4_tf18', type: 'trueFalse', question: "Peygamberimizin tüm çocukları kendisinden sonra vefat etmiştir.", answer: "Y", explanation: "Hz. Fatıma dışındaki tüm çocukları kendisinden önce vefat etmiştir.", theme: 'unit4', relatedConcept: "Peygamberimizin Çocukları" },
+                { id: 'u4_tf19', type: 'trueFalse', question: "Peygamberimiz, Hz. Fatıma'yı ayakta karşılar, öper ve kendi yerine oturturdu.", answer: "D", explanation: "Peygamberimiz Hz. Fatıma'ya büyük değer verirdi.", theme: 'unit4', relatedConcept: "Hz. Fatıma" },
+                { id: 'u4_tf20', type: 'trueFalse', question: "Peygamberimiz torunlarına sevgisini göstermezdi.", answer: "Y", explanation: "Peygamberimiz torunlarına sevgisini her fırsatta gösterirdi.", theme: 'unit4', relatedConcept: "Torun Sevgisi" },
+                { id: 'u4_fb1', type: 'fillInTheBlanks', question: "Aile, insanın güvende hissettiği, ............ bulduğu bir ortamdır.", answer: "huzur", options: ["huzur", "sıkıntı", "korku", "yalnızlık"], explanation: "Aile, huzur bulduğu bir ortamdır.", theme: 'unit4', relatedConcept: "Aile" },
+                { id: 'u4_fb2', type: 'fillInTheBlanks', question: "Peygamberimiz yirmi beş yaşındayken ............ ile evlendi.", answer: "Hz. Hatice", options: ["Hz. Hatice", "Hz. Aişe", "Hz. Fatıma", "Hz. Zeynep"], explanation: "Peygamberimiz yirmi beş yaşındayken Hz. Hatice ile evlendi.", theme: 'unit4', relatedConcept: "Evlilik" },
+                { id: 'u4_fb3', type: 'fillInTheBlanks', question: "Hz. Hatice, ilk vahyin heyecanını eşi ............ ile paylaştı.", answer: "Peygamberimiz", options: ["Peygamberimiz", "Hz. Ali", "Hz. Ebu Bekir", "Hz. Ömer"], explanation: "Hz. Hatice, ilk vahyin heyecanını eşi Peygamberimizle paylaştı.", theme: 'unit4', relatedConcept: "Vahiy" },
+                { id: 'u4_fb4', type: 'fillInTheBlanks', question: "Peygamberimiz, Hz. Hatice'nin desteğini her zaman takdir etmiş, 'Yüce Allah bana Hatice'den daha hayırlı bir eş ............ ' demiştir.", answer: "vermemiştir", options: ["vermemiştir", "vermiştir", "bulmuştur", "aramıştır"], explanation: "Peygamberimiz, Hz. Hatice'nin desteğini takdir etmiştir.", theme: 'unit4', relatedConcept: "Hz. Hatice" },
+                { id: 'u4_fb5', type: 'fillInTheBlanks', question: "Peygamberimiz, eşinin haklarını gözetir, ona zaman ayırır, isteklerini ............ karşılardı.", answer: "nezaketle", options: ["nezaketle", "sertçe", "umursamazca", "kızarak"], explanation: "Peygamberimiz eşinin isteklerini nezaketle karşılardı.", theme: 'unit4', relatedConcept: "Eşlere Saygı" },
+                { id: 'u4_fb6', type: 'fillInTheBlanks', question: "Peygamberimiz 'Allah Resulü ailesinin işiyle ilgilenirdi yani ailesinin ............ bulunurdu.' demiştir.", answer: "hizmetinde", options: ["hizmetinde", "emrinde", "başında", "dışında"], explanation: "Peygamberimiz ailesinin hizmetinde bulunurdu.", theme: 'unit4', relatedConcept: "Ev İşleri" },
+                { id: 'u4_fb7', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'de çocuklar 'dünya hayatının ............ ' olarak nitelendirilir.", answer: "süsü", options: ["süsü", "yükü", "sorunu", "engeli"], explanation: "Kur'an'da çocuklar 'dünya hayatının süsü' olarak nitelendirilir.", theme: 'unit4', relatedConcept: "Çocukların Değeri" },
+                { id: 'u4_fb8', type: 'fillInTheBlanks', question: "Peygamberimizin ilk çocuğu ............ idi.", answer: "Kasım", options: ["Kasım", "Abdullah", "İbrahim", "Zeyneb"], explanation: "Peygamberimizin ilk çocuğu Kasım idi.", theme: 'unit4', relatedConcept: "Peygamberimizin Çocukları" },
+                { id: 'u4_fb9', type: 'fillInTheBlanks', question: "Peygamberimizin soyu ............ üzerinden devam etti.", answer: "Hz. Fatıma'dan", options: ["Hz. Fatıma'dan", "Hz. Zeyneb'den", "Hz. Rukıyye'den", "Hz. Ümmü Gülsüm'den"], explanation: "Peygamberimizin soyu Hz. Fatıma'dan devam etti.", theme: 'unit4', relatedConcept: "Soy" },
+                { id: 'u4_fb10', type: 'fillInTheBlanks', question: "Peygamberimiz kızı Hz. Fatıma'yı Hz. ............ ile evlendirirken onun görüşünü almıştı.", answer: "Ali", options: ["Ali", "Ömer", "Osman", "Ebu Bekir"], explanation: "Peygamberimiz kızı Hz. Fatıma'yı Hz. Ali ile evlendirirken onun görüşünü almıştır.", theme: 'unit4', relatedConcept: "Hz. Fatıma" },
+                { id: 'u4_fb11', type: 'fillInTheBlanks', question: "Peygamberimiz Hz. Fatıma için 'Fatıma benim bir ............ , onu sevindiren beni sevindirmiş, onu üzen beni üzmüş olur' buyurmuştur.", answer: "parçamdır", options: ["parçamdır", "arkadaşımdır", "kızımdır", "sırdaşımdır"], explanation: "Peygamberimiz Hz. Fatıma için bu ifadeyi kullanmıştır.", theme: 'unit4', relatedConcept: "Hz. Fatıma" },
+                { id: 'u4_fb12', type: 'fillInTheBlanks', question: "Peygamberimizin kızı Hz. Zeyneb'den ............ ve Ümame adında iki torunu vardı.", answer: "Ali", options: ["Ali", "Hasan", "Hüseyin", "Abdullah"], explanation: "Peygamberimizin kızı Hz. Zeyneb'den Ali ve Ümame adında iki torunu vardı.", theme: 'unit4', relatedConcept: "Torunlar" },
+                { id: 'u4_fb13', type: 'fillInTheBlanks', question: "Peygamberimiz torunlarını sırtında taşır, namazda sırtına çıktıklarında inmelerini ............ bekler, secde süresini uzatırdı.", answer: "sabırla", options: ["sabırla", "telaşla", "kızarak", "hemen"], explanation: "Peygamberimiz torunlarını sabırla beklerdi.", theme: 'unit4', relatedConcept: "Torun Sevgisi" },
+                { id: 'u4_fb14', type: 'fillInTheBlanks', question: "Peygamberimiz Hz. Hasan ve Hz. Hüseyin için 'Onlar benim dünyada (öpüp kokladığım) iki ............ ' demiştir.", answer: "reyhanımdır", options: ["reyhanımdır", "çiçeğimdir", "gözbebeğimdir", "canımdır"], explanation: "Peygamberimiz torunları için 'iki reyhanımdır' demiştir.", theme: 'unit4', relatedConcept: "Hz. Hasan ve Hz. Hüseyin" },
+                { id: 'u4_fb15', type: 'fillInTheBlanks', question: "Peygamberimiz torunu Hz. Hasan'ı öptüğünü gören Akra bin Habis'e 'Merhamet etmeyene ............ edilmez!' buyurmuştur.", answer: "merhamet", options: ["merhamet", "korku", "saygı", "sevgi"], explanation: "Peygamberimiz 'Merhamet etmeyene merhamet edilmez!' buyurmuştur.", theme: 'unit4', relatedConcept: "Merhamet" },
+                { id: 'u4_fb16', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'de eşlerin birbirleri için ............ olduğu belirtilir.", answer: "huzur kaynağı", options: ["huzur kaynağı", "sıkıntı kaynağı", "rekabet kaynağı", "zenginlik kaynağı"], explanation: "Kur'an-ı Kerim'de eşlerin birbirleri için huzur kaynağı olduğu belirtilir.", theme: 'unit4', relatedConcept: "Aile" },
+                { id: 'u4_fb17', type: 'fillInTheBlanks', question: "Peygamberimiz yirmi beş yaşındayken ............ ile evlendi.", answer: "Hz. Hatice", options: ["Hz. Hatice", "Hz. Aişe", "Hz. Fatıma", "Hz. Zeynep"], explanation: "Peygamberimiz yirmi beş yaşındayken Hz. Hatice ile evlendi.", theme: 'unit4', relatedConcept: "Evlilik" },
+                { id: 'u4_fb18', type: 'fillInTheBlanks', question: "Peygamberimizin 'annemden sonraki annem' dediği kişi ............ binti Esed'dir.", answer: "Fatıma", options: ["Fatıma", "Amine", "Halime", "Süveybe"], explanation: "Peygamberimiz, amcası Ebu Talib'in eşi Fatıma binti Esed'e 'annemden sonraki annem' demiştir.", theme: 'unit4', relatedConcept: "Fatıma binti Esed" },
+                { id: 'u4_fb19', type: 'fillInTheBlanks', question: "Peygamberimizin Hz. Hatice'den ............ çocuğu olmuştur.", answer: "altı", options: ["dört", "beş", "altı", "yedi"], explanation: "Peygamberimizin Hz. Hatice'den altı çocuğu olmuştur.", theme: 'unit4', relatedConcept: "Peygamberimizin Çocukları" },
+                { id: 'u4_fb20', type: 'fillInTheBlanks', question: "Peygamberimizin soyu, torunları Hz. Hasan ve Hz. ............ üzerinden devam eder.", answer: "Hüseyin", options: ["Hüseyin", "Ali", "Abdullah", "Muhassin"], explanation: "Peygamberimizin soyu, torunları Hz. Hasan ve Hz. Hüseyin üzerinden devam eder.", theme: 'unit4', relatedConcept: "Torunlar" }
+            ]
+            // Unit 5 questions removed
+        };
+
+        function ensureSixtyQuestions(questionsArray) {
+            let currentQuestions = [...questionsArray];
+            const targetCount = 60;
+
+            if (currentQuestions.length >= targetCount) {
+                return currentQuestions.slice(0, targetCount);
+            }
+
+            const originalLength = currentQuestions.length;
+            while (currentQuestions.length < targetCount) {
+                const randomIndex = Math.floor(Math.random() * originalLength);
+                const questionToDuplicate = currentQuestions[randomIndex];
+                currentQuestions.push({ ...questionToDuplicate, id: `${questionToDuplicate.id}_copy_${currentQuestions.length}` });
+            }
+            return currentQuestions;
+        }
+
+        let mainMenuScreen;
+        let playerSelectionScreen;
+        let teamNameInputScreen; // Yeni ekran
+        let teamNameInputsContainer; // Takım adı giriş alanlarını içeren div
+        let gamePanel;
+        let scoreBoardContainer; // Renamed from scoreBoard to avoid conflict with score-table-container
+        let currentPlayerTurnDisplay;
+        let quizContentContainer;
+        let questionContainer;
+        let feedbackDiv;
+        let nextTurnButton;
+        let finalScoreContainer;
+        let overallResultDiv;
+        let resetGameButton;
+        let questionCounterDisplay;
+        let questionNavigationContainer;
+        let timerDisplay;
+        let gridInstructionMessage;
+        let questionScreenInstructionMessage;
+        let fullscreenOverlay;
+        let returnToMainMenuGridButton;
+        let returnToQuestionGridButton;
+        let finalTeamScoresDisplay; // Added for final score table
+        let goToMainSiteButton; // New button element
+
+        const teamColors = [
+            'bg-red-500',    // Team 1
+            'bg-blue-500',   // Team 2
+            'bg-green-500',  // Team 3
+            'bg-yellow-500', // Team 4
+            'bg-purple-500'  // Team 5
+        ];
+
+        // Helper to get team icon based on index
+        function getTeamIcon(index) {
+            const icons = ['🔴', '🔵', '🟢', '🟠', '🟣']; // Emojis for visual representation
+            return icons[index % icons.length];
+        }
+
+        window.selectUnit = async function(unitId) {
+            window.currentUnit = unitId;
+            mainMenuScreen.classList.add('hidden');
+            playerSelectionScreen.classList.remove('hidden');
+            setGameBackground(unitId);
+
+            if (unitId === 'allUnits') {
+                let allQuestions = [];
+                for (const unitKey in unitQuestions) {
+                    if (unitQuestions.hasOwnProperty(unitKey)) {
+                        allQuestions = allQuestions.concat(unitQuestions[unitKey]);
+                    }
+                }
+                shuffledQuestions = shuffleArray(allQuestions); // Shuffle all combined questions
+            } else {
+                shuffledQuestions = shuffleArray(ensureSixtyQuestions(unitQuestions[unitId]));
+            }
+        };
+
+        window.selectNumTeams = function(num) {
+            window.numTeams = num;
+            playerSelectionScreen.classList.add('hidden');
+            teamNameInputScreen.classList.remove('hidden');
+            renderTeamNameInputs();
+            applyButtonColors(); // Apply colors to the new "Başla" button
+        };
+
+        function renderTeamNameInputs() {
+            teamNameInputsContainer.innerHTML = '';
+            for (let i = 0; i < window.numTeams; i++) {
+                const inputGroup = document.createElement('div');
+                inputGroup.classList.add('flex', 'flex-col', 'items-center', 'gap-2', 'w-full');
+                inputGroup.innerHTML = `
+                    <label for="team-name-${i + 1}" class="font-medium text-lg text-gray-700">Takım ${i + 1} Adı:</label>
+                    <input type="text" id="team-name-${i + 1}" class="team-name-input w-full" placeholder="Takım ${i + 1}" value="Takım ${i + 1}">
+                `;
+                teamNameInputsContainer.appendChild(inputGroup);
+            }
+        }
+
+        window.setTeamNames = function() {
+            window.teamScores = []; // Initialize teamScores as array of objects
+            for (let i = 0; i < window.numTeams; i++) {
+                const inputElement = document.getElementById(`team-name-${i + 1}`);
+                window.teamScores.push({ name: inputElement.value.trim() || `Takım ${i + 1}`, score: 0 });
+            }
+            teamNameInputScreen.classList.add('hidden');
+            gamePanel.classList.remove('hidden');
+            // currentPlayer is already 0, which is the correct index for the first team
+            startGame();
+        };
+
+        window.startGame = function(resuming = false) {
+            if (!resuming) {
+                window.currentQuestionIndex = 0;
+                window.answeredQuestions = {};
+                // teamScores is already initialized with names in setTeamNames, just reset scores
+                window.teamScores.forEach(team => team.score = 0);
+                window.currentPlayer = 0; // Initialize current player to index 0 (first team)
+
+                // If shuffledQuestions is empty, re-populate it based on currentUnit
+                if (shuffledQuestions.length === 0 && window.currentUnit) {
+                    if (window.currentUnit === 'allUnits') {
+                        let allQuestions = [];
+                        for (const unitKey in unitQuestions) {
+                            if (unitQuestions.hasOwnProperty(unitKey)) {
+                                allQuestions = allQuestions.concat(unitQuestions[unitKey]);
+                            }
+                        }
+                        shuffledQuestions = shuffleArray(allQuestions);
+                    } else {
+                        shuffledQuestions = shuffleArray(ensureSixtyQuestions(unitQuestions[window.currentUnit]));
+                    }
+                } else if (shuffledQuestions.length === 0 && !window.currentUnit) {
+                    console.error("No unit selected or questions loaded at startGame.");
+                    return;
+                }
+            }
+            
+            quizContentContainer.classList.add('hidden');
+            finalScoreContainer.classList.add('hidden');
+            questionNavigationContainer.classList.remove('hidden');
+            
+            updateScoreBoard();
+            renderQuestionNumbers();
+            gridInstructionMessage.classList.remove('hidden');
+            questionScreenInstructionMessage.classList.add('hidden');
+            if (questionCounterDisplay) {
+                questionCounterDisplay.classList.remove('hidden');
+            }
+            setGameBackground(window.currentUnit);
+        };
+
+        function updateScoreBoard() {
+            if (scoreBoardContainer) scoreBoardContainer.classList.remove('hidden');
+
+            if (scoreBoardContainer && currentPlayerTurnDisplay) {
+                scoreBoardContainer.innerHTML = ''; // Clear previous content
+                const scoreTable = document.createElement('div');
+                scoreTable.classList.add('score-table');
+
+                window.teamScores.forEach((team, index) => {
+                    const scoreCell = document.createElement('div');
+                    scoreCell.classList.add('score-cell', teamColors[index % teamColors.length]);
+                    if (window.currentPlayer === index) {
+                        scoreCell.classList.add('active-team');
+                    }
+                    scoreCell.innerHTML = `
+                        <div class="flex flex-col items-center">
+                            <span class="team-name text-lg font-bold flex items-center gap-1">
+                                ${getTeamIcon(index)} ${team.name}
+                            </span>
+                        </div>
+                        <div class="flex flex-col items-center mt-2">
+                            <span class="text-sm opacity-80 mb-1">Puan</span>
+                            <span class="team-score text-3xl font-extrabold">${team.score}</span>
+                        </div>
+                    `;
+                    scoreTable.appendChild(scoreCell);
+                });
+                scoreBoardContainer.appendChild(scoreTable); // Append the score table to its container
+
+                const currentTurnPlayerName = window.teamScores[window.currentPlayer].name;
+                currentPlayerTurnDisplay.textContent = `Sıra: ${currentTurnPlayerName}`;
+            }
+            if (gridInstructionMessage) {
+                const currentTurnPlayerName = window.teamScores[window.currentPlayer].name;
+                gridInstructionMessage.textContent = `Sıra ${currentTurnPlayerName}'nda. Henüz cevaplanmamış bir soru seçin.`;
+            }
+        }
+
+        function renderCurrentQuestion() {
+            if (questionCounterDisplay) {
+                questionCounterDisplay.classList.add('hidden');
+            }
+
+            feedbackDiv.classList.remove('show', 'correct', 'incorrect', 'animate-in');
+            feedbackDiv.innerHTML = '';
+            
+            clearInterval(timerInterval);
+            timerDisplay.classList.add('hidden');
+            questionScreenInstructionMessage.classList.add('hidden');
+            nextTurnButton.classList.add('hidden');
+            
+            const q = shuffledQuestions[window.currentQuestionIndex];
+            
+            // If the question was previously answered (correctly or incorrectly), hide the return to grid button
+            // If it's a fresh attempt, show it.
+            if (window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect) {
+                returnToQuestionGridButton.classList.add('hidden');
+            } else {
+                returnToQuestionGridButton.classList.remove('hidden');
+            }
+
+            const allAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect);
+            if (allAnswered) {
+                showFinalScore();
+                return;
+            }
+
+            setGameBackground(q.theme || window.currentUnit);
+            questionCounterDisplay.textContent = `Soru ${shuffledQuestions.indexOf(q) + 1} / ${shuffledQuestions.length}`;
+            
+            questionContainer.classList.add('question-block-closed');
+
+            // Calculate points for the current question
+            let questionPoints = 0;
+            if (q.type === 'trueFalse') {
+                questionPoints = 5;
+            } else if (q.type === 'fillInTheBlanks' || q.type === 'multipleChoice') {
+                questionPoints = 10;
+            }
+
+            let questionHtml = `<p class="question-points">${questionPoints} Puan</p>`; // Display points
+            questionHtml += `<p class="question-text">${q.question}</p>`;
+            let optionsHtml = '<div class="options-container">';
+            let optionsToShuffle = [];
+
+            if (q.type === 'trueFalse') {
+                optionsToShuffle = ["Doğru", "Yanlış"];
+            } else if (q.type === 'fillInTheBlanks' || q.type === 'multipleChoice') {
+                // Ensure only 4 options are used
+                optionsToShuffle = [...q.options.slice(0, 4)]; 
+            }
+            
+            const shuffledOptions = shuffleArray(optionsToShuffle);
+            // Use only the first 4 colors for options
+            const optionColors = [
+                'option-color-1', 'option-color-2', 'option-color-3', 'option-color-4' 
+            ];
+
+            shuffledOptions.forEach((option, optIndex) => {
+                const colorClass = optionColors[optIndex % optionColors.length];
+                optionsHtml += `
+                    <label class="option-label ${colorClass}">
+                        <input type="radio" name="${q.id}" value="${option}" onchange="checkCurrentAnswer()">
+                        <span>${option}</span>
+                    </label>
+                `;
+            });
+            optionsHtml += '</div>';
+            questionHtml += optionsHtml;
+            
+            questionContainer.innerHTML = questionHtml;
+            
+            setTimeout(() => {
+                questionContainer.classList.remove('question-block-closed');
+            }, 50);
+
+            // Check if the question was previously answered (correctly or incorrectly)
+            if (window.answeredQuestions[q.id]) {
+                const currentAnswerState = window.answeredQuestions[q.id]; 
+                nextTurnButton.classList.remove('hidden');
+                
+                const selectedRadio = document.querySelector(`input[name="${q.id}"][value="${currentAnswerState.userAnswer}"]`);
+                if (selectedRadio) {
+                    selectedRadio.checked = true;
+                    if (!currentAnswerState.isCorrect) {
+                        const selectedLabel = selectedRadio.closest('label');
+                        if (selectedLabel) {
+                            selectedLabel.classList.add('incorrect-selected-option');
+                        }
+                    }
+                }
+                document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
+
+                displayFeedback(currentAnswerState.isCorrect, q.answer, currentAnswerState.userAnswer, q.explanation);
+                
+                // Only highlight the correct answer if the stored answer was correct
+                if (currentAnswerState.isCorrect) {
+                    let actualAnswerValue = q.answer;
+                    if (q.type === 'trueFalse') {
+                        actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+                    }
+                    const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
+                    if (correctRadio) {
+                        const correctLabel = correctRadio.closest('label');
+                        if (correctLabel) {
+                            correctLabel.classList.add('correct-option-highlight');
+                        }
+                    }
+                }
+
+                // Use 0-indexed answeredBy to get the team name
+                const answeredByPlayerName = window.teamScores[currentAnswerState.answeredBy].name; 
+                // Calculate next player's index using modulo for 0-indexed
+                const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
+                const nextPlayerName = window.teamScores[nextPlayerIndex].name;
+                questionScreenInstructionMessage.textContent = `Bu soru ${answeredByPlayerName} tarafından cevaplandı. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
+                questionScreenInstructionMessage.classList.remove('hidden');
+
+            } else { // If the question is not in answeredQuestions, it's a fresh attempt
+                nextTurnButton.classList.add('hidden');
+                startTimer();
+                questionScreenInstructionMessage.textContent = `Sıra sizde! Soruyu cevaplamak için süreniz var.`;
+                questionScreenInstructionMessage.classList.remove('hidden');
+            }
+
+            updateScoreBoard();
+            renderQuestionNumbers();
+        }
+
+        function startTimer() {
+            timer = initialTimerValue;
+            timerDisplay.classList.remove('hidden');
+            timerDisplay.classList.remove('warning', 'critical');
+            timerDisplay.textContent = `Kalan Süre: ${timer} saniye`;
+
+            timerInterval = setInterval(() => {
+                timer--;
+                timerDisplay.textContent = `Kalan Süre: ${timer} saniye`;
+
+                if (timer <= 10 && timer > 5) {
+                    timerDisplay.classList.add('warning');
+                    timerDisplay.classList.remove('critical');
+                    Tone.start(); // Ensure audio context is started
+                    timerSynth.triggerAttackRelease("A4", "16n"); // Tone.js ile uyarı sesi
+                } else if (timer <= 5) {
+                    timerDisplay.classList.add('critical');
+                    timerDisplay.classList.remove('warning');
+                    Tone.start(); // Ensure audio context is started
+                    timerSynth.triggerAttackRelease("A4", "16n"); // Tone.js ile kritik uyarı sesi
+                } else {
+                    timerDisplay.classList.remove('warning', 'critical');
+                }
+
+                if (timer <= 0) {
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        async function handleTimeout() {
+            clearInterval(timerInterval);
+            timerDisplay.classList.add('hidden');
+            Tone.start(); // Ensure audio context is started
+            incorrectSynth.triggerAttackRelease("C3", "8n"); // Tone.js ile yanlış sesi
+
+            const q = shuffledQuestions[window.currentQuestionIndex];
+            // If not already answered correctly, mark as incorrect
+            if (!window.answeredQuestions[q.id] || !window.answeredQuestions[q.id].isCorrect) {
+                // Store answeredBy as 0-indexed currentPlayer
+                const newAnswerState = { isCorrect: false, userAnswer: 'Süre Doldu', answeredBy: window.currentPlayer, timeTaken: initialTimerValue }; 
+                window.answeredQuestions[q.id] = newAnswerState;
+            }
+            
+            document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
+
+            displayFeedback(false, q.answer, 'Süre Doldu', q.explanation);
+            
+            renderQuestionNumbers(); // This will re-shuffle the display order
+            // Calculate next player's index using modulo for 0-indexed
+            const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
+            const nextPlayerName = window.teamScores[nextPlayerIndex].name;
+            questionScreenInstructionMessage.textContent = `Süreyi kullandınız. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
+            questionScreenInstructionMessage.classList.remove('hidden');
+            nextTurnButton.classList.remove('hidden');
+            returnToQuestionGridButton.classList.add('hidden');
+        }
+
+        window.checkCurrentAnswer = async function() {
+            clearInterval(timerInterval);
+            timerDisplay.classList.add('hidden');
+
+            const q = shuffledQuestions[window.currentQuestionIndex];
+            let userAnswer;
+            let isCorrect = false;
+            let timeTaken = initialTimerValue - timer;
+
+            const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+            userAnswer = selected ? selected.value : '';
+            
+            let actualAnswer = q.answer;
+            if (q.type === 'trueFalse') {
+                actualAnswer = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+            }
+
+            isCorrect = (userAnswer === actualAnswer);
+
+            if (selected) {
+                selected.closest('label').classList.add('selected-animation');
+            }
+
+            if (isCorrect) {
+                const playerIndex = window.currentPlayer; // currentPlayer is already 0-indexed
+                if (playerIndex !== -1) { // Should always be valid if game started
+                    let pointsToAdd = 0;
+                    if (q.type === 'trueFalse') {
+                        pointsToAdd = 5;
+                    } else if (q.type === 'fillInTheBlanks' || q.type === 'multipleChoice') {
+                        pointsToAdd = 10;
+                    }
+                    
+                    window.teamScores[playerIndex].score += pointsToAdd; // Update score for the team object
+
+                    // Bonus points for answering quickly (within first 10 seconds)
+                    if (timeTaken <= 10) {
+                        window.teamScores[playerIndex].score += 5; // Bonus 5 puan
+                    }
+                }
+                Tone.start(); // Ensure audio context is started
+                correctSynth.triggerAttackRelease("C5", "8n"); // Tone.js ile doğru sesi
+
+                // Highlight correct option ONLY IF answered correctly
+                let correctOptionValue = q.answer;
+                if (q.type === 'trueFalse') {
+                    correctOptionValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+                }
+                const correctRadio = document.querySelector(`input[name="${q.id}"][value="${correctOptionValue}"]`);
+                if (correctRadio) {
+                    const correctLabel = correctRadio.closest('label');
+                    if (correctLabel) {
+                        correctLabel.classList.add('correct-option-highlight');
+                        correctLabel.classList.add('correct-animation');
+                    }
+                }
+
+            } else { // If incorrect
+                Tone.start(); // Ensure audio context is started
+                incorrectSynth.triggerAttackRelease("C3", "8n"); // Tone.js ile yanlış sesi
+
+                const selectedLabel = selected.closest('label');
+                if (selectedLabel) {
+                    selectedLabel.classList.add('incorrect-selected-option');
+                    selectedLabel.classList.add('incorrect-animation');
+                }
+                // DO NOT highlight the correct answer here.
+            }
+
+            // Store answeredBy as 0-indexed currentPlayer
+            const newAnswerState = { isCorrect: isCorrect, userAnswer: userAnswer, answeredBy: window.currentPlayer, timeTaken: timeTaken }; 
+            window.answeredQuestions[q.id] = newAnswerState;
+            
+            displayFeedback(isCorrect, q.answer, userAnswer, q.explanation);
+            
+            document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
+
+            updateScoreBoard();
+            renderQuestionNumbers();
+            // Calculate next player's index using modulo for 0-indexed
+            const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
+            const nextPlayerName = window.teamScores[nextPlayerIndex].name;
+            questionScreenInstructionMessage.textContent = `Cevaplandı. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
+            questionScreenInstructionMessage.classList.remove('hidden');
+            nextTurnButton.classList.remove('hidden');
+            returnToQuestionGridButton.classList.add('hidden');
+        }
+
+        window.moveToNextTurn = async function() {
+            // Only consider correctly answered questions for game completion
+            const allCorrectlyAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect);
+
+            if (allCorrectlyAnswered) {
+                showFinalScore();
+                return;
+            }
+
+            // Increment currentPlayer and wrap around using modulo
+            window.currentPlayer = (window.currentPlayer + 1) % window.numTeams;
+            updateScoreBoard();
+            returnToQuestionsGrid();
+        }
+
+        function displayFeedback(isCorrect, correctAnswer, userAnswer, explanation) {
+            feedbackDiv.classList.add('show'); 
+            feedbackDiv.classList.remove('animate-in', 'correct', 'incorrect'); 
+
+            if (isCorrect) {
+                feedbackDiv.classList.add('correct');
+                let icon = '✅';
+                feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Doğru!`;
+            } else {
+                feedbackDiv.classList.add('incorrect');
+                let icon = '❌';
+                feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Yanlış.`;
+                // REMOVED: display of correct answer here
+            }
+            feedbackDiv.classList.add('animate-in');
+        }
+
+        function renderQuestionNumbers() {
+            questionNavigationContainer.innerHTML = '';
+            
+            // Create a temporary array for display and shuffle it
+            const questionsForDisplay = [...shuffledQuestions]; // Create a copy
+            shuffleArray(questionsForDisplay); // Shuffle the copy for display order
+
+            questionsForDisplay.forEach((q, displayIndex) => { // Use displayIndex for visual numbering
+                const navItem = document.createElement('span');
+                navItem.classList.add('question-nav-item');
+                navItem.textContent = displayIndex + 1; // Display sequential number based on current shuffled order
+                
+                // Store the original question ID to retrieve it later
+                navItem.dataset.questionId = q.id; 
+
+                // Check if the question is answered
+                if (window.answeredQuestions[q.id]) {
+                    if (window.answeredQuestions[q.id].isCorrect) {
+                        navItem.classList.add('answered-correctly');
+                        // Correctly answered questions are still clickable for review, but not for re-attempt
+                        navItem.onclick = () => {
+                            selectQuestionById(q.id);
+                        };
+                    } else {
+                        // Incorrectly answered questions now look like unanswered ones
+                        // and are clickable to re-attempt
+                        navItem.onclick = () => {
+                            selectQuestionById(q.id);
+                        };
+                    }
+                } else {
+                    // Unanswered questions are clickable
+                    navItem.onclick = () => {
+                        selectQuestionById(q.id);
+                    };
+                }
+
+                // If the question is currently displayed in quiz-content, mark it active
+                if (q.id === shuffledQuestions[window.currentQuestionIndex]?.id && !quizContentContainer.classList.contains('hidden')) {
+                    navItem.classList.add('active-question');
+                } else {
+                    navItem.classList.remove('active-question');
+                }
+                
+                questionNavigationContainer.appendChild(navItem);
+            });
+        }
+
+        // New function to select a question by its ID
+        window.selectQuestionById = function(questionId) {
+            const originalIndex = shuffledQuestions.findIndex(q => q.id === questionId);
+            if (originalIndex !== -1) {
+                // Now call the existing selectQuestion with the original index
+                selectQuestion(originalIndex);
+            } else {
+                console.error("Question with ID not found:", questionId);
+            }
+        };
+
+        window.selectQuestion = function(index) {
+            window.currentQuestionIndex = index; // This is the original index in shuffledQuestions
+            const q = shuffledQuestions[window.currentQuestionIndex];
+
+            // If the question was previously answered INCORRECTLY, clear its state to allow re-attempt
+            if (window.answeredQuestions[q.id] && !window.answeredQuestions[q.id].isCorrect) {
+                delete window.answeredQuestions[q.id];
+            }
+            
+            // If the question is already correctly answered, just display it for review
+            if (window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect) {
+                quizContentContainer.classList.remove('hidden');
+                questionNavigationContainer.classList.add('hidden');
+                
+                fullscreenOverlay.classList.remove('hidden');
+                setTimeout(() => fullscreenOverlay.classList.add('show'), 10);
+                quizContentContainer.classList.add('fullscreen-active');
+
+                renderCurrentQuestion(); // This will render it as a reviewed question
+                hideFinalScore();
+                gridInstructionMessage.classList.add('hidden');
+                questionScreenInstructionMessage.classList.add('hidden');
+                return;
+            }
+
+            // For unanswered or re-attempted (previously incorrect) questions
+            quizContentContainer.classList.remove('hidden');
+            questionNavigationContainer.classList.add('hidden');
+            
+            fullscreenOverlay.classList.remove('hidden');
+            setTimeout(() => fullscreenOverlay.classList.add('show'), 10);
+            quizContentContainer.classList.add('fullscreen-active');
+
+            renderCurrentQuestion();
+            hideFinalScore();
+            gridInstructionMessage.classList.add('hidden');
+            questionScreenInstructionMessage.classList.add('hidden');
+        }
+
+        window.returnToQuestionsGrid = function() {
+            quizContentContainer.classList.add('hidden');
+            questionNavigationContainer.classList.remove('hidden');
+            if (questionCounterDisplay) {
+                questionCounterDisplay.classList.remove('hidden');
+            }
+            renderQuestionNumbers(); // Re-render to shuffle and update states
+            hideFinalScore();
+            clearInterval(timerInterval);
+            timerDisplay.classList.add('hidden');
+            nextTurnButton.classList.add('hidden');
+            returnToQuestionGridButton.classList.add('hidden');
+            
+            nextTurnButton.textContent = "Sonraki Oyuncu";
+            nextTurnButton.onclick = window.moveToNextTurn;
+
+            updateScoreBoard();
+            gridInstructionMessage.classList.remove('hidden');
+            questionScreenInstructionMessage.classList.add('hidden');
+
+            setGameBackground(window.currentUnit);
+
+            fullscreenOverlay.classList.remove('show');
+            setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
+            quizContentContainer.classList.remove('fullscreen-active');
+        }
+
+        function showFinalScore() {
+            quizContentContainer.classList.add('hidden');
+            questionNavigationContainer.classList.add('hidden');
+            clearInterval(timerInterval);
+            timerDisplay.classList.add('hidden');
+            returnToQuestionGridButton.classList.add('hidden');
+
+            finalScoreContainer.classList.remove('hidden');
+            resetGameButton.classList.remove('hidden');
+            nextTurnButton.classList.add('hidden');
+            gridInstructionMessage.classList.add('hidden');
+            questionScreenInstructionMessage.classList.add('hidden');
+            setGameBackground(window.currentUnit);
+
+            fullscreenOverlay.classList.remove('show');
+            setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
+            quizContentContainer.classList.remove('fullscreen-active');
+
+            let maxScore = 0;
+            for (let i = 0; i < window.numTeams; i++) {
+                if (window.teamScores[i].score > maxScore) { // Access score property
+                    maxScore = window.teamScores[i].score;
+                }
+            }
+
+            let winners = [];
+            for (let i = 0; i < window.numTeams; i++) {
+                if (window.teamScores[i].score === maxScore) { // Access score property
+                    winners.push(window.teamScores[i].name); 
+                }
+            }
+
+            let winnerMessage = '';
+            if (winners.length === 1) {
+                winnerMessage = `${winners[0]} kazandı! �`;
+                overallResultDiv.classList.add('correct');
+                overallResultDiv.classList.remove('incorrect');
+            } else if (winners.length > 1) {
+                winnerMessage = `${winners.join(' ve ')} berabere kaldı! 🤝`;
+                overallResultDiv.classList.remove('correct', 'incorrect');
+            } else {
+                winnerMessage = `Oyun berabere bitti! 🤝`;
+                overallResultDiv.classList.remove('correct', 'incorrect');
+            }
+
+            // Render final team scores in the new table format
+            finalTeamScoresDisplay.innerHTML = ''; // Clear previous content
+            const finalScoreTable = document.createElement('div');
+            finalScoreTable.classList.add('score-table');
+
+            window.teamScores.forEach((team, index) => {
+                const scoreCell = document.createElement('div');
+                scoreCell.classList.add('score-cell', teamColors[index % teamColors.length]);
+                scoreCell.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <span class="team-name text-lg font-bold flex items-center gap-1">
+                            ${getTeamIcon(index)} ${team.name}
+                        </span>
+                    </div>
+                    <div class="flex flex-col items-center mt-2">
+                        <span class="text-sm opacity-80 mb-1">Puan</span>
+                        <span class="team-score text-3xl font-extrabold">${team.score}</span>
+                    </div>
+                `;
+                finalScoreTable.appendChild(scoreCell);
+            });
+            finalTeamScoresDisplay.appendChild(finalScoreTable);
+
+
+            overallResultDiv.innerHTML = `<p class="mt-4 text-xl font-bold">${winnerMessage}</p>`;
+            overallResultDiv.classList.add('show');
+        }
+
+        function hideFinalScore() {
+            finalScoreContainer.classList.add('hidden');
+            resetGameButton.classList.add('hidden');
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        window.resetGame = function() {
+            window.teamScores = [];
+            window.numTeams = 0;
+            window.currentPlayer = 0;
+            window.currentQuestionIndex = 0;
+            window.answeredQuestions = {};
+            clearInterval(timerInterval);
+            timerDisplay.classList.add('hidden');
+            shuffledQuestions = [];
+            window.currentUnit = null;
+            window.teamNames = []; // Reset team names
+
+            quizContentContainer.classList.add('hidden');
+            hideFinalScore();
+            questionNavigationContainer.classList.add('hidden');
+            gamePanel.classList.add('hidden');
+            playerSelectionScreen.classList.add('hidden');
+            teamNameInputScreen.classList.add('hidden'); // Hide team name input screen
+            mainMenuScreen.classList.remove('hidden');
+            gridInstructionMessage.classList.add('hidden');
+            questionScreenInstructionMessage.classList.add('hidden');
+            returnToQuestionGridButton.classList.add('hidden');
+            if (questionCounterDisplay) {
+                questionCounterDisplay.classList.add('hidden');
+            }
+            setGameBackground('general');
+
+            fullscreenOverlay.classList.remove('show');
+            setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
+            quizContentContainer.classList.remove('fullscreen-active');
+
+            if (currentPlayerTurnDisplay) {
+                // Set default text for display, will be updated on game start
+                currentPlayerTurnDisplay.textContent = "Sıra: Takım 1"; 
+                currentPlayerTurnDisplay.classList.remove('text-gray-600', 'font-normal');
+                currentPlayerTurnDisplay.classList.add('current-turn');
+            }
+            if (scoreBoardContainer) {
+                scoreBoardContainer.classList.remove('hidden');
+            }
+            applyButtonColors();
+        }
+
+        window.returnToMainMenu = function() {
+            window.teamScores = [];
+            window.numTeams = 0;
+            window.currentPlayer = 0;
+            window.currentQuestionIndex = 0;
+            window.answeredQuestions = {};
+            clearInterval(timerInterval);
+            timerDisplay.classList.add('hidden');
+            shuffledQuestions = [];
+            window.currentUnit = null;
+            window.teamNames = []; // Reset team names
+
+            quizContentContainer.classList.add('hidden');
+            hideFinalScore();
+            questionNavigationContainer.classList.add('hidden');
+            gamePanel.classList.add('hidden');
+            playerSelectionScreen.classList.add('hidden');
+            teamNameInputScreen.classList.add('hidden'); // Hide team name input screen
+            mainMenuScreen.classList.remove('hidden');
+            gridInstructionMessage.classList.add('hidden');
+            questionScreenInstructionMessage.classList.add('hidden');
+            returnToQuestionGridButton.classList.add('hidden');
+            if (questionCounterDisplay) {
+                questionCounterDisplay.classList.add('hidden');
+            }
+            setGameBackground('general');
+
+            fullscreenOverlay.classList.remove('show');
+            setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
+            quizContentContainer.classList.remove('fullscreen-active');
+
+            if (currentPlayerTurnDisplay) {
+                // Set default text for display, will be updated on game start
+                currentPlayerTurnDisplay.textContent = "Sıra: Takım 1"; 
+                currentPlayerTurnDisplay.classList.remove('text-gray-600', 'font-normal');
+                currentPlayerTurnDisplay.classList.add('current-turn');
+            }
+            if (scoreBoardContainer) {
+                scoreBoardContainer.classList.remove('hidden');
+            }
+            applyButtonColors();
+        }
+
+        function applyButtonColors() {
+            const removeAllButtonColors = (element) => {
+                const allColors = [
+                    'bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50',
+                    'bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50',
+                    'bg-purple-600', 'hover:bg-purple-700', 'shadow-purple-500/50',
+                    'bg-yellow-600', 'hover:bg-yellow-700', 'shadow-yellow-500/50',
+                    'bg-pink-600', 'hover:bg-pink-700', 'shadow-pink-500/50',
+                    'bg-indigo-600', 'hover:bg-indigo-700', 'shadow-indigo-500/50',
+                    'bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50',
+                    'bg-teal-600', 'hover:bg-teal-700', 'shadow-teal-500/50',
+                    // Add all team colors here too if they are used on buttons
+                    'bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-purple-500',
+                    'bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50' // For the new button
+                ];
+                element.classList.remove(...allColors);
+            };
+
+            const buttonColorSets = [
+                ['bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50'],
+                ['bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50'],
+                ['bg-purple-600', 'hover:bg-purple-700', 'shadow-purple-500/50'],
+                ['bg-yellow-600', 'hover:bg-yellow-700', 'shadow-yellow-500/50'],
+                ['bg-pink-600', 'hover:bg-pink-700', 'shadow-pink-500/50'],
+                ['bg-indigo-600', 'hover:bg-indigo-700', 'shadow-indigo-500/50'],
+                ['bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50'],
+                ['bg-teal-600', 'hover:bg-teal-700', 'shadow-teal-500/50']
+            ];
+
+            const unitButtons = document.querySelectorAll('#main-menu-screen .action-button'); 
+            unitButtons.forEach((button, index) => {
+                removeAllButtonColors(button);
+                button.classList.add(...buttonColorSets[index % buttonColorSets.length]);
+            });
+
+            const teamButtons = document.querySelectorAll('#player-selection-screen .action-button');
+            teamButtons.forEach((button, index) => {
+                removeAllButtonColors(button);
+                button.classList.add(...buttonColorSets[index % buttonColorSets.length]);
+            });
+
+            const startQuizButton = document.getElementById('start-quiz-button');
+            if (startQuizButton) {
+                removeAllButtonColors(startQuizButton);
+                startQuizButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+            }
+
+            if (nextTurnButton) {
+                removeAllButtonColors(nextTurnButton);
+                nextTurnButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+            }
+            if (returnToQuestionGridButton) {
+                removeAllButtonColors(returnToQuestionGridButton);
+                returnToQuestionGridButton.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50');
+            }
+            if (returnToMainMenuGridButton) {
+                removeAllButtonColors(returnToMainMenuGridButton);
+                returnToMainMenuGridButton.classList.add('bg-purple-600', 'hover:bg-purple-700', 'shadow-purple-500/50');
+            }
+            if (resetGameButton) {
+                removeAllButtonColors(resetGameButton);
+                resetGameButton.classList.add('bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50');
+            }
+            if (document.getElementById('return-to-main-menu-from-final-button')) {
+                const finalReturnButton = document.getElementById('return-to-main-menu-from-final-button');
+                removeAllButtonColors(finalReturnButton);
+                finalReturnButton.classList.add('bg-orange-600', 'hover:bg-orange-700', 'shadow-orange-500/50');
+            }
+            // Apply color to the new "Siteye Dön" button
+            if (goToMainSiteButton) {
+                removeAllButtonColors(goToMainSiteButton);
+                goToMainSiteButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
+            }
+        }
+
+        window.onload = async function() { 
+            mainMenuScreen = document.getElementById('main-menu-screen');
+            playerSelectionScreen = document.getElementById('player-selection-screen'); 
+            teamNameInputScreen = document.getElementById('team-name-input-screen'); // Yeni atama
+            teamNameInputsContainer = document.getElementById('team-name-inputs-container'); // Yeni atama
+            gamePanel = document.getElementById('game-panel');
+            scoreBoardContainer = document.getElementById('score-board-container'); // Updated ID
+            currentPlayerTurnDisplay = document.getElementById('current-player-turn');
+            quizContentContainer = document.getElementById('quiz-content');
+            questionContainer = document.getElementById('current-question-container');
+            feedbackDiv = document.getElementById('current-question-feedback');
+            nextTurnButton = document.getElementById('next-turn-button'); 
+            
+            finalScoreContainer = document.getElementById('final-score-container');
+            overallResultDiv = document.getElementById('overall-result');
+            resetGameButton = document.getElementById('reset-game-button');
+            questionCounterDisplay = document.getElementById('question-counter');
+            questionNavigationContainer = document.getElementById('question-navigation');
+            timerDisplay = document.getElementById('timer-display');
+            gridInstructionMessage = document.getElementById('grid-instruction-message'); 
+            questionScreenInstructionMessage = document.getElementById('question-screen-instruction-message'); 
+            fullscreenOverlay = document.getElementById('fullscreen-overlay');
+            returnToMainMenuGridButton = document.getElementById('return-to-main-menu-grid-button');
+            returnToQuestionGridButton = document.getElementById('return-to-question-grid-button');
+            finalTeamScoresDisplay = document.getElementById('final-team-scores-display'); // New element
+            goToMainSiteButton = document.getElementById('go-to-main-site-button'); // Get the new button
+
+            if (gamePanel) {
+                gamePanel.classList.add('hidden');
+            }
+            if (playerSelectionScreen) {
+                playerSelectionScreen.classList.add('hidden');
+            }
+            if (teamNameInputScreen) { // Yeni ekranı gizle
+                teamNameInputScreen.classList.add('hidden');
+            }
+            if (mainMenuScreen) {
+                mainMenuScreen.classList.remove('hidden');
+            }
+            if (questionCounterDisplay) {
+                questionCounterDisplay.classList.add('hidden');
+            }
+            if (returnToQuestionGridButton) {
+                returnToQuestionGridButton.classList.add('hidden');
+            }
+
+            setGameBackground('general');
+
+            applyButtonColors();
+
+            // Tone.js ses sentezleyicilerini başlatıyoruz
+            correctSynth = new Tone.Synth().toDestination();
+            incorrectSynth = new Tone.Synth().toDestination();
+            timerSynth = new Tone.Synth().toDestination();
+
+            // Add event listener for the new "Siteye Dön" button
+            if (goToMainSiteButton) {
+                goToMainSiteButton.addEventListener('click', () => {
+                    window.location.href = 'https://ozeme42.github.io/yunus/index.html';
+                });
+            }
+        };
+    </script>
+</head>
+<body>
+    <div id="fullscreen-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <div class="container">
+        <h1>Din Kültürü ve Ahlak Bilgisi Bilgi Yarışması</h1>
+        <div id="main-menu-screen" class="player-selection-screen">
+            <h2>Ünite Seçimi</h2>
+            <div class="team-selection-buttons">
+                <button class="action-button" onclick="selectUnit('unit1')">1. Ünite: Çocukluk Yıllarında Peygamberimiz</button>
+                <button class="action-button" onclick="selectUnit('unit2')">2. Ünite: Peygamberimizin Çevresindeki Çocuklar</button>
+                <button class="action-button" onclick="selectUnit('unit3')">3. Ünite: Rehberim Peygamberim</button>
+                <button class="action-button" onclick="selectUnit('unit4')">4. Ünite: Aile Hayatında Peygamberimiz</button>
+                <button class="action-button" onclick="selectUnit('allUnits')">Tüm Üniteler</button>
+            </div>
+            <button id="go-to-main-site-button" class="action-button mt-8">Siteye Dön</button>
+        </div>
+
+        <div id="player-selection-screen" class="player-selection-screen hidden">
+            <h2>Kaç Takım Oynayacak?</h2>
+            <div class="team-selection-buttons">
+                <button class="action-button" onclick="selectNumTeams(1)">1 Takım</button>
+                <button class="action-button" onclick="selectNumTeams(2)">2 Takım</button>
+                <button class="action-button" onclick="selectNumTeams(3)">3 Takım</button>
+                <button class="action-button" onclick="selectNumTeams(4)">4 Takım</button>
+                <button class="action-button" onclick="selectNumTeams(5)">5 Takım</button>
+            </div>
+            <button id="go-to-main-site-button-player-selection" class="action-button mt-8" onclick="window.location.href = 'https://ozeme42.github.io/yunus/index.html';">Siteye Dön</button>
+        </div>
+
+        <div id="team-name-input-screen" class="player-selection-screen hidden">
+            <h2>Takım Adlarını Belirle</h2>
+            <div id="team-name-inputs-container" class="team-name-input-group">
+                </div>
+            <button id="start-quiz-button" class="action-button" onclick="setTeamNames()">Başla</button>
+            <button id="go-to-main-site-button-team-name" class="action-button mt-8" onclick="window.location.href = 'https://ozeme42.github.io/yunus/index.html';">Siteye Dön</button>
+        </div>
+
+        <div id="game-panel" class="hidden">
+            <div id="score-board-container" class="score-table-container">
+                </div>
+            <div id="current-player-turn" class="current-turn">Sıra: A Takımı</div>
+
+            <div id="grid-instruction-message" class="text-center text-md font-medium text-gray-700 mb-4"></div>
+            <div id="question-navigation" class="question-navigation">
+                </div>
+            
+            <div class="button-group mt-4" id="question-grid-buttons">
+                <button id="return-to-main-menu-grid-button" class="action-button" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
+                <button id="go-to-main-site-button-grid" class="action-button" onclick="window.location.href = 'https://ozeme42.github.io/yunus/index.html';">Siteye Dön</button>
+            </div>
+
+            <div id="quiz-content" class="hidden">
+                <div class="question-area">
+                    <div id="question-counter" class="question-counter"></div>
+                    <div id="timer-display" class="timer-display hidden"></div>
+                    <div id="current-question-container" class="question-block">
+                        </div>
+                </div>
+                <div id="current-question-feedback" class="feedback-message"></div>
+                <div class="button-group mt-4">
+                    <button id="next-turn-button" class="action-button hidden" onclick="moveToNextTurn()">Sonraki Oyuncu</button>
+                    <button id="return-to-question-grid-button" class="action-button hidden" onclick="returnToQuestionsGrid()">Soru Ekranına Dön</button>
+                </div>
+                <div id="question-screen-instruction-message" class="text-center text-md font-medium text-gray-700 mt-2 hidden"></div>
+            </div>
+
+            <div id="final-score-container" class="hidden">
+                <div id="overall-result" class="feedback-message"></div>
+                <div id="final-team-scores-display" class="score-table-container"></div>
+                <button id="reset-game-button" class="action-button" onclick="resetGame()">Yeniden Başla</button>
+                <button id="return-to-main-menu-from-final-button" class="action-button mt-4" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
+                <button id="go-to-main-site-button-final" class="action-button mt-4" onclick="window.location.href = 'https://ozeme42.github.io/yunus/index.html';">Siteye Dön</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+�
