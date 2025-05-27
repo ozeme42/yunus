@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
+        /* CSS still applies to make the game visually appealing and responsive */
         html, body {
             height: 100%;
             margin: 0;
@@ -345,14 +346,16 @@
             background-color: #a7f3d0;
             color: #065f46;
         }
-        .question-nav-item.answered-incorrectly {
+        /* Removed .answered-incorrectly styling to make it look like an unanswered question */
+        /* .question-nav-item.answered-incorrectly {
             background-color: #fecaca;
             color: #991b1b;
-        }
-        .question-nav-item.disabled-selection {
+        } */
+        /* Removed disabled-selection for answered-incorrectly to allow re-selection */
+        /* .question-nav-item.disabled-selection {
             cursor: not-allowed;
             opacity: 0.6;
-        }
+        } */
         .hidden {
             display: none !important; /* Added !important to ensure it overrides other styles */
         }
@@ -543,11 +546,11 @@
         window.teamScores = []; // Array to store objects like { name: 'Takım 1', score: 0 }
         window.numTeams = 0;
         window.currentPlayer = 0; // 0-indexed: represents the index of the current team in window.teamNames
-        window.currentQuestionIndex = 0;
-        window.answeredQuestions = {};
+        window.currentQuestionIndex = 0; // This will now be the index in the `shuffledQuestions` array
+        window.answeredQuestions = {}; // Stores {questionId: {isCorrect: boolean, userAnswer: string, answeredBy: index, timeTaken: number}}
         let timer = 40;
         let timerInterval;
-        let shuffledQuestions = [];
+        let shuffledQuestions = []; // This array holds the questions for the current unit, shuffled
         window.currentUnit = null;
         let initialTimerValue = 40;
 
@@ -1012,13 +1015,15 @@
             
             const q = shuffledQuestions[window.currentQuestionIndex];
             
-            if (window.answeredQuestions[q.id]) {
+            // If the question was previously answered (correctly or incorrectly), hide the return to grid button
+            // If it's a fresh attempt, show it.
+            if (window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect) {
                 returnToQuestionGridButton.classList.add('hidden');
             } else {
                 returnToQuestionGridButton.classList.remove('hidden');
             }
 
-            const allAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id]);
+            const allAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect);
             if (allAnswered) {
                 showFinalScore();
                 return;
@@ -1064,8 +1069,7 @@
                 questionContainer.classList.remove('question-block-closed');
             }, 50);
 
-            const isCurrentPlayerActive = true; 
-
+            // Check if the question was previously answered (correctly or incorrectly)
             if (window.answeredQuestions[q.id]) {
                 const currentAnswerState = window.answeredQuestions[q.id]; 
                 nextTurnButton.classList.remove('hidden');
@@ -1084,12 +1088,12 @@
 
                 displayFeedback(currentAnswerState.isCorrect, q.answer, currentAnswerState.userAnswer, q.explanation);
                 
-                let actualAnswerValue = q.answer;
-                if (q.type === 'trueFalse') {
-                    actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-                }
                 // Only highlight the correct answer if the stored answer was correct
                 if (currentAnswerState.isCorrect) {
+                    let actualAnswerValue = q.answer;
+                    if (q.type === 'trueFalse') {
+                        actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+                    }
                     const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
                     if (correctRadio) {
                         const correctLabel = correctRadio.closest('label');
@@ -1107,7 +1111,7 @@
                 questionScreenInstructionMessage.textContent = `Bu soru ${answeredByPlayerName} tarafından cevaplandı. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
                 questionScreenInstructionMessage.classList.remove('hidden');
 
-            } else {
+            } else { // If the question is not in answeredQuestions, it's a fresh attempt
                 nextTurnButton.classList.add('hidden');
                 startTimer();
                 questionScreenInstructionMessage.textContent = `Sıra sizde! Soruyu cevaplamak için süreniz var.`;
@@ -1155,7 +1159,8 @@
             incorrectSynth.triggerAttackRelease("C3", "8n"); // Tone.js ile yanlış sesi
 
             const q = shuffledQuestions[window.currentQuestionIndex];
-            if (!window.answeredQuestions[q.id]) {
+            // If not already answered correctly, mark as incorrect
+            if (!window.answeredQuestions[q.id] || !window.answeredQuestions[q.id].isCorrect) {
                 // Store answeredBy as 0-indexed currentPlayer
                 const newAnswerState = { isCorrect: false, userAnswer: 'Süre Doldu', answeredBy: window.currentPlayer, timeTaken: initialTimerValue }; 
                 window.answeredQuestions[q.id] = newAnswerState;
@@ -1165,19 +1170,6 @@
 
             displayFeedback(false, q.answer, 'Süre Doldu', q.explanation);
             
-            // DO NOT highlight the correct answer when timeout occurs
-            // let actualAnswerValue = q.answer;
-            // if (q.type === 'trueFalse') {
-            //     actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-            // }
-            // const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
-            // if (correctRadio) {
-            //     const correctLabel = correctRadio.closest('label');
-            //     if (correctLabel) {
-            //         correctLabel.classList.add('correct-option-highlight');
-            //     }
-            // }
-
             renderQuestionNumbers(); // This will re-shuffle the display order
             // Calculate next player's index using modulo for 0-indexed
             const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
@@ -1276,9 +1268,10 @@
         }
 
         window.moveToNextTurn = async function() {
-            const allAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id]);
+            // Only consider correctly answered questions for game completion
+            const allCorrectlyAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect);
 
-            if (allAnswered) {
+            if (allCorrectlyAnswered) {
                 showFinalScore();
                 return;
             }
@@ -1302,11 +1295,6 @@
                 let icon = '❌';
                 feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Yanlış.`;
                 // REMOVED: display of correct answer here
-                // let actualAnswerValue = correctAnswer;
-                // if (shuffledQuestions[window.currentQuestionIndex].type === 'trueFalse') {
-                //     actualAnswerValue = (correctAnswer === 'D' ? 'Doğru' : 'Yanlış');
-                // }
-                // feedbackDiv.innerHTML += `<p class="explanation-text mt-2">Doğru cevap: <span class="font-bold text-green-700">${actualAnswerValue}</span></p>`;
             }
             feedbackDiv.classList.add('animate-in');
         }
@@ -1330,13 +1318,17 @@
                 if (window.answeredQuestions[q.id]) {
                     if (window.answeredQuestions[q.id].isCorrect) {
                         navItem.classList.add('answered-correctly');
+                        // Correctly answered questions are still clickable for review, but not for re-attempt
+                        navItem.onclick = () => {
+                            selectQuestionById(q.id);
+                        };
                     } else {
-                        navItem.classList.add('answered-incorrectly');
+                        // Incorrectly answered questions now look like unanswered ones
+                        // and are clickable to re-attempt
+                        navItem.onclick = () => {
+                            selectQuestionById(q.id);
+                        };
                     }
-                    // Answered questions are always clickable to review
-                    navItem.onclick = () => {
-                        selectQuestionById(q.id);
-                    };
                 } else {
                     // Unanswered questions are clickable
                     navItem.onclick = () => {
@@ -1370,8 +1362,13 @@
             window.currentQuestionIndex = index; // This is the original index in shuffledQuestions
             const q = shuffledQuestions[window.currentQuestionIndex];
 
-            if (window.answeredQuestions[q.id]) { 
-                window.currentQuestionIndex = index;
+            // If the question was previously answered INCORRECTLY, clear its state to allow re-attempt
+            if (window.answeredQuestions[q.id] && !window.answeredQuestions[q.id].isCorrect) {
+                delete window.answeredQuestions[q.id];
+            }
+            
+            // If the question is already correctly answered, just display it for review
+            if (window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect) {
                 quizContentContainer.classList.remove('hidden');
                 questionNavigationContainer.classList.add('hidden');
                 
@@ -1379,19 +1376,14 @@
                 setTimeout(() => fullscreenOverlay.classList.add('show'), 10);
                 quizContentContainer.classList.add('fullscreen-active');
 
-                renderCurrentQuestion();
+                renderCurrentQuestion(); // This will render it as a reviewed question
                 hideFinalScore();
                 gridInstructionMessage.classList.add('hidden');
                 questionScreenInstructionMessage.classList.add('hidden');
                 return;
             }
 
-            const isCurrentPlayerActive = true; 
-            if (!isCurrentPlayerActive) { 
-                return;
-            }
-
-            window.currentQuestionIndex = index;
+            // For unanswered or re-attempted (previously incorrect) questions
             quizContentContainer.classList.remove('hidden');
             questionNavigationContainer.classList.add('hidden');
             
@@ -1411,7 +1403,7 @@
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.remove('hidden');
             }
-            renderQuestionNumbers();
+            renderQuestionNumbers(); // Re-render to shuffle and update states
             hideFinalScore();
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
@@ -1473,7 +1465,7 @@
                 winnerMessage = `${winners.join(' ve ')} berabere kaldı! 🤝`;
                 overallResultDiv.classList.remove('correct', 'incorrect');
             } else {
-                winnerMessage = `Oyun berabere bitti! �`;
+                winnerMessage = `Oyun berabere bitti! 🤝`;
                 overallResultDiv.classList.remove('correct', 'incorrect');
             }
 
@@ -1801,4 +1793,3 @@
     </div>
 </body>
 </html>
-�
