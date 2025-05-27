@@ -51,7 +51,7 @@
             font-size: 1.05rem; /* Esnek font boyutu */
             font-weight: bold;
             border-radius: 9999px;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.2s ease-in-out, opacity 0.5s ease-in-out; /* Opaklık geçişi eklendi */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             border: 3px solid transparent;
             cursor: pointer;
@@ -249,22 +249,6 @@
             color: #EF4444;
         }
 
-        /* Skor göstergesi stili */
-        #scoreDisplay {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #10B981; /* Yeşil renk */
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-            text-align: center;
-            padding: 0.5rem 1rem;
-            background-color: transparent;
-            border-radius: 0.5rem;
-            box-shadow: none;
-            z-index: 10;
-        }
-
         /* Onay işareti stili (şu an kullanılmıyor ama gelecekteki geliştirmeler için bırakıldı) */
         .concept-box .checkmark {
             position: absolute;
@@ -378,7 +362,7 @@
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 0 3px #3b82f6;
             border-color: #3b82f6;
         }
-        .main-quiz-content { /* Liderlik ekranı kaldırıldığı için sadece main-quiz-content kaldı */
+        .main-quiz-content {
             display: none;
             width: 100%;
             height: 100%;
@@ -477,9 +461,8 @@
                     <p id="questionText" class="text-xl text-gray-800"></p>
                 </div>
                 <div id="timerDisplay">50</div>
-                <div id="scoreDisplay">Puan: 0</div>
                 <div id="feedback" class="message-box mt-4" style="display: none;"></div>
-            </div>
+                </div>
 
             <div id="conceptBoxes" class="concept-grid w-full justify-items-center">
                 </div>
@@ -844,7 +827,7 @@
                     ]},
                     { id: 'hz-muaz-b-cebel', name: 'Hz. Muaz b. Cebel', color: 'bg-emerald-600', questions: [
                         { question: 'Peygamberimizin genç yaşına rağmen Yemen\'e vali olarak gönderdiği sahabi.' },
-                        { question: 'Peygamberimizin gençlere liderlik vasıflarını geliştirmeleri için fırsat tanıması.' },
+                        { question: 'Peygamberimizin gençlere liderlik vasıflarını geliştirmeleri için fırsat tanıma.' },
                         { question: 'Genç yaşta önemli bir idari göreve getirilen ilim sahibi sahabi.' }
                     ]},
                     { id: 'istisare', name: 'İstişare', color: 'bg-rose-600', questions: [
@@ -995,113 +978,6 @@
                         { question: 'Peygamberimizin toplumda düzeni ve eşitliği sağlama ilkesi.' }
                     ]}
                 ]
-            },
-            {
-                id: 'unit5',
-                name: 'Ünite 5: Sahabenin Fazileti',
-                bgColor: 'bg-red-100',
-                concepts: [
-                    { id: 'sahabe', name: 'Sahabe', color: 'bg-blue-600', questions: [
-                        { question: 'Peygamberimizi gören, ona iman eden ve Müslüman olarak vefat eden kişilere verilen genel ad.' },
-                        { question: 'Peygamberimizin arkadaşları ve öğrencileri.' },
-                        { question: 'İslam\'ın ilk neslini oluşturan mübarek topluluk.' }
-                    ]},
-                    { id: 'hz-ebu-bekir', name: 'Hz. Ebu Bekir', color: 'bg-green-600', questions: [
-                        { question: 'İlk Müslümanlardan olan, Peygamberimizin en yakın dostu ve ilk halife.' },
-                        { question: 'Sıddîk lakabıyla tanınan, Peygamberimizin hicret arkadaşı.' },
-                        { question: 'Peygamberimizin vefatından sonra İslam devletinin başına geçen ilk kişi.' }
-                    ]},
-                    { id: 'hz-omer', name: 'Hz. Ömer', color: 'bg-purple-600', questions: [
-                        { question: '"Faruk" lakabıyla tanınan, hak ile batılı ayırt etmedeki keskin zekasıyla bilinen ve ikinci halife.' },
-                        { question: 'İslam devletinin sınırlarını genişleten ve adaletli yönetimiyle bilinen halife.' },
-                        { question: 'Müslümanların güç kazanmasında önemli rol oynayan sahabi.' }
-                    ]},
-                    { id: 'hz-osman', name: 'Hz. Osman', color: 'bg-red-600', questions: [
-                        { question: '"Zinnureyn" (İki Nur Sahibi) lakabıyla tanınan, Peygamberimizin iki kızıyla evlenen ve üçüncü halife.' },
-                        { question: 'Kur\'an-ı Kerim\'i çoğaltarak İslam alemine yayılmasına öncülük eden halife.' },
-                        { question: 'Haya ve cömertliğiyle bilinen sahabi.' }
-                    ]},
-                    { id: 'hz-ali', name: 'Hz. Ali', color: 'bg-yellow-600', questions: [
-                        { question: 'Peygamberimizin amcasının oğlu ve damadı olan, ilmi ve cesaretiyle bilinen, dördüncü halife.' },
-                        { question: 'Genç yaşta İslam\'ı kabul eden ve Peygamberimizin yatağına yatan sahabi.' },
-                        { question: 'İlim kapısı olarak nitelendirilen büyük sahabi.' }
-                    ]},
-                    { id: 'ashab-i-suffe', name: 'Ashab-ı Suffe', color: 'bg-indigo-600', questions: [
-                        { question: 'Medine\'de Mescid-i Nebi\'nin yanında kalan, kendilerini tamamen ilim öğrenmeye ve ibadete adayan fakir sahabiler.' },
-                        { question: 'İslam\'ın ilk eğitim kurumlarından biri olarak kabul edilen Suffe\'de yetişen kişiler.' },
-                        { question: 'Peygamberimizden doğrudan ders alan ve İslam\'ı öğrenmede örnek olan topluluk.' }
-                    ]},
-                    { id: 'sunnete-baglilik', name: 'Sünnet\'e Bağlılık', color: 'bg-pink-600', questions: [
-                        { question: 'Sahabenin Peygamberimizin her söz ve davranışını dikkatle takip etmesi, öğrenmesi ve hayatlarına uygulaması.' },
-                        { question: 'Peygamberimizin yaşantısını örnek alma ve ona uyma konusundaki titizlikleri.' },
-                        { question: 'Sahabenin İslam\'ı yaşama biçimlerinin temelini oluşturan prensip.' }
-                    ]},
-                    { id: 'kuranin-toplanmasi', name: 'Kur\'an\'ın Toplanması', color: 'bg-teal-600', questions: [
-                        { question: 'Sahabenin, özellikle Hz. Ebu Bekir ve Hz. Osman dönemlerinde, Kur\'an ayetlerinin bir araya getirilmesi ve mushaf haline getirilmesine öncülük etmesi.' },
-                        { question: 'Vahiy katiplerinin yazdığı ayetlerin toplanarak kitap haline getirilmesi süreci.' },
-                        { question: 'Kur\'an\'ın bozulmadan günümüze ulaşmasında sahabenin rolü.' }
-                    ]},
-                    { id: 'bilgi-aktarimi', name: 'Bilgi Aktarımı', color: 'bg-orange-600', questions: [
-                        { question: 'Sahabenin Peygamberimizden öğrendikleri dini bilgileri, hadisleri ve uygulamaları sonraki nesillere eksiksiz ve doğru bir şekilde aktarması.' },
-                        { question: 'İslam ilimlerinin temelini oluşturan rivayet zincirinin ilk halkasını teşkil etmeleri.' },
-                        { question: 'Peygamberimizin mirasını gelecek nesillere ulaştırma görevini üstlenmeleri.' }
-                    ]},
-                    { id: 'hicret-sahabe', name: 'Hicret', color: 'bg-cyan-600', questions: [
-                        { question: 'Sahabenin dinlerini hürriyetle yaşamak ve İslam\'ı yaymak amacıyla Mekke\'den Medine\'ye göç etmesi.' },
-                        { question: 'Allah rızası için yurtlarını terk etme fedakarlığı.' },
-                        { question: 'İslam tarihinde dönüm noktası olan büyük göç.' }
-                    ]},
-                    { id: 'muahat-sahabe', name: 'Muahat', color: 'bg-lime-600', questions: [
-                        { question: 'Medine\'de Muhacir ve Ensar arasında kurulan kardeşlik antlaşması.' },
-                        { question: 'Müslümanlar arasında dayanışma, yardımlaşma ve mal paylaşımını sağlayan uygulama.' },
-                        { question: 'İslam toplumunda birlik ve beraberliği pekiştiren örnek davranış.' }
-                    ]},
-                    { id: 'fedakarlik-sahabe', name: 'Fedakarlık', color: 'bg-emerald-600', questions: [
-                        { question: 'Sahabenin İslam uğruna mallarını, canlarını ve yurtlarını feda etmeleri.' },
-                        { question: 'Savaşlarda ve tebliğ faaliyetlerinde gösterdikleri özveri.' },
-                        { question: 'Allah yolunda her türlü zorluğa katlanma.' }
-                    ]},
-                    { id: 'ilim-ogrenme-sahabe', name: 'İlim Öğrenme', color: 'bg-rose-600', questions: [
-                        { question: 'Sahabenin Peygamberimizden doğrudan ilim öğrenmeye büyük önem vermesi ve bu uğurda çaba göstermesi.' },
-                        { question: 'Peygamberimizin meclislerinde bulunarak dini bilgileri bizzat edinmeleri.' },
-                        { question: 'İslam ilimlerinin temelini atan ilk öğrenciler olmaları.' }
-                    ]},
-                    { id: 'dini-anlama-sahabe', name: 'Dini Anlama', color: 'bg-fuchsia-600', questions: [
-                        { question: 'Sahabenin Peygamberimizin en yakın öğrencileri olarak dini en iyi anlayan ve uygulayan nesil olması.' },
-                        { question: 'Kur\'an ve Sünnet\'i doğru bir şekilde yorumlama ve yaşama yeteneği.' },
-                        { question: 'İslam\'ın ruhunu ve özünü kavrama konusundaki derinlikleri.' }
-                    ]},
-                    { id: 'cihad-sahabe', name: 'Cihad', color: 'bg-violet-600', questions: [
-                        { question: 'Sahabenin İslam\'ı yaymak ve korumak için gösterdiği her türlü çaba ve mücadele.' },
-                        { question: 'Allah yolunda malıyla ve canıyla savaşma.' },
-                        { question: 'İslam\'ın tebliği ve savunmasında gösterdikleri azim.' }
-                    ]},
-                    { id: 'adalet-sahabe', name: 'Adalet', color: 'bg-amber-600', questions: [
-                        { question: 'Sahabenin kendi aralarında ve diğer insanlarla ilişkilerinde adaleti gözetmeleri.' },
-                        { question: 'Hz. Ömer\'in adaletli yönetimiyle öne çıkması.' },
-                        { question: 'İslam toplumunda hak ve hukuka riayet etme.' }
-                    ]},
-                    { id: 'tevazu-sahabe', name: 'Tevazu', color: 'bg-sky-600', questions: [
-                        { question: 'Sahabenin makamlarına rağmen alçakgönüllü olmaları ve kibirden uzak durmaları.' },
-                        { question: 'Hz. Ebu Bekir\'in halife olmasına rağmen sade bir hayat sürmesi.' },
-                        { question: 'Peygamberimizin ahlakını yansıtan önemli bir özellik.' }
-                    ]},
-                    { id: 'sabir-sahabe', name: 'Sabır', color: 'bg-gray-600', questions: [
-                        { question: 'Sahabenin Mekke dönemindeki işkencelere ve zorluklara karşı gösterdiği dayanıklılık.' },
-                        { question: 'İslam uğruna karşılaştıkları sıkıntılara metanetle göğüs germeleri.' },
-                        { question: 'Peygamberimizin sabrını örnek almaları.' }
-                    ]},
-                    { id: 'sehadet-sahabe', name: 'Şehadet', color: 'bg-blue-700', questions: [
-                        { question: 'Sahabenin Allah yolunda canlarını feda etmeleri ve şehitlik mertebesine ulaşmaları.' },
-                        { question: 'Uhud, Bedir gibi savaşlarda gösterdikleri kahramanlık ve fedakarlık.' },
-                        { question: 'İslam\'ın yayılması için canlarını ortaya koymaları.' }
-                    ]},
-                    { id: 'ornek-nesil', name: 'Örnek Nesil', color: 'bg-green-700', questions: [
-                        { question: 'Sahabenin İslam\'ın ilk ve en iyi anlayan, yaşayan ve aktaran nesil olması.' },
-                        { question: 'Peygamberimizin "Ashabım yıldızlar gibidir, hangisine uyarsanız hidayeti bulursunuz" hadisiyle övülen nesil.' },
-                        { question: 'Tüm Müslümanlar için rehber ve model teşkil eden topluluk.' }
-                    ]}
-                ]
             }
         ];
 
@@ -1119,8 +995,8 @@
         const resetQuizBtn = document.getElementById('resetQuizBtn');
         const returnToMainMenuFromQuizBtn = document.getElementById('returnToMainMenuFromQuizBtn');
         const timerDisplay = document.getElementById('timerDisplay');
-        const scoreDisplay = document.getElementById('scoreDisplay'); // Skor göstergesi
         const showAnswerBtn = document.getElementById('showAnswerBtn');
+        // const battleAnimationContainer = document.getElementById('battleAnimationContainer'); // Bu satır kaldırıldı
 
         let selectedUnitId = null;
         let currentQuestion = null;
@@ -1129,9 +1005,8 @@
         let timeLeft = 50;
         let currentIncorrectAttempts = 0;
         const MAX_INCORRECT_ATTEMPTS = 2;
-        let currentScore = 0; // Mevcut quiz skoru
 
-        // Utility: Shuffle an array
+        // Yardımcı Fonksiyon: Diziyi karıştır
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -1140,7 +1015,7 @@
             return array;
         }
 
-        // Custom Modal Logic
+        // Özel Modal Mantığı
         const customModalOverlay = document.getElementById('customModalOverlay');
         const modalTitle = document.getElementById('modalTitle');
         const modalMessage = document.getElementById('modalMessage');
@@ -1162,11 +1037,11 @@
             modalSaveBtn.style.display = 'none';
             modalCancelBtn.style.display = 'inline-block';
 
-            // Reset event listeners
+            // Olay dinleyicilerini sıfırla
             modalConfirmBtn.onclick = null;
             modalSaveBtn.onclick = null;
             modalCancelBtn.onclick = null;
-            modalCancelBtn.textContent = 'İptal'; // Reset text
+            modalCancelBtn.textContent = 'İptal'; // Metni sıfırla
 
             if (type === 'alert') {
                 modalCancelBtn.textContent = 'Tamam';
@@ -1186,9 +1061,6 @@
                     if (onCancel) onCancel();
                 };
             }
-            // 'prompt' ve 'form' tipleri kaldırıldı, çünkü kullanıcı adı isteme ve diğer form işlemleri artık yok.
-            // Eğer gelecekte başka bir prompt veya form ihtiyacı olursa buraya eklenebilir.
-
             customModalOverlay.style.display = 'flex';
         }
 
@@ -1201,11 +1073,6 @@
             modalSaveBtn.onclick = null;
             modalCancelBtn.onclick = null;
             modalCancelBtn.textContent = 'İptal';
-        }
-
-        // Skor göstergesini güncelle
-        function updateScoreDisplay() {
-            scoreDisplay.textContent = `Puan: ${currentScore}`;
         }
 
         // Oyun mantığı
@@ -1263,6 +1130,8 @@
             feedbackDiv.style.display = 'none';
             feedbackDiv.textContent = '';
             conceptBoxesDiv.innerHTML = '';
+            // Animasyon konteynerini temizle (kaldırıldığı için bu satır gereksiz)
+            // battleAnimationContainer.innerHTML = '';
             nextQuestionBtn.disabled = true;
             showAnswerBtn.disabled = false;
             currentIncorrectAttempts = 0;
@@ -1271,7 +1140,7 @@
 
             if (availableQuestions.length === 0) {
                 // Tüm sorular cevaplandı, sadece bilgilendir ve ana menüye dön
-                showModal('Yarışma Bitti!', `Tüm soruları cevapladınız. Puanınız: ${currentScore}.`, 'alert', () => {
+                showModal('Yarışma Bitti!', `Tüm soruları cevapladınız.`, 'alert', () => {
                     returnToMainMenuScreen();
                 });
                 return;
@@ -1287,7 +1156,7 @@
 
             const correctConcept = allConceptsInSelectedUnit.find(c => c.id === currentQuestion.correctConceptId);
             if (!correctConcept) {
-                console.error("Correct concept not found for ID:", currentQuestion.correctConceptId);
+                console.error("Doğru kavram bulunamadı, ID:", currentQuestion.correctConceptId);
                 return;
             }
 
@@ -1343,18 +1212,18 @@
             const selectedBox = document.getElementById(selectedConceptId);
 
             if (selectedConceptId === currentQuestion.correctConceptId) {
-                currentScore += 10; // Doğru cevap için puan ekle
-                updateScoreDisplay();
                 selectedBox.classList.add('correct');
-                feedbackDiv.textContent = 'Doğru Cevap! Tebrikler!';
+                // Kullanıcının istediği geri bildirim metni
+                feedbackDiv.textContent = `Doğru Cevap! ${currentQuestion.correctConceptName} tebrikler!`;
                 feedbackDiv.classList.remove('error');
                 feedbackDiv.classList.add('success');
-                disableConceptBoxes();
-                showAnswerBtn.disabled = true;
-                nextQuestionBtn.disabled = false;
+                disableConceptBoxes(); // Tüm kutuları devre dışı bırak
+
                 setTimeout(() => {
                     selectedBox.classList.remove('correct');
-                }, 1000);
+                    showAnswerBtn.disabled = true;
+                    nextQuestionBtn.disabled = false;
+                }, 1000); // Sadece vurgu süresi kadar bekleyip devam et
             } else {
                 currentIncorrectAttempts++;
                 selectedBox.classList.add('incorrect');
@@ -1400,8 +1269,6 @@
 
         function resetQuiz() {
             stopTimer();
-            currentScore = 0; // Skoru sıfırla
-            updateScoreDisplay(); // Skoru güncelle
             selectedUnitId = null;
             askedQuestionsUniqueIds = [];
             currentQuestion = null;
@@ -1418,8 +1285,6 @@
 
         function returnToMainMenuScreen() {
             stopTimer();
-            currentScore = 0; // Skoru sıfırla
-            updateScoreDisplay(); // Skoru güncelle
             mainQuizContent.style.display = 'none';
             mainMenuScreen.style.display = 'flex';
             mainTitle.style.display = 'block';
@@ -1433,7 +1298,7 @@
             timerDisplay.classList.remove('warning');
         }
 
-        // Event Listeners
+        // Olay Dinleyicileri
         nextQuestionBtn.addEventListener('click', displayQuestion);
         resetQuizBtn.addEventListener('click', () => {
             showModal('Yarışmayı Yeniden Başlat', 'Mevcut yarışmayı sıfırlamak istediğinizden emin misiniz? Bu işlem mevcut ilerlemenizi silecektir.', 'confirm', () => {
@@ -1460,7 +1325,7 @@
             }, 1000);
         });
 
-        // Main Menu Logic
+        // Ana Menü Mantığı
         function renderUnitCards() {
             unitCardsContainer.innerHTML = '';
             units.forEach(unit => {
@@ -1493,8 +1358,6 @@
                 mainTitle.style.display = 'none';
                 mainQuizContent.style.display = 'flex';
                 askedQuestionsUniqueIds = [];
-                currentScore = 0; // Yeni quiz başladığında skoru sıfırla
-                updateScoreDisplay(); // Skoru ekranda da sıfırla
                 displayQuestion();
             } else {
                 showModal('Ünite Seçilmedi', 'Lütfen bir ünite seçerek yarışmayı başlatın.', 'alert');
@@ -1539,7 +1402,6 @@
             mainQuizContent.style.display = 'none';
             mainMenuScreen.style.display = 'flex';
             mainTitle.style.display = 'block';
-            updateScoreDisplay(); // Başlangıçta skoru göster
         });
     </script>
 </body>
