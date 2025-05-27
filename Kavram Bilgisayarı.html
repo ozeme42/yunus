@@ -16,7 +16,7 @@
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            box-sizing: border;
+            box-sizing: border-box;
             overflow-x: hidden;
             background-size: cover;
             background-repeat: no-repeat;
@@ -112,7 +112,8 @@
         }
         .question-line {
             display: flex;
-            align-items: baseline;
+            align-items: center; /* Changed to center */
+            justify-content: center; /* Added to center content horizontally */
             margin-bottom: 1.5rem;
             width: 100%;
         }
@@ -126,6 +127,7 @@
             flex-grow: 1;
             margin-bottom: 0;
             font-size: 1.5rem;
+            text-align: center; /* Ensured text is centered */
         }
 
         .message-box {
@@ -429,7 +431,6 @@
         <div id="mainQuizContent" class="main-quiz-content">
             <div id="quizArea" class="quiz-area">
                 <div class="question-line">
-                    <h2 class="text-3xl font-bold text-gray-700">Soru:</h2>
                     <p id="questionText" class="text-xl text-gray-800"></p>
                 </div>
                 <div id="timerDisplay">50</div>
@@ -1124,9 +1125,9 @@
         const nextQuestionBtn = document.getElementById('nextQuestionBtn');
         const showAnswerBtn = document.getElementById('showAnswerBtn');
         const resetQuizBtn = document.getElementById('resetQuizBtn');
-        const timerDisplay = document.getElementById('timerDisplay'); // Düzeltme: `document = document.getElementById` yerine `document.getElementById`
+        const timerDisplay = document.getElementById('timerDisplay');
         const returnToMainMenuFromQuizBtn = document.getElementById('returnToMainMenuFromQuizBtn');
-        const returnToSiteBtn = document.getElementById('returnToSiteBtn'); // Yeni buton referansı
+        const returnToSiteBtn = document.getElementById('returnToSiteBtn');
 
         // Custom Modal DOM elements (still needed for alerts/confirms, but not for editor specific inputs)
         const customModalOverlay = document.getElementById('customModalOverlay');
@@ -1140,31 +1141,31 @@
         const modalCancelBtn = document.getElementById('modalCancelBtn');
 
         let selectedUnitConcepts = [];
-        let allQuestions = []; // Tüm soruları içerir
-        let availableQuestions = []; // Henüz sorulmamış soruları içerir
-        let answeredConceptIds = new Set(); // Tüm soruları cevaplanmış kavramların ID'lerini içerir
+        let allQuestions = [];
+        let availableQuestions = [];
+        let answeredConceptIds = new Set();
 
-        const MIN_OPTIONS_PER_QUESTION = 8; // Her soru için gösterilecek minimum seçenek sayısı
+        const MIN_OPTIONS_PER_QUESTION = 8;
         let currentQuestionData = null;
 
         let timer;
         let countdownInterval;
         let incorrectAttempts = 0;
 
-        let selectedUnitId = null; // Bu, yüklemede otomatik olarak ayarlanacaktır
+        let selectedUnitId = null;
 
         // Ünite kartları için gradyan renk paleti
         const unitCardGradients = [
-            'linear-gradient(to right, #6EE7B7, #34D399)', // Yeşil tonları
-            'linear-gradient(to right, #93C5FD, #60A5FA)', // Mavi tonları
-            'linear-gradient(to right, #FDBA74, #FB923C)', // Turuncu tonları
-            'linear-gradient(to right, #C4B5FD, #A78BFA)', // Mor tonları
-            'linear-gradient(to right, #FCA5A5, #F87171)', // Kırmızı tonları
-            'linear-gradient(to right, #BEF264, #A3E635)', // Açık yeşil tonları
-            'linear-gradient(to right, #FECACA, #FCA5A5)', // Açık kırmızı tonları
-            'linear-gradient(to right, #BFDBFE, #93C5FD)', // Açık mavi tonları
-            'linear-gradient(to right, #FDE68A, #FCD34D)', // Sarı tonları
-            'linear-gradient(to right, #D8B4FE, #C084FC)'  // Açık mor tonları
+            'linear-gradient(to right, #6EE7B7, #34D399)',
+            'linear-gradient(to right, #93C5FD, #60A5FA)',
+            'linear-gradient(to right, #FDBA74, #FB923C)',
+            'linear-gradient(to right, #C4B5FD, #A78BFA)',
+            'linear-gradient(to right, #FCA5A5, #F87171)',
+            'linear-gradient(to right, #BEF264, #A3E635)',
+            'linear-gradient(to right, #FECACA, #FCA5A5)',
+            'linear-gradient(to right, #BFDBFE, #93C5FD)',
+            'linear-gradient(to right, #FDE68A, #FCD34D)',
+            'linear-gradient(to right, #D8B4FE, #C084FC)'
         ];
 
         // --- Özel Modal Fonksiyonları (Normal mod için basitleştirilmiş) ---
@@ -1176,7 +1177,6 @@
                 modalTitle.textContent = title;
                 modalMessage.textContent = message;
 
-                // Normal mod modallarında kullanılmadığı için tüm giriş alanlarını gizle
                 modalInput1.style.display = 'none';
                 modalInput2.style.display = 'none';
                 modalTextarea.style.display = 'none';
@@ -1185,7 +1185,6 @@
                 if (isConfirm) {
                     modalConfirmBtn.style.display = 'block';
                 } else {
-                    // Basit uyarılar için "Tamam" olarak işlev gören bir "İptal" düğmesi gösterebiliriz
                     modalCancelBtn.textContent = 'Tamam';
                     modalConfirmBtn.style.display = 'none';
                 }
@@ -1196,21 +1195,19 @@
 
         modalCancelBtn.addEventListener('click', () => {
             customModalOverlay.style.display = 'none';
-            modalCancelBtn.textContent = 'İptal'; // Düğme metnini sıfırla
-            modalResolve(null); // İptal/Tamam'da null ile çöz
+            modalCancelBtn.textContent = 'İptal';
+            modalResolve(null);
         });
 
         modalConfirmBtn.addEventListener('click', () => {
             customModalOverlay.style.display = 'none';
-            modalResolve(true); // Onayda true ile çöz
+            modalResolve(true);
         });
 
         // --- Yarışma Fonksiyonları ---
 
-        // Ünite seçim kartlarını render et
         function renderUnitCards() {
             unitCardsContainer.innerHTML = '';
-            // "Tüm Üniteler" seçeneğini her zaman en sona ekle
             const unitsForDisplay = units.filter(unit => unit.id !== 'all-units');
             const allUnitsConcept = units.find(unit => unit.id === 'all-units');
             if (allUnitsConcept) {
@@ -1223,7 +1220,6 @@
                 unitCard.textContent = unit.name;
                 unitCard.dataset.unitId = unit.id;
                 
-                // Gradyan rengini ata
                 unitCard.style.background = unitCardGradients[index % unitCardGradients.length];
 
                 unitCard.addEventListener('click', () => {
@@ -1231,7 +1227,6 @@
                 });
                 unitCardsContainer.appendChild(unitCard);
             });
-            // Bir ünite seçiliyse yarışmayı başlat düğmesini göster
             if (selectedUnitId) {
                 startQuizBtn.style.display = 'block';
             } else {
@@ -1239,18 +1234,16 @@
             }
         }
 
-        // Bir ünite seç ve kavramlarını yarışma modu için hazırla
         function selectUnit(unitId) {
             selectedUnitId = unitId;
             const unit = units.find(u => u.id === unitId);
             selectedUnitConcepts = unit ? unit.concepts : [];
-            answeredConceptIds.clear(); // Yeni ünite seçildiğinde cevaplanmış kavramları sıfırla
+            answeredConceptIds.clear();
             prepareQuestions();
-            renderUnitCards(); // Seçili durumu güncellemek için yeniden render et
-            startQuizBtn.style.display = 'block'; // Düğmenin seçimden sonra görünür olduğundan emin ol
+            renderUnitCards();
+            startQuizBtn.style.display = 'block';
         }
 
-        // Fisher-Yates karıştırma algoritması
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -1258,7 +1251,6 @@
             }
         }
 
-        // Tüm soruları seçilen ünitenin kavramlarından topla ve karıştır
         function prepareQuestions() {
             allQuestions = [];
             selectedUnitConcepts.forEach(concept => {
@@ -1274,18 +1266,11 @@
             updateAvailableQuestions();
         }
 
-        // Sorulabilecek sorular listesini güncelle
         function updateAvailableQuestions() {
-            // answeredConceptIds'de olmayan (yani tüm soruları cevaplanmamış) kavramlara ait soruları filtrele
             availableQuestions = allQuestions.filter(q => !answeredConceptIds.has(q.conceptId));
             shuffleArray(availableQuestions);
         }
 
-        /**
-         * Bir öğenin yazı tipi boyutunu belirtilen boyutlara sığacak şekilde dinamik olarak ayarlar.
-         * @param {HTMLElement} element Yazı tipi boyutu ayarlanması gereken HTML öğesi (örn. bir <span>).
-         * @param {number} maxWidth Öğenin içeriği için izin verilen maksimum genişlik piksel cinsinden.
-         */
         function adjustFontSize(element, maxWidth) {
             let fontSize = parseFloat(window.getComputedStyle(element).fontSize);
             const originalFontSize = 1.05 * 16;
@@ -1299,7 +1284,6 @@
             }
         }
 
-        // Verilen kavramlar için kavram kutularını render et
         function renderConcepts(conceptsToRender) {
             conceptBoxesDiv.innerHTML = '';
             if (conceptsToRender.length === 0) {
@@ -1308,19 +1292,18 @@
 
             conceptsToRender.forEach(concept => {
                 const conceptBox = document.createElement('div');
-                const isAnswered = answeredConceptIds.has(concept.id); // Tüm soruları cevaplanmış mı?
+                const isAnswered = answeredConceptIds.has(concept.id);
                 conceptBox.className = `concept-box ${concept.color} p-4 shadow-md ${isAnswered ? 'correct' : ''}`;
                 conceptBox.innerHTML = `<span>${concept.name}</span>
                                         <svg class="checkmark" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
                 conceptBox.dataset.conceptId = concept.id;
                 
-                // Eğer kavramın tüm soruları cevaplanmışsa veya mevcut soru için doğru cevap değilse tıklanamaz yap
-                if (!isAnswered) { // Sadece tüm soruları cevaplanmamışsa tıklanabilir yap
+                if (!isAnswered) {
                     conceptBox.addEventListener('click', handleConceptBoxClick);
                 } else {
-                    conceptBox.classList.add('correct'); // Doğru olarak işaretli kalmalı
-                    conceptBox.style.pointerEvents = 'none';
-                    conceptBox.classList.remove('cursor-pointer');
+                    conceptBox.classList.add('correct');
+                    box.style.pointerEvents = 'none';
+                    box.classList.remove('cursor-pointer');
                 }
 
                 const randomX = (Math.random() * 20 - 10) + 'px';
@@ -1341,22 +1324,19 @@
             });
         }
 
-        // Tüm kavram kutularının vurgularını ve durumlarını temizle
         function clearConceptBoxStates() {
             document.querySelectorAll('.concept-box').forEach(box => {
                 const conceptId = box.dataset.conceptId;
-                // Eğer kavramın tüm soruları cevaplanmamışsa, yanlış/doğru vurgularını kaldır
                 if (!answeredConceptIds.has(conceptId)) {
                     box.classList.remove('correct', 'incorrect');
-                    const originalConcept = units.flatMap(u => u.concepts).find(c => c.id === conceptId); // Tüm ünitelerden orijinal rengi bul
+                    const originalConcept = units.flatMap(u => u.concepts).find(c => c.id === conceptId);
                     if (originalConcept) {
-                        box.classList.remove(...selectedUnitConcepts.map(c => c.color)); // Mevcut renk sınıfını kaldır
-                        box.classList.add(originalConcept.color); // Orijinal rengi ekle
+                        box.classList.remove(...selectedUnitConcepts.map(c => c.color));
+                        box.classList.add(originalConcept.color);
                     }
-                    box.style.pointerEvents = 'auto'; // Tıklanabilir yap
+                    box.style.pointerEvents = 'auto';
                     box.classList.add('cursor-pointer');
                 } else {
-                    // Tüm soruları cevaplanmışsa, doğru olarak işaretli kalmalı ve tıklanamaz olmalı
                     box.classList.add('correct');
                     box.style.pointerEvents = 'none';
                     box.classList.remove('cursor-pointer');
@@ -1364,7 +1344,6 @@
             });
         }
 
-        // Tüm kavram kutularındaki tıklamaları devre dışı bırak
         function disableConceptBoxClicks() {
             document.querySelectorAll('.concept-box').forEach(box => {
                 box.style.pointerEvents = 'none';
@@ -1372,7 +1351,6 @@
             });
         }
 
-        // Geri sayım sayacını başlat
         function startTimer() {
             clearInterval(countdownInterval);
             timer = 50;
@@ -1398,18 +1376,16 @@
             }, 1000);
         }
 
-        // Geri sayım sayacını durdur
         function stopTimer() {
             clearInterval(countdownInterval);
             timerDisplay.classList.remove('warning');
         }
 
-        // Mevcut soruyu ve seçeneklerini görüntüle
         function displayQuestion() {
             feedbackDiv.style.display = 'none';
             clearConceptBoxStates();
             showAnswerBtn.style.display = 'block';
-            incorrectAttempts = 0; // Yeni soru için yanlış denemeleri sıfırla
+            incorrectAttempts = 0;
 
             if (availableQuestions.length === 0) {
                 questionText.textContent = "Tebrikler! Tüm kavramları tamamladınız.";
@@ -1430,37 +1406,29 @@
             const correctConcept = selectedUnitConcepts.find(c => c.id === currentQuestionData.conceptId);
             let optionsForCurrentQuestion = [correctConcept];
 
-            // Doğru kavramı ve tüm soruları cevaplanmış kavramları filtrele
             let potentialIncorrectOptions = selectedUnitConcepts.filter(c =>
                 c.id !== correctConcept.id && !answeredConceptIds.has(c.id)
             );
 
             shuffleArray(potentialIncorrectOptions);
 
-            // MIN_OPTIONS_PER_QUESTION'a ulaşana kadar veya daha fazla potansiyel seçenek kalmayana kadar yanlış seçenekler ekle
             for (let i = 0; optionsForCurrentQuestion.length < MIN_OPTIONS_PER_QUESTION && i < potentialIncorrectOptions.length; i++) {
                 optionsForCurrentQuestion.push(potentialIncorrectOptions[i]);
             }
 
-            // Eğer hala MIN_OPTIONS_PER_QUESTION'dan az seçenek varsa,
-            // (yani ünitede 8'den az benzersiz, tüm soruları cevaplanmamış kavram varsa)
-            // seçenek sayısı 8'den az olabilir. Bu durumda, sadece mevcut olanları gösteririz.
-            // Kullanıcının isteği doğrultusunda, tüm soruları bitmiş kavramlar seçenek olarak görünmeyecektir.
-
-            shuffleArray(optionsForCurrentQuestion); // Son seçenekleri karıştır
-            renderConcepts(optionsForCurrentQuestion); // Oluşturulan seçenekleri renderConcepts'e gönder
+            shuffleArray(optionsForCurrentQuestion);
+            renderConcepts(optionsForCurrentQuestion);
             
             timerDisplay.style.display = 'block';
             startTimer();
         }
 
-        // Kavram kutusuna tıklama olayını yönet
         function handleConceptBoxClick(event) {
             const clickedBox = event.currentTarget;
             const clickedConceptId = clickedBox.dataset.conceptId;
             const correctConceptId = currentQuestionData.conceptId;
 
-            clearConceptBoxStates(); // Şu anda render edilmiş tüm kutuların durumlarını temizle
+            clearConceptBoxStates();
 
             if (clickedConceptId === correctConceptId) {
                 feedbackDiv.textContent = "Doğru cevap! 🎉";
@@ -1468,20 +1436,18 @@
                 clickedBox.classList.remove(...selectedUnitConcepts.map(c => c.color));
                 clickedBox.classList.add('correct');
 
-                // Mevcut soruyu allQuestions'dan kaldır ki tekrar sorulmasın
                 allQuestions = allQuestions.filter(q => !(q.conceptId === correctConceptId && q.question === currentQuestionData.question));
 
-                // Bu kavram için tüm soruların bitip bitmediğini kontrol et
                 const remainingQuestionsForThisConcept = allQuestions.filter(q => q.conceptId === correctConceptId);
                 if (remainingQuestionsForThisConcept.length === 0) {
-                    answeredConceptIds.add(correctConceptId); // Kavramı tamamen cevaplanmış olarak işaretle
+                    answeredConceptIds.add(correctConceptId);
                 }
                 
                 disableConceptBoxClicks();
                 showAnswerBtn.style.display = 'none';
                 stopTimer();
             } else {
-                incorrectAttempts++; // Yanlış denemeleri artır
+                incorrectAttempts++;
                 feedbackDiv.textContent = `Yanlış cevap, tekrar deneyin. Kalan hak: ${2 - incorrectAttempts}`;
                 feedbackDiv.className = "message-box error";
                 clickedBox.classList.add('incorrect');
@@ -1489,7 +1455,7 @@
                     clickedBox.classList.remove('incorrect');
                 }, 700);
 
-                if (incorrectAttempts >= 2) { // 2 yanlış denemeye ulaşıldıysa kontrol et
+                if (incorrectAttempts >= 2) {
                     stopTimer();
                     feedbackDiv.textContent = "İki kez yanlış cevap verdiniz! Süre durduruldu. Cevabı görmek için 'Cevabı Göster' butonuna tıklayabilirsiniz.";
                     feedbackDiv.className = "message-box error";
@@ -1499,7 +1465,6 @@
             feedbackDiv.style.display = 'block';
         }
 
-        // Cevabı Göster düğmesi mantığı
         showAnswerBtn.addEventListener('click', () => {
             const correctConceptId = currentQuestionData.conceptId;
             const correctConcept = selectedUnitConcepts.find(c => c.id === correctConceptId);
@@ -1519,78 +1484,62 @@
                 }
             });
             disableConceptBoxClicks();
-            // Cevap gösterildiğinde o kavramın tüm soruları bitmiş sayılmalı
-            // Mevcut soruyu allQuestions'dan kaldır ki tekrar sorulmasın
             allQuestions = allQuestions.filter(q => !(q.conceptId === correctConceptId && q.question === currentQuestionData.question));
 
-            // Bu kavram için tüm soruların bitip bitmediğini kontrol et
             const remainingQuestionsForThisConcept = allQuestions.filter(q => q.conceptId === correctConceptId);
             if (remainingQuestionsForThisConcept.length === 0) {
-                answeredConceptIds.add(correctConceptId); // Kavramı tamamen cevaplanmış olarak işaretle
+                answeredConceptIds.add(correctConceptId);
             }
             showAnswerBtn.style.display = 'none';
             stopTimer();
         });
 
-        // Sonraki soruya geç
         nextQuestionBtn.addEventListener('click', () => {
             updateAvailableQuestions();
             displayQuestion();
         });
 
-        // Yarışmayı yeniden başlat
         resetQuizBtn.addEventListener('click', () => {
-            answeredConceptIds.clear(); // Cevaplanmış kavramları sıfırla
-            prepareQuestions(); // Tüm soruları yeniden hazırla
-            displayQuestion(); // İlk soruyu göster
+            answeredConceptIds.clear();
+            prepareQuestions();
+            displayQuestion();
             nextQuestionBtn.style.display = 'block';
             showAnswerBtn.style.display = 'block';
         });
 
-        // --- Ekran Geçişleri ---
-
-        // "Yarışmayı Başlat" tıklandığında bu fonksiyon çağrılır
         function startQuizFromMenu() {
             if (selectedUnitId) {
                 mainMenuScreen.style.display = 'none';
                 mainQuizContent.style.display = 'flex';
-                resetQuizBtn.click(); // Seçilen ünite için yarışmayı başlat
+                resetQuizBtn.click();
             } else {
                 showModal('Uyarı', 'Lütfen bir ünite seçin!', null, null, null, false);
             }
         }
 
-        // "Yarışmayı Başlat" düğmesi için olay dinleyicisi
         startQuizBtn.addEventListener('click', startQuizFromMenu);
 
-        // Yarışmadan ana menüye dönmek için olay dinleyicisi
         returnToMainMenuFromQuizBtn.addEventListener('click', () => {
             stopTimer();
             mainQuizContent.style.display = 'none';
             mainMenuScreen.style.display = 'flex';
-            selectedUnitId = null; // Seçili üniteyi temizle
-            answeredConceptIds.clear(); // Yarışma başlangıcı için temizle
-            renderUnitCards(); // Seçim durumunu doğru göstermek için ünite kartlarını yeniden render et
+            selectedUnitId = null;
+            answeredConceptIds.clear();
+            renderUnitCards();
         });
 
-        // "Siteye Dön" butonu için olay dinleyicisi
         returnToSiteBtn.addEventListener('click', () => {
             window.location.href = 'https://ozeme42.github.io/yunus/index.html';
         });
 
-        // Yüklemede ilk render
         document.addEventListener('DOMContentLoaded', () => {
-            // "Tüm Üniteler" seçeneğinin zaten eklenip eklenmediğini kontrol et
             const allUnitsExist = units.some(unit => unit.id === 'all-units');
 
-            // "Ek Kavramlar" ünitesini units dizisinden kaldır
             units = units.filter(unit => unit.id !== 'additional-concepts-unit');
 
             if (!allUnitsExist) {
-                // units dizisindeki tüm ünitelerin kavramlarını birleştir
                 const allConceptsCombined = units.flatMap(unit => unit.concepts);
 
-                // `units` dizisine yeni "Tüm Üniteler" birimini ekle
                 units.push({
                     id: 'all-units',
                     name: 'Tüm Üniteler',
@@ -1598,12 +1547,11 @@
                 });
             }
 
-            // Başlangıçta hiçbir ünite seçili olmasın, kullanıcının seçmesini bekleyelim
             selectedUnitId = null;
 
-            renderUnitCards(); // Ana menüyü ilk göstermek için ünite kartlarını render et
-            mainQuizContent.style.display = 'none'; // Yarışma içeriğinin başlangıçta gizli olduğundan emin ol
-            mainMenuScreen.style.display = 'flex'; // Ana menünün başlangıçta görünür olduğundan emin ol
+            renderUnitCards();
+            mainQuizContent.style.display = 'none';
+            mainMenuScreen.style.display = 'flex';
         });
     </script>
 </body>
