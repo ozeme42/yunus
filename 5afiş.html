@@ -280,6 +280,24 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             box-shadow: 0 0 0 3px #268BD2; /* Blue outline */
         }
 
+        .return-site-button {
+            background-color: #B58900; /* Solarized Yellow for return button */
+            color: white;
+            padding: 0.6rem 1.1rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            border: none;
+            flex-shrink: 0;
+        }
+        .return-site-button:hover {
+            background-color: #CB4B16; /* Solarized Orange on hover */
+            transform: translateY(-2px);
+        }
+
+
         .presentation-controls {
             position: absolute;
             bottom: 0;
@@ -375,11 +393,11 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
             }
             .nav-button {
                 padding: 0.6rem 1.1rem; /* Adjusted for mobile */
-                font-size: 1rem; /* Adjusted for mobile */
+                font-size: 1.0rem; /* Adjusted for mobile */
             }
             .slide-counter {
                 padding: 0.6rem 1rem; /* Adjusted for mobile */
-                font-size: 1rem; /* Adjusted for mobile */
+                font-size: 1.0rem; /* Adjusted for mobile */
             }
             .top-nav {
                 padding: 0.6rem 0.6rem; /* Adjusted for mobile */
@@ -389,11 +407,16 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
                 padding: 0.5rem 0.9rem; /* Adjusted for mobile */
                 font-size: 0.9rem; /* Adjusted for mobile */
             }
+            .return-site-button {
+                padding: 0.5rem 0.9rem; /* Adjusted for mobile */
+                font-size: 0.9rem; /* Adjusted for mobile */
+            }
         }
     </style>
 </head>
 <body>
     <div class="top-nav">
+        <button id="returnToSiteBtn" class="return-site-button">Siteye Dön</button>
         <button class="top-nav-button" data-unit-index="0">Giriş</button>
         <button class="top-nav-button" data-unit-index="1">Ünite 1</button>
         <button class="top-nav-button" data-unit-index="6">Ünite 2</button>
@@ -764,7 +787,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div>
                         <h5 class="font-semibold text-md text-[#268BD2]"><span class="emoji-icon">🚢</span> Hz. Nuh (a.s.)</h5>
-                        <ul class="emoji-list">
+                        <ul>
                             <li>Kavmini Allah'ın birliğine çağırdı.</li>
                             <li>Tufanla inkarcılar helak oldu, inananlar kurtuldu.</li>
                             <li>Sabır ve tebliğde sebatın örneğidir.</li>
@@ -772,7 +795,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
                     </div>
                     <div>
                         <h5 class="font-semibold text-md text-[#2AA198]"><span class="emoji-icon">🔥</span> Hz. İbrahim (a.s.)</h5>
-                        <ul class="emoji-list">
+                        <ul>
                             <li>Putlara karşı tevhit mücadelesi verdi.</li>
                             <li>Ateşe atıldı ama yanmadı.</li>
                             <li>Kâbe'nin inşası ve kurban emrine teslimiyetiyle bilinir.</li>
@@ -789,7 +812,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div>
                         <h5 class="font-semibold text-md text-[#859900]"><span class="emoji-icon">🌊</span> Hz. Musa (a.s.)</h5>
-                        <ul class="emoji-list">
+                        <ul>
                             <li>Firavun'un zulmü altındaki İsrailoğullarını kurtardı.</li>
                             <li>Kızıldeniz'i yararak kavmini kurtardı.</li>
                             <li>Tevrat kendisine indirilmiştir.</li>
@@ -798,7 +821,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
                     </div>
                     <div>
                         <h5 class="font-semibold text-md text-[#B58900]"><span class="emoji-icon">🕊️</span> Hz. İsa (a.s.)</h5>
-                        <ul class="emoji-list">
+                        <ul>
                             <li>Babasız dünyaya gelmesi, beşikte konuşması gibi mucizelerle desteklendi.</li>
                             <li>Kavmini Allah'ın birliğine davet etti, kendisine İncil indirildi.</li>
                             <li>Merhamet ve tebliğde azmin timsalidir.</li>
@@ -922,6 +945,7 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
         const nextBtn = document.getElementById('nextBtn');
         const slideCounter = document.getElementById('slideCounter');
         const topNavButtons = document.querySelectorAll('.top-nav-button');
+        const returnToSiteBtn = document.getElementById('returnToSiteBtn'); // Get the new button
 
         // Define unit ranges
         const unitRanges = [
@@ -945,7 +969,9 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
         function updateTopNavButtons() {
             const currentUnit = getCurrentUnit(currentSlideIndex);
             topNavButtons.forEach((button, index) => {
-                if (currentUnit && index === currentUnit.navButtonIndex) {
+                // Adjust index for topNavButtons array to account for the new "Siteye Dön" button
+                const actualIndex = index + 1; // Since "Siteye Dön" is at index 0
+                if (currentUnit && actualIndex === currentUnit.navButtonIndex) {
                     button.classList.add('active-unit');
                 } else {
                     button.classList.remove('active-unit');
@@ -995,6 +1021,11 @@ CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
                 currentSlideIndex++;
                 showSlide(currentSlideIndex);
             }
+        });
+
+        // Add event listener for the "Siteye Dön" button
+        returnToSiteBtn.addEventListener('click', () => {
+            window.open('https://ozeme42.github.io/yunus/index.html', '_blank');
         });
 
         // Add event listeners for top navigation buttons
