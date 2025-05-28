@@ -266,6 +266,8 @@
                 <p class="text-2xl">📚 Öğrenmeye başlamak için lütfen bir ünite seçin.</p>
             </div>
 
+            <button id="return-to-site-button-mobile" class="block sm:hidden return-button w-full mb-4 py-3 px-4 text-base">🕌 Siteye Dön</button>
+
             <div id="mobileUnitAccordionContainer" class="block sm:hidden space-y-4">
                 </div>
 
@@ -779,6 +781,7 @@
 
         const mobileUnitAccordionContainer = document.getElementById('mobileUnitAccordionContainer');
         const initialMessageEl = document.getElementById('initialMessage');
+        const returnToSiteButtonMobile = document.getElementById('return-to-site-button-mobile'); // Yeni mobil butonu seç
 
         let currentUnitIdDesktop = null; // Masaüstü için aktif ünite ID'si
 
@@ -985,11 +988,13 @@
                 mobileUnitAccordionContainer.style.display = 'block';
                 desktopUnitContent.style.display = 'none';
                 document.querySelector('nav').style.display = 'none'; // Üst menüyü gizle
+                returnToSiteButtonMobile.style.display = 'block'; // Mobil butonu göster
                 renderMobileView();
             } else { // Masaüstü görünüm
                 mobileUnitAccordionContainer.style.display = 'none';
                 desktopUnitContent.style.display = 'block';
                 document.querySelector('nav').style.display = 'block'; // Üst menüyü göster
+                returnToSiteButtonMobile.style.display = 'none'; // Mobil butonu gizle
                 renderDesktopView();
             }
             initialMessageEl.style.display = 'none'; // Her iki durumda da başlangıç mesajını gizle
@@ -1007,8 +1012,12 @@
                 window.location.href = 'index.html';
             });
         }
-        // Mobil için bir "Siteye Dön" butonu eklemeye gerek yok, çünkü nav gizli.
-        // Eğer mobil için de ayrı bir "Siteye Dön" butonu istenirse, HTML'e eklenip burada dinleyici atanabilir.
+        // Mobil için eklenen "Siteye Dön" butonu dinleyicisi
+        if (returnToSiteButtonMobile) {
+            returnToSiteButtonMobile.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
     </script>
 </body>
 </html>
