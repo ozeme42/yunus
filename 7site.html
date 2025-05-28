@@ -86,12 +86,13 @@
 
         /* Mobil için "Konu Başlıkları" içeriği varsayılan olarak kapalı olsun */
         @media (max-width: 767px) {
-            #topicsAccordionContent {
+            .section-content { /* Genel section-content mobil için */
                 max-height: 0; /* Başlangıçta gizli */
                 overflow: hidden;
                 padding: 0 1rem; /* Padding'i sıfırla, aktif olunca eklenecek */
+                transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Geçiş ekle */
             }
-            #topicsAccordionContent.active {
+            .section-content.active {
                 max-height: 2000px; /* İçeriğe göre ayarlanabilir */
                 padding: 1rem; /* Aktif olunca padding ekle */
             }
@@ -182,23 +183,65 @@
 
         /* Mobil için üst menü ve ünite listesi düzenlemeleri */
         @media (max-width: 767px) {
-            nav > div {
-                flex-direction: column; /* Mobil için dikey sıralama */
-                align-items: center; /* Ortala */
-                gap: 0.5rem; /* Dikey boşluk */
-                overflow-x: hidden; /* Yatay kaydırmayı kaldır */
+            /* Üstteki nav barı tamamen gizle */
+            nav {
+                display: none;
             }
-            #return-to-site-button {
-                margin-right: 0; /* Sağ marjı kaldır */
-                width: 100%; /* Tam genişlik */
-                text-align: center; /* Metni ortala */
+
+            /* Masaüstü içeriğini mobil'de gizle */
+            #desktopUnitContent {
+                display: none;
             }
-            #unitList {
-                flex-direction: column; /* Ünite butonlarını alt alta sırala */
-                gap: 0.5rem; /* Dikey boşluk */
-                max-height: 200px; /* Yüksekliği sınırla */
-                overflow-y: auto; /* Dikey kaydırma çubuğu */
-                width: 100%; /* Tam genişlik */
+
+            /* Mobil için ana içerik alanını göster */
+            #mobileUnitAccordionContainer {
+                display: block;
+            }
+
+            /* Mobil ünite butonları için stil */
+            .unit-accordion-button {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                text-align: left;
+                padding: 1rem;
+                background-color: #059669; /* emerald-600 */
+                color: white;
+                border-radius: 0.5rem;
+                font-weight: 700;
+                font-size: 1.125rem; /* text-lg */
+                margin-bottom: 0.5rem;
+                transition: background-color 0.2s ease-in-out;
+            }
+            .unit-accordion-button:hover {
+                background-color: #047857; /* emerald-700 */
+            }
+            .unit-accordion-button .icon {
+                margin-right: 0.5rem;
+            }
+            .unit-accordion-button .arrow-icon {
+                transition: transform 0.2s ease-in-out;
+            }
+            .unit-accordion-button .arrow-icon.rotated {
+                transform: rotate(90deg);
+            }
+
+            /* Mobil ünite içeriği (konu başlıkları ve detayları) */
+            .unit-accordion-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-out;
+                padding: 0 1rem;
+                background-color: #e0f2f7; /* light blue for distinction */
+                border-radius: 0 0 0.5rem 0.5rem;
+                margin-top: -0.25rem; /* Butonla birleşik görünmesi için */
+                border: 1px solid #a7f3d0; /* emerald-200 */
+                border-top: none;
+            }
+            .unit-accordion-content.active {
+                max-height: 2000px; /* Yeterince büyük bir değer */
+                padding: 1rem;
             }
         }
     </style>
@@ -210,10 +253,10 @@
         </div>
     </header>
 
-    <nav class="bg-emerald-800 p-2 shadow-md sticky top-[76px] sm:top-[88px] z-40">
+    <nav class="hidden sm:block bg-emerald-800 p-2 shadow-md sticky top-[76px] sm:top-[88px] z-40">
         <div class="container mx-auto max-w-6xl flex flex-nowrap overflow-x-auto justify-center items-center space-x-1 rounded-lg sm:flex-row sm:space-x-1 sm:space-y-0">
-            <button id="return-to-site-button" class="return-button py-3 px-2 sm:px-4 md:px-6 text-sm sm:text-base">🕌 Siteye Dön</button>
-            <ul id="unitList" class="flex flex-nowrap gap-4 py-2">
+            <button id="return-to-site-button-desktop" class="return-button py-3 px-2 sm:px-4 md:px-6 text-sm sm:text-base">🕌 Siteye Dön</button>
+            <ul id="unitListDesktop" class="flex flex-nowrap gap-4 py-2">
                 </ul>
         </div>
     </nav>
@@ -221,18 +264,19 @@
     <main class="container mx-auto max-w-4xl mt-8 p-4 sm:p-6 lg:p-8">
         <div id="content-area" class="bg-white p-6 rounded-lg shadow-xl min-h-[400px]">
             <div id="initialMessage" class="text-center text-gray-500 mt-10">
-                <p class="text-2xl">📚 Öğrenmeye başlamak için lütfen üst taraftaki menüden bir ünite seçin.</p>
+                <p class="text-2xl">📚 Öğrenmeye başlamak için lütfen bir ünite seçin.</p>
             </div>
-            <div id="unitContent" style="display: none;">
-                <h2 id="unitTitle" class="main-section-title"></h2>
-                <p id="unitIntroductionText" class="text-gray-600 mb-6 italic"></p>
+
+            <div id="mobileUnitAccordionContainer" class="block sm:hidden space-y-4">
+                </div>
+
+            <div id="desktopUnitContent" class="hidden sm:block">
+                <h2 id="unitTitleDesktop" class="main-section-title"></h2>
+                <p id="unitIntroductionTextDesktop" class="text-gray-600 mb-6 italic"></p>
 
                 <div class="mb-8">
-                    <button id="topicsAccordionButton" class="section-toggle-button">
-                        Konu Başlıkları <span class="arrow-icon">▶️</span>
-                    </button>
-                    <div id="topicsAccordionContent" class="section-content">
-                        <div id="topicList">
+                    <div id="topicsAccordionContentDesktop" class="section-content">
+                        <div id="topicListDesktop">
                             </div>
                     </div>
                 </div>
@@ -645,7 +689,7 @@
                             id: "topic4_3",
                             title: "Bir Sure Tanıyorum: Kâfirun Suresi ve Anlamı",
                             content: `
-                                <p>Kur'an-ı Kerim'in 109. suresidir, altı ayettir.</p>
+                                <p>Kur'an-ı Kerim'in 109. suresidir, altı ayettir. "Kâfirun" kelimesi insanlar anlamına gelir.</p>
                                 <div class="mt-3 p-3 bg-amber-50 rounded-md border border-amber-200">
                                     <h5 class="font-semibold text-amber-700">Kâfirun Suresi Anlamı:</h5>
                                     <p class="mt-1">"De ki: Ey kâfirler! Ben sizin taptıklarınıza tapmam. Siz de benim taptığıma tapmazsınız. Ben sizin taptıklarınıza tapacak değilim. Siz de benim taptığıma tapacak değilsiniz. Sizin dininiz size, benim dinim banadır."</p>
@@ -746,91 +790,183 @@
             ]
         };
 
-        const unitList = document.getElementById('unitList');
-        const unitTitleEl = document.getElementById('unitTitle');
-        const unitIntroductionTextEl = document.getElementById('unitIntroductionText');
-        const topicListEl = document.getElementById('topicList');
+        // DOM elementlerini seç
+        const unitListDesktop = document.getElementById('unitListDesktop');
+        const desktopUnitContent = document.getElementById('desktopUnitContent');
+        const unitTitleDesktop = document.getElementById('unitTitleDesktop');
+        const unitIntroductionTextDesktop = document.getElementById('unitIntroductionTextDesktop');
+        const topicListDesktop = document.getElementById('topicListDesktop');
+        const topicsAccordionContentDesktop = document.getElementById('topicsAccordionContentDesktop');
+
+        const mobileUnitAccordionContainer = document.getElementById('mobileUnitAccordionContainer');
         const initialMessageEl = document.getElementById('initialMessage');
-        const unitContentEl = document.getElementById('unitContent'); // Ana içerik div'i
-        const topicsAccordionButton = document.getElementById('topicsAccordionButton'); // Yeni eklendi
-        const topicsAccordionContent = document.getElementById('topicsAccordionContent'); // Yeni eklendi
 
+        let currentUnitIdDesktop = null; // Masaüstü için aktif ünite ID'si
+        let currentOpenTopicContent = null; // Şu anda açık olan konu içeriği div'ini tutar (hem mobil hem masaüstü)
+        let currentOpenUnitContentMobile = null; // Mobil için açık olan ünite içeriği div'ini tutar
 
-        let currentUnitId = null;
-        let currentOpenTopicContent = null; // Şu anda açık olan konu içeriği div'ini tutar
-        let currentTopicId = null; // currentTopicId'yi global olarak tanımla ve başlat
-
-        function displayUnits() {
-            unitList.innerHTML = '';
+        // Masaüstü için ünite butonlarını ve içeriğini gösterir
+        function renderDesktopView() {
+            // Üst menüdeki ünite listesini doldur
+            unitListDesktop.innerHTML = '';
             textbookData.units.forEach(unit => {
                 const listItem = document.createElement('li');
                 const button = document.createElement('button');
                 button.textContent = unit.title;
                 button.className = 'tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base font-medium focus:outline-none transition-colors';
                 
-                // Butonun arka plan rengini ve yazı rengini ayarla
                 button.style.backgroundColor = unit.buttonBg;
-                button.style.color = 'white'; // Tüm buton yazıları beyaz olacak
+                button.style.color = 'white';
 
-                if (unit.id === currentUnitId) {
-                    // Aktif sekme için özel arka plan ve yazı rengi
-                    button.classList.add('active-tab'); // Bu sınıf zaten beyaz yazı ve özel arka plan ayarlıyor
-                    button.style.backgroundColor = '#047857'; // Aktif sekme için özel arka plan rengi
+                if (unit.id === currentUnitIdDesktop) {
+                    button.classList.add('active-tab');
+                    button.style.backgroundColor = '#047857';
                 }
 
                 button.onmouseover = () => {
-                    if (unit.id !== currentUnitId) {
+                    if (unit.id !== currentUnitIdDesktop) {
                         button.style.backgroundColor = unit.buttonHoverBg;
                     }
                 };
                 button.onmouseout = () => {
-                    if (unit.id !== currentUnitId) {
+                    if (unit.id !== currentUnitIdDesktop) {
                         button.style.backgroundColor = unit.buttonBg;
                     }
                 };
                 button.onclick = () => {
-                    selectUnit(unit.id);
+                    selectUnitDesktop(unit.id);
                 };
                 listItem.appendChild(button);
-                unitList.appendChild(listItem);
+                unitListDesktop.appendChild(listItem);
             });
-        }
 
-        function selectUnit(unitId) {
-            currentUnitId = unitId;
-            currentTopicId = null; // Yeni ünite seçildiğinde aktif konuyu sıfırla
-            currentOpenTopicContent = null; // Yeni ünite seçildiğinde açık olan akordiyonu sıfırla
-            const selectedUnit = textbookData.units.find(u => u.id === unitId);
-
-            if (selectedUnit) {
-                initialMessageEl.style.display = 'none';
-                unitContentEl.style.display = 'block';
-
-                unitTitleEl.innerHTML = `<span class="icon">${selectedUnit.icon}</span> ${selectedUnit.title}`;
-                // Masaüstünde başlık rengi sabit kalacağı için bu satır kaldırıldı.
-                // unitTitleEl.style.color = selectedUnit.color; 
-                
-                displayTopics(selectedUnit.topics);
-                displayUnits(); // Navigasyondaki aktifliği güncelle
-
-                // Ünite butonunu kaydırarak görünür hale getir
-                const activeUnitButton = unitList.querySelector('.active-tab');
-                if (activeUnitButton) {
-                    activeUnitButton.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-
-                // Mobil için "Konu Başlıkları" akordiyonunu başlangıçta kapalı tut
-                // Sadece mobil cihazlarda bu işlemi yap
-                if (window.innerWidth < 768) { // Tailwind'in 'md' breakpoint'i genellikle 768px'tir
-                    topicsAccordionContent.classList.remove('active'); // CSS'deki active sınıfını kaldır
-                    topicsAccordionContent.style.maxHeight = '0px'; // JS ile de sıfırla
-                    topicsAccordionButton.querySelector('.arrow-icon').classList.remove('rotated');
+            // İlk üniteyi otomatik olarak seç (masaüstü için)
+            if (!currentUnitIdDesktop && textbookData.units.length > 0) {
+                selectUnitDesktop(textbookData.units[0].id);
+            } else if (currentUnitIdDesktop) {
+                // Mevcut üniteyi tekrar seçerken sadece aktif stilini güncelle
+                document.querySelectorAll('#unitListDesktop .tab-button').forEach(btn => {
+                    btn.classList.remove('active-tab');
+                    const unitIdFromButton = btn.onclick.toString().match(/selectUnitDesktop\('([^']+)'\)/);
+                    if (unitIdFromButton && unitIdFromButton[1]) {
+                        const unit = textbookData.units.find(u => u.id === unitIdFromButton[1]);
+                        if (unit) {
+                            btn.style.backgroundColor = unit.buttonBg;
+                            btn.style.color = 'white';
+                        }
+                    }
+                });
+                const activeButton = document.querySelector(`#unitListDesktop button[onclick*="${currentUnitIdDesktop}"]`);
+                if (activeButton) {
+                    activeButton.classList.add('active-tab');
+                    activeButton.style.backgroundColor = '#047857'; // Active color
                 }
             }
         }
 
-        function displayTopics(topics) {
-            topicListEl.innerHTML = '';
+        // Masaüstünde ünite seçimi
+        function selectUnitDesktop(unitId) {
+            currentUnitIdDesktop = unitId;
+            const selectedUnit = textbookData.units.find(u => u.id === unitId);
+
+            if (selectedUnit) {
+                initialMessageEl.style.display = 'none';
+                desktopUnitContent.style.display = 'block'; // Masaüstü içeriğini göster
+
+                unitTitleDesktop.innerHTML = `<span class="icon">${selectedUnit.icon}</span> ${selectedUnit.title}`;
+                unitIntroductionTextDesktop.textContent = selectedUnit.introduction;
+                
+                // Masaüstünde konu başlıkları her zaman açık
+                displayTopics(selectedUnit.topics, topicListDesktop);
+                topicsAccordionContentDesktop.style.maxHeight = 'none'; // Her zaman açık
+                topicsAccordionContentDesktop.style.overflow = 'visible'; // Her zaman görünür
+                topicsAccordionContentDesktop.style.padding = '1rem'; // Her zaman padding var
+
+                // Bunun yerine, aktif buton stilini doğrudan güncelleyelim:
+                document.querySelectorAll('#unitListDesktop .tab-button').forEach(btn => {
+                    btn.classList.remove('active-tab');
+                    const unitIdFromButton = btn.onclick.toString().match(/selectUnitDesktop\('([^']+)'\)/);
+                    if (unitIdFromButton && unitIdFromButton[1]) {
+                        const unit = textbookData.units.find(u => u.id === unitIdFromButton[1]);
+                        if (unit) {
+                            btn.style.backgroundColor = unit.buttonBg;
+                            btn.style.color = 'white';
+                        }
+                    }
+                });
+
+                const activeButton = document.querySelector(`#unitListDesktop button[onclick*="${unitId}"]`);
+                if (activeButton) {
+                    activeButton.classList.add('active-tab');
+                    activeButton.style.backgroundColor = '#047857'; // Active color
+                }
+            }
+        }
+
+        // Mobil için ünite akordiyonlarını oluşturur
+        function renderMobileView() {
+            mobileUnitAccordionContainer.innerHTML = '';
+            initialMessageEl.style.display = 'none'; // Başlangıç mesajını gizle
+            desktopUnitContent.style.display = 'none'; // Masaüstü içeriğini gizle
+
+            textbookData.units.forEach(unit => {
+                const unitDiv = document.createElement('div');
+                unitDiv.className = 'unit-accordion-item';
+
+                const unitButton = document.createElement('button');
+                unitButton.innerHTML = `<span class="icon">${unit.icon}</span> ${unit.title} <span class="arrow-icon">▶️</span>`;
+                unitButton.className = 'unit-accordion-button';
+                unitButton.dataset.unitId = unit.id; // Ünite ID'sini sakla
+
+                const unitContentDiv = document.createElement('div');
+                unitContentDiv.className = 'unit-accordion-content';
+                unitContentDiv.innerHTML = `
+                    <p class="text-gray-600 mb-4 italic">${unit.introduction}</p>
+                    <div id="topicList-${unit.id}" class="space-y-2"></div>
+                `;
+                
+                // Konu başlıklarını bu ünite içeriğine doldur
+                displayTopics(unit.topics, unitContentDiv.querySelector(`#topicList-${unit.id}`));
+
+                unitButton.onclick = () => {
+                    toggleUnitAccordion(unit.id, unitContentDiv, unitButton);
+                };
+
+                unitDiv.appendChild(unitButton);
+                unitDiv.appendChild(unitContentDiv);
+                mobileUnitAccordionContainer.appendChild(unitDiv);
+            });
+        }
+
+        // Mobil ünite akordiyonunu açıp kapatma
+        function toggleUnitAccordion(unitId, contentDiv, button) {
+            // Eğer farklı bir ünite açıksa, onu kapat
+            if (currentOpenUnitContentMobile && currentOpenUnitContentMobile !== contentDiv) {
+                currentOpenUnitContentMobile.classList.remove('active');
+                const prevButton = currentOpenUnitContentMobile.previousElementSibling;
+                if (prevButton) {
+                    prevButton.querySelector('.arrow-icon').classList.remove('rotated');
+                }
+            }
+
+            // Tıklanan üniteyi aç/kapat
+            contentDiv.classList.toggle('active');
+            const arrowIcon = button.querySelector('.arrow-icon');
+            if (arrowIcon) arrowIcon.classList.toggle('rotated');
+
+            // Açık olan üniteyi güncelle
+            if (contentDiv.classList.contains('active')) {
+                currentOpenUnitContentMobile = contentDiv;
+                // İçerik açıldığında içindeki alt akordiyonları başlat
+                initializeAccordionsInContent(contentDiv);
+            } else {
+                currentOpenUnitContentMobile = null;
+            }
+        }
+
+        // Konu başlıklarını belirli bir elemente doldurur
+        function displayTopics(topics, targetElement) {
+            targetElement.innerHTML = '';
             const olElement = document.createElement('ol');
             olElement.className = 'space-y-2';
 
@@ -839,20 +975,12 @@
                 listItem.className = 'topic-list-item';
 
                 const button = document.createElement('button');
-                button.innerHTML = `<span>${index + 1}. ${topic.title}</span><span class="arrow-icon">▶️</span>`; // Numara ve ok ikonu buton içinde
+                button.innerHTML = `<span>${index + 1}. ${topic.title}</span><span class="arrow-icon">▶️</span>`;
                 button.className = 'topic-button px-4 py-2 rounded-md transition duration-150 ease-in-out text-sm';
 
                 const topicContentDiv = document.createElement('div');
                 topicContentDiv.innerHTML = topic.content;
                 topicContentDiv.className = 'topic-content-area prose max-w-none text-gray-700 leading-relaxed';
-
-                // Başlangıçta aktif konu varsa, içeriğini göster
-                if (topic.id === currentTopicId) {
-                    button.classList.add('active-topic');
-                    topicContentDiv.classList.add('active');
-                    button.querySelector('.arrow-icon').classList.add('rotated');
-                    currentOpenTopicContent = topicContentDiv; // Açık olan konuyu kaydet
-                }
 
                 button.onclick = () => {
                     toggleTopicContent(topic.id, topicContentDiv, button);
@@ -862,20 +990,27 @@
                 listItem.appendChild(topicContentDiv);
                 olElement.appendChild(listItem);
             });
-            topicListEl.appendChild(olElement);
+            targetElement.appendChild(olElement);
         }
 
+        // Konu içeriğini açıp kapatma
         function toggleTopicContent(topicId, contentDiv, button) {
-            // Eğer farklı bir konu açıksa, onu kapat
-            if (currentOpenTopicContent && currentOpenTopicContent !== contentDiv) {
-                currentOpenTopicContent.classList.remove('active');
-                const prevButton = currentOpenTopicContent.previousElementSibling;
-                if (prevButton) {
-                    prevButton.classList.remove('active-topic');
-                    const prevArrow = prevButton.querySelector('.arrow-icon');
-                    if (prevArrow) prevArrow.classList.remove('rotated');
+            // Eğer farklı bir konu açıksa, onu kapat (sadece aynı ünite içinde)
+            // Bu kısım, her ünitenin kendi içinde bağımsız konu akordiyonları olmasını sağlar.
+            const parentUnitContent = contentDiv.closest('.unit-accordion-content') || document.getElementById('topicsAccordionContentDesktop');
+            const openTopicsInParent = parentUnitContent.querySelectorAll('.topic-content-area.active');
+
+            openTopicsInParent.forEach(openTopic => {
+                if (openTopic !== contentDiv) {
+                    openTopic.classList.remove('active');
+                    const prevButton = openTopic.previousElementSibling;
+                    if (prevButton) {
+                        prevButton.classList.remove('active-topic');
+                        const prevArrow = prevButton.querySelector('.arrow-icon');
+                        if (prevArrow) prevArrow.classList.remove('rotated');
+                    }
                 }
-            }
+            });
 
             // Tıklanan konuyu aç/kapat
             contentDiv.classList.toggle('active');
@@ -883,70 +1018,65 @@
             const arrowIcon = button.querySelector('.arrow-icon');
             if (arrowIcon) arrowIcon.classList.toggle('rotated');
 
-            // Açık olan konuyu güncelle
-            if (contentDiv.classList.contains('active')) {
-                currentOpenTopicContent = contentDiv;
-            } else {
-                currentOpenTopicContent = null;
-            }
-
             // Akordiyon içeriği açıldığında, içindeki alt akordiyonları da başlat
             if (contentDiv.classList.contains('active')) {
                 initializeAccordionsInContent(contentDiv);
             }
         }
 
+        // İç içe akordiyonları başlatma (Fıkhi, İtikadi, Tasavvufi yorumlar)
         function initializeAccordionsInContent(parentDiv) {
             const accordionButtons = parentDiv.querySelectorAll('.accordion-button');
             accordionButtons.forEach(button => {
-                button.removeEventListener('click', toggleSectionContent);
+                button.removeEventListener('click', toggleSectionContent); // Önceki dinleyiciyi kaldır
                 button.addEventListener('click', toggleSectionContent);
             });
         }
 
+        // İç içe akordiyon içeriğini açıp kapatma
         function toggleSectionContent(event) {
             event.currentTarget.classList.toggle('open');
             const content = event.currentTarget.nextElementSibling;
-            const arrowIcon = event.currentTarget.querySelector('.arrow-icon');
+            const arrowIcon = event.currentTarget.querySelector('.arrow-icon'); // Bu akordiyonun kendi oku
             if (content.style.maxHeight && content.style.maxHeight !== '0px') {
                 content.style.maxHeight = '0px';
-                arrowIcon.classList.remove('rotated');
+                if (arrowIcon) arrowIcon.classList.remove('rotated');
             } else {
                 content.style.maxHeight = content.scrollHeight + "px";
-                arrowIcon.classList.add('rotated');
+                if (arrowIcon) arrowIcon.classList.add('rotated');
             }
         }
 
-        /* Sayfa yüklendiğinde üniteleri göster */
-        document.addEventListener('DOMContentLoaded', () => {
-            displayUnits();
-            // İlk üniteyi otomatik olarak seç
-            selectUnit(textbookData.units[0].id);
+        // Sayfa yüklendiğinde veya boyut değiştiğinde görünümü ayarla
+        function adjustViewOnLoadAndResize() {
+            if (window.innerWidth < 768) { // Mobil görünüm
+                mobileUnitAccordionContainer.style.display = 'block';
+                desktopUnitContent.style.display = 'none';
+                document.querySelector('nav').style.display = 'none'; // Üst menüyü gizle
+                renderMobileView();
+            } else { // Masaüstü görünüm
+                mobileUnitAccordionContainer.style.display = 'none';
+                desktopUnitContent.style.display = 'block';
+                document.querySelector('nav').style.display = 'block'; // Üst menüyü göster
+                renderDesktopView();
+            }
+            initialMessageEl.style.display = 'none'; // Her iki durumda da başlangıç mesajını gizle
+        }
 
-            // "Konu Başlıkları" akordiyon düğmesi için olay dinleyicisi
-            // Sadece mobil cihazlarda bu olay dinleyicisini etkinleştir
-            topicsAccordionButton.addEventListener('click', (event) => {
-                if (window.innerWidth < 768) { // Tailwind'in 'md' breakpoint'i genellikle 768px'tir
-                    event.currentTarget.classList.toggle('open');
-                    const content = topicsAccordionContent;
-                    const arrowIcon = event.currentTarget.querySelector('.arrow-icon');
-                    if (content.classList.contains('active')) { // Eğer aktifse kapat
-                        content.classList.remove('active');
-                        content.style.maxHeight = '0px';
-                        arrowIcon.classList.remove('rotated');
-                    } else { // Eğer kapalıysa aç
-                        content.classList.add('active');
-                        content.style.maxHeight = content.scrollHeight + "px";
-                        arrowIcon.classList.add('rotated');
-                    }
-                }
+
+        /* Sayfa yüklendiğinde ve boyut değiştiğinde görünümü ayarla */
+        document.addEventListener('DOMContentLoaded', adjustViewOnLoadAndResize);
+        window.addEventListener('resize', adjustViewOnLoadAndResize);
+
+        // Siteye Dön butonları
+        const returnToSiteButtonDesktop = document.getElementById('return-to-site-button-desktop');
+        if (returnToSiteButtonDesktop) {
+            returnToSiteButtonDesktop.addEventListener('click', () => {
+                window.location.href = 'index.html';
             });
-        });
-
-        const returnToSiteButton = document.getElementById('return-to-site-button');
-        returnToSiteButton.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
+        }
+        // Mobil için bir "Siteye Dön" butonu eklemeye gerek yok, çünkü nav gizli.
+        // Eğer mobil için de ayrı bir "Siteye Dön" butonu istenirse, HTML'e eklenip burada dinleyici atanabilir.
     </script>
 </body>
 </html>
