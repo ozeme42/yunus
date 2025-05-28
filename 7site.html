@@ -72,21 +72,31 @@
         .section-toggle-button:hover {
             background-color: #a7f3d0; /* emerald-200 */
         }
+        /* Masaüstünde "Konu Başlıkları" içeriği her zaman açık olsun */
         .section-content {
-            max-height: 0; /* Başlangıçta gizli */
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            padding: 0 1rem; /* Padding'i sıfırla, aktif olunca eklenecek */
+            max-height: none; /* Masaüstünde max-height sınırlaması yok */
+            overflow: visible; /* Masaüstünde taşma gizlenmiyor */
+            padding: 1rem; /* Masaüstünde her zaman padding var */
             background-color: #f0fdf4; /* emerald-50 */
             border-radius: 0 0 0.375rem 0.375rem; /* rounded-b-md */
             margin-top: -1px; /* Butonla birleşik görünmesi için */
             border: 1px solid #a7f3d0; /* emerald-200 */
             border-top: none;
         }
-        .section-content.active {
-            max-height: 1000px; /* İçeriğe göre ayarlanabilir */
-            padding: 1rem; /* Aktif olunca padding ekle */
+
+        /* Mobil için "Konu Başlıkları" içeriği varsayılan olarak kapalı olsun */
+        @media (max-width: 767px) {
+            #topicsAccordionContent {
+                max-height: 0; /* Başlangıçta gizli */
+                overflow: hidden;
+                padding: 0 1rem; /* Padding'i sıfırla, aktif olunca eklenecek */
+            }
+            #topicsAccordionContent.active {
+                max-height: 2000px; /* İçeriğe göre ayarlanabilir */
+                padding: 1rem; /* Aktif olunca padding ekle */
+            }
         }
+
         .arrow-icon {
             transition: transform 0.2s ease-in-out;
         }
@@ -101,6 +111,7 @@
             margin-bottom: 0.75rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid #d1fae5; /* emerald-100 */
+            color: #065f46; /* emerald-800 - Başlık rengini sabit tut */
         }
         .main-section-title .icon {
             margin-right: 0.5rem;
@@ -157,6 +168,17 @@
             max-height: 2000px; /* İçeriğe göre ayarlanabilir, yeterince büyük olmalı */
             padding: 1rem; /* Aktif olunca padding ekle */
         }
+
+        /* Masaüstünde "Konu Başlıkları" butonu gizli olsun */
+        #topicsAccordionButton {
+            display: none;
+        }
+        /* Mobil için "Konu Başlıkları" butonu görünür olsun */
+        @media (max-width: 767px) {
+            #topicsAccordionButton {
+                display: flex; /* Flex olarak göster */
+            }
+        }
     </style>
 </head>
 <body>
@@ -183,9 +205,15 @@
                 <h2 id="unitTitle" class="main-section-title"></h2>
                 <p id="unitIntroductionText" class="text-gray-600 mb-6 italic"></p>
 
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Konu Başlıkları:</h3>
-                <div id="topicList" class="mb-8">
+                <div class="mb-8">
+                    <button id="topicsAccordionButton" class="section-toggle-button">
+                        Konu Başlıkları <span class="arrow-icon">▶️</span>
+                    </button>
+                    <div id="topicsAccordionContent" class="section-content">
+                        <div id="topicList">
+                            </div>
                     </div>
+                </div>
             </div>
         </div>
     </main>
@@ -201,7 +229,7 @@
                     id: "unit1",
                     title: "1. ÜNİTE: MELEK VE AHİRET İNANCI",
                     icon: "😇",
-                    color: "#10B981", // emerald-500 (Ana başlık için)
+                    color: "#065f46", // Ana başlık için default renk (emerald-800)
                     buttonBg: "#065f46", // emerald-800 (Buton arka planı)
                     buttonHoverBg: "#059669", // emerald-600 (Buton hover arka planı)
                     introduction: "Bu ünite, görülen ve görülemeyen varlıklar, meleklerin özellikleri ve görevleri, dünya ve ahiret hayatı arasındaki ilişki, ahiret hayatının aşamaları, ahiret inancının insan davranışlarına etkisi, Hz. İsa'nın (a.s.) hayatı ve Nâs suresinin anlamı gibi konuları kapsamaktadır.",
@@ -336,7 +364,7 @@
                     id: "unit2",
                     title: "2. ÜNİTE: HAC VE KURBAN",
                     icon: "🕋",
-                    color: "#EF4444", // red-500 (Ana başlık için)
+                    color: "#065f46", // Ana başlık için default renk (emerald-800)
                     buttonBg: "#B91C1C", // red-800 (Buton arka planı)
                     buttonHoverBg: "#DC2626", // red-600 (Buton hover arka planı)
                     introduction: "Bu ünite, İslam'da hac ibadeti ve önemi, haccın yapılışı, umre ibadeti ve önemi, kurban ibadeti ve önemi, Hz. İsmail'in (a.s.) hayatı ve Enam Suresi 162. ayetin anlamı gibi konuları içermektedir.",
@@ -445,7 +473,7 @@
                     id: "unit3",
                     title: "3. ÜNİTE: AHLAKİ DAVRANIŞLAR",
                     icon: "✨",
-                    color: "#3B82F6", // blue-500 (Ana başlık için)
+                    color: "#065f46", // Ana başlık için default renk (emerald-800)
                     buttonBg: "#1E40AF", // blue-800 (Buton arka planı)
                     buttonHoverBg: "#2563EB", // blue-600 (Buton hover arka planı)
                     introduction: "Bu ünite, güzel ahlaki tutum ve davranışlar, örnek tutum ve davranışların birey ve toplumların ahlaki gelişimine katkısı, tutum ve davranışlarda ölçülü olmaya özen gösterme, Hz. Salih'in (a.s.) hayatı ve Felak suresinin anlamı gibi konuları ele almaktadır.",
@@ -553,7 +581,7 @@
                     id: "unit4",
                     title: "4. ÜNİTE: ALLAH'IN KULU VE ELÇİSİ: HZ. MUHAMMED",
                     icon: "🕌",
-                    color: "#8B5CF6", // violet-500 (Ana başlık için)
+                    color: "#065f46", // Ana başlık için default renk (emerald-800)
                     buttonBg: "#5B21B6", // violet-800 (Buton arka planı)
                     buttonHoverBg: "#7C3AED", // violet-600 (Buton hover arka planı)
                     introduction: "Bu ünite, Hz. Muhammed'in (s.a.v.) Allah'ın kulu ve elçisi yönlerini, Kâfirun suresinin anlamını ve peygamberimizin hayatından çıkarılabilecek dersleri ele almaktadır.",
@@ -608,8 +636,8 @@
                 {
                     id: "unit5",
                     title: "5. ÜNİTE: İSLAM DÜŞÜNCESİNDE YORUMLAR",
-                    icon: "�",
-                    color: "#14B8A6", // teal-500 (Ana başlık için)
+                    icon: "📚",
+                    color: "#065f46", // Ana başlık için default renk (emerald-800)
                     buttonBg: "#0F766E", // teal-800 (Buton arka planı)
                     buttonHoverBg: "#0D9488", // teal-600 (Buton hover arka planı)
                     introduction: "Bu ünite, din anlayışındaki yorum farklılıklarının sebepleri, İslam düşüncesindeki yorum biçimleri (itikadi, fıkhi, tasavvufi), kültürümüzde etkin olan tasavvufi yorumlar ve Alevilik-Bektaşilikle ilgili temel kavram ve erkânlar gibi konuları içermektedir.",
@@ -702,6 +730,9 @@
         const topicListEl = document.getElementById('topicList');
         const initialMessageEl = document.getElementById('initialMessage');
         const unitContentEl = document.getElementById('unitContent'); // Ana içerik div'i
+        const topicsAccordionButton = document.getElementById('topicsAccordionButton'); // Yeni eklendi
+        const topicsAccordionContent = document.getElementById('topicsAccordionContent'); // Yeni eklendi
+
 
         let currentUnitId = null;
         let currentOpenTopicContent = null; // Şu anda açık olan konu içeriği div'ini tutar
@@ -754,8 +785,9 @@
                 unitContentEl.style.display = 'block';
 
                 unitTitleEl.innerHTML = `<span class="icon">${selectedUnit.icon}</span> ${selectedUnit.title}`;
-                unitTitleEl.style.color = selectedUnit.color; // Ünite başlığına rengi uygula
-                unitIntroductionTextEl.textContent = selectedUnit.introduction;
+                // Masaüstünde başlık rengi sabit kalacağı için bu satır kaldırıldı.
+                // unitTitleEl.style.color = selectedUnit.color; 
+                
                 displayTopics(selectedUnit.topics);
                 displayUnits(); // Navigasyondaki aktifliği güncelle
 
@@ -763,6 +795,14 @@
                 const activeUnitButton = unitList.querySelector('.active-tab');
                 if (activeUnitButton) {
                     activeUnitButton.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+
+                // Mobil için "Konu Başlıkları" akordiyonunu başlangıçta kapalı tut
+                // Sadece mobil cihazlarda bu işlemi yap
+                if (window.innerWidth < 768) { // Tailwind'in 'md' breakpoint'i genellikle 768px'tir
+                    topicsAccordionContent.classList.remove('active'); // CSS'deki active sınıfını kaldır
+                    topicsAccordionContent.style.maxHeight = '0px'; // JS ile de sıfırla
+                    topicsAccordionButton.querySelector('.arrow-icon').classList.remove('rotated');
                 }
             }
         }
@@ -860,6 +900,25 @@
             displayUnits();
             // İlk üniteyi otomatik olarak seç
             selectUnit(textbookData.units[0].id);
+
+            // "Konu Başlıkları" akordiyon düğmesi için olay dinleyicisi
+            // Sadece mobil cihazlarda bu olay dinleyicisini etkinleştir
+            topicsAccordionButton.addEventListener('click', (event) => {
+                if (window.innerWidth < 768) { // Tailwind'in 'md' breakpoint'i genellikle 768px'tir
+                    event.currentTarget.classList.toggle('open');
+                    const content = topicsAccordionContent;
+                    const arrowIcon = event.currentTarget.querySelector('.arrow-icon');
+                    if (content.classList.contains('active')) { // Eğer aktifse kapat
+                        content.classList.remove('active');
+                        content.style.maxHeight = '0px';
+                        arrowIcon.classList.remove('rotated');
+                    } else { // Eğer kapalıysa aç
+                        content.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        arrowIcon.classList.add('rotated');
+                    }
+                }
+            });
         });
 
         const returnToSiteButton = document.getElementById('return-to-site-button');
@@ -869,4 +928,3 @@
     </script>
 </body>
 </html>
-�
