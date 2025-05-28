@@ -10,8 +10,7 @@
     - Ünite Başlıkları/Girişleri: Amaç=ÜniteyeGenelBakış, Yöntem=StatikMetin, Etkileşim=SekmeDeğişimi, Gerekçe=BağlamSunma, Kütüphane=HTML/Tailwind/JS.
     - Konu Başlıkları (Ünite İçinde): Amaç=DetaylıİçeriğeErişim, Yöntem=Numaralı Tıklanabilir Başlık Düğmeleri (numara buton içinde) ve Akordiyonlar, Etkileşim=İçeriğiGöster/Gizle (toggle), Gerekçe=OdaklanmışOkuma ve Sıralı Sunum, Kütüphane=HTML/Tailwind/JS.
     - Konu İçerikleri: Amaç=KonuDetaylarınıSunma, Yöntem=MetinBlokları ve İç İçe Akordiyonlar, Etkileşim=AkordiyonAçma/Kapama, Gerekçe=BilgiAktarımı ve İçeriği Düzenleme, Kütüphane=HTML/Tailwind/JS.
-    - 'Hadis Öğreniyorum' Bölümleri: Amaç=ÖnemliBilgiyiVurgulama, Yöntem=AyırtEdiciStildeMetinBlokları, Etkileşim=Yok, Gerekçe=DiniÖnem, Kütüphane=HTML/Tailwind.
-    - Simgeler: Amaç=Görselİlgi ve TematikBağlantı, Yöntem=DiniTemalıUnicodeKarakterler, Etkileşim=Yok, Gerekçe=Estetik ve AnlamsalZenginlik, Kütüphane=HTML/Unicode.
+    - 'Hadis Öğreniyorum' Bölümleri: Amaç=ÖnemliBilgiyiVurgulama, Yöntem=AyırtEdiciStildeMetinBlokları, Etkileşim=Yok, Gerekçe=DiniÖnem, Kütüphane=HTML/Unicode.
     - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
@@ -161,6 +160,13 @@
             border: 1px solid #a7f3d0;
             border-top: none;
         }
+        /* Mobil ve masaüstü için aktif konu içeriği */
+        .topic-content-area.active {
+            max-height: 50vh; /* Set a max height for content to enable internal scrolling */
+            overflow-y: auto; /* Enable vertical scrolling for the content */
+            padding: 1rem; /* Active padding */
+        }
+
 
         /* Masaüstünde "Konu Başlıkları" butonu gizli olsun */
         #topicsAccordionButton {
@@ -230,6 +236,11 @@
                 margin-top: -0.25rem; /* Butonla birleşik görünmesi için */
                 border: 1px solid #a7f3d0; /* emerald-200 */
                 border-top: none;
+            }
+            .unit-accordion-content.active {
+                max-height: 70vh; /* Set a max height for unit content on mobile */
+                overflow-y: auto; /* Enable vertical scrolling for the unit content */
+                padding: 1rem;
             }
         }
     </style>
@@ -752,26 +763,6 @@
                                     </div>
                                 </div>
                             `
-                        },
-                        {
-                            id: "topic5_3",
-                            title: "İslam Düşüncesinde Tasavvufi Yorumlar ve Alevilik-Bektaşilik",
-                            content: `
-                                <p><strong>Alevilik:</strong> Hz. Ali'yi seven, ona bağlı olan ve halifeliğin Hz. Ali ve soyundan gelenlerin hakkı olduğu anlayışını savunan kişileri ifade eder.</p>
-                                <p class="mt-1"><strong>Bektaşilik:</strong> 13. yüzyılda Hacı Bektaş Veli tarafından kurulmuş tasavvuf ekolüdür.</p>
-                                <p class="mt-2"><strong>Hacı Bektaş Veli:</strong> Horasan'da doğmuş, Anadolu'ya gelmiştir. "Makalât" eseri önemlidir. "Gelin canlar bir olalım" sözüyle birlik ve beraberliği vurgulamıştır.
-                                </p>
-                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Temel Kavramlar ve Erkânlar (Alevilik-Bektaşilik):</h4>
-                                <ul class="list-disc ml-6 space-y-1">
-                                    <li><strong>Ocak:</strong> Cem erkânını yürüten dedelerin soylarını ifade eder.</li>
-                                    <li><strong>Cem ve Cemevi:</strong> Toplanma, ibadet ve görgü kurallarının uygulandığı toplantılar ve yapıldığı mekân.</li>
-                                    <li><strong>On İki Hizmet:</strong> Cem erkânında görev alan hizmetliler.</li>
-                                    <li><strong>Gülbank:</strong> Topluca yapılan dualar.</li>
-                                    <li><strong>Semah:</strong> Musiki eşliğinde yapılan ritüel.</li>
-                                    <li><strong>Musahiplik (Yol Kardeşliği):</strong> Evli iki çiftin kardeşlik sözü vermesi.</li>
-                                    <li><strong>Muharrem Orucu ve Aşure:</strong> Muharrem ayında tutulan oruç ve onuncu gün pişirilen aşure.</li>
-                                </ul>
-                            `
                         }
                     ]
                 }
@@ -931,14 +922,21 @@
             if (arrowIcon) arrowIcon.classList.toggle('rotated');
 
             if (contentDiv.classList.contains('active')) {
-                // Set maxHeight to scrollHeight to allow full content display and scrolling
-                contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
-                contentDiv.style.padding = '1rem'; // Add padding when active
-                // Re-initialize nested accordions if any
+                // Akordiyon açıldığında, CSS'te tanımlanan max-height ve overflow-y: auto kuralları devreye girecek.
+                // Geçişin düzgün çalışması için başlangıçta scrollHeight'ı kullanıyoruz.
+                contentDiv.style.maxHeight = contentDiv.scrollHeight + "px"; 
+                contentDiv.style.padding = '1rem'; // Aktif olduğunda padding ekle
+                
+                // Geçiş tamamlandıktan sonra inline max-height'ı temizleyerek CSS kurallarının devralmasını sağlıyoruz.
+                setTimeout(() => {
+                    if (contentDiv.classList.contains('active')) { 
+                        contentDiv.style.maxHeight = ''; // Inline max-height'ı kaldır
+                    }
+                }, 350); // CSS geçiş süresinden biraz daha uzun bir süre
                 initializeAccordionsInContent(contentDiv);
             } else {
                 contentDiv.style.maxHeight = '0px';
-                contentDiv.style.padding = '0 1rem'; // Remove vertical padding when inactive
+                contentDiv.style.padding = '0 1rem'; // Dikey padding'i kaldır
             }
         }
 
@@ -961,7 +959,7 @@
                 topicContentDiv.className = 'topic-content-area prose max-w-none text-gray-700 leading-relaxed';
 
                 button.onclick = () => {
-                    toggleAccordion(topicContentDiv, button); // Use the general toggleAccordion
+                    toggleAccordion(topicContentDiv, button); // Genel toggleAccordion fonksiyonunu kullan
                 };
 
                 listItem.appendChild(button);
@@ -977,7 +975,7 @@
             accordionButtons.forEach(button => {
                 // Her tıklamada yeni bir dinleyici eklenmemesi için önce kaldırılır
                 button.removeEventListener('click', toggleAccordion); 
-                button.addEventListener('click', toggleAccordion); // Use the general toggleAccordion
+                button.addEventListener('click', toggleAccordion); // Genel toggleAccordion fonksiyonunu kullan
             });
         }
 
