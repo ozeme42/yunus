@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peygamberimizin Hayatı - Etkileşimli Kitap Özeti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+        - Ünite Özetleri: Amaç=BilgiSunumu, Yöntem=GenişletilebilirMetinBlokları, Etkileşim=BaşlıkDüğmesineTıklama (aç/kapa), SekmeDeğişimi, Gerekçe=Okunabilirlik, BilgiyiAşamalıSunma, Kütüphane=HTML/Tailwind/JS.
+        - Hadis Bölümleri: Amaç=ÖnemliÖğrenimiVurgulama, Yöntem=StilliMetinBlokları, Etkileşim=Yok, Gerekçe=Vurgu, Kütüphane=HTML/Tailwind.
+        - Kavramsal Ünite Genel Bakış Grafiği: Amaç=İçerikDağılımınıGösterme, Yöntem=ÇubukGrafik, Etkileşim=ÜzerineGelinceBilgi, Gerekçe=GörselÖzetÖrneği, Kütüphane=Chart.js.
+        - Simgeler ve Görseller: Amaç=GörselÇekicilik, Anlaşılırlık, Yöntem=UnicodeKarakterler/Emojiler, PlaceholderResimler, Etkileşim=Yok, Gerekçe=KullanıcıDeneyimi, Kütüphane=HTML/CSS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ecfdf5; /* emerald-50 - Tek renk arka plan */
+        }
+        .prose {
+            max-width: none;
+        }
+        .active-tab {
+            background-color: #047857; /* emerald-700 */
+            color: white;
+        }
+        .tab-button {
+            background-color: #065f46; /* emerald-800 */
+        }
+        .tab-button:hover {
+            background-color: #059669; /* emerald-600 */
+        }
+        .hadis-section {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #fffbeb; /* amber-50 */
+            border-left-width: 4px;
+            border-color: #f59e0b; /* amber-500 */
+            border-radius: 0.375rem; /* rounded-md */
+        }
+        .hadis-title {
+            font-weight: 600;
+            color: #d97706; /* amber-600 */
+        }
+         .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* max-w-2xl */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* h-72 */
+            padding: 1rem; /* p-4 */
+            background-color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .chart-container {
+                height: 400px; /* h-96 */
+            }
+        }
+        .section-toggle-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background-color: #ecfdf5; /* emerald-50 */
+            border-radius: 0.375rem;
+            font-weight: 600;
+            color: #065f46; /* emerald-800 */
+            transition: background-color 0.2s ease-in-out;
+            border: 1px solid #a7f3d0; /* emerald-200 */
+        }
+        .section-toggle-button:hover {
+            background-color: #d1fae5; /* emerald-100 */
+        }
+        .section-content {
+            display: none;
+            padding: 1rem;
+            background-color: #f0fdf4; /* emerald-50 */
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+            border: 1px solid #a7f3d0; /* emerald-200 */
+        }
+        .section-content.active {
+            display: block;
+        }
+        .arrow-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+        .arrow-icon.rotated {
+            transform: rotate(90deg);
+        }
+        .main-section-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            color: #065f46; /* emerald-800 */
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #d1fae5; /* emerald-100 */
+        }
+        .main-section-title .icon {
+            margin-right: 0.5rem;
+            font-size: 1.5rem; /* text-2xl */
+            color: #059669; /* emerald-600 */
+        }
+        .return-button {
+            background-color: #f59e0b; /* amber-500 */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .return-button:hover {
+            background-color: #d97706; /* amber-600 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-emerald-700 text-white p-6 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between">
+            <h1 class="text-2xl sm:text-3xl font-bold text-center mb-2 sm:mb-0 w-full">6. Sınıf Peygamberimizin Hayatı</h1>
+            <div class="flex items-center space-x-4">
+                <img src="https://placehold.co/150x50/047857/ffffff?text=İslam%20Rehberi" alt="Görsel" class="rounded-md">
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-emerald-800 p-2 shadow-md sticky top-[84px] z-40">
+        <div class="container mx-auto max-w-6xl flex justify-center space-x-1 rounded-lg">
+            <button id="return-to-site-button" class="return-button py-3 px-2 sm:px-4 md:px-6 text-sm sm:text-base">Siteye Dön</button>
+            <button data-unit="1" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors active-tab">Ünite 1</button>
+            <button data-unit="2" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Ünite 2</button>
+            <button data-unit="3" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Ünite 3</button>
+            <button data-unit="4" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Ünite 4</button>
+            <button data-unit="5" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Ünite 5</button>
+            <button data-unit="chart" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Grafik</button>
+        </div>
+    </nav>
+
+    <main class="container mx-auto max-w-4xl mt-8 p-4 sm:p-6 lg:p-8">
+        <div id="content-area" class="bg-white p-6 rounded-lg shadow-xl min-h-[400px]">
+            </div>
+    </main>
+
+    <footer class="mt-12 text-center text-gray-500 text-sm pb-6">
+        Peygamberimizin Hayatı Ders Kitabı Özeti
+    </footer>
+
+    <script>
+        const unitData = {
+            "1": {
+                title: "PEYGAMBERİMİZİN GENÇLİK YILLARI",
+                icon: "🌙",
+                intro: "Bu ünite, Hz. Peygamber'in (s.a.v.) doğumundan peygamberliğine kadar olan çocukluk ve gençlik yıllarını, bu dönemdeki üstün ahlaki vasıflarını, aile hayatını ve içinde yaşadığı toplumun genel durumunu ele almaktadır. Onun 'el-Emin' olarak anılmasına vesile olan erdemli davranışları ve Hira'daki inziva günleri bu ünitenin önemli konularındandır.",
+                sections: [
+                    {
+                        title: "1. Peygamberimizin Çocukluk Yılları",
+                        icon: "👶",
+                        content: [
+                            "**Doğumu ve Ailesi:** Hz. Muhammed (s.a.v.) 571 yılında Mekke'de dünyaya geldi. Doğmadan önce babası Abdullah'ı, altı yaşındayken de annesi Amine'yi kaybetti. Böylece daha küçük yaşta yetim ve öksüz kaldı.",
+                            "**Sütanne Dönemi:** Mekke'nin havasının çocuk sağlığına uygun olmaması ve çocukların güzel Arapça öğrenmesi geleneği nedeniyle, doğduktan kısa bir süre sonra sütanne Halime'ye verildi. Yaklaşık dört yıl boyunca Benî Sa'd kabilesinde, çöl ortamında büyüdü ve bu dönemde sağlıklı bir gelişim gösterdi.",
+                            "**Dede ve Amca Himayesi:** Sütanne Halime'den sonra dedesi Abdülmuttalib'in himayesine girdi. Dedesinin vefatının ardından sekiz yaşından itibaren amcası Ebu Talib'in yanında büyüdü. Ebu Talib, maddi durumu çok iyi olmamasına rağmen yeğenine büyük bir sevgi ve özenle baktı.",
+                            "**Fil Vakası:** Doğumundan yaklaşık 50 gün önce, Yemen Valisi Ebrehe'nin Kâbe'yi yıkmak amacıyla Mekke'ye büyük bir fil ordusuyla saldırması olayı yaşandı. Ancak Allah, Ebâbil kuşları aracılığıyla onların planlarını bozdu. Bu olay, Kur'an-ı Kerim'de Fil Suresi'nde anlatılmaktadır ve Hz. Peygamber'in doğumuna işaret eden önemli bir mucize olarak kabul edilir."
+                        ]
+                    },
+                    {
+                        title: "2. Peygamberimizin Gençlik Yılları",
+                        icon: "💡",
+                        content: [
+                            "Peygamber Efendimiz, gençlik yıllarından itibaren amcası Ebu Talib'e yardımcı olmak amacıyla ticaretle uğraştı. Bu dönemde dürüstlüğü, güvenilirliği ve çalışkanlığı ile Mekke halkı arasında tanınır hale geldi.",
+                            "Cahiliye Dönemi'nin yaygın kötü alışkanlıklarından (putperestlik, içki, kumar, zina, haksızlıklar vb.) her zaman uzak durdu. Sade, mütevazı ve örnek bir hayat sürdü."
+                        ],
+                        subsections: [
+                            {
+                                title: "2.1. Kötülüklerden Uzak Duran Genç",
+                                content: [
+                                    "Hz. Muhammed (s.a.v.) gençliğinde, Mekke toplumunda yaygın olan putperestlik inancına asla katılmadı. Putlar için düzenlenen törenlere ve şenliklere iştirak etmedi.",
+                                    "İçki içme, kumar oynama, fal oklarına başvurma gibi dönemin yaygın kötü alışkanlıklarından kesinlikle uzak durdu. Bu yönüyle dahi çevresine örnek teşkil etti."
+                                ]
+                            },
+                            {
+                                title: "2.2. Toplumsal Sorunlara Duyarlı ve Güvenilir Genç",
+                                content: [
+                                    "Mekke'de artan haksızlıklar, dolandırıcılık, gasp ve zayıfların ezilmesi gibi toplumsal sorunlara karşı büyük bir duyarlılık gösterdi.",
+                                    "Haksızlığa uğrayanlara yardım etmek, mazlumları korumak ve adaleti sağlamak amacıyla kurulan \"Hilfü'l-fudûl\" (Erdemliler Topluluğu) adlı oluşuma genç yaşta katıldı. Bu topluluğun faaliyetlerinde aktif rol aldı.",
+                                    "Ticaret hayatındaki ve genel yaşantısındaki dürüstlüğü, sözünde durması ve emanete riayeti sayesinde Mekkeliler tarafından daha peygamberlik gelmeden önce \"el-Emin\" (Güvenilir kişi) lakabıyla anılmaya başlandı.",
+                                    "Hicret ederken bile, kendisine düşmanlık eden Mekkelilerin emanetlerini sahiplerine ulaştırması için Hz. Ali'ye teslim etmesi, onun güvenilirliğinin ne denli üstün olduğunu gösterir."
+                                ]
+                            },
+                            {
+                                title: "2.3. Adaletli Hakem",
+                                content: [
+                                    "Kâbe'nin onarımı sırasında, Hacerülesved'in (Siyah Taş) yerine konulması konusunda Mekke'nin ileri gelen kabileleri arasında büyük bir anlaşmazlık çıktı. Her kabile bu şerefi kendisi üstlenmek istedi.",
+                                    "Hz. Muhammed (s.a.v.), bu anlaşmazlığı çözmek için hakem olarak seçildi. Hırkasını yere serip taşı üzerine koydu ve her kabileden bir temsilcinin hırkanın ucundan tutmasını sağlayarak taşı yerine taşıttı. Böylece tüm kabilelerin onurunu koruyarak adil ve barışçıl bir çözüm sundu."
+                                ]
+                            },
+                            {
+                                title: "2.4. Hz. Hatice ile Evliliği ve Çocukları",
+                                content: [
+                                    "Hz. Muhammed (s.a.v.)'in ticaret kervanlarını yönetirken gösterdiği dürüstlük ve başarı, Mekke'nin saygın ve zengin tüccar kadınlarından Hz. Hatice'nin dikkatini çekti.",
+                                    "Hz. Hatice'nin evlilik teklifi üzerine, Peygamberimiz 25 yaşındayken, Hz. Hatice ise 40 yaşındayken evlendiler. Bu evlilik, Peygamberimizin hayatındaki en önemli dönüm noktalarından biri oldu.",
+                                    "Bu evlilikten Kâsım, Zeyneb, Rukiyye, Ümmü Gülsüm, Fatıma ve Abdullah adında altı çocukları oldu. Erkek çocukları Kâsım ve Abdullah küçük yaşta vefat etti.",
+                                    "Hz. Hatice, Peygamberimizin peygamberlik hayatının başlangıcında ve Mekke döneminin zorlu yıllarında ona en büyük manevi destekçisi, sırdaşı ve dostu oldu.",
+                                    "Peygamberimizin himayesinde büyüyen azatlı kölesi Zeyd b. Hârise ve amcasının oğlu Hz. Ali de onun ailesinin önemli bir parçası oldular."
+                                ]
+                            },
+                            {
+                                title: "2.5. Hira Günleri",
+                                content: [
+                                    "Mekke toplumundaki ahlaki çöküş, putperestlik, adaletsizlik ve sosyal eşitsizliklerden derin bir rahatsızlık duyan Peygamberimiz, kırtyaşlarına doğru tefekkür etmek ve yalnız kalmak amacıyla Mekke yakınlarındaki Hira Mağarası'na inzivaya çekilmeye başladı.",
+                                    "610 yılı Ramazan ayında, Hira Mağarası'nda inzivadayken, Cebrail (a.s) aracılığıyla kendisine ilk vahiy olan Alak Suresi'nin ilk beş ayeti indirildi (\"Oku! Yaratan Rabbinin adıyla oku! O, insanı alaktan (embriyodan) yarattı. Oku! Rabbin nihayetsiz kerem sahibidir. O ki kalemle (yazmayı) öğretti. İnsana bilmediğini öğretti.\"). Bu olayla birlikte peygamberlik görevi resmen başladı."
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        title: "3. Peygamberimizin Mekke ve Medine Yılları",
+                        icon: "🕋",
+                        content: [
+                           "**Peygamberliğin Başlangıcı ve İlk Müslümanlar:** İlk vahiyle birlikte peygamberlik görevi başlayan Hz. Muhammed (s.a.v.), insanları üç yıl boyunca gizlice İslam'a davet etti. İlk Müslümanlar eşi Hz. Hatice, yakın arkadaşı Hz. Ebubekir, amcasının oğlu Hz. Ali ve azatlı kölesi Zeyd b. Harise oldu.",
+                            "**Mekke Dönemi Zorlukları:** İslam davetinin açıktan yapılmaya başlanmasıyla Mekkeli müşriklerin sert tepkileri ve Müslümanlara yönelik işkenceleri arttı. Bu baskılar nedeniyle Müslümanların bir kısmı Habeşistan'a hicret etti.",
+                            "**Boykot ve Hüzün Yılı:** Mekke'de kalan Müslümanlara ve Haşimoğullarına üç yıl süren ağır bir boykot uygulandı. Bu dönemde yiyecek ve içecek sıkıntısı çekildi. Boykotun ardından, Peygamberimizin en büyük destekçileri olan amcası Ebu Talib ve eşi Hz. Hatice'nin vefat etmesi, \"Hüzün Yılı\" olarak anılan büyük bir üzüntüye neden oldu.",
+                            "**Taif Yolculuğu ve Akabe Biatları:** Taif'e yaptığı davet yolculuğu başarısızlıkla sonuçlandı. Ancak Medine'den (o zamanki Yesrib) gelenlerin İslam'ı kabul etmesiyle, 621 yılında Birinci Akabe Biatı ve 622 yılında İkinci Akabe Biatı gerçekleşti. Bu biatlarda Medineliler, Peygamberimize ve Müslümanlara destek olacaklarına dair söz verdiler.",
+                            "**Hicret:** Akabe Biatlarının ardından, Mekke'deki baskıların artması ve Medine'de uygun bir ortamın oluşmasıyla Müslümanlar Medine'ye hicret etmeye başladı. Hz. Peygamber ve Hz. Ebubekir, müşriklerin takibinden kurtulmak için Sevr Mağarası'nda üç gün gizlendikten sonra Medine'ye ulaştılar. Hicret, İslam tarihinde bir dönüm noktası oldu (622).",
+                            "**Medine'de İslam Devleti:** Medine'ye ulaştığında ilk olarak muhacir (Mekke'den gelenler) ve ensarı (Medineli Müslümanlar) kardeş ilan ederek aralarında güçlü bir bağ kurdu. Medine'deki Yahudi ve diğer kabilelerle \"Medine Sözleşmesi\"ni (Medine Anayasası) imzalayarak çok hukuklu bir toplumsal düzen kurdu. Ayrıca, İslam toplumunun merkezi olacak Mescid-i Nebi'yi inşa etti.",
+                            "**Savaşlar ve Mekke'nin Fethi:** Mekkeli müşriklerle Bedir (624), Uhud (625) ve Hendek (627) savaşları yapıldı. Bu savaşlar, Müslümanların varlığını koruma ve İslam'ı yayma mücadelesinin önemli aşamalarıydı. Sonunda, 630 yılında Mekke fethedildi. Mekke'nin fethinden sonra Kâbe putlardan temizlendi ve genel af ilan edilerek düşmanlıklar sona erdirildi.",
+                            "**Veda Haccı ve Vefatı:** Peygamberimiz 632 yılında Veda Haccı'nı yaptı ve bu hac sırasında \"Veda Hutbesi\"ni okuyarak insan hakları, adalet, eşitlik, kadın hakları ve İslam'ın temel prensipleri hakkında evrensel mesajlar verdi. Kısa bir süre sonra, 632 yılında Medine'de vefat etti."
+                        ]
+                    },
+                    {
+                        title: "4. Bir Hadis Öğreniyorum",
+                        icon: "📜",
+                        isHadis: true,
+                        hadis: "\"Bir kötülük gören kişi, eliyle değiştirmeye gücü yetiyorsa onu eli ile değiştirsin. Buna gücü yetmez ise diliyle değiştirsin. Buna da gücü yetmezse kalbi ile (o kötülüğe) tavır koysun (onu hoş görmesin). Ancak bu imanın en zayıf olanıdır.\"",
+                        explanation: "Bu hadis, Müslümanların kötülüklere karşı duyarlı olması ve pasif kalmaması gerektiğini vurgular. Bir kötülükle karşılaşıldığında, öncelikle fiili olarak (el ile) müdahale ederek onu düzeltmeye çalışmak gerekir. Eğer bu mümkün değilse, sözlü olarak (dil ile) uyarıda bulunmak veya nasihat etmek gerekir. Bu da mümkün olmazsa, kalben o kötülüğü tasvip etmemek, ona karşı bir tavır almak ve nefret etmek gerekir. Hadis, bu son durumun imanın en zayıf mertebesi olduğunu belirterek, Müslümanları aktif olmaya teşvik eder."
+                    }
+                ]
+            },
+            "2": {
+                title: "KUR'AN-I KERİM'DE PEYGAMBERİMİZ",
+                icon: "📖",
+                intro: "Bu ünite, Hz. Peygamber'in (s.a.v.) Kur'an-ı Kerim'de zikredilen seçkin özelliklerini, insanlık için taşıdığı evrensel mesajları ve Müslümanların ona karşı olan sevgi, bağlılık ve itaat sorumluluklarını detaylandırmaktadır. Onun rahmet, şefkat ve merhamet peygamberi oluşu, müjdeleyici ve uyarıcı vasfı ile güzel ahlakı tamamlayıcı rolü ayetler ışığında incelenmektedir.",
+                sections: [
+                    {
+                        title: "1. Rahmet Peygamberi",
+                        icon: "🕊️",
+                        content: [
+                            "**Evrensel Rahmet:** Hz. Muhammed (s.a.v.), Kur'an-ı Kerim'de belirtildiği üzere \"âlemlere rahmet olarak gönderilmiştir.\" (Enbiya Suresi, 107. ayet). Onun rahmeti ve merhameti sadece insanlarla sınırlı olmayıp, tüm canlıları, hayvanları ve bitkileri de kuşatmaktadır.",
+                            "**Davetinin Özü:** İnsanları tevhid inancına (Allah'ın birliğine), adalete, kardeşliğe, yardımlaşmaya, barışa ve iyi ahlaka davet etmiştir. Onun daveti, tüm insanlık için bir kurtuluş ve esenlik yoludur."
+                        ]
+                    },
+                    {
+                        title: "2. Şefkat ve Merhamet Peygamberi",
+                        icon: "❤️",
+                        content: [
+                            "**Müminlere Karşı Şefkat:** Peygamberimiz, müminlere karşı son derece şefkatli, merhametli ve düşkün olmuştur. Kur'an-ı Kerim'de onun bu özelliği \"Andolsun, size kendi içinizden öyle bir peygamber gelmiştir ki, sizin sıkıntıya düşmeniz ona çok ağır gelir. O, size çok düşkün, müminlere karşı çok şefkatli ve merhametlidir.\" (Tevbe Suresi, 128. ayet) şeklinde vurgulanmıştır.",
+                            "**Merhamet Hadisleri:** \"Küçüklerimize merhamet etmeyen ve büyüklerimize saygı göstermeyen bizden değildir.\" ve \"İnsanlara merhamet etmeyenlere Allah merhamet etmez.\" gibi hadisleriyle merhametin İslam'daki merkezi önemini belirtmiştir.",
+                            "**Örnek Davranışlar:** Çocuklara olan derin sevgisi, onlarla şakalaşması, başlarını okşaması ve annelere duyduğu anlayış ile merhametini somut örneklerle göstermiştir. Kimseye sert davranmamış, affedici olmuştur."
+                        ]
+                    },
+                    {
+                        title: "3. Müjdeleyen ve Uyaran Peygamber",
+                        icon: "☝️",
+                        content: [
+                            "**İlahi Mesajın İletilmesi:** Peygamberimizin temel görevlerinden biri, Allah'tan aldığı vahiyleri eksiksiz bir şekilde insanlara ulaştırmak ve onları doğru yola çağırmaktır.",
+                            "**Beşir ve Nezir:** O, inananları Allah'ın rızasına uygun yaşadıkları takdirde cennetle, sonsuz mutlulukla ve Allah'ın rahmetiyle müjdelemiştir (beşir). Aynı zamanda, Allah'ın emirlerine uymayanları ve günah işleyenleri dünyada ve ahirette karşılaşacakları sıkıntılar, azap ve cehennem konusunda uyarmıştır (nezir). Bu iki vasıf, onun tebliğ metodunun önemli bir parçasıdır."
+                        ]
+                    },
+                    {
+                        title: "4. Ahlakı Tamamlayan Peygamber",
+                        icon: "📿",
+                        content: [
+                            "**Ahlaki Misyon:** Hz. Peygamber, kendi misyonunu \"Ben güzel ahlakı tamamlamak üzere gönderildim.\" sözüyle özetlemiştir. Onun hayatı, İslam ahlakının canlı bir örneğidir.",
+                            "**Kur'an'daki Övgü:** Kur'an-ı Kerim'de \"Sen elbette yüce bir ahlak üzeresin.\" (Kalem Suresi, 4. ayet) buyrularak onun üstün ahlakı övülmüştür.",
+                            "**Ahlaki Özellikleri:** O; adaletli, dürüst, sözünde duran, cömert, sabırlı, şefkatli, merhametli, mütevazı, affedici, güzel sözlü, vefalı ve güvenilir bir insandı. Temizliğe büyük önem verir, muhtaçlara yardım eder, hastaları ziyaret eder, komşuluk haklarına riayet ederdi."
+                        ]
+                    },
+                    {
+                        title: "5. Peygamberimize Bağlılık ve İtaat",
+                        icon: "🤝",
+                        content: [
+                            "**Sünnetin Önemi:** Kur'an-ı Kerim'de namaz, hac gibi bazı ibadetlerin genel prensipleri belirtilmiş, ancak bu ibadetlerin ayrıntıları (nasıl kılınacağı, nasıl yapılacağı) Peygamberimiz tarafından öğretilmiş ve uygulamalı olarak gösterilmiştir. Bu nedenle onun sünneti, İslam'ı doğru anlamak ve yaşamak için vazgeçilmezdir.",
+                            "**Allah Sevgisinin Göstergesi:** Allah'a ve Peygambere itaat etmek, Müslümanlar için temel bir sorumluluktur. \"Eğer Allah'ı seviyorsanız bana uyunuz ki Allah da sizi sevsin ve günahlarınızı bağışlasın. Allah çok bağışlayıcı, çok merhamet edicidir.\" (Âl-i İmrân Suresi, 31. ayet) ayeti, Peygambere itaatin Allah sevgisinin bir göstergesi olduğunu vurgular.",
+                            "**Kültürel Yansımalar:** Türk-İslam kültüründe naat (Peygamberi öven şiirler) ve mevlit (Peygamberin doğumunu anlatan eserler) gibi edebi eserler, Müslümanların Peygamberimize olan derin bağlılığının ve sevgisinin somut örnekleridir."
+                        ]
+                    },
+                    {
+                        title: "6. Peygamberimize Salavat",
+                        icon: "✨",
+                        content: [
+                            "**Anlamı ve Emri:** Salavat, Peygamberimize dua etmek, onu övgü ve hayırla anmak demektir. Kur'an-ı Kerim'de \"Şüphesiz Allah ve melekleri Peygamber'e salât ederler. Ey iman edenler! Siz de ona salât edin ve selâm edin.\" (Ahzab Suresi, 56. ayet) buyrularak müminlerin de ona salavat getirmesi emredilmiştir.",
+                            "**Faydaları:** Salavat getirmek, Peygamberimize olan bağlılığı güçlendirir, onun şefaatine nail olmaya vesile olur ve onun sünnetine uymaya teşvik eder. En yaygın salavatlardan biri \"Allahümme salli alâ Muhammedin ve alâ âli Muhammed\"dir."
+                        ]
+                    },
+                    {
+                        title: "7. Bir Hadis Öğreniyorum",
+                        icon: "📜",
+                        isHadis: true,
+                        hadis: "\"Sizden biri, kendisi için istediğini (Müslüman) kardeşi için de istemedikçe (gerçek anlamda) iman etmiş olmaz.\"",
+                        explanation: "Bu hadis, İslam'ın temel ahlaki prensiplerinden biri olan diğerkâmlığı (başkalarını düşünmeyi) ve kardeşliği vurgular. Gerçek imanın bir göstergesi olarak, bir Müslümanın sadece kendi iyiliğini değil, aynı zamanda diğer Müslüman kardeşlerinin de iyiliğini istemesi gerektiğini belirtir. Bu, bencil olmamayı, birbirlerini Allah için sevmeyi, sevinçlerini ve zorluklarını paylaşmayı, empati kurmayı ve yardımlaşmayı kapsar."
+                    }
+                ]
+            },
+            "3": {
+                title: "PEYGAMBERİMİZ VE GENÇLER",
+                icon: "👥",
+                intro: "Bu ünite, Hz. Peygamber'in (s.a.v.) gençlere verdiği müstesna değeri, onların eğitimine ve toplumsal hayattaki rollerine yaptığı vurguyu inceler. Asr-ı Saâdet'te genç sahabilerin İslam'ın tebliği, ilim hayatı, siyasi ve askeri alanlardaki aktif katkıları ve örnek kişilikleri bu ünitede öne çıkmaktadır.",
+                sections: [
+                    {
+                        title: "1. Gençlerin Arkadaşı Peygamberimiz",
+                        icon: "🤝",
+                        content: [
+                            "**Gençlerin Desteği:** Peygamber Efendimiz, İslam davetinin ilk ve en zorlu dönemlerinde gençlerin büyük desteğini almıştır. İlk Müslümanların önemli bir kısmı gençlerden oluşmaktaydı.",
+                            "**Örnek Genç Sahabiler:** Abdullah b. Mes’ud, Talha b. Ubeydullah, Erkam b. Ebi’l-Erkam, Mus’ab b. Umeyr, Cafer b. Ebi Talib gibi birçok genç sahabi, İslam'ı ilk kabul edenler arasında yer almıştır.",
+                            "**Gençlere Yaklaşımı:** Peygamberimiz gençlere güvenir, onlara değer verir, onlarla sohbet eder, yemeklerini paylaşır, önemli görev ve sorumluluklar verir ve başarılarını takdir ederdi. Hatalarını doğrudan yüzlerine vurmak yerine, onlarla konuşarak, öğüt vererek ve anlayışla yaklaşarak düzeltmelerini sağlardı."
+                        ]
+                    },
+                    {
+                        title: "2. Asr-ı Saâdet'te Genç Olmak",
+                        icon: "🌙⭐",
+                        content: [
+                            "**Asr-ı Saâdet Tanımı:** Asr-ı Saâdet (Mutluluk Çağı), Hz. Peygamber'in yaşadığı ve sahabelerini yetiştirdiği dönemin adıdır. Bu dönemde gençler, İslam toplumunun inşasında ve yayılmasında aktif rol almışlardır.",
+                            "**Gençlerin Rolü:** Bu dönemde gençler, İslam'ın tebliğ faaliyetlerinden devlet teşkilatının en üst kademelerine kadar birçok alanda (valilik, hakimlik, elçilik, öğretmenlik, ordu komutanlığı vb.) önemli görevler üstlenmişlerdir."
+                        ],
+                        subsections: [
+                            {
+                                title: "2.1. İslam'ın Tebliğinde Gençler",
+                                content: [
+                                    "**Cesaretli Davetçiler:** Genç sahabiler, Mekke'deki baskılara rağmen İslam'ı tebliğ görevini büyük bir cesaret ve fedakarlıkla üstlenmişlerdir.",
+                                    "**Önemli Şahsiyetler:** Hz. Ali, Zeyd b. Hârise, Mus’ab b. Umeyr gibi gençler, İslam'ın yayılmasında ve yeni bölgelere ulaşmasında önemli rol oynamışlardır.",
+                                    "**Erkam'ın Evi:** Erkam b. Eb’il-Erkam'ın evi, İslam'ın gizlice öğrenildiği, tebliğ edildiği ve ilk Müslümanların toplandığı bir merkez olmuştur.",
+                                    "**Şehitler:** Recî’ ve Bi’r-i Maûne olayları gibi zorlu süreçlerde dahi, İslam davetçisi olarak gönderilen genç sahabiler, davalarından dönmeyerek şehit olmuşlardır.",
+                                    "**Elçilik Görevleri:** Hudeybiye Barış Antlaşması'ndan sonra çevre kabile ve devletlere İslam'a davet mektupları götüren elçilerin çoğu da genç sahabilerdi."
+                                ]
+                            },
+                            {
+                                title: "2.2. İlim Hayatında Gençler",
+                                content: [
+                                    "**İlmin Temeli:** İslam medeniyeti, \"Oku!\" emriyle başlayan bir ilim medeniyetidir. Hz. Peygamber, hayatı boyunca ilme büyük önem vermiş ve sahabelerini ilim öğrenmeye teşvik etmiştir.",
+                                    "**Suffe Okulu:** Mescid-i Nebi'nin arka tarafında \"Suffe\" adı verilen yatılı bir okul kurularak, özellikle yoksul ve bekâr sahabilerin ilim öğrenmesi sağlanmıştır. Ashâb-ı Suffe, ilim aşkıyla dolu olup, Hz. Peygamber'den ve âlim sahabelerden bizzat ders almışlardır.",
+                                    "**Öne Çıkan Âlim Gençler:** Hz. Ali, Muaz b. Cebel, Zeyd b. Sâbit gibi gençler, ilimdeki başarılarıyla öne çıkmışlardır.",
+                                    "**Zeyd b. Sâbit'in Dil Bilgisi:** Zeyd b. Sâbit, Hz. Peygamber'in isteği üzerine İbranice ve Süryanice gibi yabancı dilleri kısa sürede öğrenerek vahiy kâtipliği ve tercümanlık gibi önemli görevler üstlenmiştir."
+                                ]
+                            },
+                            {
+                                title: "2.3. Siyasi ve Askerî Hayatta Gençler",
+                                content: [
+                                    "**Toplum İnşasında Rol:** Genç sahabiler, İslam toplumunun oluşmasında, savunulmasında ve yayılmasında siyasi ve askerî alanda önemli görevler üstlenmişlerdir.",
+                                    "**Habeşistan Hicreti:** Habeşistan'a hicret edenlerin çoğu genç sahabilerdi ve Cafer b. Ebi Talib başkanlığında kral Necaşi'nin huzurunda etkileyici bir savunma yaparak İslam'ı temsil etmişlerdir.",
+                                    "**Savaşlardaki Kahramanlıklar:** Bedir, Uhud ve Hendek savaşlarında kahramanca savaşmış, İslam ordusunun zaferlerinde büyük pay sahibi olmuşlardır.",
+                                    "**Komutanlık ve Sancaktarlık:** Hz. Peygamber, orduların ve keşif birliklerinin başına gençleri komutan olarak atamış, sancaktarlık görevini de gençlere vermiştir (Zeyd b. Sâbit, Hz. Ali, Üsâme b. Zeyd).",
+                                    "**Yönetimde Gençler:** Mekke'nin fethinden sonra Mekke valiliğine genç Attâb b. Esîd'i ataması, Peygamberimizin gençlere duyduğu güveni ve onlara verdiği önemi açıkça göstermektedir."
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        title: "3. Bir Hadis Öğreniyorum",
+                        icon: "📜",
+                        isHadis: true,
+                        hadis: "\"Yedi sınıf insan vardır ki Allah onları hiçbir koruyucunun olmadığı kıyamet gününde bizzat kendisi koruyacaktır: Adil yöneticiler, Allah’a ibadet ederek yetişen gençler, Kalbi mescitlere bağlı olan kimseler, Allah için birbirlerini seven, Allah rızası için bir araya gelip Allah rızası için ayrılan iki kişi, Güzel ve mevki sahibi bir kadının gayrimeşru davetine, ‘Ben Allah’tan korkarım.’ diyen kimseler, Sağ elinin verdiği sadakayı sol eli bilmeyecek kadar gizli veren kimseler, Allah’ı tek başına zikrederken gözlerinden yaş boşanan kimseler.\"",
+                        explanation: "Bu hadis, kıyamet gününün zorlu şartlarında Allah'ın özel koruması altına alacağı yedi sınıf insanı sıralar. Bu sınıflar arasında özellikle \"Allah’a ibadet ederek yetişen gençler\"in zikredilmesi, gençlik yıllarının kıymetini ve bu dönemde Allah'ın emirlerine sarılmanın, ibadetle meşgul olmanın ne denli büyük bir fazilet olduğunu vurgular. Hadis, gençlerin enerjilerini ve zamanlarını Allah yolunda harcamalarının önemini ortaya koyar."
+                    }
+                ]
+            },
+            "4": {
+                title: "EN GÜZEL ÖRNEK PEYGAMBERİMİZ",
+                icon: "🌟",
+                intro: "Bu ünite, Hz. Peygamber'in (s.a.v.) Allah'a olan sarsılmaz güvenini, zorluklar karşısındaki sabrını, davasındaki kararlılığını ve cesaretini ele alır. Ayrıca, onun hayatında duanın ve tevekkülün yerini, yeme içme konusundaki örnek adabını ve Müslümanlara bu konulardaki rehberliğini inceler.",
+                sections: [
+                    {
+                        title: "1. Peygamberimizin Allah'a Güvenmesi ve Sabrı",
+                        icon: "🤲",
+                        content: [
+                           "**Peygamberlerin Örnekliği:** Peygamberler, Allah tarafından insanlar arasından seçilmiş olup, bizlere her konuda örnek olmaları için gönderilmişlerdir. Hz. Peygamber de tüm yönleriyle en güzel örnektir (Üsve-i Hasene).",
+                            "**Zorluklara Karşı Metanet:** Hz. Peygamber, hayatı boyunca Mekkelilerin baskıları, boykot, sevdiklerini kaybetme, savaşlar gibi birçok zorlukla karşılaşmasına rağmen Allah'a olan tam güvenini (tevekkül) ve sabrını asla kaybetmemiştir.",
+                            "**Sevr Mağarası Örneği:** Hicret sırasında müşrikler tarafından takip edilirken, Sevr Mağarası'nda Hz. Ebubekir'in endişelenmesi üzerine ona \"Üzülme! Allah bizimle beraberdir.\" (Tevbe Suresi, 40. ayet) demesi, onun Allah'a olan sarsılmaz imanını ve güvenini göstermektedir."
+                        ]
+                    },
+                    {
+                        title: "2. Peygamberimizin Kararlılığı ve Cesareti",
+                        icon: "🛡️",
+                        content: [
+                            "**Davada Azim:** Hz. Peygamber, İslam davasında son derece kararlı ve azimli olmuştur. Mekkeli müşriklerin ve hatta amcası Ebu Talib'in davetinden vazgeçmesi yönündeki tüm baskılarına rağmen, \"Bu işten vazgeçmem için güneşi sağ elime ayı da sol elime verseler yine de davamdan dönmeyeceğim.\" demesi, onun sarsılmaz kararlılığını ortaya koymaktadır.",
+                            "**Savaşlardaki Liderliği:** Uhud Savaşı'nda okçuların yerlerini terk etmesi gibi zor anlarda dahi cesaretini korumuş, Müslümanlara liderlik etmiş && onları toparlamıştır. Hendek Savaşı'nda hendek kazılması fikrini ortaya atması ve bizzat çalışması da onun kararlılığının ve cesaretinin bir göstergesidir."
+                        ]
+                    },
+                    {
+                        title: "3. Peygamberimizin Hayatında Dua ve Tevekkül",
+                        icon: "🤲",
+                        content: [
+                            "**Duanın Anlamı:** Dua, Allah'a yönelmek, O'na yalvarmak, istek ve ihtiyaçları O'na arz etmek, O'ndan yardım dilemek demektir.",
+                            "**Tevekkülün Anlamı:** Tevekkül ise kişinin üzerine düşen tüm görevleri ve sorumlulukları yerine getirdikten sonra, sonucu Allah'a bırakması ve O'na güvenmesidir.",
+                            "**Hayatının Her Anında Dua:** Hz. Peygamber, hayatının her anında, zorluklarda, savaşlarda, sevinçlerde ve her durumda Allah'a sığınmış, O'na dua etmiştir. Duanın sadece namazlardan sonra veya belirli zamanlarda değil, her zaman ve her yerde yapılabileceğini öğretmiştir.",
+                            "**Dua ve Tevekkül Dengesi:** O, hem dua etmiş hem de üzerine düşeni yapmış, böylece dua ve tevekkül arasındaki dengeyi en güzel şekilde göstermiştir."
+                        ]
+                    },
+                    {
+                        title: "4. Peygamberimizin Yeme İçme Adabı",
+                        icon: "🍽️",
+                        content: [
+                            "**Adap Kavramı:** Adap, görgü kuralları, nezaket ve terbiye anlamına gelir. İslam, hayatın her alanında olduğu gibi yeme içme konusunda da belirli adab kuralları getirmiştir.",
+                            "**Sağlıklı ve Helal Beslenme:** Hz. Peygamber, helal ve sağlıklı beslenmeye büyük önem vermiş, israftan kaçınmış ve ölçülü yemeyi tavsiye etmiştir.",
+                            "**Yeme İçme Adabı Kuralları:**",
+                            "  - Yemekten önce ve sonra elleri yıkamak.",
+                            "  - Yemeğe besmele ile başlamak (\"Bismillah\" demek).",
+                            "  - Sağ elle yemek yemek.",
+                            "  - Oturarak yemek yemek.",
+                            "  - Yemeği sıcakken yememek, soğumasını beklemek.",
+                            "  - Suyu üç yudumda, oturarak içmek.",
+                            "  - Yemeği bitirdikten sonra Allah'a şükretmek.",
+                            "  - Yemek yerken konuşmamak veya ağız dolusu konuşmamak.",
+                            "  - Yere düşen lokmayı temizleyip yemek.",
+                            "  - Başkalarının tabağına bakmamak.",
+                            "  - Yemeği bitirdikten sonra tabağı sıyırmak.",
+                            "  - Yemekten sonra dua etmek."
+                        ]
+                    },
+                    {
+                        title: "5. Bir Hadis Öğreniyorum",
+                        icon: "📜",
+                        isHadis: true,
+                        hadis: "\"Bizi nimetleriyle yediren, içiren ve İslam dini üzere bulunduran Allah’a hamdolsun.\"",
+                        explanation: "Bu hadis, yemekten sonra okunması tavsiye edilen bir şükür duasıdır. Müslümanların, Allah'ın kendilerine verdiği yiyecek, içecek gibi maddi nimetlere ve en büyük manevi nimet olan İslam dinine sahip oldukları için Allah'a hamd etmeleri, yani şükranlarını sunmaları gerektiğini vurgular. Bu, aynı zamanda bir bilinç ve farkındalık eğitimidir."
+                    }
+                ]
+            },
+            "5": {
+                title: "SAHABENİN FAZİLETİ",
+                icon: "⭐",
+                intro: "Bu ünite, İslam tarihinde eşsiz bir yere sahip olan sahabe neslini tanıtır. Sahabenin kim olduğu, Kur'an-ı Kerim ve hadis-i şeriflerdeki müstesna konumları, faziletleri ve İslam'a olan hizmetleri ele alınır. Özellikle genç sahabilerin örnek hayatlarından kesitler sunularak onların iman, ilim, cesaret ve fedakârlıkları vurgulanır.",
+                sections: [
+                    {
+                        title: "1. Ayetlerin Diliyle Sahabe",
+                        icon: "📜",
+                        content: [
+                            "**Sahabi Tanımı:** Sahabi, Hz. Peygamber zamanında yaşamış, Müslüman olarak onu görmüş, onunla sohbet etmiş ve yine Müslüman olarak vefat etmiş kişilere verilen isimdir.",
+                            "**Kur'an'daki Övgüler:** Kur'an-ı Kerim'de sahabelerin faziletleri ve üstünlükleri çeşitli ayetlerde vurgulanmıştır. Örneğin, Tevbe Suresi 100. ayette, İslam'ın ilk öncüleri olan muhacir (Mekke'den hicret edenler) ve ensarın (Medineli Müslümanlar) Allah'ın rızasını kazandığı ve cennetle müjdelendiği belirtilmiştir.",
+                            "**İslam'ın İlk Savunucuları:** Sahabeler, İslam'ın ilk savunucuları, Peygamberimizin en yakın yardımcıları ve İslam'ın yayılmasında en büyük fedakarlıkları gösteren kişilerdir."
+                        ]
+                    },
+                    {
+                        title: "2. Hadislerin Diliyle Sahabe",
+                        icon: "📖",
+                        content: [
+                            "**Peygamberimizin Övgüsü:** Hz. Peygamber, hadislerinde sahabelerini övmüş, onlara büyük değer vermiş ve onlara saygı gösterilmesini emretmiştir.",
+                            "**Hadisin Metni:** \"Ashabım hakkında Allah'dan korkunuz! Ashabım aleyhinde konuşmayınız! Benden sonra onları hedef alıp düşmanlık etmeyiniz! Kim onları severse bana olan sevgisinden dolayı sever.\"",
+                            "**Açıklama:** Bu hadis, sahabelerin İslam'ın yayılmasındaki fedakarlıklarını, Peygamberimize olan bağlılıklarını ve onların Müslümanlar için örnek teşkil eden konumlarını vurgular. Müslümanların, sahabelere karşı saygılı olmaları, onların aleyhinde konuşmaktan kaçınmaları ve onlara düşmanlık beslememeleri gerektiği belirtilir."
+                        ]
+                    },
+                    {
+                        title: "3. Genç Sahabiler",
+                        icon: "👤",
+                        content: [
+                            "Asr-ı Saâdet'te birçok genç sahabi, İslam'a ve Müslümanlara büyük hizmetlerde bulunmuş, örnek hayatlar yaşamışlardır."
+                        ],
+                        subsections: [
+                            {
+                                title: "Mus'ab b. Umeyr",
+                                content: [
+                                    "Mekke'nin en zengin ve lüks ailelerinden birine mensup olmasına rağmen İslam'ı seçmiş, ailesinin tüm baskılarına direndi. Hicretin ilk yıllarında Medine'ye İslam'ı öğretmek ve tebliğ etmek üzere öğretmen olarak gönderildi. Medine'de İslam'ın yayılmasında ve Medinelilerin Müslüman olmasında kilit rol oynadı. Uhud Savaşı'nda sancaktarlık yaparken şehit düştü."
+                                ]
+                            },
+                            {
+                                title: "Câbir b. Abdullah",
+                                content: [
+                                    "İlim aşığı, hadis ilmine düşkün bir sahabiydi. Hz. Peygamber'den birçok hadis öğrenmiş ve bunları hayatına taşıyarak başkalarına aktarmıştır. Uhud Savaşı'nda babası Abdullah şehit düştükten sonra, geride kalan dokuz kız kardeşinin sorumluluğunu üstlendi ve Hz. Peygamber'in özel desteğini ve duasını aldı."
+                                ]
+                            },
+                            {
+                                title: "Bilal-i Habeşî",
+                                content: [
+                                    "İslam'ın ilk müezzinidir. Köle olmasına rağmen İslam'ı kabul etmiş ve efendisi Ümeyye b. Halef'in ağır işkencelerine (\"Ehad, Ehad!\" diyerek) rağmen imanından asla dönmemiştir. Hz. Ebubekir tarafından satın alınıp azat edilmiştir. Sesi çok güzel olduğu için ezan okuma görevi ona verilmiştir."
+                                ]
+                            },
+                            {
+                                title: "Ammar b. Yâsir",
+                                content: [
+                                    "İslam'ın ilk şehitleri olan annesi Sümeyye ve babası Yâsir'in oğludur. Ailesiyle birlikte Mekkeli müşriklerin ağır işkencelerine maruz kalmasına rağmen imanından vazgeçmemiştir. Hz. Peygamber ona ve ailesine cennetle müjde vermiştir."
+                                ]
+                            },
+                             {
+                                title: "Sa'd b. Ebi Vakkas",
+                                content: [
+                                    "İslam'ın ilk okçularından ve cennetle müjdelenen on sahabiden (Aşere-i Mübeşşere) biridir. Okçuluktaki maharetiyle tanınır ve İslam ordusunun önemli komutanlarından biri olmuştur."
+                                ]
+                            },
+                            {
+                                title: "Abdullah b. Ömer",
+                                content: [
+                                    "Hz. Ömer'in oğludur. Hz. Peygamber'in sünnetine (yaşam tarzına ve uygulamalarına) sıkı sıkıya bağlılığı, titizliği ve onu en ince ayrıntısına kadar takip etmesiyle bilinir. Hadis rivayetinde önemli bir yere sahiptir."
+                                ]
+                            },
+                            {
+                                title: "Zeyd b. Sâbit",
+                                content: [
+                                    "Genç yaşta vahiy kâtibi olarak görevlendirilmiş, Hz. Peygamber'in isteği üzerine İbranice ve Süryanice gibi yabancı dilleri kısa sürede öğrenerek tercümanlık yapmıştır. Kur'an'ın toplanması ve mushaf haline getirilmesi görevinde de önemli rol oynamıştır."
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        title: "4. Bir Hadis Öğreniyorum",
+                        icon: "📜",
+                        isHadis: true,
+                        hadis: "\"Ashabım hakkında Allah'dan korkunuz! Ashabım aleyhinde konuşmayınız! Benden sonra onları hedef alıp düşmanlık etmeyiniz! Kim onları severse bana olan sevgisinden dolayı sever.\"",
+                        explanation: "Bu hadis, sahabelerin İslam'ın yayılmasındaki fedakarlıklarını, Peygamberimize olan bağlılıklarını ve onların Müslümanlar için örnek teşkil eden konumlarını vurgular. Müslümanların, sahabelere karşı saygılı olmaları, onların aleyhinde konuşmaktan kaçınmaları ve onlara düşmanlık beslememeleri gerektiği belirtilir. Hadis, sahabelere duyulan sevginin, doğrudan Peygamberimize duyulan sevginin bir yansıması olduğunu ifade eder."
+                    }
+                ]
+            },
+            "chart": {
+                title: "Ünite Konu Dağılım Grafiği",
+                icon: "📊",
+                intro: "Bu grafik, 'Peygamberimizin Hayatı' kitabındaki her bir ünitede işlenen ana konu sayısını göstermektedir. Bu sayede ünitelerin içerik yoğunluğu hakkında genel bir fikir edinebilirsiniz.",
+                isChart: true
+            }
+        };
+
+        const contentArea = document.getElementById('content-area');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const returnToSiteButton = document.getElementById('return-to-site-button');
+        let currentChart = null;
+
+        function renderContent(unitKey) {
+            const unit = unitData[unitKey];
+            if (!unit) {
+                contentArea.innerHTML = `<p class="text-red-500">İçerik bulunamadı.</p>`;
+                return;
+            }
+
+            if (currentChart) {
+                currentChart.destroy();
+                currentChart = null;
+            }
+
+            if (unit.isChart) {
+                contentArea.innerHTML = `
+                    <h2 class="main-section-title"><span class="icon">${unit.icon}</span> ${unit.title}</h2>
+                    <p class="text-gray-600 mb-6">${unit.intro}</p>
+                    <div class="chart-container">
+                        <canvas id="unitChart"></canvas>
+                    </div>`;
+                renderUnitChart();
+            } else {
+                 let html = `<h2 class="main-section-title"><span class="icon">${unit.icon}</span> ${unit.title}</h2>`;
+                 if (unit.intro) {
+                    html += `<p class="text-gray-600 mb-6 italic">${unit.intro}</p>`;
+                }
+
+                unit.sections.forEach((section, index) => {
+                    html += `<div class="mb-4">`;
+                    html += `<button class="section-toggle-button" data-section-index="${index}">
+                                <span class="flex items-center">
+                                    ${section.icon ? `<span class="mr-2">${section.icon}</span>` : ''}
+                                    ${section.title}
+                                </span>
+                                <span class="arrow-icon">▶️</span>
+                             </button>`;
+                    
+                    html += `<div class="section-content" id="section-content-${index}">`;
+                    
+                    if (section.isHadis) {
+                        html += `<div class="hadis-section">
+                                    <p class="hadis-title">Hadis-i Şerif:</p>
+                                    <p class="italic text-gray-700 mb-2">${section.hadis}</p>
+                                    <p class="hadis-title">Açıklama:</p>
+                                    <p class="text-gray-700">${section.explanation}</p>
+                                 </div>`;
+                    } else {
+                        section.content.forEach(paragraph => {
+                            html += `<p class="text-gray-700 leading-relaxed mb-2 prose">${paragraph}</p>`;
+                        });
+                    }
+
+                    if (section.subsections) {
+                        section.subsections.forEach((sub, subIndex) => {
+                            html += `<div class="mt-4 pl-4 border-l-2 border-emerald-200">`;
+                            html += `<button class="section-toggle-button !bg-white !text-gray-700 !border-gray-200 hover:!bg-gray-50" data-subsection-index="${index}-${subIndex}">
+                                        <span class="flex items-center">
+                                            ${sub.icon ? `<span class="mr-2">${sub.icon}</span>` : ''}
+                                            ${sub.title}
+                                        </span>
+                                        <span class="arrow-icon">▶️</span>
+                                    </button>`;
+                            html += `<div class="section-content !bg-gray-50 !border-gray-100" id="subsection-content-${index}-${subIndex}">`;
+                            sub.content.forEach(paragraph => {
+                                html += `<p class="text-gray-700 leading-relaxed mb-2 prose prose-sm">${paragraph}</p>`;
+                            });
+                            html += `</div>`;
+                            html += `</div>`;
+                        });
+                    }
+                    html += `</div>`; // Close section-content
+                    html += `</div>`; // Close mb-4
+                });
+                contentArea.innerHTML = html;
+                addToggleListeners();
+            }
+        }
+
+        function addToggleListeners() {
+            document.querySelectorAll('.section-toggle-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const targetId = button.dataset.sectionIndex ? `section-content-${button.dataset.sectionIndex}` : `subsection-content-${button.dataset.subsectionIndex}`;
+                    const contentDiv = document.getElementById(targetId);
+                    const arrowIcon = button.querySelector('.arrow-icon');
+
+                    if (contentDiv) {
+                        contentDiv.classList.toggle('active');
+                        arrowIcon.classList.toggle('rotated');
+                    }
+                });
+            });
+        }
+
+        function renderUnitChart() {
+            const ctx = document.getElementById('unitChart').getContext('2d');
+            const chartData = {
+                labels: ["Ünite 1", "Ünite 2", "Ünite 3", "Ünite 4", "Ünite 5"],
+                datasets: [{
+                    label: 'Ünite Başına Ana Konu Sayısı',
+                    data: [
+                        unitData["1"].sections.length,
+                        unitData["2"].sections.length,
+                        unitData["3"].sections.length,
+                        unitData["4"].sections.length,
+                        unitData["5"].sections.length
+                    ],
+                    backgroundColor: [
+                        'rgba(16, 185, 129, 0.6)', // emerald-500
+                        'rgba(5, 150, 105, 0.6)',  // emerald-600
+                        'rgba(4, 120, 87, 0.6)',   // emerald-700
+                        'rgba(6, 95, 70, 0.6)',    // emerald-800
+                        'rgba(6, 78, 59, 0.6)'     // emerald-900
+                    ],
+                    borderColor: [
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(5, 150, 105, 1)',
+                        'rgba(4, 120, 87, 1)',
+                        'rgba(6, 95, 70, 1)',
+                        'rgba(6, 78, 59, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            currentChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + ' konu';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active-tab'));
+                button.classList.add('active-tab');
+                renderContent(button.dataset.unit);
+            });
+        });
+
+        returnToSiteButton.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderContent("1"); // Varsayılan olarak 1. Üniteyi yükle
+        });
+    </script>
+</body>
+</html>
