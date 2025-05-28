@@ -6,43 +6,16 @@
     <title>İslam Rehberi: Peygamberimizin Hayatı - Infografik</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chosen Palette: Energetic & Playful (Adapted to Tailwind equivalents)
-        - Primary Green: #06D6A0 (emerald-500/600)
-        - Accent Blue: #118AB2 (sky-600/700)
-        - Accent Red-Orange: #FF6B6B (rose-500/600)
-        - Accent Yellow: #FFD166 (amber-400/500)
-        - Dark Text/Background: #073B4C (zinc-900/slate-900)
-    -->
-    <!-- Application Structure Plan:
-        - Header: Main title and a brief introduction to the infographic.
-        - Section 1: En Güzel Örnek: Hz. Muhammed (s.a.v.) - Presents key virtues using styled HTML cards (Inform goal).
-        - Section 2: Peygamberimizin Hayat Yolculuğu - A chronological timeline of key life events using HTML/CSS (Change/Organize goal).
-        - Section 3: Peygamberimiz ve Gençler: Asr-ı Saâdet'in Dinamikleri - Visualizes youth contributions using a Chart.js Doughnut chart (Compare/Inform goal).
-        - Section 4: Hadislerden Hikmetler - Displays important hadiths and their explanations using styled HTML blocks (Inform goal).
-        - Section 5: Sahabenin Fazileti ve İslam'a Katkıları - Illustrates the understanding of Sahaba's role through an HTML/CSS flowchart (Organize/Process goal).
-        - Section 6: Kur'an-ı Kerim'de Peygamberimiz - Lists attributes of the Prophet in the Quran using an HTML list (Inform goal).
-        - Footer: Standard copyright information.
-    -->
-    <!-- Visualization Choices:
-        - Virtues: Goal=Inform, Method=Styled HTML boxes (flex/grid), Justification=Visually distinct, easy to scan. NO SVG.
-        - Life Journey: Goal=Change/Organize, Method=HTML/CSS Timeline, Justification=Clear chronological flow, distinct events. NO SVG.
-        - Youth Contributions: Goal=Compare/Inform, Method=Doughnut Chart (Chart.js/Canvas), Justification=Shows proportions of contributions, easy to digest. NO SVG.
-            - Label Wrapping: Applied for labels longer than 16 characters.
-            - Tooltip Configuration: Included as specified.
-        - Hadiths: Goal=Inform, Method=Styled HTML text blocks, Justification=Direct presentation of text and explanation. NO SVG.
-        - Sahaba Flow: Goal=Organize/Process, Method=HTML/CSS Flowchart, Justification=Shows sequential or logical progression of understanding Sahaba's role. NO SVG.
-        - Quran Attributes: Goal=Inform/Organize, Method=HTML List, Justification=Simple enumeration of attributes. NO SVG.
-    -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #e0f2f7; /* Light Blue from a similar energetic palette */
-            color: #073B4C; /* Dark Blue for text */
+            background-color: #e0f2f7;
+            color: #073B4C;
         }
         .section-card {
             background-color: white;
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             padding: 2rem;
             margin-bottom: 2rem;
             display: flex;
@@ -51,20 +24,20 @@
             text-align: center;
         }
         .section-title {
-            font-size: 2.25rem; /* text-4xl */
-            font-weight: 700; /* font-bold */
-            color: #118AB2; /* Accent Blue */
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #118AB2;
             margin-bottom: 1rem;
         }
         .section-subtitle {
-            font-size: 1.25rem; /* text-xl */
-            color: #06D6A0; /* Primary Green */
+            font-size: 1.25rem;
+            color: #06D6A0;
             margin-bottom: 1.5rem;
         }
         .icon-large {
-            font-size: 3rem; /* text-5xl */
+            font-size: 3rem;
             margin-bottom: 1rem;
-            color: #FF6B6B; /* Accent Red-Orange */
+            color: #FF6B6B;
         }
         .chart-container {
             position: relative;
@@ -73,7 +46,7 @@
             height: 300px;
             margin: 1.5rem auto;
             padding: 1rem;
-            background-color: #f8fafc; /* Light gray for chart background */
+            background-color: #f8fafc;
             border-radius: 0.5rem;
             box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
         }
@@ -94,7 +67,7 @@
         .timeline-dot {
             width: 1.5rem;
             height: 1.5rem;
-            background-color: #06D6A0; /* Primary Green */
+            background-color: #06D6A0;
             border-radius: 50%;
             flex-shrink: 0;
             z-index: 10;
@@ -107,23 +80,23 @@
             top: 1.5rem;
             bottom: -1.5rem;
             width: 2px;
-            background-color: #118AB2; /* Accent Blue */
+            background-color: #118AB2;
             z-index: 5;
         }
         .timeline-item:last-child .timeline-line {
             display: none;
         }
         .timeline-content {
-            background-color: #f0f9ff; /* Light blue background for content */
+            background-color: #f0f9ff;
             border-radius: 0.5rem;
             padding: 1rem 1.5rem;
             margin-left: 1.5rem;
             text-align: left;
             flex-grow: 1;
-            border: 1px solid #bfdbfe; /* Light blue border */
+            border: 1px solid #bfdbfe;
         }
         .virtue-box {
-            background-color: #f0fdf4; /* Light green */
+            background-color: #f0fdf4;
             border-radius: 0.5rem;
             padding: 1rem;
             display: flex;
@@ -141,11 +114,11 @@
         .virtue-icon {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
-            color: #10b981; /* emerald-500 */
+            color: #10b981;
         }
         .hadith-box {
-            background-color: #fffbeb; /* amber-50 */
-            border-left: 5px solid #f59e0b; /* amber-500 */
+            background-color: #fffbeb;
+            border-left: 5px solid #f59e0b;
             border-radius: 0.5rem;
             padding: 1.5rem;
             margin-top: 2rem;
@@ -154,11 +127,11 @@
         .hadith-text {
             font-style: italic;
             font-weight: 500;
-            color: #78350f; /* amber-900 */
+            color: #78350f;
             margin-bottom: 0.75rem;
         }
         .hadith-explanation {
-            color: #4a5568; /* gray-700 */
+            color: #4a5568;
             font-size: 0.95rem;
         }
         .flow-container {
@@ -168,13 +141,13 @@
             margin-top: 2rem;
         }
         .flow-step {
-            background-color: #ecfdf5; /* emerald-50 */
-            border: 2px solid #34d399; /* emerald-400 */
+            background-color: #ecfdf5;
+            border: 2px solid #34d399;
             border-radius: 0.75rem;
             padding: 1rem 1.5rem;
             margin-bottom: 1rem;
             font-weight: 600;
-            color: #065f46; /* emerald-800 */
+            color: #065f46;
             text-align: center;
             position: relative;
             width: 80%;
@@ -183,7 +156,7 @@
         .flow-arrow {
             width: 2px;
             height: 20px;
-            background-color: #34d399; /* emerald-400 */
+            background-color: #34d399;
             position: relative;
             margin-bottom: 1rem;
         }
@@ -197,17 +170,40 @@
             height: 0;
             border-left: 8px solid transparent;
             border-right: 8px solid transparent;
-            border-top: 8px solid #34d399; /* emerald-400 */
+            border-top: 8px solid #34d399;
+        }
+        .return-button {
+            background-color: #FFD166; /* Accent Yellow */
+            color: #073B4C; /* Dark Blue */
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .return-button:hover {
+            background-color: #f59e0b; /* Darker Amber */
+            transform: translateY(-50%) scale(1.02);
         }
     </style>
 </head>
 <body>
-    <header class="bg-gradient-to-r from-sky-600 to-emerald-600 text-white p-8 shadow-2xl text-center">
+    <header class="bg-gradient-to-r from-sky-600 to-emerald-600 text-white p-8 shadow-2xl text-center relative">
         <h1 class="text-4xl md:text-5xl font-extrabold mb-2">İslam Rehberi</h1>
         <p class="text-xl md:text-2xl font-semibold">6. Sınıf Peygamberimizin Hayatı</p>
         <p class="text-md md:text-lg mt-4 max-w-2xl mx-auto opacity-90">
             Hz. Peygamber'in (s.a.v.) hayatını ve İslam'ın temel değerlerini anlatan bu infografik, onun örnek kişiliğini ve mesajını keşfetmenizi sağlar.
         </p>
+        <button id="return-to-site-button" class="return-button">
+            <span class="text-xl">🏠</span> Siteye Dön
+        </button>
     </header>
 
     <main class="container mx-auto px-4 py-12">
@@ -469,6 +465,10 @@
                     }
                 }
             }
+        });
+
+        document.getElementById('return-to-site-button').addEventListener('click', () => {
+            window.location.href = 'index.html';
         });
     </script>
 </body>
