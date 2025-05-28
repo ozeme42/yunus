@@ -123,7 +123,7 @@
             text-align: center; /* Center the turn display */
         }
         .question-area {
-            min-height: 180px;
+            /* min-height: 180px;  REMOVED THIS */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -278,6 +278,7 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            flex-shrink: 0; /* Added for responsiveness */
         }
         .feedback-message.show {
             opacity: 1;
@@ -478,6 +479,7 @@
             margin-top: 2.5rem;
             width: 100%;
             max-width: 900px;
+            flex-shrink: 0; /* Added for responsiveness */
         }
         .question-screen-instruction-message {
             text-align: center;
@@ -548,6 +550,21 @@
             outline: none;
             border-color: #6366f1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            .option-label {
+                font-size: 1.1rem; /* Slightly smaller font for options */
+                padding: 1rem 1.2rem;
+            }
+            .question-text {
+                font-size: 1.4rem; /* Slightly smaller font for question */
+            }
+            .action-button {
+                padding: 0.7rem 1.5rem; /* Smaller padding for buttons */
+                font-size: 1.1rem;
+            }
         }
     </style>
     <script type="module">
@@ -1490,7 +1507,7 @@
 
             let winnerMessage = '';
             if (winners.length === 1) {
-                winnerMessage = `${winners[0]} kazandı! �`;
+                winnerMessage = `${winners[0]} kazandı! 🎉`;
                 overallResultDiv.classList.add('correct');
                 overallResultDiv.classList.remove('incorrect');
             } else if (winners.length > 1) {
@@ -1844,4 +1861,3 @@
     </div>
 </body>
 </html>
-�
