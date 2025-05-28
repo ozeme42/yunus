@@ -275,6 +275,7 @@
             opacity: 0;
             transition: opacity 0.5s ease;
             display: flex;
+            flex-direction: column; /* Stack text and explanation vertically */
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
@@ -297,6 +298,14 @@
             font-weight: 400;
             margin-top: 0.6rem;
             color: #4a5568;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .correct-answer-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #065f46; /* Green color for correct answer */
+            margin-top: 0.5rem;
         }
         .score-display {
             text-align: center;
@@ -1106,7 +1115,7 @@
                 }
                 document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
-                displayFeedback(currentAnswerState.isCorrect, q.answer, currentAnswerState.userAnswer, q.explanation);
+                displayFeedback(currentAnswerState.isCorrect, q.answer, currentAnswerState.userAnswer, q.explanation, q.type); // Pass question type
                 
                 // Only highlight the correct answer if the stored answer was correct
                 if (currentAnswerState.isCorrect) {
@@ -1188,7 +1197,7 @@
             
             document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
-            displayFeedback(false, q.answer, 'Süre Doldu', q.explanation);
+            displayFeedback(false, q.answer, 'Süre Doldu', q.explanation, q.type); // Pass question type
             
             renderQuestionNumbers(); // This will re-shuffle the display order
             // Calculate next player's index using modulo for 0-indexed
@@ -1273,7 +1282,7 @@
             const newAnswerState = { isCorrect: isCorrect, userAnswer: userAnswer, answeredBy: window.currentPlayer, timeTaken: timeTaken }; 
             window.answeredQuestions[q.id] = newAnswerState;
             
-            displayFeedback(isCorrect, q.answer, userAnswer, q.explanation);
+            displayFeedback(isCorrect, q.answer, userAnswer, q.explanation, q.type); // Pass question type
             
             document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
@@ -1303,20 +1312,35 @@
             returnToQuestionsGrid();
         }
 
-        function displayFeedback(isCorrect, correctAnswer, userAnswer, explanation) {
+        // Updated displayFeedback function to show correct answer and explanation in single-player mode
+        function displayFeedback(isCorrect, correctAnswer, userAnswer, explanation, questionType) {
             feedbackDiv.classList.add('show'); 
             feedbackDiv.classList.remove('animate-in', 'correct', 'incorrect'); 
+            feedbackDiv.innerHTML = ''; // Clear previous content
+
+            let mainMessage = '';
+            let icon = '';
 
             if (isCorrect) {
                 feedbackDiv.classList.add('correct');
-                let icon = '✅';
-                feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Doğru!`;
+                icon = '✅';
+                mainMessage = `<span class="feedback-icon">${icon}</span> Doğru!`;
             } else {
                 feedbackDiv.classList.add('incorrect');
-                let icon = '❌';
-                feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Yanlış.`;
-                // REMOVED: display of correct answer here
+                icon = '❌';
+                mainMessage = `<span class="feedback-icon">${icon}</span> Yanlış.`;
+
+                // If in single-player mode (numTeams === 1), show correct answer and explanation
+                if (window.numTeams === 1) {
+                    let formattedCorrectAnswer = correctAnswer;
+                    if (questionType === 'trueFalse') {
+                        formattedCorrectAnswer = (correctAnswer === 'D' ? 'Doğru' : 'Yanlış');
+                    }
+                    mainMessage += `<p class="correct-answer-display">Doğru Cevap: <strong>${formattedCorrectAnswer}</strong></p>`;
+                    mainMessage += `<p class="explanation-text">${explanation}</p>`;
+                }
             }
+            feedbackDiv.innerHTML = mainMessage;
             feedbackDiv.classList.add('animate-in');
         }
 
@@ -1796,7 +1820,7 @@
         <div id="game-panel" class="hidden">
             <div id="score-board-container" class="score-table-container">
                 </div>
-            <div id="current-player-turn" class="current-turn">Sıra: A Takımı</div>
+            <div id="current-player-turn" class="current-turn">Sıra: Takım 1</div>
 
             <div id="grid-instruction-message" class="text-center text-md font-medium text-gray-700 mb-4"></div>
             <div id="question-navigation" class="question-navigation">
