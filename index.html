@@ -210,28 +210,10 @@
         <div class="bg-teal-600 text-white py-3 px-6 rounded-lg shadow-md text-center font-semibold mt-12 w-full transition duration-300 ease-in-out hover:bg-teal-700 cursor-default">
             Din Kültürü ve Ahlak Bilgisi Öğretmeni Mahmut ÖZGÜRDERE
         </div>
-        <div class="bg-blue-600 text-white py-3 px-6 rounded-lg shadow-md text-center font-semibold mt-4 w-full">
-            <span class="text-lg">Toplam Ziyaretçi: </span>
-            <span id="view-counter-spinner" class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
-            <span id="view-counter-value" class="text-xl font-bold hidden"></span>
-        </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, updateDoc, increment, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Global variables provided by Canvas environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        let userId = null; // Will be set after authentication
+    <script>
+        lucide.createIcons();
 
         // List of example verses (you can expand this list)
         const quranVerses = [
@@ -314,70 +296,10 @@
             document.getElementById('daily-verse-source').textContent = `${verse.surah}, Ayet: ${verse.number}`;
         }
 
-        async function initializeFirebaseAndCounter() {
-            try {
-                // Authenticate anonymously
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                userId = auth.currentUser?.uid || crypto.randomUUID(); // Get UID or generate random for anonymous
-
-                console.log("Firebase initialized. User ID:", userId);
-
-                // Reference to the view count document
-                const viewCountDocRef = doc(db, `artifacts/${appId}/public/data/page_views`, 'main_page');
-                const viewCounterElement = document.getElementById('view-counter-value');
-                const viewCounterSpinner = document.getElementById('view-counter-spinner');
-
-                // Set up real-time listener for view count
-                onSnapshot(viewCountDocRef, (docSnap) => {
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        const currentViews = data.count || 0;
-                        viewCounterElement.textContent = currentViews;
-                    } else {
-                        viewCounterElement.textContent = 0; // No views yet
-                    }
-                    viewCounterSpinner.classList.add('hidden'); // Hide spinner once data is loaded
-                    viewCounterElement.classList.remove('hidden'); // Show count
-                }, (error) => {
-                    console.error("Error getting real-time view count:", error);
-                    viewCounterElement.textContent = 'Yüklenemedi';
-                    viewCounterSpinner.classList.add('hidden');
-                    viewCounterElement.classList.remove('hidden');
-                });
-
-                // Check if the document exists before trying to update
-                const docSnap = await getDoc(viewCountDocRef);
-                if (docSnap.exists()) {
-                    // Document exists, increment the count
-                    await updateDoc(viewCountDocRef, {
-                        count: increment(1)
-                    });
-                    console.log("View count incremented.");
-                } else {
-                    // Document does not exist, create it with initial count 1
-                    await setDoc(viewCountDocRef, {
-                        count: 1
-                    });
-                    console.log("View count document created with initial count 1.");
-                }
-
-            } catch (error) {
-                console.error("Firebase initialization or view count update failed:", error);
-                document.getElementById('view-counter-value').textContent = 'Hata!';
-                document.getElementById('view-counter-spinner').classList.add('hidden');
-                document.getElementById('view-counter-value').classList.remove('hidden');
-            }
-        }
-
         // Sayfa yüklendiğinde butonlara tıklama olayını ekle
         window.onload = () => {
             lucide.createIcons(); // Lucide ikonlarını oluştur
             displayDailyVerse(); // Günün ayetini göster
-            initializeFirebaseAndCounter(); // Firebase'i ve sayacı başlat
 
             const toggleButtons = document.querySelectorAll('.toggle-button');
 
