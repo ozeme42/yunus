@@ -179,6 +179,28 @@
                 display: flex; /* Flex olarak göster */
             }
         }
+
+        /* Mobil için üst menü ve ünite listesi düzenlemeleri */
+        @media (max-width: 767px) {
+            nav > div {
+                flex-direction: column; /* Mobil için dikey sıralama */
+                align-items: center; /* Ortala */
+                gap: 0.5rem; /* Dikey boşluk */
+                overflow-x: hidden; /* Yatay kaydırmayı kaldır */
+            }
+            #return-to-site-button {
+                margin-right: 0; /* Sağ marjı kaldır */
+                width: 100%; /* Tam genişlik */
+                text-align: center; /* Metni ortala */
+            }
+            #unitList {
+                flex-direction: column; /* Ünite butonlarını alt alta sırala */
+                gap: 0.5rem; /* Dikey boşluk */
+                max-height: 200px; /* Yüksekliği sınırla */
+                overflow-y: auto; /* Dikey kaydırma çubuğu */
+                width: 100%; /* Tam genişlik */
+            }
+        }
     </style>
 </head>
 <body>
@@ -189,7 +211,7 @@
     </header>
 
     <nav class="bg-emerald-800 p-2 shadow-md sticky top-[76px] sm:top-[88px] z-40">
-        <div class="container mx-auto max-w-6xl flex flex-nowrap overflow-x-auto justify-center items-center space-x-1 rounded-lg">
+        <div class="container mx-auto max-w-6xl flex flex-nowrap overflow-x-auto justify-center items-center space-x-1 rounded-lg sm:flex-row sm:space-x-1 sm:space-y-0">
             <button id="return-to-site-button" class="return-button py-3 px-2 sm:px-4 md:px-6 text-sm sm:text-base">🕌 Siteye Dön</button>
             <ul id="unitList" class="flex flex-nowrap gap-4 py-2">
                 </ul>
