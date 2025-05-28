@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Sınıf Din Kültürü ve Ahlak Bilgisi İnteraktif Kitap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+    - Ünite Başlıkları/Girişleri: Amaç=ÜniteyeGenelBakış, Yöntem=StatikMetin, Etkileşim=SekmeDeğişimi, Gerekçe=BağlamSunma, Kütüphane=HTML/Tailwind/JS.
+    - Konu Başlıkları (Ünite İçinde): Amaç=DetaylıİçeriğeErişim, Yöntem=Numaralı Tıklanabilir Başlık Düğmeleri (numara buton içinde) ve Akordiyonlar, Etkileşim=İçeriğiGöster/Gizle (toggle), Gerekçe=OdaklanmışOkuma ve Sıralı Sunum, Kütüphane=HTML/Tailwind/JS.
+    - Konu İçerikleri: Amaç=KonuDetaylarınıSunma, Yöntem=MetinBlokları ve İç İçe Akordiyonlar, Etkileşim=AkordiyonAçma/Kapama, Gerekçe=BilgiAktarımı ve İçeriği Düzenleme, Kütüphane=HTML/Tailwind/JS.
+    - 'Hadis Öğreniyorum' Bölümleri: Amaç=ÖnemliBilgiyiVurgulama, Yöntem=AyırtEdiciStildeMetinBlokları, Etkileşim=Yok, Gerekçe=DiniÖnem, Kütüphane=HTML/Tailwind.
+    - Simgeler: Amaç=Görselİlgi ve TematikBağlantı, Yöntem=DiniTemalıUnicodeKarakterler, Etkileşim=Yok, Gerekçe=Estetik ve AnlamsalZenginlik, Kütüphane=HTML/Unicode.
+    - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ecfdf5; /* emerald-50 - Tek renk arka plan */
+        }
+        .prose {
+            max-width: none;
+        }
+        .active-tab {
+            background-color: #047857 !important; /* emerald-700 - Aktif sekmenin özel arka planı */
+            color: white !important; /* Önemli: Renk çakışmasını önlemek için !important kullanıldı */
+        }
+        /* .tab-button ve .tab-button:hover için arka plan renkleri artık JS tarafından yönetilecek */
+        .hadis-section {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #fffbeb; /* amber-50 */
+            border-left-width: 4px;
+            border-color: #f59e0b; /* amber-500 */
+            border-radius: 0.375rem; /* rounded-md */
+        }
+        .hadis-title {
+            font-weight: 600;
+            color: #d97706; /* amber-600 */
+        }
+         .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* max-w-2xl */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* h-72 */
+            padding: 1rem; /* p-4 */
+            background-color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .chart-container {
+                height: 400px; /* h-96 */
+            }
+        }
+        .section-toggle-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background-color: #d1fae5; /* emerald-100 */
+            border-radius: 0.375rem;
+            font-weight: 600;
+            color: #065f46; /* emerald-800 */
+            transition: background-color 0.2s ease-in-out;
+            border: 1px solid #6ee7b7; /* emerald-300 */
+        }
+        .section-toggle-button:hover {
+            background-color: #a7f3d0; /* emerald-200 */
+        }
+        .section-content {
+            max-height: 0; /* Başlangıçta gizli */
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1rem; /* Padding'i sıfırla, aktif olunca eklenecek */
+            background-color: #f0fdf4; /* emerald-50 */
+            border-radius: 0 0 0.375rem 0.375rem; /* rounded-b-md */
+            margin-top: -1px; /* Butonla birleşik görünmesi için */
+            border: 1px solid #a7f3d0; /* emerald-200 */
+            border-top: none;
+        }
+        .section-content.active {
+            max-height: 1000px; /* İçeriğe göre ayarlanabilir */
+            padding: 1rem; /* Aktif olunca padding ekle */
+        }
+        .arrow-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+        .arrow-icon.rotated {
+            transform: rotate(90deg);
+        }
+        .main-section-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #d1fae5; /* emerald-100 */
+        }
+        .main-section-title .icon {
+            margin-right: 0.5rem;
+            font-size: 1.5rem; /* text-2xl */
+            color: #059669; /* emerald-600 */
+        }
+        .return-button {
+            background-color: #f59e0b; /* amber-500 */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            margin-right: 0.25rem; /* Ünite butonlarından ayırmak için */
+        }
+        .return-button:hover {
+            background-color: #d97706; /* amber-600 */
+        }
+        /* Yeni eklenen stil: Konu başlığı butonları için */
+        .topic-button {
+            background-color: #a7f3d0; /* emerald-200 */
+            color: #065f46; /* emerald-800 */
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            border: 1px solid #6ee7b7; /* emerald-300 */
+            width: 100%; /* Butonun li içinde tam genişlikte olmasını sağlar */
+            text-align: left; /* Metni sola hizalar */
+            display: flex; /* İçindeki metni ve oku hizalamak için */
+            justify-content: space-between; /* Metin ve ok arasına boşluk bırakmak için */
+            align-items: center; /* Dikeyde ortalamak için */
+        }
+        .topic-button:hover {
+            background-color: #6ee7b7; /* emerald-300 */
+        }
+        .topic-button.active-topic {
+            background-color: #059669; /* emerald-600 */
+            color: white;
+        }
+        /* Konu içeriği div'i için stil */
+        .topic-content-area {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1rem; /* Başlangıçta padding yok */
+            background-color: #f0fdf4; /* emerald-50 */
+            border-radius: 0 0 0.375rem 0.375rem;
+            margin-top: -1px;
+            border: 1px solid #a7f3d0;
+            border-top: none;
+        }
+        .topic-content-area.active {
+            max-height: 2000px; /* İçeriğe göre ayarlanabilir, yeterince büyük olmalı */
+            padding: 1rem; /* Aktif olunca padding ekle */
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-emerald-700 text-white p-6 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-center">
+            <h1 class="text-2xl sm:text-3xl font-bold text-center mb-2 sm:mb-0 w-full">7. Sınıf Din Kültürü ve Ahlak Bilgisi İnteraktif Kitap</h1>
+        </div>
+    </header>
+
+    <nav class="bg-emerald-800 p-2 shadow-md sticky top-[76px] sm:top-[88px] z-40">
+        <div class="container mx-auto max-w-6xl flex flex-nowrap overflow-x-auto justify-center items-center space-x-1 rounded-lg">
+            <button id="return-to-site-button" class="return-button py-3 px-2 sm:px-4 md:px-6 text-sm sm:text-base">🕌 Siteye Dön</button>
+            <ul id="unitList" class="flex flex-nowrap gap-4 py-2">
+                </ul>
+        </div>
+    </nav>
+
+    <main class="container mx-auto max-w-4xl mt-8 p-4 sm:p-6 lg:p-8">
+        <div id="content-area" class="bg-white p-6 rounded-lg shadow-xl min-h-[400px]">
+            <div id="initialMessage" class="text-center text-gray-500 mt-10">
+                <p class="text-2xl">📚 Öğrenmeye başlamak için lütfen üst taraftaki menüden bir ünite seçin.</p>
+            </div>
+            <div id="unitContent" style="display: none;">
+                <h2 id="unitTitle" class="main-section-title"></h2>
+                <p id="unitIntroductionText" class="text-gray-600 mb-6 italic"></p>
+
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Konu Başlıkları:</h3>
+                <div id="topicList" class="mb-8">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-12 text-center text-gray-500 text-sm pb-6">
+        7. Sınıf Din Kültürü ve Ahlak Bilgisi İnteraktif Kitap Özeti
+    </footer>
+
+    <script>
+        const textbookData = {
+            units: [
+                {
+                    id: "unit1",
+                    title: "1. ÜNİTE: MELEK VE AHİRET İNANCI",
+                    icon: "😇",
+                    color: "#10B981", // emerald-500 (Ana başlık için)
+                    buttonBg: "#065f46", // emerald-800 (Buton arka planı)
+                    buttonHoverBg: "#059669", // emerald-600 (Buton hover arka planı)
+                    introduction: "Bu ünite, görülen ve görülemeyen varlıklar, meleklerin özellikleri ve görevleri, dünya ve ahiret hayatı arasındaki ilişki, ahiret hayatının aşamaları, ahiret inancının insan davranışlarına etkisi, Hz. İsa'nın (a.s.) hayatı ve Nâs suresinin anlamı gibi konuları kapsamaktadır.",
+                    topics: [
+                        {
+                            id: "topic1_1",
+                            title: "Görülen ve Görülemeyen Varlıklar",
+                            content: `
+                                <p>Beş duyu organıyla algılanan ve algılanamayan tüm varlıklar Allah tarafından yaratılmıştır.</p>
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li><strong>Âlem:</strong> Allah (c.c.) dışında, akıl ve duyu organlarıyla bilinebilen veya varlığı düşünülebilen tüm varlıklar.</li>
+                                    <li><strong>Gayb:</strong> Akıl ve duyular yoluyla hakkında bilgi edinilemeyen varlık alanı (melek, cin, şeytan gibi).</li>
+                                    <li><strong>Cin:</strong> Duyularla idrak edilemeyen, ateşten yaratılmış, ilahi emirlere uymakla yükümlü varlık türü. Gaybı bilmezler, inanan ve inanmayanları vardır.</li>
+                                    <li><strong>Şeytan:</strong> İnsana sık sık rahatsızlık verip saptırmaya çalışan ruhani varlık. Hz. Âdem'e secde etmediği için Allah'ın rahmetinden kovulmuştur.</li>
+                                    <li>Cinlerden ve şeytanlardan korunmak için Ayet el-Kürsi, Felak ve Nâs sureleri okunur.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic1_2",
+                            title: "Melekler ve Özellikleri",
+                            content: `
+                                <p>Melek: Allah'ın (c.c.) emir ve yasaklarını eksiksiz yerine getiren, nurdan yaratılmış varlıklardır. Meleklere iman, İslam dininin inanç esaslarındandır.</p>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Meleklerin Özellikleri:</h4>
+                                <ul class="list-disc ml-6 space-y-1">
+                                    <li>Nurdan yaratılmışlardır.</li>
+                                    <li>Duyu organlarıyla algılanamazlar.</li>
+                                    <li>Cinsiyetleri yoktur.</li>
+                                    <li>Yiyip içmezler.</li>
+                                    <li>İradeleri yoktur, Allah ne emrederse onu eksiksiz yerine getirirler.</li>
+                                    <li>Allah'ın izniyle farklı suretlere bürünebilirler.</li>
+                                    <li>Çok hızlı hareket ederler.</li>
+                                    <li>Heybetli ve güçlüdürler.</li>
+                                    <li>Yorulmaz ve uyuyup dinlenmezler.</li>
+                                    <li>Daima Allah'ı tespih eder ve O'na övgüde bulunurlar.</li>
+                                    <li>Hz. Peygamber'e salavat getirir, müminler için dua ederler.</li>
+                                </ul>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">İsimleri Bilinen Bazı Melekler ve Görevleri:</h4>
+                                <ul class="list-disc ml-6 space-y-1">
+                                    <li><strong>Cebrail (a.s.):</strong> Allah'ın emir ve yasaklarını peygamberlere ileten vahiy meleği.</li>
+                                    <li><strong>Azrail (a.s.):</strong> Allah'ın kendilerine takdir ettiği yaşam süresini tamamlayanların canını almakla görevli (ölüm meleği).</li>
+                                    <li><strong>Mikâil (a.s.):</strong> Tüm canlıların rızıklarının paylaştırılmasıyla ve tabiat olaylarıyla görevlidir.</li>
+                                    <li><strong>İsrafil (a.s.):</strong> Kıyamet gününde sûra üflemekle görevlidir.</li>
+                                    <li><strong>Kirâmen Kâtibîn:</strong> İnsanların sağında ve solunda bulunur, yapılan iyilikleri ve kötülükleri yazmakla görevlidir.</li>
+                                    <li><strong>Münker ve Nekir:</strong> Kabirde insanları sorguya çekecek olan meleklerdir.</li>
+                                    <li><strong>Koruyucu (hafaza) melekler:</strong> İnsanları kötülüklerden korumakla görevlendirilmişlerdir.</li>
+                                    <li><strong>Rahmet melekleri:</strong> Müminler için bağışlanma dileyen, dua eden meleklerdir.</li>
+                                </ul>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Meleklere İmanın Davranışlara Etkisi:</h4>
+                                <ul class="list-disc ml-6 space-y-1">
+                                    <li>Günlük yaşamı olumlu etkiler, maddi ve manevi faydalar sağlar.</li>
+                                    <li>Kötülük yapmaktan çekinmeye, tövbe etmeye sevk eder.</li>
+                                    <li>Korku ve endişeye kapılmamayı sağlar.</li>
+                                    <li>İyilikleri çoğaltmaya çalışmayı teşvik eder.</li>
+                                    <li>Huzurlu ve mutlu kılar.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic1_3",
+                            title: "Dünya ve Ahiret Hayatı",
+                            content: `
+                                <p>Ahiret: Dünya hayatından sonra başlayıp ebediyen devam edecek olan hayattır. Ahirete iman, inanç esaslarındandır ve Kur'an'da genellikle Allah'a imanla birlikte zikredilir.</p>
+                                <p class="mt-2">Dünya hayatı sonlu ve kısadır, ahiret hayatı ise sonsuzdur. Aslolan sonsuz hayatta Allah'ın rızası doğrultusunda hareket etmektir.</p>
+                            `
+                        },
+                        {
+                            id: "topic1_4",
+                            title: "Ahiret Hayatının Aşamaları",
+                            content: `
+                                <p>İnsan, bu dünyada yaptığı iyilik ve kötülüklerle sınanmaktadır.</p>
+                                <ol class="list-decimal ml-6 space-y-2 mt-2">
+                                    <li><strong>Ecel/Ölüm:</strong> Dünya hayatının son bulmasıdır. Ruh ve bedenin birbirinden ayrılmasıyla gerçekleşir.</li>
+                                    <li><strong>Kabir Hayatı/Berzah Âlemi:</strong> Ölümden sonra ruhların tekrar dirilene kadar yaşadıkları hayattır.</li>
+                                    <li><strong>Kıyamet:</strong> İsrafil'in (a.s.) sûra üflemesiyle tüm âlemin ve canlıların hayatının son bulmasıdır. Zamanını yalnızca Allah bilir.</li>
+                                    <li><strong>Ba's (Yeniden Dirilme):</strong> Kıyametin ardından ikinci defa sûra üflenmesiyle insanların ruh ve bedeniyle tekrar hayat bulmasıdır.</li>
+                                    <li><strong>Haşr ve Mahşer:</strong> Yeniden diriltilen tüm insanların hesaba çekilmek üzere toplandıkları meydan (mahşer) ve bu toplanma (haşr).</li>
+                                    <li><strong>Hesap ve Mizan:</strong> Dünyada yapılan iyi ve kötü işlerin ortaya çıkması (hesap) ve sevap ile günahların tartılacağı manevi terazi (mizan).</li>
+                                    <li><strong>Cennet ve Cehennem:</strong>
+                                        <ul class="list-disc ml-6 mt-1">
+                                            <li><strong>Cennet:</strong> İman etmiş ve salih amel işlemiş kişilerin mükâfat yurdudur.</li>
+                                            <li><strong>Cehennem:</strong> İman etmemiş ve kötü işler yapmış kişilerin ceza yurdudur.</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            `
+                        },
+                        {
+                            id: "topic1_5",
+                            title: "Ahiret İnancının İnsan Davranışlarına Etkisi",
+                            content: `
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li>Allah'ın emirlerini yerine getirmeye ve yasaklarından sakınmaya gayret etmeyi sağlar.</li>
+                                    <li>Dünya hayatını anlamlı kılar, insanı imtihan bilinciyle yaşatır.</li>
+                                    <li>Sevdikleriyle sonsuza kadar bir arada yaşama isteğini ahirette kavuşma umuduyla besler.</li>
+                                    <li>Davranışlara dikkat etmeyi ve kalbi kötülüklerden korumayı sağlar.</li>
+                                    <li>Verilen görevleri yerine getirenlerin mükâfatlandırılacağı, inkârcıların cezalandırılacağı bilincini oluşturur.</li>
+                                    <li>Adalet duygusunu taze tutar, Allah'ın mutlak adaletine güvenmeyi sağlar.</li>
+                                    <li>Dünyanın geçici zevklerinden uzaklaşıp kalıcı olan ahiret için çalışmaya yöneltir.</li>
+                                    <li>Allah'ın merhametine sığınmayı ve tövbe etmeyi teşvik eder.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic1_6",
+                            title: "Bir Peygamber Tanıyorum: Hz. İsa (a.s.)",
+                            content: `
+                                <p>Kendisine kitap verilen dört peygamberden biri olup İsrailoğulları'na gönderilmiştir.</p>
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li>Kudüs yakınlarında Beytüllahim'de babasız olarak dünyaya gelmiştir (en büyük mucizelerinden biridir). Annesi Hz. Meryem'dir.</li>
+                                    <li>Beşikteyken konuşması, hastaları iyileştirmesi ve ölüleri diriltmesi gibi mucizeler göstermiştir.</li>
+                                    <li>On iki kişiye (havari) iman etmiştir.</li>
+                                    <li>Kutsal kitabı İncil'dir.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic1_7",
+                            title: "Bir Sure Tanıyorum: Nâs Suresi ve Anlamı",
+                            content: `
+                                <p>Kur'an-ı Kerim'in 114. ve son suresidir, altı ayettir. "Nâs" kelimesi insanlar anlamına gelir. Felak suresi ile birlikte "muavvizeteyn" (iki koruyucu) olarak anılır.</p>
+                                <div class="mt-3 p-3 bg-amber-50 rounded-md border border-amber-200">
+                                    <h5 class="font-semibold text-amber-700">Nâs Suresi Anlamı:</h5>
+                                    <p class="mt-1">Cinlerden ve insanlardan, insanların kalplerine vesvese veren sinsi şeytanın şerrinden insanların Rabbi'ne, Malik ve Hâkimi'ne, İlahı'na sığınmayı ifade eder.</p>
+                                </div>
+                                <p class="mt-2">Her türlü kötülükten Allah'a sığınılması gerektiğini vurgular.</p>
+                            `
+                        }
+                    ]
+                },
+                {
+                    id: "unit2",
+                    title: "2. ÜNİTE: HAC VE KURBAN",
+                    icon: "🕋",
+                    color: "#EF4444", // red-500 (Ana başlık için)
+                    buttonBg: "#B91C1C", // red-800 (Buton arka planı)
+                    buttonHoverBg: "#DC2626", // red-600 (Buton hover arka planı)
+                    introduction: "Bu ünite, İslam'da hac ibadeti ve önemi, haccın yapılışı, umre ibadeti ve önemi, kurban ibadeti ve önemi, Hz. İsmail'in (a.s.) hayatı ve Enam Suresi 162. ayetin anlamı gibi konuları içermektedir.",
+                    topics: [
+                        {
+                            id: "topic2_1",
+                            title: "İslam'da Hac İbadeti ve Önemi",
+                            content: `
+                                <p><strong>Hac:</strong> Belirli özellikleri taşıyan Müslümanların belirli bir vakitte, belirli kutsal mekânları usulüne uygun bir şekilde ziyaret etmesidir. İslam'ın beş temel şartından biridir. Hicretin dokuzuncu yılında farz kılınmıştır.</p>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Haccın Şartları:</h4>
+                                <ul class="list-disc ml-6 space-y-1">
+                                    <li>Müslüman olmak</li>
+                                    <li>Akıllı ve ergenlik çağına girmiş olmak</li>
+                                    <li>Belli derecede maddi imkâna sahip olmak</li>
+                                    <li>Sağlıklı olmak</li>
+                                    <li>Yol güvenliğinin bulunması</li>
+                                    <li>Özgür olmak</li>
+                                </ul>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Haccın Bireysel Faydaları:</h4>
+                                <p>Manevi eğitim, bilinçli hareket etme, olgunlaşma, ibadetleri şevkle yerine getirme, Allah'a tevekkül etme, günahlara tövbe etme, ahiret bilinci kazanma, ahlaken güzelleşme (sabır, iyilik, alçak gönüllülük, güzel söz).</p>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Haccın Toplumsal Faydaları:</h4>
+                                <p>Müslümanların tanışıp kaynaşması, sevinç ve üzüntülerini paylaşması, birlik ve kardeşlik duygusunun gelişmesi, farklı kültürleri tanıma, bilgi alışverişi, "ben" yerine "biz" duygusunun ön plana çıkması.</p>
+                            `
+                        },
+                        {
+                            id: "topic2_2",
+                            title: "Haccın Yapılışı",
+                            content: `
+                                <p>Hac, Zilhicce ayının 9, 10, 11, 12 ve 13. günlerinde Kâbe ve çevresinde yapılır.</p>
+                                <h5 class="font-semibold mt-2 text-sm text-stone-600">Temel Kavramlar ve Uygulamalar:</h5>
+                                <ul class="list-disc ml-6 space-y-2 mt-2">
+                                    <li><strong>İhram:</strong> Hac veya umre yapmaya niyet eden kişinin, belirli fiilleri kendine haram kılmasıdır. Erkekler dikişsiz iki parça giysi giyer, kadınlar kendi kıyafetlerini giyer.
+                                        <ul class="list-circle ml-6 mt-1">
+                                            <li><strong>İhram Yasakları:</strong> Tırnak kesilmez, tıraş olunmaz, hayvanlar incitilmez, bitkiler koparılmaz, parfüm sürülmez, kavga edilmez, kötü söz söylenmez.</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Telbiye:</strong> Hac ve umrede okunan ortak dua ("Lebbeyk Allâhümme lebbeyk...").</li>
+                                    <li><strong>Harem Bölgesi ve Mîkat Sınırı:</strong> İhramın giyilmesinin zorunlu olduğu alanlar.</li>
+                                    <li><strong>Tavaf:</strong> Kâbe'nin etrafında yedi kez dönmektir. Bir dönüşe "şavt" denir. Hacerülesved'den başlanır. Türleri: Kudüm, Ziyaret, Veda.</li>
+                                    <li><strong>Say:</strong> Safa ve Merve tepeleri arasında yedi kez yürümektir. Vaciptir.</li>
+                                    <li><strong>Arafat Vakfesi:</strong> Arefe günü Arafat'ta bulunup dua etmektir. Haccın farzıdır.</li>
+                                    <li><strong>Müzdelife Vakfesi:</strong> Arefe akşamı Müzdelife'de namaz kılmaktır. Vaciptir.</li>
+                                    <li><strong>Şeytan Taşlama:</strong> Kurban Bayramı günlerinde Mina'da cemre adı verilen yerlere yedişer taş atarak yapılan sembolik ibadettir. Haccın vaciplerindendir.</li>
+                                    <li><strong>Kurban Kesme (Hedy Kurbanı):</strong> Bayramın ilk gününden itibaren kesilen kurbandır. Haccın vaciplerindendir.</li>
+                                    <li><strong>Tıraş Olma:</strong> Şeytan taşlamanın ardından saç kesilerek ihramdan çıkılır.</li>
+                                </ul>
+                            `
+                        },
+                         {
+                            id: "topic2_3",
+                            title: "Umre ve Önemi",
+                            content: `
+                                <p><strong>Umre:</strong> Hac mevsimi dışında sırasıyla Kâbe’yi tavaf etme, say yapma, tıraş olduktan sonra ihramdan çıkma şeklinde yapılan ibadettir.</p>
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li>Ömürde bir kere umre yapmak sünnettir.</li>
+                                    <li>Belirli bir zamanı yoktur, yılın her vakti yapılabilir.</li>
+                                    <li><strong>Hacdan Farkları:</strong> Farz değil sünnettir, yılın her zamanı yapılabilir, vakfe, şeytan taşlama ve kurban kesme yoktur.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic2_4",
+                            title: "Kurban İbadeti ve Önemi",
+                            content: `
+                                <p><strong>Kurban:</strong> Belli nitelikleri olan bir hayvanı belirli günlerde ibadet niyetiyle usulüne uygun bir biçimde kesmektir. Mali bir ibadettir, Allah'ın nimetlerine karşı şükür ifadesidir ve Hz. İbrahim ile Hz. İsmail'in teslimiyetini temsil eder.</p>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Kurban Çeşitleri:</h4>
+                                <ul class="list-disc ml-6 space-y-1">
+                                    <li><strong>Hedy Kurbanı:</strong> Hac ve umrede kesilen şükür kurbanı.</li>
+                                    <li><strong>Adak Kurbanı:</strong> Bir dileğin gerçekleşmesi halinde Allah'a verilen söz doğrultusunda kesilen kurban.</li>
+                                    <li><strong>Akika Kurbanı:</strong> Doğan çocuk için Allah'a şükür amacıyla kesilen kurban.</li>
+                                    <li><strong>Şükür Kurbanı:</strong> Herhangi bir sebeple Allah'a şükür için kesilen kurban.</li>
+                                    <li><strong>Vacip Kurbanı:</strong> Kurban Bayramı günlerinde kesilen kurban.</li>
+                                </ul>
+                                <p class="mt-2"><strong>Kurban Etinin Paylaşımı:</strong> Bir kısmı yoksullara, bir kısmı akraba ve komşulara, kalanı ise aile fertlerine ayrılır.</p>
+                                <p class="mt-2"><strong>Kurban Kesme Şartları:</strong> Müslüman olmak, akıllı olmak, ergenlik çağına ulaşmış olmak, hür olmak, mukim olmak, nisap miktarı mala sahip olmak.</p>
+                                <p class="mt-1">Koyun, keçi, sığır, manda ve deve kurban edilebilir. Alevi-Bektaşi geleneğinde de önemli bir ibadettir.</p>
+                            `
+                        },
+                        {
+                            id: "topic2_5",
+                            title: "Bir Peygamber Tanıyorum: Hz. İsmail (a.s.)",
+                            content: `
+                                <p>Hz. Nuh soyundan gelen, Hz. İbrahim'in ve Hz. Hacer'in oğludur. Filistin'de doğmuş, Mekke'de yaşamıştır. Ayrı bir ilahi kitap verilmemiştir.</p>
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li>Annesi Hz. Hacer'in su ararken Safa ve Merve tepeleri arasında koşması (say ibadetinin başlangıcı) ve zemzem suyunun ortaya çıkışı.</li>
+                                    <li>Hz. İbrahim'in rüyasında onu kurban etmesi emredildiğinde Allah'a teslimiyeti.</li>
+                                    <li>Babasıyla birlikte Kâbe'yi inşa etmiştir. İlk tavaf edenlerdendir.</li>
+                                    <li>Hz. Muhammed'in (s.a.v.) soyundan gelmektedir.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic2_6",
+                            title: "Bir Ayet Tanıyorum: Enam Suresi 162. Ayet ve Anlamı",
+                            content: `
+                                <div class="mt-1 p-3 bg-amber-50 rounded-md border border-amber-200">
+                                    <h5 class="font-semibold text-amber-700">Enam Suresi 162. Ayet Anlamı:</h5>
+                                    <p class="mt-1">"De ki: Benim namazım, (her türlü) ibadetim, hayatım ve ölümüm, hepsi âlemlerin Rabbi olan Allah içindir."</p>
+                                </div>
+                                <p class="mt-2"><strong>Mesajı:</strong> Tevhit inancına vurgu yapar. Tüm ibadetlerin yalnızca Allah rızası için yapılması gerektiğini belirtir. Allah'tan başkasına kulluk edilmemelidir.</p>
+                            `
+                        }
+                    ]
+                },
+                {
+                    id: "unit3",
+                    title: "3. ÜNİTE: AHLAKİ DAVRANIŞLAR",
+                    icon: "✨",
+                    color: "#3B82F6", // blue-500 (Ana başlık için)
+                    buttonBg: "#1E40AF", // blue-800 (Buton arka planı)
+                    buttonHoverBg: "#2563EB", // blue-600 (Buton hover arka planı)
+                    introduction: "Bu ünite, güzel ahlaki tutum ve davranışlar, örnek tutum ve davranışların birey ve toplumların ahlaki gelişimine katkısı, tutum ve davranışlarda ölçülü olmaya özen gösterme, Hz. Salih'in (a.s.) hayatı ve Felak suresinin anlamı gibi konuları ele almaktadır.",
+                    topics: [
+                        {
+                            id: "topic3_1",
+                            title: "Güzel Ahlaki Tutum ve Davranışlar",
+                            content: `
+                                <p><strong>Ahlak:</strong> Kişiler arası ilişkileri düzenleyen kurallar bütünüdür.</p>
+                                <p class="mt-1"><strong>Değer:</strong> Bir toplumun kültürüne göre şekillenmiş ahlaki unsurlardır.</p>
+                                <p class="mt-1"><strong>Davranış:</strong> Kişinin karşılaştığı durumlara yönelik ortaya koyduğu eylemlerdir.</p>
+                                <p class="mt-1"><strong>Tutum:</strong> Bireyin herhangi bir nesneyle alakalı duygu, düşünce, inanç ve davranışlarını belirleme eğilimidir.</p>
+                                <p class="mt-2">İslam, iyiliği emredip kötülükten sakındırmayı ilke edinir. Hz. Peygamber "el-Emin" (güvenilir) olarak anılmıştır.</p>
+                                <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <h5 class="font-semibold text-md text-stone-700">Adalet:</h5>
+                                        <p>Doğruluk, dengeli olma, hak sahibine hakkını verme.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-md text-stone-700">Dostluk:</h5>
+                                        <p>Birinin iyiliğini isteyen, onu gönülden seven kişiyle kurulan bağ.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-md text-stone-700">Dürüstlük:</h5>
+                                        <p>Söz ve eylemde doğru olma.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-md text-stone-700">Öz Denetim:</h5>
+                                        <p>Davranışlarını disiplin etme becerisi.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-md text-stone-700">Sabır:</h5>
+                                        <p>Zorluklar karşısında Allah'a sığınıp güvenme.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-md text-stone-700">Saygı ve Sevgi:</h5>
+                                        <p>Hürmet, incelik, hoşnutluk. Allah'ı seven her varlığı sever.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-md text-stone-700">Sorumluluk:</h5>
+                                        <p>Tutum ve davranışlarının sonuçlarını üstlenme.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-md text-stone-700">Vatanseverlik:</h5>
+                                        <p>Yaşadığı toprağı sevme, ona faydalı olma.</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-md text-stone-700">Yardımseverlik:</h5>
+                                        <p>İhtiyacı olana maddi veya manevi yardımda bulunma (İsar, Sadaka, İnfak).</p>
+                                    </div>
+                                </div>
+                            `
+                        },
+                        {
+                            id: "topic3_2",
+                            title: "Güzel Ahlakın Birey ve Topluma Katkısı",
+                            content: `
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li>Bireyin dünya ve ahiret hayatını güzelleştirir.</li>
+                                    <li>Kişinin ahlaken güzelleşmesini, huzurlu ve mutlu bir yaşam sürmesini sağlar.</li>
+                                    <li>Adaletin, vatanseverliğin, sorumluluk bilincinin, yardımseverliğin, dostluk ve kardeşliğin hakim olduğu toplumlar birlik ve beraberlik içinde yaşar.</li>
+                                    <li>Toplumda güven duygusu artar.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic3_3",
+                            title: "Davranışlarda Ölçülü Olmak",
+                            content: `
+                                <p>Bireyin hem dünya hem de ahirette mutlu olabilmesi için tutum ve davranışlarında aşırıya kaçmadan orta yolu tutması gerekir. İslam, ibadetlerde dahi aşırılıktan kaçınmayı tavsiye eder.</p>
+                            `
+                        },
+                        {
+                            id: "topic3_4",
+                            title: "Bir Peygamber Tanıyorum: Hz. Salih (a.s.)",
+                            content: `
+                                <p>Hz. Nuh peygamberin soyundan gelmiş, Semud kavmine gönderilmiştir. Kutsal kitap verilmemiştir.</p>
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li>Kavmi, dağlardan yontulmuş evler yapan, güçlü ve zengin bir topluluktu.</li>
+                                    <li>Hastalara ziyarette bulunan, yoksullara yardım eden biri olarak tanınmıştır.</li>
+                                    <li><strong>Mucizesi:</strong> Kayadan çıkan ve bir gün su içip ertesi gün süt veren bir devedir.</li>
+                                    <li>Kavmi deveyi kesince korkunç bir gürültü ve sarsıntıyla helak olmuştur. Hz. Salih ve ona iman edenler kurtulmuştur.</li>
+                                    <li>Allah'ın emirlerini yerine getirmenin ve ahlaklı davranmanın önemini vurgular.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic3_5",
+                            title: "Bir Sure Tanıyorum: Felak Suresi ve Anlamı",
+                            content: `
+                                <p>Kur'an-ı Kerim'in 113. suresidir, beş ayettir. "Felak" kelimesi gecenin sonunda beliren aydınlık, sabah gibi anlamlara gelir. Nâs suresi ile birlikte "muavvizeteyn" (iki koruyucu) olarak anılır.</p>
+                                <div class="mt-3 p-3 bg-amber-50 rounded-md border border-amber-200">
+                                    <h5 class="font-semibold text-amber-700">Felak Suresi Anlamı:</h5>
+                                    <p class="mt-1">Sabahın Rabbi'ne; yarattığı şeylerin şerrinden, karanlığı çöktüğü zaman gecenin şerrinden, düğümlere üfürenlerin şerrinden ve kıskandığı vakit kıskanç kişinin şerrinden sığınmayı ifade eder.</p>
+                                </div>
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li>Her türlü kötülükten Allah'a sığınılması gerektiğini vurgular.</li>
+                                    <li>Haset etmenin Allah'ın hoşnut olmadığı bir davranış olduğunu belirtir.</li>
+                                </ul>
+                            `
+                        }
+                    ]
+                },
+                {
+                    id: "unit4",
+                    title: "4. ÜNİTE: ALLAH'IN KULU VE ELÇİSİ: HZ. MUHAMMED",
+                    icon: "🕌",
+                    color: "#8B5CF6", // violet-500 (Ana başlık için)
+                    buttonBg: "#5B21B6", // violet-800 (Buton arka planı)
+                    buttonHoverBg: "#7C3AED", // violet-600 (Buton hover arka planı)
+                    introduction: "Bu ünite, Hz. Muhammed'in (s.a.v.) Allah'ın kulu ve elçisi yönlerini, Kâfirun suresinin anlamını ve peygamberimizin hayatından çıkarılabilecek dersleri ele almaktadır.",
+                    topics: [
+                        {
+                            id: "topic4_1",
+                            title: "Allah'ın (c.c.) Kulu Hz. Muhammed (s.a.v.)",
+                            content: `
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li>Hz. Muhammed (s.a.v.) diğer insanlar gibi bir beşerdir; yer, içer, evlenir, hastalanır ve vefat eder.</li>
+                                    <li>Peygamberimiz, insanlara örnek olmak için gönderilmiştir.</li>
+                                    <li>O, Allah'ın bir kuludur ve asla ilahlık vasfı taşımaz.</li>
+                                    <li>Kul ve peygamberlik vasıfları birbiriyle çelişmez.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic4_2",
+                            title: "Allah'ın (c.c.) Elçisi Hz. Muhammed (s.a.v.)",
+                            content: `
+                                <p><strong>Nübüvvet/Risalet:</strong> Peygamberlik anlamına gelir.</p>
+                                <ul class="list-disc ml-6 space-y-1 mt-2">
+                                    <li>Hz. Muhammed (s.a.v.) son peygamberdir (Hatemü'l-Enbiya).</li>
+                                    <li>Vahiy yoluyla Allah'tan aldığı mesajları insanlara eksiksiz iletmiştir.</li>
+                                    <li><strong>Görevleri:</strong> Müjdeleyici, uyarıcı, Kur'an'ı açıklayıcı, güzel ahlakı tamamlayıcı, alemlere rahmet.</li>
+                                </ul>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Peygamberlik Özellikleri:</h4>
+                                <ul class="list-disc ml-6 space-y-1">
+                                    <li><strong>Sıdk:</strong> Doğru ve dürüst olmak.</li>
+                                    <li><strong>Emanet:</strong> Güvenilir olmak.</li>
+                                    <li><strong>Fetanet:</strong> Akıllı ve zeki olmak.</li>
+                                    <li><strong>İsmet:</strong> Günah işlememek.</li>
+                                    <li><strong>Tebliğ:</strong> Allah'tan aldığı mesajları insanlara eksiksiz iletmek.</li>
+                                </ul>
+                                <p class="mt-2">Hz. Muhammed'i (s.a.v.) örnek almak, güzel ahlaklı olmayı, doğruluktan ayrılmamayı ve Allah'ın rızasını kazanmayı sağlar.</p>
+                            `
+                        },
+                        {
+                            id: "topic4_3",
+                            title: "Bir Sure Tanıyorum: Kâfirun Suresi ve Anlamı",
+                            content: `
+                                <p>Kur'an-ı Kerim'in 109. suresidir, altı ayettir.</p>
+                                <div class="mt-3 p-3 bg-amber-50 rounded-md border border-amber-200">
+                                    <h5 class="font-semibold text-amber-700">Kâfirun Suresi Anlamı:</h5>
+                                    <p class="mt-1">"De ki: Ey kâfirler! Ben sizin taptıklarınıza tapmam. Siz de benim taptığıma tapmazsınız. Ben sizin taptıklarınıza tapacak değilim. Siz de benim taptığıma tapacak değilsiniz. Sizin dininiz size, benim dinim banadır."</p>
+                                </div>
+                                <p class="mt-2"><strong>Mesajı:</strong> Tevhit inancına vurgu yapar. İman ile şirkin bir arada bulunamayacağını, kimsenin imanından dönmeye zorlanamayacağını belirtir. Kişinin seçimlerinden sorumlu olduğunu vurgular. Mekkeli müşriklerin Hz. Peygamber'e yaptığı anlaşma teklifi üzerine nazil olmuştur.</p>
+                            `
+                        }
+                    ]
+                },
+                {
+                    id: "unit5",
+                    title: "5. ÜNİTE: İSLAM DÜŞÜNCESİNDE YORUMLAR",
+                    icon: "�",
+                    color: "#14B8A6", // teal-500 (Ana başlık için)
+                    buttonBg: "#0F766E", // teal-800 (Buton arka planı)
+                    buttonHoverBg: "#0D9488", // teal-600 (Buton hover arka planı)
+                    introduction: "Bu ünite, din anlayışındaki yorum farklılıklarının sebepleri, İslam düşüncesindeki yorum biçimleri (itikadi, fıkhi, tasavvufi), kültürümüzde etkin olan tasavvufi yorumlar ve Alevilik-Bektaşilikle ilgili temel kavram ve erkânlar gibi konuları içermektedir.",
+                    topics: [
+                        {
+                            id: "topic5_1",
+                            title: "Din Anlayışındaki Yorum Farklılıklarının Sebepleri",
+                            content: `
+                                <p><strong>Din:</strong> Allah'ın (c.c.) insanlara peygamberleri vasıtasıyla bildirdiği ilahi kurallar bütünüdür. Zamana ve mekâna göre değişmez, tektir.</p>
+                                <p class="mt-1"><strong>Din Anlayışı:</strong> İnsanların Kur'an'ı ve sünneti anlama ve değişen şartlara göre yorumlama gayretleriyle ortaya koydukları görüşlerdir. İnsanların görüş ve düşüncelerine göre şekillenir, birden fazla olabilir, zamanla değişime uğrayabilir.</p>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Yorum Farklılıklarının Nedenleri:</h4>
+                                <ul class="list-disc ml-6 space-y-1">
+                                    <li>Dinin farklı coğrafyalara yayılması.</li>
+                                    <li>Farklı kültürlerin birbiriyle iletişime geçmesi.</li>
+                                    <li>İnsanın yapısı, karakteri, yaşı ve cinsiyeti.</li>
+                                    <li>Alınan eğitim, bilgi birikimi ve kültür düzeyi.</li>
+                                    <li>Örf, âdet, gelenek ve görenekler.</li>
+                                    <li>Âlimlerin Kur'an ve hadis metinlerini farklı metotlar kullanarak yorumlaması.</li>
+                                    <li>Bilimsel ve teknolojik gelişmeler.</li>
+                                    <li>Değişen dünyada farklılaşan ve artan sorunlar.</li>
+                                </ul>
+                            `
+                        },
+                        {
+                            id: "topic5_2",
+                            title: "İslam Düşüncesinde Yorum Biçimleri",
+                            content: `
+                                <p><strong>Mezhep:</strong> Sözlükte yöntem, ekol ve gidilecek yol anlamına gelir. Dinin inanç esaslarını veya hükümlerini anlama ve yorumlamada kendine özgü yöntemleri bulunan düşünce sistemidir.</p>
+                                <div class="mt-3 space-y-3">
+                                    <div>
+                                        <button class="accordion-button bg-teal-100 text-teal-800 p-3 rounded-md w-full text-left font-semibold hover:bg-teal-200 transition">İnançla İlgili (İtikadi) Yorumlar</button>
+                                        <div class="accordion-content p-3 bg-gray-50 rounded-b-md border border-t-0 border-gray-200">
+                                            <p><strong>İtikat:</strong> Dünya ve ahirette insanların mutluluğu için Allah Teala'nın gönderdiği kurallara iman etme.</p>
+                                            <p class="mt-1">Tevhit, ahiret, kutsal kitaplara, peygamberlere iman gibi inanç esasları tüm Müslümanlar için ortaktır.</p>
+                                            <p class="mt-1">Farklı düşünceler etrafında oluşan itikadi mezhepler: Eşarilik, Matüridilik.</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="accordion-button bg-teal-100 text-teal-800 p-3 rounded-md w-full text-left font-semibold hover:bg-teal-200 transition">Fıkhi (Amelle İlgili) Yorumlar</button>
+                                        <div class="accordion-content p-3 bg-gray-50 rounded-b-md border border-t-0 border-gray-200">
+                                            <p><strong>Fıkıh:</strong> İslam'ın ferdi ve toplumsal hayata dair hükümlerini araştıran ilim dalı.</p>
+                                            <p class="mt-1">Dört büyük fıkhi mezhep:</p>
+                                            <ul class="list-disc ml-6 mt-1">
+                                                <li><strong>Hanefilik:</strong> İmam-ı Azam Ebu Hanife'ye nispet edilir.</li>
+                                                <li><strong>Malikilik:</strong> Malik b. Enes'e nispet edilir.</li>
+                                                <li><strong>Şafiilik:</strong> İmam Şafii'ye nispet edilir.</li>
+                                                <li><strong>Hanbelilik:</strong> Ahmed b. Hanbel'e nispet edilir.</li>
+                                            </ul>
+                                            <p class="mt-1">Caferilik ve Zeydilik de fıkhi yorumlardandır.</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="accordion-button bg-teal-100 text-teal-800 p-3 rounded-md w-full text-left font-semibold hover:bg-teal-200 transition">Tasavvufi Yorumlar</button>
+                                        <div class="accordion-content p-3 bg-gray-50 rounded-b-md border border-t-0 border-gray-200">
+                                            <p><strong>Tasavvuf:</strong> İslam'ın manevi yönünü ön plana çıkaran, yaratıcıya samimi duygularle bağlanarak ibadet ve davranış bilinci kazandırmayı hedefleyen ilim dalı.</p>
+                                            <p class="mt-1">Örnekler: Ahmed Yesevilik, Kadirilik, Mevlevilik, Nakşibendilik.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `
+                        },
+                        {
+                            id: "topic5_3",
+                            title: "İslam Düşüncesinde Tasavvufi Yorumlar ve Alevilik-Bektaşilik",
+                            content: `
+                                <p><strong>Alevilik:</strong> Hz. Ali'yi seven, ona bağlı olan ve halifeliğin Hz. Ali ve soyundan gelenlerin hakkı olduğu anlayışını savunan kişileri ifade eder.</p>
+                                <p class="mt-1"><strong>Bektaşilik:</strong> 13. yüzyılda Hacı Bektaş Veli tarafından kurulmuş tasavvuf ekolüdür.</p>
+                                <p class="mt-2"><strong>Hacı Bektaş Veli:</strong> Horasan'da doğmuş, Anadolu'ya gelmiştir. "Makalât" eseri önemlidir. "Gelin canlar bir olalım" sözüyle birlik ve beraberliği vurgulamıştır.
+                                </p>
+                                <h4 class="font-semibold mt-3 mb-1 text-md text-stone-700">Temel Kavramlar ve Erkânlar (Alevilik-Bektaşilik):</h4>
+                                <ul class="list-disc ml-6 space-y-1">
+                                    <li><strong>Ocak:</strong> Cem erkânını yürüten dedelerin soylarını ifade eder.</li>
+                                    <li><strong>Cem ve Cemevi:</strong> Toplanma, ibadet ve görgü kurallarının uygulandığı toplantılar ve yapıldığı mekân.</li>
+                                    <li><strong>On İki Hizmet:</strong> Cem erkânında görev alan hizmetliler.</li>
+                                    <li><strong>Gülbank:</strong> Topluca yapılan dualar.</li>
+                                    <li><strong>Semah:</strong> Musiki eşliğinde yapılan ritüel.</li>
+                                    <li><strong>Musahiplik (Yol Kardeşliği):</strong> Evli iki çiftin kardeşlik sözü vermesi.</li>
+                                    <li><strong>Muharrem Orucu ve Aşure:</strong> Muharrem ayında tutulan oruç ve onuncu gün pişirilen aşure.</li>
+                                </ul>
+                            `
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const unitList = document.getElementById('unitList');
+        const unitTitleEl = document.getElementById('unitTitle');
+        const unitIntroductionTextEl = document.getElementById('unitIntroductionText');
+        const topicListEl = document.getElementById('topicList');
+        const initialMessageEl = document.getElementById('initialMessage');
+        const unitContentEl = document.getElementById('unitContent'); // Ana içerik div'i
+
+        let currentUnitId = null;
+        let currentOpenTopicContent = null; // Şu anda açık olan konu içeriği div'ini tutar
+        let currentTopicId = null; // currentTopicId'yi global olarak tanımla ve başlat
+
+        function displayUnits() {
+            unitList.innerHTML = '';
+            textbookData.units.forEach(unit => {
+                const listItem = document.createElement('li');
+                const button = document.createElement('button');
+                button.textContent = unit.title;
+                button.className = 'tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base font-medium focus:outline-none transition-colors';
+                
+                // Butonun arka plan rengini ve yazı rengini ayarla
+                button.style.backgroundColor = unit.buttonBg;
+                button.style.color = 'white'; // Tüm buton yazıları beyaz olacak
+
+                if (unit.id === currentUnitId) {
+                    // Aktif sekme için özel arka plan ve yazı rengi
+                    button.classList.add('active-tab'); // Bu sınıf zaten beyaz yazı ve özel arka plan ayarlıyor
+                    button.style.backgroundColor = '#047857'; // Aktif sekme için özel arka plan rengi
+                }
+
+                button.onmouseover = () => {
+                    if (unit.id !== currentUnitId) {
+                        button.style.backgroundColor = unit.buttonHoverBg;
+                    }
+                };
+                button.onmouseout = () => {
+                    if (unit.id !== currentUnitId) {
+                        button.style.backgroundColor = unit.buttonBg;
+                    }
+                };
+                button.onclick = () => {
+                    selectUnit(unit.id);
+                };
+                listItem.appendChild(button);
+                unitList.appendChild(listItem);
+            });
+        }
+
+        function selectUnit(unitId) {
+            currentUnitId = unitId;
+            currentTopicId = null; // Yeni ünite seçildiğinde aktif konuyu sıfırla
+            currentOpenTopicContent = null; // Yeni ünite seçildiğinde açık olan akordiyonu sıfırla
+            const selectedUnit = textbookData.units.find(u => u.id === unitId);
+
+            if (selectedUnit) {
+                initialMessageEl.style.display = 'none';
+                unitContentEl.style.display = 'block';
+
+                unitTitleEl.innerHTML = `<span class="icon">${selectedUnit.icon}</span> ${selectedUnit.title}`;
+                unitTitleEl.style.color = selectedUnit.color; // Ünite başlığına rengi uygula
+                unitIntroductionTextEl.textContent = selectedUnit.introduction;
+                displayTopics(selectedUnit.topics);
+                displayUnits(); // Navigasyondaki aktifliği güncelle
+
+                // Ünite butonunu kaydırarak görünür hale getir
+                const activeUnitButton = unitList.querySelector('.active-tab');
+                if (activeUnitButton) {
+                    activeUnitButton.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        }
+
+        function displayTopics(topics) {
+            topicListEl.innerHTML = '';
+            const olElement = document.createElement('ol');
+            olElement.className = 'space-y-2';
+
+            topics.forEach((topic, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'topic-list-item';
+
+                const button = document.createElement('button');
+                button.innerHTML = `<span>${index + 1}. ${topic.title}</span><span class="arrow-icon">▶️</span>`; // Numara ve ok ikonu buton içinde
+                button.className = 'topic-button px-4 py-2 rounded-md transition duration-150 ease-in-out text-sm';
+
+                const topicContentDiv = document.createElement('div');
+                topicContentDiv.innerHTML = topic.content;
+                topicContentDiv.className = 'topic-content-area prose max-w-none text-gray-700 leading-relaxed';
+
+                // Başlangıçta aktif konu varsa, içeriğini göster
+                if (topic.id === currentTopicId) {
+                    button.classList.add('active-topic');
+                    topicContentDiv.classList.add('active');
+                    button.querySelector('.arrow-icon').classList.add('rotated');
+                    currentOpenTopicContent = topicContentDiv; // Açık olan konuyu kaydet
+                }
+
+                button.onclick = () => {
+                    toggleTopicContent(topic.id, topicContentDiv, button);
+                };
+
+                listItem.appendChild(button);
+                listItem.appendChild(topicContentDiv);
+                olElement.appendChild(listItem);
+            });
+            topicListEl.appendChild(olElement);
+        }
+
+        function toggleTopicContent(topicId, contentDiv, button) {
+            // Eğer farklı bir konu açıksa, onu kapat
+            if (currentOpenTopicContent && currentOpenTopicContent !== contentDiv) {
+                currentOpenTopicContent.classList.remove('active');
+                const prevButton = currentOpenTopicContent.previousElementSibling;
+                if (prevButton) {
+                    prevButton.classList.remove('active-topic');
+                    const prevArrow = prevButton.querySelector('.arrow-icon');
+                    if (prevArrow) prevArrow.classList.remove('rotated');
+                }
+            }
+
+            // Tıklanan konuyu aç/kapat
+            contentDiv.classList.toggle('active');
+            button.classList.toggle('active-topic');
+            const arrowIcon = button.querySelector('.arrow-icon');
+            if (arrowIcon) arrowIcon.classList.toggle('rotated');
+
+            // Açık olan konuyu güncelle
+            if (contentDiv.classList.contains('active')) {
+                currentOpenTopicContent = contentDiv;
+            } else {
+                currentOpenTopicContent = null;
+            }
+
+            // Akordiyon içeriği açıldığında, içindeki alt akordiyonları da başlat
+            if (contentDiv.classList.contains('active')) {
+                initializeAccordionsInContent(contentDiv);
+            }
+        }
+
+        function initializeAccordionsInContent(parentDiv) {
+            const accordionButtons = parentDiv.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.removeEventListener('click', toggleSectionContent);
+                button.addEventListener('click', toggleSectionContent);
+            });
+        }
+
+        function toggleSectionContent(event) {
+            event.currentTarget.classList.toggle('open');
+            const content = event.currentTarget.nextElementSibling;
+            const arrowIcon = event.currentTarget.querySelector('.arrow-icon');
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                arrowIcon.classList.remove('rotated');
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                arrowIcon.classList.add('rotated');
+            }
+        }
+
+        /* Sayfa yüklendiğinde üniteleri göster */
+        document.addEventListener('DOMContentLoaded', () => {
+            displayUnits();
+            // İlk üniteyi otomatik olarak seç
+            selectUnit(textbookData.units[0].id);
+        });
+
+        const returnToSiteButton = document.getElementById('return-to-site-button');
+        returnToSiteButton.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
+�
