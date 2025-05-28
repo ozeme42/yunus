@@ -83,7 +83,7 @@
             text-decoration: none;
             font-weight: 600;
             transition: background-color 0.3s ease;
-            white-space: nowrap; /* Prevents text from wrapping */
+            /* Removed white-space: nowrap; to allow wrapping */
         }
         .return-button-nav:hover {
             background-color: #118AB2;
@@ -98,7 +98,7 @@
     </header>
 
     <nav id="main-nav" class="sticky top-0 z-50 bg-white shadow-md py-3">
-        <ul class="container mx-auto flex justify-center space-x-2 md:space-x-4 overflow-x-auto whitespace-nowrap px-4 items-center">
+        <ul class="container mx-auto flex flex-wrap justify-center gap-2 md:gap-4 overflow-x-hidden px-4 items-center">
             <li><button class="unit-nav-btn active" data-unit-prefix="main-intro">Giriş</button></li>
             <li><button class="unit-nav-btn" data-unit-prefix="unite1">1. Ünite</button></li>
             <li><button class="unit-nav-btn" data-unit-prefix="unite2">2. Ünite</button></li>
@@ -357,7 +357,7 @@
                         <li><strong class="text-emphasis">Maddi Temizlik:</strong> Beden, kıyafet ve çevre temizliği. "Temizlik imanın yarısıdır."</li>
                         <li><strong class="text-emphasis">Manevi Temizlik:</strong> Kalbi kötülüklerden temizleme, günah ve hatalardan kaçınma (tövbe ile).</li>
                         <ul class="list-circle list-inside ml-4 space-y-1 mt-1">
-                            <li>Ağız ve diş temizliği (misvak kullanımı).</li>
+                            <li>Ağız ve diş temizliği (miswak kullanımı).</li>
                             <li>Saç ve genel beden temizliği (banyo).</li>
                             <li>Tırnak temizliği.</li>
                             <li>Elbise ve evin çevresinin temiz tutulması.</li>
