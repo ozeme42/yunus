@@ -154,7 +154,7 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
             cursor: pointer;
             font-weight: 600;
-            margin-top: 2.5rem;
+            /* margin-top: 2.5rem; removed as it's now in a flex container */
             display: inline-block;
             border: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -464,7 +464,7 @@
             <div class="nav-link active" onclick="showPage('home')">Ana Sayfa</div>
             <div class="nav-link" onclick="showPage('about')">Hakkında</div>
             <div class="nav-link" onclick="showPage('contact')">İletişim</div>
-        </nav>
+            <div class="nav-link" onclick="window.location.href = 'index.html';">Siteye Dön</div> </nav>
     </header>
 
     <main id="app-content">
@@ -533,7 +533,7 @@
                     <li><span class="list-icon">✨</span> **Rahman:** "Dünyada bütün canlılara, inanan inanmayan ayırt etmeksizin merhamet eden, nimet veren, şefkat gösteren" anlamına gelir. Allah'ın genel rahmetini ifade eder.</li>
                     <li><span class="list-icon">❤️</span> **Rahîm:** "Ahirette sadece kendisine iman eden ve iyi işler yapan kullarına özel olarak merhamet eden, onları bağışlayan ve ödüllendiren" anlamına gelir. Allah'ın özel rahmetini ifade eder.</li>
                     <li><span class="list-icon">🧠</span> **Âlim:** "Gizli ve açık, geçmiş, şimdi ve gelecek, her şeyi en ince ayrıntısına kadar bilen" demektir. Allah'ın ilmi sonsuzdur ve hiçbir şey O'ndan gizli kalmaz.</li>
-                    <li><span class="list-icon">👀</span> **Basir:** "Her şeyi gören, hiçbir şeyin O'nun görüşünden kaçmadığı" anlamına gelir. En küçük bir zerreden en büyük galaksiye kadar her şeyi görür.</li>
+                    <li><span class="list-icon">👀</span> **Basir:** "Her şeyi gören, hiçbir şeyin O'nın görüşünden kaçmadığı" anlamına gelir. En küçük bir zerreden en büyük galaksiye kadar her şeyi görür.</li>
                     <li><span class="list-icon">👂</span> **Semi:** "Her şeyi işiten, en gizli fısıltılardan en yüksek seslere kadar her şeyi duyan" demektir. Hiçbir ses O'nun işitmesinden uzak değildir.</li>
                     <li><span class="list-icon">💪</span> **Kadir:** "Her şeye gücü yeten, dilediği her şeyi yapabilen, sonsuz kudret sahibi" anlamına gelir. O'nun için hiçbir şey imkansız değildir.</li>
                     <li><span class="list-icon">🕊️</span> **İhlas:** Bir kavram olarak "samimiyet, doğruluk, temizlik, saflık" demektir. Bir Müslümanın tüm ibadet ve davranışlarını sadece Allah'ın rızasını kazanmak için yapması, gösterişten ve ikiyüzlülükten uzak durması anlamına gelir. İhlas Suresi'nde Allah'ın birliği ve tekliği vurgulanır.</li>
@@ -541,7 +541,10 @@
                     <li><span class="list-icon">💡</span> **Diğer İsimler:** El-Melik (Mülkün sahibi), El-Kuddüs (Her türlü eksiklikten uzak), Es-Selam (Esenlik veren), El-Mümin (Güven veren), El-Müheymin (Gözeten, koruyan), El-Aziz (Üstün, şerefli), El-Cebbar (Dilediğini zorla yaptıran), El-Mütekebbir (Büyüklükte tek), El-Halık (Yaratan), El-Bari (Varlıkları örnek olmadan yaratan), El-Musavvir (Varlıklara şekil veren) gibi daha birçok güzel ismi vardır.</li>
                 </ul>
             </div>
-            <div class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit2-detail" class="content-section hidden">
@@ -605,7 +608,10 @@
                     <li><span class="list-icon">🧼</span> **İslam'da Temizliğin Önemi:** İslam dini, temizliğe büyük önem verir. Hem maddi (beden, elbise, çevre) hem de manevi (kalp, niyet) temizlik, imanın bir parçası olarak kabul edilir. Hz. Peygamber (s.a.v.) "Temizlik imanın yarısıdır" buyurmuştur.</li>
                 </ul>
             </div>
-            <div class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit3-detail" class="content-section hidden">
@@ -645,7 +651,10 @@
                     </li>
                 </ul>
             </div>
-            <div class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit4-detail" class="content-section hidden">
@@ -720,7 +729,10 @@
                     </li>
                 </ul>
             </div>
-            <div class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit5-detail" class="content-section hidden">
@@ -766,14 +778,17 @@
                             <li><span class="list-icon"> 🗿</span> **Diyarbakır Ulu Cami:** Anadolu'nın en eski camilerinden biridir ve farklı medeniyetlerin izlerini taşır.</li>
                         </ul>
                     </li>
-                    <li><span class="list-icon"> 👷</span> **Mimar Sinan ve Eserleri:** Mimar Sinan, Osmanlı İmparatorluğu'nun en büyük mimarlarından biridir. Eserleriyle Türk İslam mimarisine eşsiz katkılarda bulunmuştur.
+                    <li><span class="list-icon"> 👷</span> **Mimar Sinan ve Eserleri:** Mimar Sinan, Osmanlı İmparatorluğu'nın en büyük mimarlarından biridir. Eserleriyle Türk İslam mimarisine eşsiz katkılarda bulunmuştur.
                         <ul class="content-list ml-4">
                             <li><span class="list-icon"> 🌟</span> **Selimiye Camii:** Edirne'de bulunan bu cami, Mimar Sinan'ın "ustalık eserim" dediği, mimari ve mühendislik harikası bir yapıdır. Tek bir kubbe altında geniş bir iç mekan sunar.</li>
                         </ul>
                     </li>
                 </ul>
             </div>
-            <div class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit1-activities" class="activity-section-container hidden">
@@ -783,7 +798,10 @@
                 <button class="activity-type-button" onclick="showSpecificActivity('unit1', 'fillInTheBlanks')">Boşluk Doldurma Soruları</button>
                 <button class="activity-type-button" onclick="showSpecificActivity('unit1', 'multipleChoice')">Test Soruları</button>
             </div>
-            <div class="back-button" onclick="showUnit('unit1')">Ünite Detayına Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showUnit('unit1')">Ünite Detayına Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit1-trueFalse-activity" class="activity-content-section hidden">
@@ -793,7 +811,10 @@
                 </div>
             <div id="unit1-trueFalse-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit1')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit1')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit1-fillInTheBlanks-activity" class="activity-content-section hidden">
@@ -808,7 +829,10 @@
             </div>
             <div id="unit1-fillInTheBlanks-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit1')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit1')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit1-multipleChoice-activity" class="activity-content-section hidden">
@@ -818,7 +842,10 @@
                 </div>
             <div id="unit1-multipleChoice-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit1')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit1')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit2-activities" class="activity-section-container hidden">
@@ -828,7 +855,10 @@
                 <button class="activity-type-button" onclick="showSpecificActivity('unit2', 'fillInTheBlanks')">Boşluk Doldurma Soruları</button>
                 <button class="activity-type-button" onclick="showSpecificActivity('unit2', 'multipleChoice')">Test Soruları</button>
             </div>
-            <div class="back-button" onclick="showUnit('unit2')">Ünite Detayına Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showUnit('unit2')">Ünite Detayına Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit2-trueFalse-activity" class="activity-content-section hidden">
@@ -838,7 +868,10 @@
                 </div>
             <div id="unit2-trueFalse-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit2')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit2')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit2-fillInTheBlanks-activity" class="activity-content-section hidden">
@@ -851,9 +884,10 @@
                 <div class="answer-options-container">
                     </div>
             </div>
-            <div id="unit2-fillInTheBlanks-questions-container" class="activity-section">
-                </div>
-            <div class="back-button" onclick="showActivities('unit2')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit2')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit2-multipleChoice-activity" class="activity-content-section hidden">
@@ -863,7 +897,10 @@
                 </div>
             <div id="unit2-multipleChoice-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit2')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit2')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit3-activities" class="activity-section-container hidden">
@@ -873,7 +910,10 @@
                 <button class="activity-type-button" onclick="showSpecificActivity('unit3', 'fillInTheBlanks')">Boşluk Doldurma Soruları</button>
                 <button class="activity-type-button" onclick="showSpecificActivity('unit3', 'multipleChoice')">Test Soruları</button>
             </div>
-            <div class="back-button" onclick="showUnit('unit3')">Ünite Detayına Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showUnit('unit3')">Ünite Detayına Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit3-trueFalse-activity" class="activity-content-section hidden">
@@ -883,7 +923,10 @@
                 </div>
             <div id="unit3-trueFalse-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit3')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit3')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit3-fillInTheBlanks-activity" class="activity-content-section hidden">
@@ -896,9 +939,10 @@
                 <div class="answer-options-container">
                     </div>
             </div>
-            <div id="unit3-fillInTheBlanks-questions-container" class="activity-section">
-                </div>
-            <div class="back-button" onclick="showActivities('unit3')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit3')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit3-multipleChoice-activity" class="activity-content-section hidden">
@@ -908,7 +952,10 @@
                 </div>
             <div id="unit3-multipleChoice-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit3')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit3')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit4-activities" class="activity-section-container hidden">
@@ -918,7 +965,10 @@
                 <button class="activity-type-button" onclick="showSpecificActivity('unit4', 'fillInTheBlanks')">Boşluk Doldurma Soruları</button>
                 <button class="activity-type-button" onclick="showSpecificActivity('unit4', 'multipleChoice')">Test Soruları</button>
             </div>
-            <div class="back-button" onclick="showUnit('unit4')">Ünite Detayına Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showUnit('unit4')">Ünite Detayına Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit4-trueFalse-activity" class="activity-content-section hidden">
@@ -928,7 +978,10 @@
                 </div>
             <div id="unit4-trueFalse-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit4')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit4')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit4-fillInTheBlanks-activity" class="activity-content-section hidden">
@@ -941,9 +994,10 @@
                 <div class="answer-options-container">
                     </div>
             </div>
-            <div id="unit4-fillInTheBlanks-questions-container" class="activity-section">
-                </div>
-            <div class="back-button" onclick="showActivities('unit4')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit4')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit4-multipleChoice-activity" class="activity-content-section hidden">
@@ -953,7 +1007,10 @@
                 </div>
             <div id="unit4-multipleChoice-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit4')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit4')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit5-activities" class="activity-section-container hidden">
@@ -963,7 +1020,10 @@
                 <button class="activity-type-button" onclick="showSpecificActivity('unit5', 'fillInTheBlanks')">Boşluk Doldurma Soruları</button>
                 <button class="activity-type-button" onclick="showSpecificActivity('unit5', 'multipleChoice')">Test Soruları</button>
             </div>
-            <div class="back-button" onclick="showUnit('unit5')">Ünite Detayına Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showUnit('unit5')">Ünite Detayına Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit5-trueFalse-activity" class="activity-content-section hidden">
@@ -973,7 +1033,10 @@
                 </div>
             <div id="unit5-trueFalse-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit5')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit5')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit5-fillInTheBlanks-activity" class="activity-content-section hidden">
@@ -986,9 +1049,10 @@
                 <div class="answer-options-container">
                     </div>
             </div>
-            <div id="unit5-fillInTheBlanks-questions-container" class="activity-section">
-                </div>
-            <div class="back-button" onclick="showActivities('unit5')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit5')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="unit5-multipleChoice-activity" class="activity-content-section hidden">
@@ -998,14 +1062,20 @@
                 </div>
             <div id="unit5-multipleChoice-questions-container" class="activity-section">
                 </div>
-            <div class="back-button" onclick="showActivities('unit5')">Geri Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showActivities('unit5')">Geri Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="about-page" class="content-section hidden">
             <h2 class="content-title">Hakkında</h2>
             <p class="text-lg leading-relaxed mb-4">Bu web sitesi, 5. sınıf Din Kültürü ve Ahlak Bilgisi dersi müfredatına uygun olarak öğrenciler için etkileşimli ve anlaşılır bir öğrenme ortamı sunmak amacıyla hazırlanmıştır.</p>
             <p class="text-lg leading-relaxed mb-4">Her ünitede konu anlatımları, özetler, temel kavramlar ve öğrencilerin aktif katılımını sağlayacak etkileşimli etkinlikler bulunmaktadır. Amacımız, Din Kültürü dersini daha keyifli ve öğretici hale getirmektir.</p>
-            <div class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
 
         <section id="contact-page" class="content-section hidden">
@@ -1013,7 +1083,10 @@
             <p class="text-lg leading-relaxed mb-4">Geri bildirimleriniz ve sorularınız için bizimle iletişime geçebilirsiniz.</p>
             <p class="text-lg leading-relaxed mb-4">E-posta: info@dinkulturu5.com</p>
             <p class="text-lg leading-relaxed mb-4">Telefon: +90 123 456 78 90</p>
-            <div class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</div>
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button class="back-button" onclick="showPage('home')">Ana Sayfaya Dön</button>
+                <button class="back-button" onclick="window.location.href = 'index.html';">Siteye Dön</button>
+            </div>
         </section>
     </main>
 
@@ -1048,7 +1121,7 @@
                             { id: 'q6', questionText: 'Samed ismi, Allah\'ın her şeye muhtaç olduğunu belirtir.', answer: false, explanation: 'Samed, Allah\'ın hiçbir şeye muhtaç olmayıp, her şeyin kendisine muhtaç olduğunu ifade eder.' },
                             { id: 'q7', questionText: 'Evrendeki su döngüsü gibi olaylar tesadüfen gerçekleşir.', answer: false, explanation: 'Evrendeki her olay, Allah\'ın koyduğu mükemmel bir düzen içinde gerçekleşir.' },
                             { id: 'q8', questionText: 'Esmaül Hüsna, Allah\'ın güzel isimleridir.', answer: true, explanation: 'Esmaül Hüsna, Allah\'ın en güzel isimleri demektir.' },
-                            { id: 'q9', questionText: 'Allah\'ın "Kadir" ismi, O\'nun sonsuz gücünü ifade eder.', answer: true, explanation: 'Kadir, Allah\'ın sonsuz kudretini ve sınırsız gücünü ifade eden ismidir.' },
+                            { id: 'q9', questionText: 'Allah\'ın "Kadir" ismi, O\'nın sonsuz gücünü ifade eder.', answer: true, explanation: 'Kadir, Allah\'ın sonsuz kudretini ve sınırsız gücünü ifade eden ismidir.' },
                             { id: 'q10', questionText: 'Tevhit inancı, Allah\'a ortak koşmayı gerektirir.', answer: false, explanation: 'Tevhit inancı, Allah\'ın bir ve tek olduğuna, O\'na hiçbir şeyi ortak koşmadan ibadeti yalnızca O\'na yapmaya inanmaktır.' }
                         ];
                         return questions[qIndex];
@@ -1324,7 +1397,7 @@
                             { id: 'q2', questionText: 'Peygamberler, insanlara sadece dini emirleri tebliğ ederler.', answer: false, explanation: 'Peygamberler, dini emirlerin yanı sıra ahlaki değerleri de öğretir ve örnek olurlar.' },
                             { id: 'q3', questionText: 'Peygamberler, insanlara örnek olmuştur.', answer: true, explanation: 'Peygamberler, davranışları ve yaşam tarzlarıyla insanlara rehberlik etmişlerdir.' },
                             { id: 'q4', questionText: 'Peygamber kıssaları sadece geçmişte yaşanmış olayları anlatır, günümüzle ilgisi yoktur.', answer: false, explanation: 'Peygamber kıssaları, günümüz insanına da ders ve ibret veren evrensel mesajlar içerir.' },
-                            { id: 'q5', questionText: 'Peygamber kıssalarından çıkarılabilecek en önemli derslerden biri sabırlı olmaktır.', answer: true, explanation: 'Peygamberler, zorluklar karşısında sabır ve tevekkül örneği olmuşlardır.' },
+                            { id: 'q5', questionText: 'Peygamber kıssalarından çıkarılabilecek en önemli derslerden biri sabırlı olmaktır.', answer: true, explanation: 'Peygamberler, zorluklar karşında sabır ve tevekkül örneği olmuşlardır.' },
                             { id: 'q6', questionText: 'Peygamberler, insanlara sadece dünya işlerinde rehberlik etmişlerdir.', answer: false, explanation: 'Peygamberler, hem dünya hem de ahiret işlerinde rehberlik etmişlerdir.' },
                             { id: 'q7', questionText: 'Hz. İbrahim, putlara karşı mücadelesiyle bilinir.', answer: true, explanation: 'Hz. İbrahim, putlara karşı verdiği mücadeleyle bilinir.' },
                             { id: 'q8', questionText: 'Kıssa, Kur\'an-ı Kerim\'de anlatılan ibret verici olaylardır.', answer: true, explanation: 'Kıssa, Kur\'an-ı Kerim\'de anlatılan, geçmiş peygamberlerin ve ümmetleriyle ilgili ibret verici olaylar ve hikayeleridir.' },
@@ -1538,6 +1611,7 @@
             } else if (activePageId === 'contact') {
                 document.querySelector('.nav-link:nth-child(3)').classList.add('active');
             }
+            // "Siteye Dön" butonu her zaman aktif görünmez, sadece bir aksiyon tetikler.
         }
 
         // Belirli bir sayfayı göster (Ana Sayfa, Hakkında, İletişim)
