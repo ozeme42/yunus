@@ -88,6 +88,10 @@
             <div class="relative z-10 text-center">
                 <h1 class="text-4xl font-bold">Yunus Emre Ortaokulu</h1>
                 <p class="text-xl mt-2">Din Kültürü ve Ahlak Bilgisi-Peygamberimizin Hayatı</p>
+                <div class="mt-4 p-4 bg-teal-700 bg-opacity-50 rounded-lg text-center">
+                    <p id="daily-verse-text" class="text-lg italic mb-1"></p>
+                    <p id="daily-verse-source" class="text-sm font-light"></p>
+                </div>
             </div>
         </header>
         <section class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -200,9 +204,91 @@
     <script>
         lucide.createIcons();
 
+        // List of example verses (you can expand this list)
+        const quranVerses = [
+            {
+                text: "Şüphesiz güçlükle beraber bir kolaylık vardır.",
+                surah: "İnşirah Suresi",
+                number: "5"
+            },
+            {
+                text: "Allah, hiç kimseye gücünün üstünde bir yük yüklemez.",
+                surah: "Bakara Suresi",
+                number: "286"
+            },
+            {
+                text: "De ki: 'O, Allah'tır, bir tektir.'",
+                surah: "İhlas Suresi",
+                number: "1"
+            },
+            {
+                text: "Andolsun ki insanı en güzel biçimde yarattık.",
+                surah: "Tin Suresi",
+                number: "4"
+            },
+            {
+                text: "Rabbinin nimetini an.",
+                surah: "Duha Suresi",
+                number: "11"
+            },
+            {
+                text: "Kuşkusuz her zorlukla birlikte bir kolaylık vardır.",
+                surah: "İnşirah Suresi",
+                number: "6"
+            },
+            {
+                text: "İman edip salih ameller işleyenlere gelince, onlar için altlarından ırmaklar akan cennetler vardır.",
+                surah: "Buruc Suresi",
+                number: "11"
+            },
+            {
+                text: "Şüphesiz Allah, adaleti, iyilik yapmayı ve yakınlara yardım etmeyi emreder; hayasızlığı, fenalığı ve azgınlığı da yasaklar. O, düşünüp tutasınız diye size öğüt veriyor.",
+                surah: "Nahl Suresi",
+                number: "90"
+            },
+            {
+                text: "Ey iman edenler! Allah'tan korkun ve doğru söz söyleyin ki Allah işlerinizi düzeltsin ve günahlarınızı bağışlasın. Kim Allah'a ve Resulüne itaat ederse, büyük bir kurtuluşa ermiş olur.",
+                surah: "Ahzab Suresi",
+                number: "70-71"
+            },
+            {
+                text: "De ki: 'Hiç bilenlerle bilmeyenler bir olur mu?' Doğrusu ancak akıl sahipleri öğüt alır.",
+                surah: "Zümer Suresi",
+                number: "9"
+            }
+        ];
+
+        function displayDailyVerse() {
+            const today = new Date().toDateString(); // Get today's date string (e.g., "Mon May 27 2025")
+            let lastVerseDate = localStorage.getItem('lastVerseDate');
+            let lastVerseIndex = localStorage.getItem('lastVerseIndex');
+
+            let currentVerseIndex;
+
+            if (lastVerseDate === today && lastVerseIndex !== null) {
+                // If it's the same day, use the stored index
+                currentVerseIndex = parseInt(lastVerseIndex);
+            } else {
+                // If it's a new day, pick a new random verse
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * quranVerses.length);
+                } while (newIndex === parseInt(lastVerseIndex) && quranVerses.length > 1); // Ensure different verse if possible and more than one verse exists
+
+                currentVerseIndex = newIndex;
+                localStorage.setItem('lastVerseDate', today);
+                localStorage.setItem('lastVerseIndex', currentVerseIndex.toString());
+            }
+
+            const verse = quranVerses[currentVerseIndex];
+            document.getElementById('daily-verse-text').textContent = verse.text;
+            document.getElementById('daily-verse-source').textContent = `${verse.surah}, Ayet: ${verse.number}`;
+        }
+
         // Sayfa yüklendiğinde butonlara tıklama olayını ekle
         window.onload = () => {
             lucide.createIcons(); // Lucide ikonlarını oluştur
+            displayDailyVerse(); // Günün ayetini göster
 
             const toggleButtons = document.querySelectorAll('.toggle-button');
 
