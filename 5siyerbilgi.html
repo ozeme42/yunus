@@ -241,6 +241,7 @@
             justify-content: center;
             gap: 1rem;
             margin-top: 0;
+            flex-shrink: 0; /* Added for responsiveness */
         }
         .action-button {
             padding: 0.9rem 2.2rem;
@@ -275,6 +276,7 @@
             opacity: 0;
             transition: opacity 0.5s ease;
             display: flex;
+            flex-direction: column; /* Changed to column for better stacking of text */
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
@@ -589,7 +591,7 @@
         const backgroundThemes = {
             'unit1': 'url("https://placehold.co/1920x1080/81D4FA/000000?text=Peygamberimizin+Cocukluk+Yillari")',
             'unit2': 'url("https://placehold.co/1920x1080/FFCDD2/000000?text=Peygamberimizin+Cocuklarla+Iletisimi")',
-            'unit3': 'url("https://placehold.co/1920x1080/B3E5FC/000000?text=Peygamberimizin+Temizlik+ve+Adabi")',
+            'unit3': 'url("https://placehold.co/1920x1080/B3E5FC/000000?text=Rehberim+Peygamberim")',
             'unit4': 'url("https://placehold.co/1920x1080/C8E6C9/000000?text=Peygamberimizin+Aile+Hayati")',
             'allUnits': 'url("https://placehold.co/1920x1080/D0F0C0/000000?text=Tum+Uniteler")', // New theme for all units
             'general': 'url("https://placehold.co/1920x1080/E0F2F7/000000?text=Din+Kulturu+Bilgi+Yarismasi+-+Bilgini+Test+Et")'
@@ -1342,8 +1344,21 @@
             } else {
                 feedbackDiv.classList.add('incorrect');
                 let icon = '❌';
-                feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Yanlış.`;
-                // REMOVED: display of correct answer here
+                let feedbackContent = `<span class="feedback-icon">${icon}</span> Yanlış.`;
+
+                // If single player and incorrect, show correct answer and explanation
+                if (window.numTeams === 1) {
+                    let actualCorrectAnswer = correctAnswer;
+                    const q = shuffledQuestions[window.currentQuestionIndex];
+                    if (q.type === 'trueFalse') {
+                        actualCorrectAnswer = (correctAnswer === 'D' ? 'Doğru' : 'Yanlış');
+                    }
+                    feedbackContent += `<p class="mt-2">Doğru Cevap: <span class="font-bold">${actualCorrectAnswer}</span></p>`;
+                    if (explanation) {
+                        feedbackContent += `<p class="explanation-text">${explanation}</p>`;
+                    }
+                }
+                feedbackDiv.innerHTML = feedbackContent;
             }
             feedbackDiv.classList.add('animate-in');
         }
