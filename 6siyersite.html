@@ -7,10 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Visualization & Content Choices:
-        - Ünite Özetleri: Amaç=BilgiSunumu, Yöntem=GenişletilebilirMetinBlokları, Etkileşim=BaşlıkDüğmesineTıklama (aç/kapa), SekmeDeğişimi, Gerekçe=Okunabilirlik, BilgiyiAşamalıSunma, Kütüphane=HTML/Tailwind/JS.
-        - Hadis Bölümleri: Amaç=ÖnemliÖğrenimiVurgulama, Yöntem=StilliMetinBlokları, Etkileşim=Yok, Gerekçe=Vurgu, Kütüphane=HTML/Tailwind.
-        - Kavramsal Ünite Genel Bakış Grafiği: Amaç=İçerikDağılımınıGösterme, Yöntem=ÇubukGrafik, Etkileşim=ÜzerineGelinceBilgi, Gerekçe=GörselÖzetÖrneği, Kütüphane=Chart.js.
-        - Simgeler ve Görseller: Amaç=GörselÇekicilik, Anlaşılırlık, Yöntem=UnicodeKarakterler/Emojiler, PlaceholderResimler, Etkileşim=Yok, Gerekçe=KullanıcıDeneyimi, Kütüphane=HTML/CSS.
+        - Ünite Başlıkları/Girişleri: Amaç=ÜniteyeGenelBakış, Yöntem=StatikMetin, Etkileşim=SekmeDeğişimi, Gerekçe=BağlamSunma, Kütüphane=HTML/Tailwind.
+        - Konu Başlıkları (Ünite İçinde): Amaç=DetaylıİçeriğeErişim, Yöntem=TıklanabilirBaşlıkDüğmeleri, Etkileşim=İçeriğiGöster/Gizle, Gerekçe=OdaklanmışOkuma, Kütüphane=HTML/Tailwind/JS.
+        - Konu İçerikleri: Amaç=KonuDetaylarınıSunma, Yöntem=MetinBlokları, Etkileşim=Yok, Gerekçe=BilgiAktarımı, Kütüphane=HTML/Tailwind.
+        - 'Bir Hadis Öğreniyorum' Bölümleri: Amaç=ÖnemliBilgiyiVurgulama, Yöntem=AyırtEdiciStildeMetinBlokları, Etkileşim=Yok, Gerekçe=DiniÖnem, Kütüphane=HTML/Tailwind.
+        - Ünite Konu Sayısı Grafiği: Amaç=ÜnitelerinKapsamınıGörselleştirme, Yöntem=ÇubukGrafik (Chart.js/Canvas), Etkileşim=FareyleÜzerineGelinceDetay, Gerekçe=HızlıKarşılaştırmaİmkanı, Kütüphane=Chart.js.
+        - Simgeler: Amaç=Görselİlgi ve TematikBağlantı, Yöntem=DiniTemalıUnicodeKarakterler, Etkileşim=Yok, Gerekçe=Estetik ve AnlamsalZenginlik, Kütüphane=HTML/Unicode.
+        - Placeholder Resimler: Amaç=GenelGörselEstetik, Yöntem=placehold.co, Etkileşim=Yok, Gerekçe=SayfaDüzeniniTamamlama.
         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
@@ -66,23 +69,24 @@
             width: 100%;
             text-align: left;
             padding: 0.75rem 1rem;
-            background-color: #ecfdf5; /* emerald-50 */
+            background-color: #d1fae5; /* emerald-100 */
             border-radius: 0.375rem;
             font-weight: 600;
             color: #065f46; /* emerald-800 */
             transition: background-color 0.2s ease-in-out;
-            border: 1px solid #a7f3d0; /* emerald-200 */
+            border: 1px solid #6ee7b7; /* emerald-300 */
         }
         .section-toggle-button:hover {
-            background-color: #d1fae5; /* emerald-100 */
+            background-color: #a7f3d0; /* emerald-200 */
         }
         .section-content {
             display: none;
             padding: 1rem;
             background-color: #f0fdf4; /* emerald-50 */
-            border-radius: 0.375rem;
-            margin-top: 0.5rem;
+            border-radius: 0 0 0.375rem 0.375rem; /* rounded-b-md */
+            margin-top: -1px; /* Butonla birleşik görünmesi için */
             border: 1px solid #a7f3d0; /* emerald-200 */
+            border-top: none;
         }
         .section-content.active {
             display: block;
@@ -115,31 +119,29 @@
             border-radius: 0.375rem;
             font-weight: 500;
             transition: background-color 0.2s ease-in-out;
+            margin-right: 0.25rem; /* Ünite butonlarından ayırmak için */
         }
         .return-button:hover {
             background-color: #d97706; /* amber-600 */
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body>
     <header class="bg-emerald-700 text-white p-6 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between">
+        <div class="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-center">
             <h1 class="text-2xl sm:text-3xl font-bold text-center mb-2 sm:mb-0 w-full">6. Sınıf Peygamberimizin Hayatı</h1>
-            <div class="flex items-center space-x-4">
-                <img src="https://placehold.co/150x50/047857/ffffff?text=İslam%20Rehberi" alt="Görsel" class="rounded-md">
-            </div>
         </div>
     </header>
 
-    <nav class="bg-emerald-800 p-2 shadow-md sticky top-[84px] z-40">
-        <div class="container mx-auto max-w-6xl flex justify-center space-x-1 rounded-lg">
-            <button id="return-to-site-button" class="return-button py-3 px-2 sm:px-4 md:px-6 text-sm sm:text-base">Siteye Dön</button>
+    <nav class="bg-emerald-800 p-2 shadow-md sticky top-[76px] sm:top-[88px] z-40">
+        <div class="container mx-auto max-w-6xl flex flex-wrap justify-center items-center space-x-1 rounded-lg">
+            <button id="return-to-site-button" class="return-button py-3 px-2 sm:px-4 md:px-6 text-sm sm:text-base">🕌 Siteye Dön</button>
             <button data-unit="1" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors active-tab">Ünite 1</button>
             <button data-unit="2" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Ünite 2</button>
             <button data-unit="3" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Ünite 3</button>
             <button data-unit="4" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Ünite 4</button>
             <button data-unit="5" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Ünite 5</button>
-            <button data-unit="chart" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">Grafik</button>
+            <button data-unit="chart" class="tab-button py-3 px-2 sm:px-4 md:px-6 rounded-md text-sm sm:text-base text-white font-medium hover:bg-emerald-600 focus:outline-none transition-colors">📊 Grafik</button>
         </div>
     </nav>
 
@@ -149,7 +151,7 @@
     </main>
 
     <footer class="mt-12 text-center text-gray-500 text-sm pb-6">
-        Peygamberimizin Hayatı Ders Kitabı Özeti
+        Peygamberimizin Hayatı Ders Kitabı Özeti - 6. Sınıf
     </footer>
 
     <script>
@@ -161,7 +163,7 @@
                 sections: [
                     {
                         title: "1. Peygamberimizin Çocukluk Yılları",
-                        icon: "👶",
+                        icon: "🍼",
                         content: [
                             "**Doğumu ve Ailesi:** Hz. Muhammed (s.a.v.) 571 yılında Mekke'de dünyaya geldi. Doğmadan önce babası Abdullah'ı, altı yaşındayken de annesi Amine'yi kaybetti. Böylece daha küçük yaşta yetim ve öksüz kaldı.",
                             "**Sütanne Dönemi:** Mekke'nin havasının çocuk sağlığına uygun olmaması ve çocukların güzel Arapça öğrenmesi geleneği nedeniyle, doğduktan kısa bir süre sonra sütanne Halime'ye verildi. Yaklaşık dört yıl boyunca Benî Sa'd kabilesinde, çöl ortamında büyüdü ve bu dönemde sağlıklı bir gelişim gösterdi.",
@@ -171,7 +173,7 @@
                     },
                     {
                         title: "2. Peygamberimizin Gençlik Yılları",
-                        icon: "💡",
+                        icon: "🌟", // Yıldız, gençlik ve parlaklık
                         content: [
                             "Peygamber Efendimiz, gençlik yıllarından itibaren amcası Ebu Talib'e yardımcı olmak amacıyla ticaretle uğraştı. Bu dönemde dürüstlüğü, güvenilirliği ve çalışkanlığı ile Mekke halkı arasında tanınır hale geldi.",
                             "Cahiliye Dönemi'nin yaygın kötü alışkanlıklarından (putperestlik, içki, kumar, zina, haksızlıklar vb.) her zaman uzak durdu. Sade, mütevazı ve örnek bir hayat sürdü."
@@ -213,7 +215,7 @@
                             {
                                 title: "2.5. Hira Günleri",
                                 content: [
-                                    "Mekke toplumundaki ahlaki çöküş, putperestlik, adaletsizlik ve sosyal eşitsizliklerden derin bir rahatsızlık duyan Peygamberimiz, kırtyaşlarına doğru tefekkür etmek ve yalnız kalmak amacıyla Mekke yakınlarındaki Hira Mağarası'na inzivaya çekilmeye başladı.",
+                                    "Mekke toplumundaki ahlaki çöküş, putperestlik, adaletsizlik ve sosyal eşitsizliklerden derin bir rahatsızlık duyan Peygamberimiz, kırk yaşlarına doğru tefekkür etmek ve yalnız kalmak amacıyla Mekke yakınlarındaki Hira Mağarası'na inzivaya çekilmeye başladı.",
                                     "610 yılı Ramazan ayında, Hira Mağarası'nda inzivadayken, Cebrail (a.s) aracılığıyla kendisine ilk vahiy olan Alak Suresi'nin ilk beş ayeti indirildi (\"Oku! Yaratan Rabbinin adıyla oku! O, insanı alaktan (embriyodan) yarattı. Oku! Rabbin nihayetsiz kerem sahibidir. O ki kalemle (yazmayı) öğretti. İnsana bilmediğini öğretti.\"). Bu olayla birlikte peygamberlik görevi resmen başladı."
                                 ]
                             }
@@ -266,7 +268,7 @@
                     },
                     {
                         title: "3. Müjdeleyen ve Uyaran Peygamber",
-                        icon: "☝️",
+                        icon: "📢", // Uyarı ve müjde
                         content: [
                             "**İlahi Mesajın İletilmesi:** Peygamberimizin temel görevlerinden biri, Allah'tan aldığı vahiyleri eksiksiz bir şekilde insanlara ulaştırmak ve onları doğru yola çağırmaktır.",
                             "**Beşir ve Nezir:** O, inananları Allah'ın rızasına uygun yaşadıkları takdirde cennetle, sonsuz mutlulukla ve Allah'ın rahmetiyle müjdelemiştir (beşir). Aynı zamanda, Allah'ın emirlerine uymayanları ve günah işleyenleri dünyada ve ahirette karşılaşacakları sıkıntılar, azap ve cehennem konusunda uyarmıştır (nezir). Bu iki vasıf, onun tebliğ metodunun önemli bir parçasıdır."
@@ -274,7 +276,7 @@
                     },
                     {
                         title: "4. Ahlakı Tamamlayan Peygamber",
-                        icon: "📿",
+                        icon: "✨", // Parlaklık, mükemmellik
                         content: [
                             "**Ahlaki Misyon:** Hz. Peygamber, kendi misyonunu \"Ben güzel ahlakı tamamlamak üzere gönderildim.\" sözüyle özetlemiştir. Onun hayatı, İslam ahlakının canlı bir örneğidir.",
                             "**Kur'an'daki Övgü:** Kur'an-ı Kerim'de \"Sen elbette yüce bir ahlak üzeresin.\" (Kalem Suresi, 4. ayet) buyrularak onun üstün ahlakı övülmüştür.",
@@ -283,7 +285,7 @@
                     },
                     {
                         title: "5. Peygamberimize Bağlılık ve İtaat",
-                        icon: "🤝",
+                        icon: "🔗", // Bağlılık
                         content: [
                             "**Sünnetin Önemi:** Kur'an-ı Kerim'de namaz, hac gibi bazı ibadetlerin genel prensipleri belirtilmiş, ancak bu ibadetlerin ayrıntıları (nasıl kılınacağı, nasıl yapılacağı) Peygamberimiz tarafından öğretilmiş ve uygulamalı olarak gösterilmiştir. Bu nedenle onun sünneti, İslam'ı doğru anlamak ve yaşamak için vazgeçilmezdir.",
                             "**Allah Sevgisinin Göstergesi:** Allah'a ve Peygambere itaat etmek, Müslümanlar için temel bir sorumluluktur. \"Eğer Allah'ı seviyorsanız bana uyunuz ki Allah da sizi sevsin ve günahlarınızı bağışlasın. Allah çok bağışlayıcı, çok merhamet edicidir.\" (Âl-i İmrân Suresi, 31. ayet) ayeti, Peygambere itaatin Allah sevgisinin bir göstergesi olduğunu vurgular.",
@@ -292,7 +294,7 @@
                     },
                     {
                         title: "6. Peygamberimize Salavat",
-                        icon: "✨",
+                        icon: "🤲", // Dua
                         content: [
                             "**Anlamı ve Emri:** Salavat, Peygamberimize dua etmek, onu övgü ve hayırla anmak demektir. Kur'an-ı Kerim'de \"Şüphesiz Allah ve melekleri Peygamber'e salât ederler. Ey iman edenler! Siz de ona salât edin ve selâm edin.\" (Ahzab Suresi, 56. ayet) buyrularak müminlerin de ona salavat getirmesi emredilmiştir.",
                             "**Faydaları:** Salavat getirmek, Peygamberimize olan bağlılığı güçlendirir, onun şefaatine nail olmaya vesile olur ve onun sünnetine uymaya teşvik eder. En yaygın salavatlardan biri \"Allahümme salli alâ Muhammedin ve alâ âli Muhammed\"dir."
@@ -309,12 +311,12 @@
             },
             "3": {
                 title: "PEYGAMBERİMİZ VE GENÇLER",
-                icon: "👥",
+                icon: "🧑‍🤝‍🧑",
                 intro: "Bu ünite, Hz. Peygamber'in (s.a.v.) gençlere verdiği müstesna değeri, onların eğitimine ve toplumsal hayattaki rollerine yaptığı vurguyu inceler. Asr-ı Saâdet'te genç sahabilerin İslam'ın tebliği, ilim hayatı, siyasi ve askeri alanlardaki aktif katkıları ve örnek kişilikleri bu ünitede öne çıkmaktadır.",
                 sections: [
                     {
                         title: "1. Gençlerin Arkadaşı Peygamberimiz",
-                        icon: "🤝",
+                        icon: "🫂", // Kucaklaşma, arkadaşlık
                         content: [
                             "**Gençlerin Desteği:** Peygamber Efendimiz, İslam davetinin ilk ve en zorlu dönemlerinde gençlerin büyük desteğini almıştır. İlk Müslümanların önemli bir kısmı gençlerden oluşmaktaydı.",
                             "**Örnek Genç Sahabiler:** Abdullah b. Mes’ud, Talha b. Ubeydullah, Erkam b. Ebi’l-Erkam, Mus’ab b. Umeyr, Cafer b. Ebi Talib gibi birçok genç sahabi, İslam'ı ilk kabul edenler arasında yer almıştır.",
@@ -323,7 +325,7 @@
                     },
                     {
                         title: "2. Asr-ı Saâdet'te Genç Olmak",
-                        icon: "🌙⭐",
+                        icon: "🌟", // Parlaklık, gençlik
                         content: [
                             "**Asr-ı Saâdet Tanımı:** Asr-ı Saâdet (Mutluluk Çağı), Hz. Peygamber'in yaşadığı ve sahabelerini yetiştirdiği dönemin adıdır. Bu dönemde gençler, İslam toplumunun inşasında ve yayılmasında aktif rol almışlardır.",
                             "**Gençlerin Rolü:** Bu dönemde gençler, İslam'ın tebliğ faaliyetlerinden devlet teşkilatının en üst kademelerine kadar birçok alanda (valilik, hakimlik, elçilik, öğretmenlik, ordu komutanlığı vb.) önemli görevler üstlenmişlerdir."
@@ -371,12 +373,12 @@
             },
             "4": {
                 title: "EN GÜZEL ÖRNEK PEYGAMBERİMİZ",
-                icon: "🌟",
+                icon: "💎", // Değerli, örnek
                 intro: "Bu ünite, Hz. Peygamber'in (s.a.v.) Allah'a olan sarsılmaz güvenini, zorluklar karşısındaki sabrını, davasındaki kararlılığını ve cesaretini ele alır. Ayrıca, onun hayatında duanın ve tevekkülün yerini, yeme içme konusundaki örnek adabını ve Müslümanlara bu konulardaki rehberliğini inceler.",
                 sections: [
                     {
                         title: "1. Peygamberimizin Allah'a Güvenmesi ve Sabrı",
-                        icon: "🤲",
+                        icon: "🛡️", // Kalkan, koruma
                         content: [
                            "**Peygamberlerin Örnekliği:** Peygamberler, Allah tarafından insanlar arasından seçilmiş olup, bizlere her konuda örnek olmaları için gönderilmişlerdir. Hz. Peygamber de tüm yönleriyle en güzel örnektir (Üsve-i Hasene).",
                             "**Zorluklara Karşı Metanet:** Hz. Peygamber, hayatı boyunca Mekkelilerin baskıları, boykot, sevdiklerini kaybetme, savaşlar gibi birçok zorlukla karşılaşmasına rağmen Allah'a olan tam güvenini (tevekkül) ve sabrını asla kaybetmemiştir.",
@@ -385,7 +387,7 @@
                     },
                     {
                         title: "2. Peygamberimizin Kararlılığı ve Cesareti",
-                        icon: "🛡️",
+                        icon: "🦁", // Aslan, cesaret
                         content: [
                             "**Davada Azim:** Hz. Peygamber, İslam davasında son derece kararlı ve azimli olmuştur. Mekkeli müşriklerin ve hatta amcası Ebu Talib'in davetinden vazgeçmesi yönündeki tüm baskılarına rağmen, \"Bu işten vazgeçmem için güneşi sağ elime ayı da sol elime verseler yine de davamdan dönmeyeceğim.\" demesi, onun sarsılmaz kararlılığını ortaya koymaktadır.",
                             "**Savaşlardaki Liderliği:** Uhud Savaşı'nda okçuların yerlerini terk etmesi gibi zor anlarda dahi cesaretini korumuş, Müslümanlara liderlik etmiş && onları toparlamıştır. Hendek Savaşı'nda hendek kazılması fikrini ortaya atması ve bizzat çalışması da onun kararlılığının ve cesaretinin bir göstergesidir."
@@ -438,7 +440,7 @@
                 sections: [
                     {
                         title: "1. Ayetlerin Diliyle Sahabe",
-                        icon: "📜",
+                        icon: "📖", // Kur'an
                         content: [
                             "**Sahabi Tanımı:** Sahabi, Hz. Peygamber zamanında yaşamış, Müslüman olarak onu görmüş, onunla sohbet etmiş ve yine Müslüman olarak vefat etmiş kişilere verilen isimdir.",
                             "**Kur'an'daki Övgüler:** Kur'an-ı Kerim'de sahabelerin faziletleri ve üstünlükleri çeşitli ayetlerde vurgulanmıştır. Örneğin, Tevbe Suresi 100. ayette, İslam'ın ilk öncüleri olan muhacir (Mekke'den hicret edenler) ve ensarın (Medineli Müslümanlar) Allah'ın rızasını kazandığı ve cennetle müjdelendiği belirtilmiştir.",
@@ -447,7 +449,7 @@
                     },
                     {
                         title: "2. Hadislerin Diliyle Sahabe",
-                        icon: "📖",
+                        icon: "📜",
                         content: [
                             "**Peygamberimizin Övgüsü:** Hz. Peygamber, hadislerinde sahabelerini övmüş, onlara büyük değer vermiş ve onlara saygı gösterilmesini emretmiştir.",
                             "**Hadisin Metni:** \"Ashabım hakkında Allah'dan korkunuz! Ashabım aleyhinde konuşmayınız! Benden sonra onları hedef alıp düşmanlık etmeyiniz! Kim onları severse bana olan sevgisinden dolayı sever.\"",
@@ -516,7 +518,7 @@
             },
             "chart": {
                 title: "Ünite Konu Dağılım Grafiği",
-                icon: "📊",
+                icon: "�",
                 intro: "Bu grafik, 'Peygamberimizin Hayatı' kitabındaki her bir ünitede işlenen ana konu sayısını göstermektedir. Bu sayede ünitelerin içerik yoğunluğu hakkında genel bir fikir edinebilirsiniz.",
                 isChart: true
             }
@@ -705,3 +707,4 @@
     </script>
 </body>
 </html>
+�
