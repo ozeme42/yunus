@@ -92,10 +92,6 @@
                 padding: 0 1rem; /* Padding'i sıfırla, aktif olunca eklenecek */
                 transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Geçiş ekle */
             }
-            .section-content.active {
-                max-height: 2000px; /* İçeriğe göre ayarlanabilir */
-                padding: 1rem; /* Aktif olunca padding ekle */
-            }
         }
 
         .arrow-icon {
@@ -157,17 +153,13 @@
         .topic-content-area {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            padding: 0 1rem; /* Başlangıçta padding yok */
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Add padding to transition */
+            padding: 0 1rem; /* Default padding when closed */
             background-color: #f0fdf4; /* emerald-50 */
             border-radius: 0 0 0.375rem 0.375rem;
             margin-top: -1px;
             border: 1px solid #a7f3d0;
             border-top: none;
-        }
-        .topic-content-area.active {
-            max-height: 2000px; /* İçeriğe göre ayarlanabilir, yeterince büyük olmalı */
-            padding: 1rem; /* Aktif olunca padding ekle */
         }
 
         /* Masaüstünde "Konu Başlıkları" butonu gizli olsun */
@@ -231,17 +223,13 @@
             .unit-accordion-content {
                 max-height: 0;
                 overflow: hidden;
-                transition: max-height 0.3s ease-out;
+                transition: max-height 0.3s ease-out, padding 0.3s ease-out;
                 padding: 0 1rem;
                 background-color: #e0f2f7; /* light blue for distinction */
                 border-radius: 0 0 0.5rem 0.5rem;
                 margin-top: -0.25rem; /* Butonla birleşik görünmesi için */
                 border: 1px solid #a7f3d0; /* emerald-200 */
                 border-top: none;
-            }
-            .unit-accordion-content.active {
-                max-height: 2000px; /* Yeterince büyük bir değer */
-                padding: 1rem;
             }
         }
     </style>
@@ -702,7 +690,7 @@
                 {
                     id: "unit5",
                     title: "5. ÜNİTE: İSLAM DÜŞÜNCESİNDE YORUMLAR",
-                    icon: "📚",
+                    icon: "�",
                     color: "#065f46", // Ana başlık için default renk (emerald-800)
                     buttonBg: "#0F766E", // teal-800 (Buton arka planı)
                     buttonHoverBg: "#0D9488", // teal-600 (Buton hover arka planı)
@@ -938,14 +926,17 @@
 
         // Mobil ünite akordiyonunu açıp kapatma
         function toggleUnitAccordion(contentDiv, button) {
-            // Sadece tıklanan üniteyi aç/kapat, diğerlerini etkileme
             contentDiv.classList.toggle('active');
             const arrowIcon = button.querySelector('.arrow-icon');
             if (arrowIcon) arrowIcon.classList.toggle('rotated');
 
-            // İçerik açıldığında içindeki alt akordiyonları başlat
             if (contentDiv.classList.contains('active')) {
+                contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
+                contentDiv.style.padding = '1rem'; // Add padding when active
                 initializeAccordionsInContent(contentDiv);
+            } else {
+                contentDiv.style.maxHeight = '0px';
+                contentDiv.style.padding = '0 1rem'; // Remove vertical padding when inactive
             }
         }
 
@@ -980,15 +971,18 @@
 
         // Konu içeriğini açıp kapatma
         function toggleTopicContent(contentDiv, button) {
-            // Sadece tıklanan konuyu aç/kapat, diğerlerini etkileme
             contentDiv.classList.toggle('active');
             button.classList.toggle('active-topic');
             const arrowIcon = button.querySelector('.arrow-icon');
             if (arrowIcon) arrowIcon.classList.toggle('rotated');
 
-            // Akordiyon içeriği açıldığında, içindeki alt akordiyonları da başlat
             if (contentDiv.classList.contains('active')) {
+                contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
+                contentDiv.style.padding = '1rem'; // Add padding when active
                 initializeAccordionsInContent(contentDiv);
+            } else {
+                contentDiv.style.maxHeight = '0px';
+                contentDiv.style.padding = '0 1rem'; // Remove vertical padding when inactive
             }
         }
 
@@ -1049,3 +1043,4 @@
     </script>
 </body>
 </html>
+�
