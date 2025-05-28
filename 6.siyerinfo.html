@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İslam Rehberi: Peygamberimizin Hayatı - Infografik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Energetic & Playful (Adapted to Tailwind equivalents)
+        - Primary Green: #06D6A0 (emerald-500/600)
+        - Accent Blue: #118AB2 (sky-600/700)
+        - Accent Red-Orange: #FF6B6B (rose-500/600)
+        - Accent Yellow: #FFD166 (amber-400/500)
+        - Dark Text/Background: #073B4C (zinc-900/slate-900)
+    -->
+    <!-- Application Structure Plan:
+        - Header: Main title and a brief introduction to the infographic.
+        - Section 1: En Güzel Örnek: Hz. Muhammed (s.a.v.) - Presents key virtues using styled HTML cards (Inform goal).
+        - Section 2: Peygamberimizin Hayat Yolculuğu - A chronological timeline of key life events using HTML/CSS (Change/Organize goal).
+        - Section 3: Peygamberimiz ve Gençler: Asr-ı Saâdet'in Dinamikleri - Visualizes youth contributions using a Chart.js Doughnut chart (Compare/Inform goal).
+        - Section 4: Hadislerden Hikmetler - Displays important hadiths and their explanations using styled HTML blocks (Inform goal).
+        - Section 5: Sahabenin Fazileti ve İslam'a Katkıları - Illustrates the understanding of Sahaba's role through an HTML/CSS flowchart (Organize/Process goal).
+        - Section 6: Kur'an-ı Kerim'de Peygamberimiz - Lists attributes of the Prophet in the Quran using an HTML list (Inform goal).
+        - Footer: Standard copyright information.
+    -->
+    <!-- Visualization Choices:
+        - Virtues: Goal=Inform, Method=Styled HTML boxes (flex/grid), Justification=Visually distinct, easy to scan. NO SVG.
+        - Life Journey: Goal=Change/Organize, Method=HTML/CSS Timeline, Justification=Clear chronological flow, distinct events. NO SVG.
+        - Youth Contributions: Goal=Compare/Inform, Method=Doughnut Chart (Chart.js/Canvas), Justification=Shows proportions of contributions, easy to digest. NO SVG.
+            - Label Wrapping: Applied for labels longer than 16 characters.
+            - Tooltip Configuration: Included as specified.
+        - Hadiths: Goal=Inform, Method=Styled HTML text blocks, Justification=Direct presentation of text and explanation. NO SVG.
+        - Sahaba Flow: Goal=Organize/Process, Method=HTML/CSS Flowchart, Justification=Shows sequential or logical progression of understanding Sahaba's role. NO SVG.
+        - Quran Attributes: Goal=Inform/Organize, Method=HTML List, Justification=Simple enumeration of attributes. NO SVG.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e0f2f7; /* Light Blue from a similar energetic palette */
+            color: #073B4C; /* Dark Blue for text */
+        }
+        .section-card {
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            color: #118AB2; /* Accent Blue */
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-size: 1.25rem; /* text-xl */
+            color: #06D6A0; /* Primary Green */
+            margin-bottom: 1.5rem;
+        }
+        .icon-large {
+            font-size: 3rem; /* text-5xl */
+            margin-bottom: 1rem;
+            color: #FF6B6B; /* Accent Red-Orange */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            margin: 1.5rem auto;
+            padding: 1rem;
+            background-color: #f8fafc; /* Light gray for chart background */
+            border-radius: 0.5rem;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-dot {
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: #06D6A0; /* Primary Green */
+            border-radius: 50%;
+            flex-shrink: 0;
+            z-index: 10;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #06D6A0;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 0.7rem;
+            top: 1.5rem;
+            bottom: -1.5rem;
+            width: 2px;
+            background-color: #118AB2; /* Accent Blue */
+            z-index: 5;
+        }
+        .timeline-item:last-child .timeline-line {
+            display: none;
+        }
+        .timeline-content {
+            background-color: #f0f9ff; /* Light blue background for content */
+            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            margin-left: 1.5rem;
+            text-align: left;
+            flex-grow: 1;
+            border: 1px solid #bfdbfe; /* Light blue border */
+        }
+        .virtue-box {
+            background-color: #f0fdf4; /* Light green */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+            border: 1px solid #d1fae5;
+            transition: transform 0.2s ease-in-out;
+        }
+        .virtue-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .virtue-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #10b981; /* emerald-500 */
+        }
+        .hadith-box {
+            background-color: #fffbeb; /* amber-50 */
+            border-left: 5px solid #f59e0b; /* amber-500 */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .hadith-text {
+            font-style: italic;
+            font-weight: 500;
+            color: #78350f; /* amber-900 */
+            margin-bottom: 0.75rem;
+        }
+        .hadith-explanation {
+            color: #4a5568; /* gray-700 */
+            font-size: 0.95rem;
+        }
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        .flow-step {
+            background-color: #ecfdf5; /* emerald-50 */
+            border: 2px solid #34d399; /* emerald-400 */
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #065f46; /* emerald-800 */
+            text-align: center;
+            position: relative;
+            width: 80%;
+            max-width: 300px;
+        }
+        .flow-arrow {
+            width: 2px;
+            height: 20px;
+            background-color: #34d399; /* emerald-400 */
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        .flow-arrow::after {
+            content: ' ';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #34d399; /* emerald-400 */
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-gradient-to-r from-sky-600 to-emerald-600 text-white p-8 shadow-2xl text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-2">İslam Rehberi</h1>
+        <p class="text-xl md:text-2xl font-semibold">6. Sınıf Peygamberimizin Hayatı</p>
+        <p class="text-md md:text-lg mt-4 max-w-2xl mx-auto opacity-90">
+            Hz. Peygamber'in (s.a.v.) hayatını ve İslam'ın temel değerlerini anlatan bu infografik, onun örnek kişiliğini ve mesajını keşfetmenizi sağlar.
+        </p>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+        <section class="section-card">
+            <span class="icon-large">🌟</span>
+            <h2 class="section-title">En Güzel Örnek: Hz. Muhammed (s.a.v.)</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-3xl">
+                Peygamber Efendimiz, tüm insanlık için gönderilmiş en yüce rehberdir. Hayatının her anı, bizlere doğru yolu gösteren, ahlaki değerleri tamamlayan ve Allah'a ulaşmanın sırlarını öğreten birer ışıktır. Bu bölümde, onun hayatının dönüm noktalarını ve bizlere bıraktığı eşsiz mirası keşfedeceğiz.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-8">
+                <div class="virtue-box">
+                    <span class="virtue-icon">🤲</span>
+                    <h3 class="font-bold text-lg text-emerald-700">Allah'a Güven ve Sabır</h3>
+                    <p class="text-sm text-gray-600">Zorluklar karşısında sarsılmaz iman ve metanet.</p>
+                </div>
+                <div class="virtue-box">
+                    <span class="virtue-icon">🦁</span>
+                    <h3 class="font-bold text-lg text-emerald-700">Kararlılık ve Cesaret</h3>
+                    <p class="text-sm text-gray-600">Davasında azim ve liderlik vasfı.</p>
+                </div>
+                <div class="virtue-box">
+                    <span class="virtue-icon">💖</span>
+                    <h3 class="font-bold text-lg text-emerald-700">Şefkat ve Merhamet</h3>
+                    <p class="text-sm text-gray-600">Müminlere ve tüm canlılara karşı derin sevgi.</p>
+                </div>
+                <div class="virtue-box">
+                    <span class="virtue-icon">✨</span>
+                    <h3 class="font-bold text-lg text-emerald-700">Yüce Ahlak</h3>
+                    <p class="text-sm text-gray-600">Dürüstlük, adalet, cömertlik ve vefa örneği.</p>
+                </div>
+                <div class="virtue-box">
+                    <span class="virtue-icon">🔗</span>
+                    <h3 class="font-bold text-lg text-emerald-700">Bağlılık ve İtaat</h3>
+                    <p class="text-sm text-gray-600">Allah'a ve sünnetine tam teslimiyet.</p>
+                </div>
+                <div class="virtue-box">
+                    <span class="virtue-icon">🍽️</span>
+                    <h3 class="font-bold text-lg text-emerald-700">Yeme İçme Adabı</h3>
+                    <p class="text-sm text-gray-600">Helal, ölçülü ve şükürle beslenme prensipleri.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <span class="icon-large">⏳</span>
+            <h2 class="section-title">Peygamberimizin Hayat Yolculuğu</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-3xl">
+                Hz. Peygamber'in (s.a.v.) hayatındaki önemli dönüm noktalarını kronolojik olarak inceleyelim. Her bir aşama, İslam tarihine ve onun örnek kişiliğine dair derin izler taşır.
+            </p>
+
+            <div class="relative w-full max-w-2xl mx-auto py-8">
+                <div class="absolute inset-y-0 left-1/2 transform -translate-x-1/2 w-0.5 bg-sky-300"></div>
+                <div class="timeline-item flex-row-reverse">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content mr-8 md:mr-12">
+                        <h3 class="font-semibold text-lg text-sky-700">571 - Doğumu</h3>
+                        <p class="text-sm text-gray-700">Mekke'de dünyaya gelişi, çocukluk ve sütanne Halime dönemi.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content ml-8 md:ml-12">
+                        <h3 class="font-semibold text-lg text-sky-700">Gençlik Yılları</h3>
+                        <p class="text-sm text-gray-700">Ticaretle uğraşması, 'el-Emin' lakabı, Hilfü'l-fudûl'a katılımı, Hz. Hatice ile evliliği.</p>
+                    </div>
+                </div>
+                <div class="timeline-item flex-row-reverse">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content mr-8 md:mr-12">
+                        <h3 class="font-semibold text-lg text-sky-700">610 - İlk Vahiy ve Nübüvvet</h3>
+                        <p class="text-sm text-gray-700">Hira Mağarası'nda ilk vahyin gelişi (Alak Suresi ilk 5 ayet) ve peygamberliğin başlangıcı.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content ml-8 md:ml-12">
+                        <h3 class="font-semibold text-lg text-sky-700">Mekke Dönemi</h3>
+                        <p class="text-sm text-gray-700">Gizli ve açık davet, müşriklerin baskıları, Habeşistan hicreti, boykot ve Hüzün Yılı.</p>
+                    </div>
+                </div>
+                <div class="timeline-item flex-row-reverse">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content mr-8 md:mr-12">
+                        <h3 class="font-semibold text-lg text-sky-700">622 - Hicret ve Medine Dönemi</h3>
+                        <p class="text-sm text-gray-700">Medine'ye hicret, Mescid-i Nebi'nin inşası, Medine Sözleşmesi, İslam Devleti'nin kuruluşu.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content ml-8 md:ml-12">
+                        <h3 class="font-semibold text-lg text-sky-700">Savaşlar ve Fetihler</h3>
+                        <p class="text-sm text-gray-700">Bedir, Uhud, Hendek savaşları ve 630 yılında Mekke'nin fethi.</p>
+                    </div>
+                </div>
+                <div class="timeline-item flex-row-reverse">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content mr-8 md:mr-12">
+                        <h3 class="font-semibold text-lg text-sky-700">632 - Veda Haccı ve Vefatı</h3>
+                        <p class="text-sm text-gray-700">Veda Hutbesi'yle evrensel mesajlar ve Medine'de vefatı.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <span class="icon-large">🧑‍🤝‍🧑</span>
+            <h2 class="section-title">Peygamberimiz ve Gençler: Asr-ı Saâdet'in Dinamikleri</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-3xl">
+                Hz. Peygamber (s.a.v.), gençlere büyük değer vermiş, onları İslam davasının en önemli neferleri olarak görmüştür. Genç sahabiler, ilimden siyasete, tebliğden askeriye kadar birçok alanda aktif rol oynamışlardır. Bu grafik, gençlerin İslam toplumundaki katkı alanlarını göstermektedir.
+            </p>
+            <div class="chart-container">
+                <canvas id="youthContributionChart"></canvas>
+            </div>
+            <p class="text-sm text-gray-600 mt-4 max-w-xl">
+                Grafik, genç sahabilerin İslam'ın tebliğinde, ilim hayatında ve siyasi/askeri alandaki eşit derecede önemli ve aktif rollerini vurgulamaktadır. Her alanda gösterdikleri fedakarlık ve başarı, Asr-ı Saâdet'in temelini oluşturmuştur.
+            </p>
+        </section>
+
+        <section class="section-card">
+            <span class="icon-large">📜</span>
+            <h2 class="section-title">Hadislerden Hikmetler</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-3xl">
+                Peygamber Efendimiz'in sözleri (hadisler), hayatımıza ışık tutan, ahlaki değerlerimizi şekillendiren ve bizlere rehberlik eden paha biçilmez bir hazinedir. İşte bu kitaptan seçilmiş iki önemli hadis:
+            </p>
+
+            <div class="hadith-box w-full max-w-2xl">
+                <p class="hadith-text">"Bir kötülük gören kişi, eliyle değiştirmeye gücü yetiyorsa onu eli ile değiştirsin. Buna gücü yetmez ise diliyle değiştirsin. Buna da gücü yetmezse kalbi ile (o kötülüğe) tavır koysun (onu hoş görmesin). Ancak bu imanın en zayıf olanıdır."</p>
+                <p class="hadith-explanation">Bu hadis, Müslümanların kötülüklere karşı pasif kalmaması gerektiğini, duruma göre fiili, sözlü veya kalbi olarak tepki göstermesi gerektiğini vurgular. İmanın en zayıf mertebesinin dahi kalben buğz etmek olduğunu belirtir.</p>
+            </div>
+
+            <div class="hadith-box w-full max-w-2xl mt-6">
+                <p class="hadith-text">"Sizden biri, kendisi için istediğini (Müslüman) kardeşi için de istemedikçe (gerçek anlamda) iman etmiş olmaz."</p>
+                <p class="hadith-explanation">Bu hadis, İslam'ın temel ahlaki prensiplerinden olan diğerkâmlığı ve kardeşliği vurgular. Gerçek imanın bir göstergesi olarak, bir Müslümanın sadece kendi iyiliğini değil, aynı zamanda diğer Müslüman kardeşlerinin de iyiliğini istemesi gerektiğini belirtir.</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <span class="icon-large">🤝</span>
+            <h2 class="section-title">Sahabenin Fazileti ve İslam'a Katkıları</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-3xl">
+                Sahabeler, Hz. Peygamber'in (s.a.v.) en yakın öğrencileri ve dava arkadaşlarıdır. Onlar, İslam'ın ilk savunucuları olmuş, Peygamberimizden öğrendiklerini sonraki nesillere aktarmış ve İslam medeniyetinin temelini atmışlardır. Bu bölümde, onların üstün konumlarını ve hizmetlerini özetliyoruz.
+            </p>
+
+            <div class="flow-container">
+                <div class="flow-step">Ayetlerin Diliyle Sahabe</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-step">Hadislerin Diliyle Sahabe</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-step">Genç Sahabiler (Örnek Şahsiyetler)</div>
+            </div>
+            <p class="text-sm text-gray-600 mt-4 max-w-xl">
+                Bu akış, sahabelerin İslam'daki konumunun Kur'an ve Hadislerle nasıl belirlendiğini ve özellikle genç sahabilerin İslam'ın yayılmasındaki kilit rolünü göstermektedir.
+            </p>
+        </section>
+
+        <section class="section-card">
+            <span class="icon-large">📖</span>
+            <h2 class="section-title">Kur'an-ı Kerim'de Peygamberimiz</h2>
+            <p class="text-lg text-gray-700 mb-8 max-w-3xl">
+                Kur'an-ı Kerim, Hz. Peygamber'i (s.a.v.) eşsiz özellikleriyle tanıtır ve müminlere ona karşı nasıl bir tutum sergilemeleri gerektiğini öğretir. Onun rahmet, şefkat, müjdeleyici ve uyarıcı vasıfları ile ahlakı tamamlayıcı rolü, ilahi kelamda açıkça ifade edilmiştir.
+            </p>
+            <ul class="list-disc list-inside text-left text-gray-700 space-y-2 max-w-md mx-auto">
+                <li>**Rahmet Peygamberi:** Alemlere rahmet olarak gönderilmiştir.</li>
+                <li>**Şefkat ve Merhamet Peygamberi:** Müminlere karşı çok şefkatli ve merhametlidir.</li>
+                <li>**Müjdeleyen ve Uyaran Peygamber:** İnsanları cennetle müjdeler, cehennemle uyarır.</li>
+                <li>**Ahlakı Tamamlayan Peygamber:** "Ben güzel ahlakı tamamlamak üzere gönderildim."</li>
+                <li>**Bağlılık ve İtaat:** Ona itaat etmek, Allah sevgisinin bir göstergesidir.</li>
+                <li>**Salavat:** Müminlerin ona salavat getirmesi emredilmiştir.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="mt-12 text-center text-gray-500 text-sm pb-6">
+        &copy; 2025 İslam Rehberi - 6. Sınıf Peygamberimizin Hayatı Infografik
+    </footer>
+
+    <script>
+        function wrapLabel(label) {
+            if (typeof label !== 'string' || label.length <= 16) {
+                return label;
+            }
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > 16 && currentLine !== '') {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if (currentLine !== '') {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        }
+
+        const youthContributionCtx = document.getElementById('youthContributionChart').getContext('2d');
+        const youthContributionChart = new Chart(youthContributionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    wrapLabel('İslam\'ın Tebliği'),
+                    wrapLabel('İlim Hayatı'),
+                    wrapLabel('Siyasi ve Askeri Hayat')
+                ],
+                datasets: [{
+                    label: 'Katkı Alanları',
+                    data: [33, 33, 34],
+                    backgroundColor: [
+                        'rgba(6, 214, 160, 0.8)', /* Primary Green */
+                        'rgba(17, 138, 178, 0.8)', /* Accent Blue */
+                        'rgba(255, 107, 107, 0.8)' /* Accent Red-Orange */
+                    ],
+                    borderColor: [
+                        'rgba(6, 214, 160, 1)',
+                        'rgba(17, 138, 178, 1)',
+                        'rgba(255, 107, 107, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                    return label.join(' ');
+                                } else {
+                                    return label;
+                                }
+                            },
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
