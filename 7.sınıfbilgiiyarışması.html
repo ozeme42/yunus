@@ -1035,7 +1035,12 @@
                 }
                 document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
-                displayFeedback(currentAnswerState.isCorrect, q.explanation); // Pass only explanation for incorrect
+                // Determine the correct answer string for display
+                let actualAnswerValueForDisplay = q.answer;
+                if (q.type === 'trueFalse') {
+                    actualAnswerValueForDisplay = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+                }
+                displayFeedback(currentAnswerState.isCorrect, actualAnswerValueForDisplay, q.explanation);
                 
                 // Only highlight the correct answer if the stored answer was correct
                 if (currentAnswerState.isCorrect) {
@@ -1123,7 +1128,12 @@
             
             document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
-            displayFeedback(false, q.explanation); // Pass only explanation for incorrect
+            // Determine the correct answer string for display
+            let actualAnswerValueForDisplay = q.answer;
+            if (q.type === 'trueFalse') {
+                actualAnswerValueForDisplay = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+            }
+            displayFeedback(false, actualAnswerValueForDisplay, q.explanation);
             
             renderQuestionNumbers(); // This will re-render the question grid with updated states
             // Calculate next player's index using modulo for 0-indexed
@@ -1211,7 +1221,12 @@
             const newAnswerState = { isCorrect: isCorrect, userAnswer: userAnswer, answeredBy: window.currentPlayer, timeTaken: timeTaken }; 
             window.answeredQuestions[q.id] = newAnswerState;
             
-            displayFeedback(isCorrect, q.explanation); // Pass only explanation for incorrect
+            // Determine the correct answer string for display
+            let actualAnswerValueForDisplay = q.answer;
+            if (q.type === 'trueFalse') {
+                actualAnswerValueForDisplay = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+            }
+            displayFeedback(isCorrect, actualAnswerValueForDisplay, q.explanation);
             
             document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
@@ -1247,9 +1262,10 @@
         /**
          * Displays feedback (correct/incorrect) to the user.
          * @param {boolean} isCorrect - True if the answer was correct, false otherwise.
-         * @param {string} explanation - The explanation for the answer (only for incorrect).
+         * @param {string} correctAnswer - The correct answer string.
+         * @param {string} explanation - The explanation for the answer.
          */
-        function displayFeedback(isCorrect, explanation) { // Modified to only accept explanation for incorrect
+        function displayFeedback(isCorrect, correctAnswer, explanation) {
             feedbackDiv.classList.add('show'); 
             feedbackDiv.classList.remove('animate-in', 'correct', 'incorrect'); 
 
@@ -1261,7 +1277,14 @@
                 feedbackDiv.classList.add('incorrect');
                 let icon = '❌';
                 feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Yanlış.`;
-                // REMOVED: if (explanation) { feedbackDiv.innerHTML += `<p class="explanation-text">${explanation}</p>`; }
+                
+                // Only show correct answer and explanation in single-player mode
+                if (window.numTeams === 1) {
+                    feedbackDiv.innerHTML += `<p class="explanation-text">Doğru Cevap: <strong>${correctAnswer}</strong></p>`;
+                    if (explanation) {
+                        feedbackDiv.innerHTML += `<p class="explanation-text">${explanation}</p>`;
+                    }
+                }
             }
             feedbackDiv.classList.add('animate-in');
         }
@@ -1441,7 +1464,7 @@
 
             let winnerMessage = '';
             if (winners.length === 1) {
-                winnerMessage = `${winners[0]} kazandı! �`;
+                winnerMessage = `${winners[0]} kazandı! 🎉`;
                 overallResultDiv.classList.add('correct');
                 overallResultDiv.classList.remove('incorrect');
             } else if (winners.length > 1) {
@@ -1823,4 +1846,3 @@
     </div>
 </body>
 </html>
-�
