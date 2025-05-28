@@ -690,7 +690,7 @@
                 {
                     id: "unit5",
                     title: "5. ÜNİTE: İSLAM DÜŞÜNCESİNDE YORUMLAR",
-                    icon: "�",
+                    icon: "📚",
                     color: "#065f46", // Ana başlık için default renk (emerald-800)
                     buttonBg: "#0F766E", // teal-800 (Buton arka planı)
                     buttonHoverBg: "#0D9488", // teal-600 (Buton hover arka planı)
@@ -915,7 +915,7 @@
                 displayTopics(unit.topics, unitContentDiv.querySelector(`#topicList-${unit.id}`));
 
                 unitButton.onclick = () => {
-                    toggleUnitAccordion(unitContentDiv, unitButton);
+                    toggleAccordion(unitContentDiv, unitButton);
                 };
 
                 unitDiv.appendChild(unitButton);
@@ -924,15 +924,17 @@
             });
         }
 
-        // Mobil ünite akordiyonunu açıp kapatma
-        function toggleUnitAccordion(contentDiv, button) {
+        // Genel akordiyon açma/kapatma fonksiyonu
+        function toggleAccordion(contentDiv, button) {
             contentDiv.classList.toggle('active');
             const arrowIcon = button.querySelector('.arrow-icon');
             if (arrowIcon) arrowIcon.classList.toggle('rotated');
 
             if (contentDiv.classList.contains('active')) {
+                // Set maxHeight to scrollHeight to allow full content display and scrolling
                 contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
                 contentDiv.style.padding = '1rem'; // Add padding when active
+                // Re-initialize nested accordions if any
                 initializeAccordionsInContent(contentDiv);
             } else {
                 contentDiv.style.maxHeight = '0px';
@@ -959,7 +961,7 @@
                 topicContentDiv.className = 'topic-content-area prose max-w-none text-gray-700 leading-relaxed';
 
                 button.onclick = () => {
-                    toggleTopicContent(topicContentDiv, button);
+                    toggleAccordion(topicContentDiv, button); // Use the general toggleAccordion
                 };
 
                 listItem.appendChild(button);
@@ -969,45 +971,14 @@
             targetElement.appendChild(olElement);
         }
 
-        // Konu içeriğini açıp kapatma
-        function toggleTopicContent(contentDiv, button) {
-            contentDiv.classList.toggle('active');
-            button.classList.toggle('active-topic');
-            const arrowIcon = button.querySelector('.arrow-icon');
-            if (arrowIcon) arrowIcon.classList.toggle('rotated');
-
-            if (contentDiv.classList.contains('active')) {
-                contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
-                contentDiv.style.padding = '1rem'; // Add padding when active
-                initializeAccordionsInContent(contentDiv);
-            } else {
-                contentDiv.style.maxHeight = '0px';
-                contentDiv.style.padding = '0 1rem'; // Remove vertical padding when inactive
-            }
-        }
-
         // İç içe akordiyonları başlatma (Fıkhi, İtikadi, Tasavvufi yorumlar)
         function initializeAccordionsInContent(parentDiv) {
             const accordionButtons = parentDiv.querySelectorAll('.accordion-button');
             accordionButtons.forEach(button => {
                 // Her tıklamada yeni bir dinleyici eklenmemesi için önce kaldırılır
-                button.removeEventListener('click', toggleSectionContent); 
-                button.addEventListener('click', toggleSectionContent);
+                button.removeEventListener('click', toggleAccordion); 
+                button.addEventListener('click', toggleAccordion); // Use the general toggleAccordion
             });
-        }
-
-        // İç içe akordiyon içeriğini açıp kapatma
-        function toggleSectionContent(event) {
-            event.currentTarget.classList.toggle('open');
-            const content = event.currentTarget.nextElementSibling;
-            const arrowIcon = event.currentTarget.querySelector('.arrow-icon'); // Bu akordiyonun kendi oku
-            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-                content.style.maxHeight = '0px';
-                if (arrowIcon) arrowIcon.classList.remove('rotated');
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-                if (arrowIcon) arrowIcon.classList.add('rotated');
-            }
         }
 
         // Sayfa yüklendiğinde veya boyut değiştiğinde görünümü ayarla
@@ -1043,4 +1014,3 @@
     </script>
 </body>
 </html>
-�
