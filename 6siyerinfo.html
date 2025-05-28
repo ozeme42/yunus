@@ -180,17 +180,13 @@
             font-weight: 600;
             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: absolute;
-            right: 2rem;
-            top: 50%;
-            transform: translateY(-50%);
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
         .return-button:hover {
             background-color: #f59e0b; /* Darker Amber */
-            transform: translateY(-50%) scale(1.02);
+            transform: scale(1.02);
         }
     </style>
 </head>
@@ -201,10 +197,13 @@
         <p class="text-md md:text-lg mt-4 max-w-2xl mx-auto opacity-90">
             Hz. Peygamber'in (s.a.v.) hayatını ve İslam'ın temel değerlerini anlatan bu infografik, onun örnek kişiliğini ve mesajını keşfetmenizi sağlar.
         </p>
+    </header>
+
+    <div class="flex justify-center mt-4 mb-8">
         <button id="return-to-site-button" class="return-button">
             <span class="text-xl">🏠</span> Siteye Dön
         </button>
-    </header>
+    </div>
 
     <main class="container mx-auto px-4 py-12">
         <section class="section-card">
@@ -443,7 +442,7 @@
                     tooltip: {
                         callbacks: {
                             title: function(tooltipItems) {
-                                const item = tooltipItems[0];
+                                const item = tooltipToItem(tooltipItems);
                                 let label = item.chart.data.labels[item.dataIndex];
                                 if (Array.isArray(label)) {
                                     return label.join(' ');
