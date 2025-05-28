@@ -801,6 +801,8 @@
         const mobileUnitAccordionContainer = document.getElementById('mobileUnitAccordionContainer');
         const initialMessageEl = document.getElementById('initialMessage');
 
+        let currentUnitIdDesktop = null; // Masaüstü için aktif ünite ID'si
+
         // Masaüstü için ünite butonlarını ve içeriğini gösterir
         function renderDesktopView() {
             // Üst menüdeki ünite listesini doldur
@@ -936,7 +938,7 @@
 
         // Mobil ünite akordiyonunu açıp kapatma
         function toggleUnitAccordion(contentDiv, button) {
-            // Tıklanan üniteyi aç/kapat
+            // Sadece tıklanan üniteyi aç/kapat, diğerlerini etkileme
             contentDiv.classList.toggle('active');
             const arrowIcon = button.querySelector('.arrow-icon');
             if (arrowIcon) arrowIcon.classList.toggle('rotated');
@@ -978,7 +980,7 @@
 
         // Konu içeriğini açıp kapatma
         function toggleTopicContent(contentDiv, button) {
-            // Tıklanan konuyu aç/kapat
+            // Sadece tıklanan konuyu aç/kapat, diğerlerini etkileme
             contentDiv.classList.toggle('active');
             button.classList.toggle('active-topic');
             const arrowIcon = button.querySelector('.arrow-icon');
