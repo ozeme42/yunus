@@ -74,6 +74,20 @@
             background-color: #FF6B6B;
             color: #FFFFFF;
         }
+        /* Styling for the new return button */
+        .return-button-nav {
+            background-color: #06D6A0; /* Distinct color */
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            white-space: nowrap; /* Prevents text from wrapping */
+        }
+        .return-button-nav:hover {
+            background-color: #118AB2;
+        }
     </style>
 </head>
 <body class="text-[#073B4C]">
@@ -84,13 +98,14 @@
     </header>
 
     <nav id="main-nav" class="sticky top-0 z-50 bg-white shadow-md py-3">
-        <ul class="container mx-auto flex justify-center space-x-2 md:space-x-4 overflow-x-auto whitespace-nowrap px-4">
+        <ul class="container mx-auto flex justify-center space-x-2 md:space-x-4 overflow-x-auto whitespace-nowrap px-4 items-center">
             <li><button class="unit-nav-btn active" data-unit-prefix="main-intro">Giriş</button></li>
             <li><button class="unit-nav-btn" data-unit-prefix="unite1">1. Ünite</button></li>
             <li><button class="unit-nav-btn" data-unit-prefix="unite2">2. Ünite</button></li>
             <li><button class="unit-nav-btn" data-unit-prefix="unite3">3. Ünite</button></li>
             <li><button class="unit-nav-btn" data-unit-prefix="unite4">4. Ünite</button></li>
             <li><button class="unit-nav-btn" data-unit-prefix="conclusion">Sonuç</button></li>
+            <li><a href="index.html" class="return-button-nav">Siteye Dön</a></li>
         </ul>
     </nav>
 
@@ -106,7 +121,7 @@
         <div id="units-container" class="relative">
             <section id="unite1-giris-slide" class="content-section">
                 <div class="section-title-bg rounded-lg shadow-lg p-6 mb-6">
-                    <h2 class="text-3xl font-bold text-center">1. Ünite: Çocukluk Yıllarında Peygamberimiz</h2>
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-center">1. Ünite: Çocukluk Yıllarında Peygamberimiz</h2>
                 </div>
                 <div class="card-bg rounded-lg shadow-md p-6 mb-6">
                     <ul class="list-disc list-inside text-lg leading-relaxed space-y-2">
@@ -222,7 +237,7 @@
 
             <section id="unite2-giris-slide" class="content-section">
                 <div class="section-title-bg rounded-lg shadow-lg p-6 mb-6">
-                    <h2 class="text-3xl font-bold text-center">2. Ünite: Peygamberimizin Çevresindeki Çocuklar</h2>
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-center">2. Ünite: Peygamberimizin Çevresindeki Çocuklar</h2>
                 </div>
                 <div class="card-bg rounded-lg shadow-md p-6 mb-6">
                      <ul class="list-disc list-inside text-lg leading-relaxed space-y-2">
@@ -322,7 +337,7 @@
 
             <section id="unite3-giris-slide" class="content-section">
                 <div class="section-title-bg rounded-lg shadow-lg p-6 mb-6">
-                    <h2 class="text-3xl font-bold text-center">3. Ünite: Rehberim Peygamberim</h2>
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-center">3. Ünite: Rehberim Peygamberim</h2>
                 </div>
                  <div class="card-bg rounded-lg shadow-md p-6 mb-6">
                      <ul class="list-disc list-inside text-lg leading-relaxed space-y-2">
@@ -401,7 +416,7 @@
 
             <section id="unite4-giris-slide" class="content-section">
                 <div class="section-title-bg rounded-lg shadow-lg p-6 mb-6">
-                    <h2 class="text-3xl font-bold text-center">4. Ünite: Aile Hayatında Peygamberimiz</h2>
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-center">4. Ünite: Aile Hayatında Peygamberimiz</h2>
                 </div>
                  <div class="card-bg rounded-lg shadow-md p-6 mb-6">
                      <ul class="list-disc list-inside text-lg leading-relaxed space-y-2">
@@ -463,7 +478,7 @@
 
             <section id="conclusion-section" class="content-section">
                 <div class="section-title-bg rounded-lg shadow-lg p-6 mb-6">
-                    <h2 class="text-3xl font-bold mb-4 text-center">Sonuç: Peygamberimizin Hayatının Önemi</h2>
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-center">Sonuç: Peygamberimizin Hayatının Önemi</h2>
                 </div>
                 <div class="card-bg rounded-lg shadow-md p-8">
                     <ul class="list-disc list-inside text-lg leading-relaxed space-y-2">
@@ -578,20 +593,17 @@
         });
 
         const mainIntroSection = document.getElementById('main-intro-section');
-        const allContentSections = document.querySelectorAll('.main-intro-section, .content-section'); // Select all sections
+        const allContentSections = document.querySelectorAll('.main-intro-section, .content-section');
         const unitNavButtons = document.querySelectorAll('.unit-nav-btn');
         
-        let currentActiveUnitPrefix = 'main-intro'; // Initially active unit prefix
+        let currentActiveUnitPrefix = 'main-intro';
 
-        // Function to show content based on unit prefix
         function showContent(unitPrefix) {
-            // Hide all content sections first
             allContentSections.forEach(section => {
                 section.style.display = 'none';
                 section.classList.remove('active');
             });
 
-            // Show sections belonging to the target unit prefix
             if (unitPrefix === 'main-intro') {
                 mainIntroSection.style.display = 'block';
                 mainIntroSection.classList.add('active');
@@ -599,7 +611,6 @@
                 document.getElementById('conclusion-section').style.display = 'block';
                 document.getElementById('conclusion-section').classList.add('active');
             } else {
-                // For unit-specific content (e.g., unite1, unite2)
                 document.querySelectorAll(`[id^="${unitPrefix}"]`).forEach(section => {
                     section.style.display = 'block';
                     section.classList.add('active');
@@ -608,7 +619,7 @@
 
             currentActiveUnitPrefix = unitPrefix;
             updateUnitNavButtons();
-            window.scrollTo(0, 0); // Scroll to top on content change
+            window.scrollTo(0, 0);
         }
 
         function updateUnitNavButtons() {
@@ -620,7 +631,6 @@
             });
         }
 
-        // Add event listeners to unit navigation buttons
         unitNavButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const unitPrefix = button.dataset.unitPrefix;
@@ -628,7 +638,6 @@
             });
         });
 
-        // Initial display: show the main intro section
         showContent('main-intro');
     </script>
 </body>
