@@ -801,10 +801,6 @@
         const mobileUnitAccordionContainer = document.getElementById('mobileUnitAccordionContainer');
         const initialMessageEl = document.getElementById('initialMessage');
 
-        let currentUnitIdDesktop = null; // Masaüstü için aktif ünite ID'si
-        let currentOpenTopicContent = null; // Şu anda açık olan konu içeriği div'ini tutar (hem mobil hem masaüstü)
-        let currentOpenUnitContentMobile = null; // Mobil için açık olan ünite içeriği div'ini tutar
-
         // Masaüstü için ünite butonlarını ve içeriğini gösterir
         function renderDesktopView() {
             // Üst menüdeki ünite listesini doldur
@@ -929,7 +925,7 @@
                 displayTopics(unit.topics, unitContentDiv.querySelector(`#topicList-${unit.id}`));
 
                 unitButton.onclick = () => {
-                    toggleUnitAccordion(unit.id, unitContentDiv, unitButton);
+                    toggleUnitAccordion(unitContentDiv, unitButton);
                 };
 
                 unitDiv.appendChild(unitButton);
@@ -939,28 +935,15 @@
         }
 
         // Mobil ünite akordiyonunu açıp kapatma
-        function toggleUnitAccordion(unitId, contentDiv, button) {
-            // Eğer farklı bir ünite açıksa, onu kapat
-            if (currentOpenUnitContentMobile && currentOpenUnitContentMobile !== contentDiv) {
-                currentOpenUnitContentMobile.classList.remove('active');
-                const prevButton = currentOpenUnitContentMobile.previousElementSibling;
-                if (prevButton) {
-                    prevButton.querySelector('.arrow-icon').classList.remove('rotated');
-                }
-            }
-
+        function toggleUnitAccordion(contentDiv, button) {
             // Tıklanan üniteyi aç/kapat
             contentDiv.classList.toggle('active');
             const arrowIcon = button.querySelector('.arrow-icon');
             if (arrowIcon) arrowIcon.classList.toggle('rotated');
 
-            // Açık olan üniteyi güncelle
+            // İçerik açıldığında içindeki alt akordiyonları başlat
             if (contentDiv.classList.contains('active')) {
-                currentOpenUnitContentMobile = contentDiv;
-                // İçerik açıldığında içindeki alt akordiyonları başlat
                 initializeAccordionsInContent(contentDiv);
-            } else {
-                currentOpenUnitContentMobile = null;
             }
         }
 
@@ -983,7 +966,7 @@
                 topicContentDiv.className = 'topic-content-area prose max-w-none text-gray-700 leading-relaxed';
 
                 button.onclick = () => {
-                    toggleTopicContent(topic.id, topicContentDiv, button);
+                    toggleTopicContent(topicContentDiv, button);
                 };
 
                 listItem.appendChild(button);
@@ -994,24 +977,7 @@
         }
 
         // Konu içeriğini açıp kapatma
-        function toggleTopicContent(topicId, contentDiv, button) {
-            // Eğer farklı bir konu açıksa, onu kapat (sadece aynı ünite içinde)
-            // Bu kısım, her ünitenin kendi içinde bağımsız konu akordiyonları olmasını sağlar.
-            const parentUnitContent = contentDiv.closest('.unit-accordion-content') || document.getElementById('topicsAccordionContentDesktop');
-            const openTopicsInParent = parentUnitContent.querySelectorAll('.topic-content-area.active');
-
-            openTopicsInParent.forEach(openTopic => {
-                if (openTopic !== contentDiv) {
-                    openTopic.classList.remove('active');
-                    const prevButton = openTopic.previousElementSibling;
-                    if (prevButton) {
-                        prevButton.classList.remove('active-topic');
-                        const prevArrow = prevButton.querySelector('.arrow-icon');
-                        if (prevArrow) prevArrow.classList.remove('rotated');
-                    }
-                }
-            });
-
+        function toggleTopicContent(contentDiv, button) {
             // Tıklanan konuyu aç/kapat
             contentDiv.classList.toggle('active');
             button.classList.toggle('active-topic');
@@ -1028,7 +994,8 @@
         function initializeAccordionsInContent(parentDiv) {
             const accordionButtons = parentDiv.querySelectorAll('.accordion-button');
             accordionButtons.forEach(button => {
-                button.removeEventListener('click', toggleSectionContent); // Önceki dinleyiciyi kaldır
+                // Her tıklamada yeni bir dinleyici eklenmemesi için önce kaldırılır
+                button.removeEventListener('click', toggleSectionContent); 
                 button.addEventListener('click', toggleSectionContent);
             });
         }
