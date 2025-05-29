@@ -50,7 +50,7 @@
             margin-bottom: 2rem;
             font-size: 2.8rem; /* Başlık boyutu büyütüldü */
         }
-        /* START: Score Board Styles from 5.Sınıf Bilgi Yarışması (3).html */
+        /* START: Score Board Styles */
         .score-table-container {
             margin-top: 1rem;
             margin-bottom: 1rem;
@@ -60,8 +60,8 @@
         }
         .score-table {
             display: flex;
-            justify-content: center; /* Center the teams */
-            gap: 1rem; /* Space between team score cards */
+            justify-content: center; /* Center the participants */
+            gap: 1rem; /* Space between participant score cards */
             border-radius: 0.75rem;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -85,15 +85,16 @@
             position: relative;
             z-index: 1; /* Ensure cells are above each other for shadow/outline */
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for each cell */
+            background-color: #3b82f6; /* Default blue for participants */
         }
-        .score-cell.active-team {
-            transform: translateY(-5px); /* Lift up active team */
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* More prominent shadow for active team */
+        .score-cell.active-participant {
+            transform: translateY(-5px); /* Lift up active active-participant */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* More prominent shadow for active active-participant */
             outline: 4px solid #fcd34d; /* Thicker yellow outline */
             outline-offset: -4px;
-            z-index: 2; /* Bring active team further to front */
+            z-index: 2; /* Bring active active-participant further to front */
         }
-        .score-cell .team-name {
+        .score-cell .participant-name {
             font-size: 1.1em; /* Slightly larger for name */
             margin-bottom: 0.5rem; /* More space below name */
             opacity: 1; /* Full opacity for name */
@@ -101,26 +102,74 @@
             align-items: center;
             gap: 0.5rem; /* Space between icon and name */
         }
-        .score-cell .team-score {
+        .score-cell .participant-score {
             font-size: 2.5em; /* Significantly larger for score */
             font-weight: 900; /* Extra bold */
             line-height: 1; /* Adjust line height for large numbers */
         }
+        /* END: Score Board Styles */
 
-        /* Colors for teams */
-        .team-color-0 { background-color: #ef4444; } /* Red */
-        .team-color-1 { background-color: #3b82f6; } /* Blue */
-        .team-color-2 { background-color: #22c55e; } /* Green */
-        .team-color-3 { background-color: #f97316; } /* Orange */
-        .team-color-4 { background-color: #8b5cf6; } /* Purple */
-        /* END: Score Board Styles from 5.Sınıf Bilgi Yarışması (3).html */
-
-        .current-turn {
-            font-size: 1.5rem; /* Sıra metin boyutu büyütüldü */
+        /* START: Leaderboard List Styles */
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 400px; /* Adjusted max-width for list */
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 1.2rem;
+            color: #333;
+            transition: background-color 0.2s ease;
+        }
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+        .leaderboard-item:nth-child(odd) {
+            background-color: #f8fafc;
+        }
+        .leaderboard-item:nth-child(even) {
+            background-color: #ffffff;
+        }
+        .leaderboard-item.active-participant {
+            background-color: #e0f2fe; /* Light blue for active active-participant */
+            font-weight: 600;
+            border-left: 5px solid #3b82f6; /* Blue highlight */
+        }
+        .leaderboard-rank {
             font-weight: 700;
             color: #6366f1;
-            margin: 0.5rem; /* Space around current turn display */
-            text-align: center; /* Center the turn display */
+            margin-right: 1rem;
+            min-width: 25px; /* Ensure space for rank numbers */
+            text-align: right;
+        }
+        .leaderboard-name {
+            flex-grow: 1;
+            font-weight: 500;
+        }
+        .leaderboard-score {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-left: 1rem;
+        }
+        /* END: Leaderboard List Styles */
+
+
+        .current-participant-display {
+            font-size: 1.5rem; /* Metin boyutu büyütüldü */
+            font-weight: 700;
+            color: #6366f1;
+            margin: 0.5rem; /* Space around display */
+            text-align: center; /* Center the display */
         }
         .question-area {
             min-height: 180px; /* Minimum height for the question area increased */
@@ -392,7 +441,7 @@
         .timer-display.critical {
             color: #dc2626; /* Darker red for critical */
         }
-        .player-selection-screen {
+        .player-selection-screen { /* Renamed to .main-screen-layout for general use */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -402,14 +451,14 @@
             text-align: center;
         }
         .player-selection-screen h2 {
-            font-size: 2.5rem; /* Oyuncu seçimi başlık boyutu büyütüldü */
+            font-size: 2.5rem; /* Başlık boyutu büyütüldü */
             font-weight: 600;
             color: #2c3e50;
         }
         .player-selection-screen .action-button {
             min-width: 220px;
         }
-        .team-selection-buttons {
+        .selection-buttons { /* Renamed to .selection-buttons */
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -450,10 +499,12 @@
             background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
             z-index: 40;
             opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+            visibility: hidden; /* Changed to hidden for initial state */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
         }
         #fullscreen-overlay.show {
             opacity: 1;
+            visibility: visible; /* Changed to visible when shown */
         }
 
         /* Fullscreen question container */
@@ -537,7 +588,7 @@
 
         @keyframes pulse-selected {
             0% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
-            50% { transform: scale(1.02); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
+            50% { transform: scale(1.02); box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); }
             100% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
         }
 
@@ -562,7 +613,7 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        .team-name-input-group {
+        .participant-name-input-group {
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -571,7 +622,7 @@
             max-width: 400px;
         }
 
-        .team-name-input {
+        .participant-name-input {
             padding: 0.8rem;
             border: 2px solid #cbd5e1;
             border-radius: 8px;
@@ -580,24 +631,153 @@
             transition: border-color 0.2s ease;
         }
 
-        .team-name-input:focus {
+        .participant-name-input:focus {
             outline: none;
             border-color: #6366f1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
+
+        /* Participant Selection Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #e6f0f5;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            position: relative; /* Needed for absolute positioning of close button */
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-content h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-content select,
+        .modal-content input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #333;
+            background-color: #ffffff;
+        }
+
+        .modal-content .button-group {
+            margin-top: 1.5rem;
+            gap: 0.8rem;
+        }
+        .modal-content .action-button {
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* New styles for team setup modal */
+        #team-setup-modal .team-name-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        /* Close button for modals */
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.2s ease;
+            padding: 0.5rem;
+            line-height: 1; /* Adjust line height to center 'X' */
+        }
+
+        .modal-close-button:hover {
+            color: #333;
+        }
+
+        /* Styles for existing participants buttons */
+        #existing-participants-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            max-height: 200px; /* Limit height and add scroll */
+            overflow-y: auto;
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #f8fafc;
+        }
+        #existing-participants-buttons .action-button {
+            flex-grow: 1; /* Allow buttons to grow and fill space */
+            min-width: 120px; /* Minimum width for buttons */
+            max-width: 48%; /* Max width to allow two per row */
+            box-sizing: border-box;
+            font-size: 1rem;
+            padding: 0.7rem 1rem;
+        }
+        #existing-participants-buttons .action-button.selected-participant {
+            background-color: #3b82f6;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+            outline: 3px solid #fcd34d; /* Yellow outline for selected */
+            outline-offset: -3px;
+        }
     </style>
     <script type="module">
+        // Local Storage Keys
+        const LOCAL_STORAGE_KEY_TEAMS = 'quizGameTeams';
+        const LOCAL_STORAGE_KEY_CURRENT_UNIT = 'quizGameCurrentUnit';
+        const LOCAL_STORAGE_KEY_GAME_MODE = 'quizGameMode';
+        const LOCAL_STORAGE_KEY_ANSWERED_QUESTIONS = 'quizGameAnsweredQuestions';
+
         // Global Game State Variables
-        window.teamScores = []; // Array to store objects like { name: 'Takım 1', score: 0 }
-        window.numTeams = 0;
-        window.currentPlayer = 0; // 0-indexed: represents the index of the current team in window.teamScores
+        window.teams = []; // Array to store objects like { id: 'uuid', name: 'Takım Adı', score: 0 }
+        window.currentTeamId = null; // ID of the currently active team
         window.currentQuestionIndex = 0; // This will now be the index in the `shuffledQuestions` array
-        window.answeredQuestions = {}; // Stores {questionId: {isCorrect: boolean, userAnswer: string, answeredBy: index, timeTaken: number}}
+        window.answeredQuestions = {}; // Stores {questionId: {solvedByTeamId: teamId, userAnswer: string, timeTaken: number}}
         let timer = 30; // Timer set to 30 seconds
         let timerInterval;
         let shuffledQuestions = []; // This array holds the questions for the current unit, shuffled
         window.currentUnit = null;
         let initialTimerValue = 30; // Initial timer value set to 30 seconds
+        window.gameMode = null; // 'individual' or 'team'
+        window.selectedQuestionIdForModal = null; // New global variable to store the ID of the clicked question
+        let selectedParticipantIdInModal = null; // To track selection in participant selection modal
 
         // Tone.js sound synthesizers
         let correctSynth;
@@ -735,7 +915,7 @@
                 { id: 'u5_mc1', type: 'multipleChoice', question: "İslam hukukunu, dini hükümleri inceleyen ilim dalı hangisidir?", options: ["Kelam", "Fıkıh", "Hadis", "Tefsir"], answer: "Fıkıh", explanation: "Fıkıh, İslam'ın pratik yaşamla ilgili hükümlerini inceler.", theme: 'unit5', relatedConcept: "Fıkıh" },
                 { id: 'u5_mc2', type: 'multipleChoice', question: "Hz. Muhammed'in (sav) söz, fiil ve onaylarının derlenmesi ve incelenmesi ilmi hangisidir?", options: ["Fıkıh", "Kelam", "Hadis", "Tefsir"], answer: "Hadis", explanation: "Hadis ilmi, peygamberin sünnetini korur ve inceler.", theme: 'unit5', relatedConcept: "Hadis" },
                 { id: 'u5_mc3', type: 'multipleChoice', question: "İmam Eşari tarafından kurulan kelam ekolü hangisidir?", options: ["Maturidilik", "Eşarilik", "Mutezile", "Haricilik"], answer: "Eşarilik", explanation: "Eşarilik, Sünni kelam ekollerinden biridir.", theme: 'unit5', relatedConcept: "Eşarilik" },
-                { id: 'u5_mc4', type: 'multipleChoice', question: "Şia mezheplerinden biri olup, İmam Cafer es-Sadık'a nispet edilen mezhep hangisidir?", options: ["Hanefilik", "Caferilik", "Malikilik", "Hanbelilik"], answer: "Caferilik", explanation: "Caferilik, Şia'nın en büyük fıkıh mezhebidir.", theme: 'unit5', relatedConcept: "Caferilik" },
+                { id: 'u5_mc4', 'type': 'multipleChoice', question: "Şia mezheplerinden biri olup, İmam Cafer es-Sadık'a nispet edilen mezhep hangisidir?", options: ["Hanefilik", "Caferilik", "Malikilik", "Hanbelilik"], answer: "Caferilik", explanation: "Caferilik, Şia'nın en büyük fıkıh mezhebidir.", theme: 'unit5', relatedConcept: "Caferilik" },
                 { id: 'u5_mc5', type: 'multipleChoice', question: "Bahaeddin Nakşibend'e nispet edilen tasavvufi yol hangisidir?", options: ["Mevlevilik", "Bektaşilik", "Nakşibendilik", "Kadirilik"], answer: "Nakşibendilik", explanation: "Nakşibendilik, zikir ve sohbetle bilinen bir tarikattır.", theme: 'unit5', relatedConcept: "Nakşibendilik" }
             ]
         };
@@ -768,17 +948,20 @@
         }
 
         // DOM elements (declared globally but assigned in onload)
-        let mainMenuScreen; // Main menu to select units
-        let playerSelectionScreen; // Screen for player/team selection
-        let teamNameInputScreen; // New screen for team name input
-        let teamNameInputsContainer; // Container for team name input fields
+        let participantManagementScreen; // New main screen
+        let leaderboardContainer; // Container for the leaderboard
+        let newParticipantNameInputMain; // Input for new participant on main screen
+        let addNewParticipantMainButton; // Button for adding new participant on main screen
+        let showRegisteredUsersButton; // Button to show registered users modal
+        let unitSelectionScreen; // New screen for unit selection
+        let gameModeSelectionScreen; // Existing screen for game mode selection
+        let gameModeMessage; // Message display for game mode selection
         let gamePanel; // Main game area (score, grid, quiz content)
-        let scoreBoardContainer; // Main container for the score board (renamed for clarity)
-        let currentPlayerTurnDisplay;
+        let scoreBoardContainer; // Main container for the score board
+        let currentParticipantDisplay; // Display for current participant's name and score
         let quizContentContainer;
         let questionContainer;
         let feedbackDiv;
-        let nextTurnButton;
         let finalScoreContainer;
         let overallResultDiv;
         let resetGameButton;
@@ -790,79 +973,322 @@
         let fullscreenOverlay;
         let returnToMainMenuGridButton; // Button to return to main menu from question grid
         let returnToQuestionGridButton; // Button to return to question grid from quiz content
-        let finalTeamScoresDisplay; // Container for final team scores table
+        let finalParticipantScoresDisplay; // Container for final participant scores table
         let goToMainSiteButton; // Button to go to external main site from main menu
-
-        // Colors for team score cells
-        const teamColors = [
-            'bg-red-500',    // Team 1
-            'bg-blue-500',   // Team 2
-            'bg-green-500',  // Team 3
-            'bg-yellow-500', // Team 4
-            'bg-purple-500'  // Team 5
-        ];
+        let participantSelectionModal; // Modal for participant selection
+        let existingParticipantsButtonsContainer; // Container for participant buttons in modal
+        let selectExistingParticipantButton; // Button to select participant in modal
+        let newParticipantNameInput; // Input in modal (removed from HTML, but keeping variable for reference)
+        let nextTurnButton; // Button for next turn in team mode
+        let teamSetupModal; // Modal for team setup
+        let numTeamsInput; // Input for number of teams
+        let teamNameInputsContainer; // Container for dynamic team name inputs
 
         /**
-         * Returns an emoji icon for a team based on its index.
-         * @param {number} index - The 0-indexed team number.
-         * @returns {string} An emoji representing the team.
+         * Generates a unique ID (UUID v4).
+         * @returns {string} A unique ID.
          */
-        function getTeamIcon(index) {
-            const icons = ['🔴', '🔵', '🟢', '🟠', '🟣']; // Emojis for visual representation
-            return icons[index % icons.length];
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
         }
 
         /**
-         * Handles unit selection, hides main menu, and shows player selection.
+         * Loads teams from localStorage.
+         */
+        function loadTeams() {
+            const storedTeams = localStorage.getItem(LOCAL_STORAGE_KEY_TEAMS);
+            if (storedTeams) {
+                window.teams = JSON.parse(storedTeams);
+            } else {
+                window.teams = []; // Initialize empty if nothing found
+            }
+        }
+
+        /**
+         * Saves teams to localStorage.
+         */
+        function saveTeams() {
+            localStorage.setItem(LOCAL_STORAGE_KEY_TEAMS, JSON.stringify(window.teams));
+        }
+
+        /**
+         * Loads game state (current unit, mode, answered questions) from localStorage.
+         */
+        function loadGameState() {
+            window.currentUnit = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_UNIT);
+            window.gameMode = localStorage.getItem(LOCAL_STORAGE_KEY_GAME_MODE);
+            const storedAnsweredQuestions = localStorage.getItem(LOCAL_STORAGE_KEY_ANSWERED_QUESTIONS);
+            if (storedAnsweredQuestions) {
+                window.answeredQuestions = JSON.parse(storedAnsweredQuestions);
+            } else {
+                window.answeredQuestions = {};
+            }
+        }
+
+        /**
+         * Saves game state to localStorage.
+         */
+        function saveGameState() {
+            localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_UNIT, window.currentUnit);
+            localStorage.setItem(LOCAL_STORAGE_KEY_GAME_MODE, window.gameMode);
+            localStorage.setItem(LOCAL_STORAGE_KEY_ANSWERED_QUESTIONS, JSON.stringify(window.answeredQuestions));
+        }
+
+        /**
+         * Renders the leaderboard on the participant management screen.
+         */
+        function renderLeaderboard() {
+            leaderboardContainer.innerHTML = ''; // Clear previous content
+            if (window.teams.length === 0) {
+                leaderboardContainer.innerHTML = '<p class="text-gray-600 text-center">Henüz öğrenci yok.</p>'; // Changed text here
+                return;
+            }
+
+            const leaderboardList = document.createElement('div');
+            leaderboardList.classList.add('leaderboard-list');
+
+            // Sort participants by score in descending order
+            const sortedParticipants = [...window.teams].sort((a, b) => b.score - a.score);
+
+            sortedParticipants.forEach((p, index) => {
+                const listItem = document.createElement('div');
+                listItem.classList.add('leaderboard-item');
+                if (p.id === window.currentTeamId) {
+                    listItem.classList.add('active-participant'); // Highlight active participant
+                }
+                listItem.innerHTML = `
+                    <span class="leaderboard-rank">${index + 1}.</span>
+                    <span class="leaderboard-name">${p.name}</span>
+                    <span class="leaderboard-score">${p.score} Puan</span>
+                `;
+                leaderboardList.appendChild(listItem);
+            });
+            leaderboardContainer.appendChild(leaderboardList);
+        }
+
+        /**
+         * Handles adding a new participant from the main screen and proceeds to unit selection.
+         */
+        window.addNewParticipantAndProceed = function() {
+            const newName = newParticipantNameInputMain.value.trim();
+            if (newName) {
+                let participantToAdd = null;
+                const existing = window.teams.find(p => p.name.toLowerCase() === newName.toLowerCase());
+                if (existing) {
+                    participantToAdd = existing;
+                } else {
+                    participantToAdd = { id: generateUUID(), name: newName, score: 0 };
+                    window.teams.push(participantToAdd); // Add to teams array
+                }
+                
+                window.currentTeamId = participantToAdd.id;
+                saveTeams(); // Save updated teams
+                newParticipantNameInputMain.value = ''; // Clear input
+
+                participantManagementScreen.classList.add('hidden');
+                unitSelectionScreen.classList.remove('hidden');
+                setGameBackground('general'); // Reset background to general for unit selection
+                updateParticipantDisplay(); // Update current participant display
+            } else {
+                console.warn("Lütfen yeni katılımcı adını girin.");
+            }
+        };
+
+        /**
+         * Shows the modal for selecting existing registered users.
+         */
+        window.showRegisteredUsersScreen = function() {
+            existingParticipantsButtonsContainer.innerHTML = ''; // Clear previous buttons
+            selectedParticipantIdInModal = null; // Reset selection
+
+            // Define a set of color classes for the buttons
+            const participantButtonColors = [
+                ['bg-blue-500', 'hover:bg-blue-600', 'shadow-blue-500/50'],
+                ['bg-green-500', 'hover:bg-green-600', 'shadow-green-500/50'],
+                ['bg-purple-500', 'hover:bg-purple-600', 'shadow-purple-500/50'],
+                ['bg-yellow-500', 'hover:bg-yellow-600', 'shadow-yellow-500/50'],
+                ['bg-pink-500', 'hover:bg-pink-600', 'shadow-pink-500/50'],
+                ['bg-indigo-500', 'hover:bg-indigo-600', 'shadow-indigo-500/50'],
+                ['bg-red-500', 'hover:bg-red-600', 'shadow-red-500/50'],
+                ['bg-teal-500', 'hover:bg-teal-600', 'shadow-teal-500/50']
+            ];
+
+            if (window.teams.length > 0) {
+                window.teams.forEach((p, index) => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    
+                    // Apply dynamic color classes
+                    const colorSet = participantButtonColors[index % participantButtonColors.length];
+                    button.classList.add('action-button', ...colorSet);
+
+                    button.textContent = p.name;
+                    button.dataset.participantId = p.id; // Store ID for selection
+                    button.onclick = () => {
+                        // Remove 'selected-participant' from all buttons
+                        document.querySelectorAll('#existing-participants-buttons .action-button').forEach(btn => {
+                            btn.classList.remove('selected-participant');
+                        });
+                        // Add 'selected-participant' to the clicked button
+                        button.classList.add('selected-participant');
+                        selectedParticipantIdInModal = p.id;
+                        selectExistingParticipantButton.disabled = false; // Enable "Seç ve Başla" button
+                    };
+                    existingParticipantsButtonsContainer.appendChild(button);
+                });
+            } else {
+                existingParticipantsButtonsContainer.innerHTML = '<p class="text-gray-600 text-sm">Henüz kayıtlı öğrenci yok.</p>'; // Changed text here
+            }
+            selectExistingParticipantButton.disabled = true; // Disable "Seç ve Başla" until a participant is chosen
+            participantSelectionModal.classList.remove('hidden');
+            participantSelectionModal.classList.add('show');
+        };
+
+        /**
+         * Handles selection of an existing participant from the modal.
+         */
+        window.selectExistingParticipant = function() {
+            if (selectedParticipantIdInModal) {
+                window.currentTeamId = selectedParticipantIdInModal;
+                saveTeams(); // Save currentTeamId (part of teams state)
+                window.hideParticipantSelectionModal(); // Call the global function
+                participantManagementScreen.classList.add('hidden');
+                unitSelectionScreen.classList.remove('hidden');
+                setGameBackground('general');
+                updateParticipantDisplay();
+            } else {
+                console.warn("Lütfen bir katılımcı seçin.");
+            }
+        };
+
+        /**
+         * Hides the participant selection modal.
+         */
+        window.hideParticipantSelectionModal = function() { // Made global
+            participantSelectionModal.classList.remove('show');
+            setTimeout(() => {
+                participantSelectionModal.classList.add('hidden');
+            }, 300);
+        }
+
+        /**
+         * Handles unit selection, hides unit selection screen, and shows the game mode selection.
          * @param {string} unitId - The ID of the selected unit.
          */
         window.selectUnit = async function(unitId) {
             window.currentUnit = unitId;
-            mainMenuScreen.classList.add('hidden');
-            playerSelectionScreen.classList.remove('hidden');
+            // Directly proceed to game panel, implicitly setting gameMode to 'individual'
+            window.gameMode = 'individual'; 
+            unitSelectionScreen.classList.add('hidden');
+            gameModeSelectionScreen.classList.add('hidden'); // Ensure this is always hidden in this flow
+            gamePanel.classList.remove('hidden'); // Show game panel
             setGameBackground(unitId);
+            gameModeMessage.classList.add('hidden');
+            saveGameState(); // Save selected unit and game mode
+            startGame(); // Start the game directly
         };
 
         /**
-         * Handles number of teams selection, hides player selection, and shows team name input.
-         * @param {number} num - The number of teams selected.
+         * Handles game mode selection (Individual or Team).
+         * This function is now only called if explicitly navigated to, not from unit selection.
+         * @param {string} mode - The selected game mode ('individual' or 'team').
          */
-        window.selectNumTeams = function(num) {
-            window.numTeams = num;
-            playerSelectionScreen.classList.add('hidden');
-            teamNameInputScreen.classList.remove('hidden');
-            renderTeamNameInputs();
-            applyButtonColors(); // Apply colors to the new "Başla" button
-        };
+        window.selectGameMode = function(mode) {
+            window.gameMode = mode;
+            gameModeSelectionScreen.classList.add('hidden');
+            saveGameState(); // Save game mode
 
-        /**
-         * Renders input fields for team names based on the selected number of teams.
-         */
-        function renderTeamNameInputs() {
-            teamNameInputsContainer.innerHTML = '';
-            for (let i = 0; i < window.numTeams; i++) {
-                const inputGroup = document.createElement('div');
-                inputGroup.classList.add('flex', 'flex-col', 'items-center', 'gap-2', 'w-full');
-                inputGroup.innerHTML = `
-                    <label for="team-name-${i + 1}" class="font-medium text-lg text-gray-700">Takım ${i + 1} Adı:</label>
-                    <input type="text" id="team-name-${i + 1}" class="team-name-input w-full" placeholder="Takım ${i + 1}" value="Takım ${i + 1}">
-                `;
-                teamNameInputsContainer.appendChild(inputGroup);
+            if (mode === 'individual') {
+                gamePanel.classList.remove('hidden');
+                startGame();
+            } else if (mode === 'team') {
+                if (window.teams.length < 2 || window.teams.some(t => t.id.startsWith('player'))) { 
+                    window.teams = []; // Clear individual players for team setup
+                    window.showTeamSetupModal(); // Call the global function
+                } else {
+                    gamePanel.classList.remove('hidden');
+                    startGame();
+                }
             }
+        };
+
+        /**
+         * Shows the team setup modal.
+         */
+        window.showTeamSetupModal = function() { // Made global
+            teamSetupModal.classList.remove('hidden');
+            teamSetupModal.classList.add('show');
+            numTeamsInput.value = ''; // Clear previous input
+            teamNameInputsContainer.innerHTML = ''; // Clear dynamic inputs
         }
 
         /**
-         * Sets team names from input fields, initializes scores, and starts the game.
+         * Hides the team setup modal.
          */
-        window.setTeamNames = function() {
-            window.teamScores = []; // Initialize teamScores as array of objects
-            for (let i = 0; i < window.numTeams; i++) {
-                const inputElement = document.getElementById(`team-name-${i + 1}`);
-                window.teamScores.push({ name: inputElement.value.trim() || `Takım ${i + 1}`, score: 0 });
+        window.hideTeamSetupModal = function() { // Made global
+            teamSetupModal.classList.remove('show');
+            setTimeout(() => {
+                teamSetupModal.classList.add('hidden');
+            }, 300);
+        }
+
+        /**
+         * Generates team name input fields based on the number of teams entered.
+         */
+        window.generateTeamNameInputs = function() {
+            const num = parseInt(numTeamsInput.value);
+            teamNameInputsContainer.innerHTML = ''; // Clear existing inputs
+
+            if (isNaN(num) || num < 2 || num > 10) { // Limit teams between 2 and 10
+                teamNameInputsContainer.innerHTML = '<p class="text-red-500 text-sm">Lütfen 2 ile 10 arasında bir takım sayısı girin.</p>';
+                return;
             }
-            teamNameInputScreen.classList.add('hidden');
-            gamePanel.classList.remove('hidden');
-            window.currentPlayer = 0; // Initialize current player to index 0 (first team)
+
+            for (let i = 0; i < num; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `team-name-input-${i}`;
+                input.classList.add('w-full', 'p-2', 'border', 'rounded', 'team-name-input');
+                input.placeholder = `Takım ${i + 1} Adı`;
+                input.value = `Takım ${i + 1}`; // Default name
+                teamNameInputsContainer.appendChild(input);
+            }
+        };
+
+        /**
+         * Submits the team names and starts the game in team mode.
+         */
+        window.submitTeamSetup = function() {
+            window.teams = []; // Clear existing participants for new team setup
+            let allNamesValid = true;
+            const teamNameInputs = teamNameInputsContainer.querySelectorAll('.team-name-input');
+
+            if (teamNameInputs.length === 0) {
+                console.warn("Lütfen önce takım sayısını girip isimleri oluşturun.");
+                return;
+            }
+
+            teamNameInputs.forEach((input, index) => {
+                const name = input.value.trim();
+                if (!name) {
+                    allNamesValid = false;
+                    console.warn(`Takım ${index + 1} için bir isim girmeniz gerekiyor.`);
+                    return;
+                }
+                window.teams.push({ id: `team${index + 1}`, name: name, score: 0 });
+            });
+
+            if (!allNamesValid) {
+                console.warn("Tüm takım isimlerini girmeniz gerekiyor.");
+                return;
+            }
+
+            saveTeams(); // Save newly created teams
+            window.hideTeamSetupModal(); // Call the global function
+            gamePanel.classList.remove('hidden'); // Show the main game panel
             startGame();
         };
 
@@ -873,10 +1299,17 @@
         window.startGame = function(resuming = false) {
             if (!resuming) {
                 window.currentQuestionIndex = 0;
-                window.answeredQuestions = {};
-                // teamScores is already initialized with names in setTeamNames, just reset scores
-                window.teamScores.forEach(team => team.score = 0);
-                window.currentPlayer = 0; // Initialize current player to index 0 (first team)
+                window.answeredQuestions = {}; // Reset answered questions for new game
+                if (window.gameMode === 'team') {
+                    window.teams.forEach(team => team.score = 0); // Reset scores for new team game
+                } 
+                // IMPORTANT: For individual mode, we no longer reset the score here.
+                // Scores will accumulate across sessions for individual players.
+                
+                window.currentTeamId = window.currentTeamId || (window.teams.length > 0 ? window.teams[0].id : null); // Ensure currentTeamId is set
+                
+                saveTeams(); // Save initial scores/state (if team mode, scores are reset; if individual, they persist)
+                saveGameState(); // Save answered questions (empty for new game)
             }
             
             shuffledQuestions = shuffleArray(ensureOneHundredQuestions(unitQuestions[window.currentUnit]));
@@ -885,7 +1318,11 @@
             finalScoreContainer.classList.add('hidden');
             questionNavigationContainer.classList.remove('hidden');
             
-            updateScoreBoard();
+            // Hide score board and current participant display on the game panel
+            scoreBoardContainer.classList.add('hidden'); 
+            currentParticipantDisplay.classList.add('hidden');
+            
+            updateParticipantDisplay(); // This will still update the hidden elements, which is fine.
             renderQuestionNumbers(); // Initial render of question numbers
             gridInstructionMessage.classList.remove('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
@@ -893,46 +1330,59 @@
                 questionCounterDisplay.classList.remove('hidden');
             }
             setGameBackground(window.currentUnit);
+            nextTurnButton.classList.add('hidden'); // Hide next turn button initially
         };
 
         /**
-         * Updates the score board display with current team scores and active player.
+         * Updates the participant/team display with current participant's/team's name and score.
          */
-        function updateScoreBoard() {
-            if (scoreBoardContainer) scoreBoardContainer.classList.remove('hidden');
+        function updateParticipantDisplay() {
+            // Removed: if (scoreBoardContainer) scoreBoardContainer.classList.remove('hidden');
+            // This element is now intentionally hidden on the game panel.
 
-            if (scoreBoardContainer && currentPlayerTurnDisplay) {
+            if (scoreBoardContainer && currentParticipantDisplay) {
                 scoreBoardContainer.innerHTML = ''; // Clear previous content
                 const scoreTable = document.createElement('div');
                 scoreTable.classList.add('score-table');
 
-                window.teamScores.forEach((team, index) => {
+                // Sort participants/teams by score in descending order
+                const sortedEntities = [...window.teams].sort((a, b) => b.score - a.score);
+
+                sortedEntities.forEach((entity) => {
                     const scoreCell = document.createElement('div');
-                    scoreCell.classList.add('score-cell', teamColors[index % teamColors.length]);
-                    if (window.currentPlayer === index) {
-                        scoreCell.classList.add('active-team');
+                    scoreCell.classList.add('score-cell');
+                    if (window.currentTeamId === entity.id) {
+                        scoreCell.classList.add('active-participant');
                     }
                     scoreCell.innerHTML = `
                         <div class="flex flex-col items-center">
-                            <span class="team-name text-lg font-bold flex items-center gap-1">
-                                ${getTeamIcon(index)} ${team.name}
+                            <span class="participant-name text-lg font-bold flex items-center gap-1">
+                                ${entity.name}
                             </span>
                         </div>
                         <div class="flex flex-col items-center mt-2">
                             <span class="text-sm opacity-80 mb-1">Puan</span>
-                            <span class="team-score text-3xl font-extrabold">${team.score}</span>
+                            <span class="participant-score text-3xl font-extrabold">${entity.score}</span>
                         </div>
                     `;
                     scoreTable.appendChild(scoreCell);
                 });
-                scoreBoardContainer.appendChild(scoreTable); // Append the score table to its container
+                scoreBoardContainer.appendChild(scoreTable);
 
-                const currentTurnPlayerName = window.teamScores[window.currentPlayer].name;
-                currentPlayerTurnDisplay.textContent = `Sıra: ${currentTurnPlayerName}`;
+                const currentEntity = window.teams.find(p => p.id === window.currentTeamId);
+                if (currentEntity) {
+                    currentParticipantDisplay.textContent = `Sıra: ${currentEntity.name}`;
+                } else {
+                    currentParticipantDisplay.textContent = "Sıra: Katılımcı/Takım Seçin";
+                }
             }
             if (gridInstructionMessage) {
-                const currentTurnPlayerName = window.teamScores[window.currentPlayer].name;
-                gridInstructionMessage.textContent = `Sıra ${currentTurnPlayerName}'nda. Henüz cevaplanmamış bir soru seçin.`;
+                const currentEntity = window.teams.find(p => p.id === window.currentTeamId);
+                if (currentEntity) {
+                    gridInstructionMessage.textContent = `Sıra ${currentEntity.name}'da. Henüz cevaplanmamış bir soru seçin.`;
+                } else {
+                    gridInstructionMessage.textContent = `Bir soru seçerek başlayın.`;
+                }
             }
         }
 
@@ -940,6 +1390,15 @@
          * Renders the current question, its options, and sets up the timer.
          */
         function renderCurrentQuestion() {
+            // Ensure quiz content container is visible and fullscreen overlay is active
+            quizContentContainer.classList.remove('hidden');
+            questionNavigationContainer.classList.add('hidden');
+            fullscreenOverlay.classList.remove('hidden');
+            setTimeout(() => fullscreenOverlay.classList.add('show'), 10);
+            quizContentContainer.classList.add('fullscreen-active');
+            hideFinalScore(); // Ensure final score is hidden when a question is opened
+            gridInstructionMessage.classList.add('hidden'); // Hide grid instructions
+
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
             }
@@ -950,20 +1409,20 @@
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
-            nextTurnButton.classList.add('hidden');
-            
+            nextTurnButton.classList.add('hidden'); // Hide next turn button
+
             const q = shuffledQuestions[window.currentQuestionIndex];
             
             // If the question was previously answered correctly, hide the return to grid button
             // If it's a fresh attempt or previously incorrect, show it.
-            if (window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect) {
-                returnToQuestionGridButton.classList.add('hidden');
+            if (window.answeredQuestions[q.id]) { // Only checks if correctly answered
+                returnToQuestionGridButton.classList.remove('hidden'); // Always show return to grid for review
             } else {
                 returnToQuestionGridButton.classList.remove('hidden');
             }
 
             // Check if all questions are correctly answered to show final score
-            const allCorrectlyAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect);
+            const allCorrectlyAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id]);
             if (allCorrectlyAnswered) {
                 showFinalScore();
                 return;
@@ -1018,61 +1477,45 @@
                 questionContainer.classList.remove('question-block-closed');
             }, 50);
 
-            // Check if the question was previously answered (correctly or incorrectly)
+            // Check if the question was previously answered (correctly)
             if (window.answeredQuestions[q.id]) {
                 const currentAnswerState = window.answeredQuestions[q.id]; 
-                nextTurnButton.classList.remove('hidden');
                 
                 const selectedRadio = document.querySelector(`input[name="${q.id}"][value="${currentAnswerState.userAnswer}"]`);
                 if (selectedRadio) {
                     selectedRadio.checked = true;
-                    if (!currentAnswerState.isCorrect) {
-                        const selectedLabel = selectedRadio.closest('label');
-                        if (selectedLabel) {
-                            selectedLabel.classList.add('incorrect-selected-option');
-                        }
-                    }
                 }
                 document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
-                // Determine the correct answer string for display
-                let actualAnswerValueForDisplay = q.answer;
-                if (q.type === 'trueFalse') {
-                    actualAnswerValueForDisplay = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-                }
-                displayFeedback(currentAnswerState.isCorrect, actualAnswerValueForDisplay, q.explanation);
+                // Always show correct feedback and explanation for solved questions
+                displayFeedback(true, q.answer, q.explanation); // Pass original correct answer and explanation
                 
-                // Only highlight the correct answer if the stored answer was correct
-                if (currentAnswerState.isCorrect) {
-                    let actualAnswerValue = q.answer;
-                    if (q.type === 'trueFalse') {
-                        actualAnswerValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-                    }
-                    const correctRadio = document.querySelector(`input[name="${q.id}"][value="${actualAnswerValue}"]`);
-                    if (correctRadio) {
-                        const correctLabel = correctRadio.closest('label');
-                        if (correctLabel) {
-                            correctLabel.classList.add('correct-option-highlight');
-                        }
+                let correctOptionValue = q.answer;
+                if (q.type === 'trueFalse') {
+                    correctOptionValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+                }
+                const correctRadio = document.querySelector(`input[name="${q.id}"][value="${correctOptionValue}"]`);
+                if (correctRadio) {
+                    const correctLabel = correctRadio.closest('label');
+                    if (correctLabel) {
+                        correctLabel.classList.add('correct-option-highlight');
                     }
                 }
 
-                // Use 0-indexed answeredBy to get the team name
-                const answeredByPlayerName = window.teamScores[currentAnswerState.answeredBy].name; 
-                // Calculate next player's index using modulo for 0-indexed
-                const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
-                const nextPlayerName = window.teamScores[nextPlayerIndex].name;
-                questionScreenInstructionMessage.textContent = `Bu soru ${answeredByPlayerName} tarafından cevaplandı. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
+                const answeredByTeam = window.teams.find(t => t.id === currentAnswerState.solvedByTeamId);
+                const answeredByTeamName = answeredByTeam ? answeredByTeam.name : 'Bilinmeyen Takım';
+                
+                questionScreenInstructionMessage.textContent = `Bu soru ${answeredByTeamName} tarafından doğru cevaplandı. Soru ekranına dönmek için 'Soru Ekranına Dön' butonuna tıklayın.`;
                 questionScreenInstructionMessage.classList.remove('hidden');
-
-            } else { // If the question is not in answeredQuestions, it's a fresh attempt
-                nextTurnButton.classList.add('hidden');
+                nextTurnButton.classList.add('hidden'); // No next turn if already solved
+            } else { // If the question is not in answeredQuestions, it's a fresh attempt (or previously incorrect)
                 startTimer();
-                questionScreenInstructionMessage.textContent = `Sıra sizde! Soruyu cevaplamak için süreniz var.`;
+                const currentEntity = window.teams.find(p => p.id === window.currentTeamId);
+                questionScreenInstructionMessage.textContent = `Sıra ${currentEntity ? currentEntity.name : 'sizde'}'de! Soruyu cevaplamak için süreniz var.`;
                 questionScreenInstructionMessage.classList.remove('hidden');
             }
 
-            updateScoreBoard();
+            updateParticipantDisplay();
             renderQuestionNumbers();
         }
 
@@ -1119,30 +1562,14 @@
             incorrectSynth.triggerAttackRelease("C3", "8n"); // Play incorrect sound
 
             const q = shuffledQuestions[window.currentQuestionIndex];
-            // If not already answered correctly, mark as incorrect
-            if (!window.answeredQuestions[q.id] || !window.answeredQuestions[q.id].isCorrect) {
-                // Store answeredBy as 0-indexed currentPlayer
-                const newAnswerState = { isCorrect: false, userAnswer: 'Süre Doldu', answeredBy: window.currentPlayer, timeTaken: initialTimerValue }; 
-                window.answeredQuestions[q.id] = newAnswerState;
-            }
             
             document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
-            // Determine the correct answer string for display
-            let actualAnswerValueForDisplay = q.answer;
-            if (q.type === 'trueFalse') {
-                actualAnswerValueForDisplay = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
-            }
-            displayFeedback(false, actualAnswerValueForDisplay, q.explanation);
-            
-            renderQuestionNumbers(); // This will re-render the question grid with updated states
-            // Calculate next player's index using modulo for 0-indexed
-            const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
-            const nextPlayerName = window.teamScores[nextPlayerIndex].name;
-            questionScreenInstructionMessage.textContent = `Süreyi kullandınız. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
-            questionScreenInstructionMessage.classList.remove('hidden');
-            nextTurnButton.classList.remove('hidden');
-            returnToQuestionGridButton.classList.add('hidden');
+            // Only show "Süre Doldu." feedback, no correct answer or explanation
+            displayFeedback(false, null, null); 
+
+            // After timeout, always return to leaderboard
+            window.returnToQuestionsGrid(); // This function now leads to leaderboard
         }
 
         /**
@@ -1171,9 +1598,10 @@
                 selected.closest('label').classList.add('selected-animation');
             }
 
+            const currentEntity = window.teams.find(p => p.id === window.currentTeamId);
+
             if (isCorrect) {
-                const playerIndex = window.currentPlayer; // currentPlayer is already 0-indexed
-                if (playerIndex !== -1) { // Should always be valid if game started
+                if (currentEntity) { 
                     let pointsToAdd = 0;
                     if (q.type === 'trueFalse') {
                         pointsToAdd = 5;
@@ -1181,11 +1609,10 @@
                         pointsToAdd = 10;
                     }
                     
-                    window.teamScores[playerIndex].score += pointsToAdd; // Update score for the team object
-
+                    currentEntity.score += pointsToAdd; // Update score for the team/participant
                     // Bonus points for answering quickly (within first 10 seconds)
                     if (timeTaken <= 10) {
-                        window.teamScores[playerIndex].score += 5; // Bonus 5 puan
+                        currentEntity.score += 5; // Bonus 5 puan
                     }
                 }
                 Tone.start(); // Ensure audio context is started
@@ -1204,6 +1631,8 @@
                         correctLabel.classList.add('correct-animation');
                     }
                 }
+                // Store as correctly answered
+                window.answeredQuestions[q.id] = { solvedByTeamId: window.currentTeamId, userAnswer: userAnswer, timeTaken: timeTaken };
 
             } else { // If incorrect
                 Tone.start(); // Ensure audio context is started
@@ -1214,56 +1643,33 @@
                     selectedLabel.classList.add('incorrect-selected-option');
                     selectedLabel.classList.add('incorrect-animation');
                 }
-                // DO NOT highlight the correct answer here if the answer is incorrect.
+                // Do NOT highlight correct answer if incorrect (for both modes now)
+                // Do NOT store incorrect answers in window.answeredQuestions
             }
 
-            // Store answeredBy as 0-indexed currentPlayer
-            const newAnswerState = { isCorrect: isCorrect, userAnswer: userAnswer, answeredBy: window.currentPlayer, timeTaken: timeTaken }; 
-            window.answeredQuestions[q.id] = newAnswerState;
-            
-            // Determine the correct answer string for display
-            let actualAnswerValueForDisplay = q.answer;
-            if (q.type === 'trueFalse') {
-                actualAnswerValueForDisplay = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
+            // Display feedback (with or without explanation based on game mode and correctness)
+            if (isCorrect) {
+                displayFeedback(true, q.answer, q.explanation); // Always show correct answer and explanation for correct answers
+            } else {
+                displayFeedback(false, null, null); // Only show "Yanlış" feedback for incorrect answers
             }
-            displayFeedback(isCorrect, actualAnswerValueForDisplay, q.explanation);
             
             document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
-            updateScoreBoard();
+            updateParticipantDisplay();
             renderQuestionNumbers();
-            // Calculate next player's index using modulo for 0-indexed
-            const nextPlayerIndex = (window.currentPlayer + 1) % window.numTeams;
-            const nextPlayerName = window.teamScores[nextPlayerIndex].name;
-            questionScreenInstructionMessage.textContent = `Cevaplandı. Sırayı ${nextPlayerName}'na geçirmek için 'Sonraki Oyuncu' butonuna tıklayın.`;
-            questionScreenInstructionMessage.classList.remove('hidden');
-            nextTurnButton.classList.remove('hidden');
-            returnToQuestionGridButton.classList.add('hidden');
-        }
-
-        /**
-         * Moves to the next player's turn or shows the final score if all questions are answered.
-         */
-        window.moveToNextTurn = async function() {
-            // Only consider correctly answered questions for game completion
-            const allCorrectlyAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect);
-
-            if (allCorrectlyAnswered) {
-                showFinalScore();
-                return;
-            }
-
-            // Increment currentPlayer and wrap around using modulo
-            window.currentPlayer = (window.currentPlayer + 1) % window.numTeams;
-            updateScoreBoard();
-            returnToQuestionsGrid();
+            saveTeams(); // Save updated scores
+            saveGameState(); // Save answered questions
+            
+            // Always return to leaderboard after answering
+            window.returnToQuestionsGrid(); // This function now leads to leaderboard
         }
 
         /**
          * Displays feedback (correct/incorrect) to the user.
          * @param {boolean} isCorrect - True if the answer was correct, false otherwise.
-         * @param {string} correctAnswer - The correct answer string.
-         * @param {string} explanation - The explanation for the answer.
+         * @param {string} correctAnswer - The correct answer string (optional, for individual mode).
+         * @param {string} explanation - The explanation for the answer (optional, for individual mode).
          */
         function displayFeedback(isCorrect, correctAnswer, explanation) {
             feedbackDiv.classList.add('show'); 
@@ -1273,18 +1679,15 @@
                 feedbackDiv.classList.add('correct');
                 let icon = '✅';
                 feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Doğru!`;
+                // Always show explanation for correct answers, regardless of game mode
+                if (explanation) { 
+                    feedbackDiv.innerHTML += `<p class="explanation-text">${explanation}</p>`;
+                }
             } else {
                 feedbackDiv.classList.add('incorrect');
                 let icon = '❌';
                 feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Yanlış.`;
-                
-                // Only show correct answer and explanation in single-player mode
-                if (window.numTeams === 1) {
-                    feedbackDiv.innerHTML += `<p class="explanation-text">Doğru Cevap: <strong>${correctAnswer}</strong></p>`;
-                    if (explanation) {
-                        feedbackDiv.innerHTML += `<p class="explanation-text">${explanation}</p>`;
-                    }
-                }
+                // Do NOT show correct answer or explanation for incorrect answers
             }
             feedbackDiv.classList.add('animate-in');
         }
@@ -1295,37 +1698,25 @@
         function renderQuestionNumbers() {
             questionNavigationContainer.innerHTML = '';
             
-            // Create a temporary array for display and shuffle it
-            const questionsForDisplay = [...shuffledQuestions]; // Create a copy
-            shuffleArray(questionsForDisplay); // Shuffle the copy for display order
+            const questionsForDisplay = [...shuffledQuestions]; 
 
-            questionsForDisplay.forEach((q, displayIndex) => { // Use displayIndex for visual numbering
+            questionsForDisplay.forEach((q, displayIndex) => { 
                 const navItem = document.createElement('span');
                 navItem.classList.add('question-nav-item');
-                navItem.textContent = displayIndex + 1; // Display sequential number based on current shuffled order
+                navItem.textContent = displayIndex + 1; 
                 
-                // Store the original question ID to retrieve it later
                 navItem.dataset.questionId = q.id; 
 
-                // Check if the question is answered
+                // Check if the question is correctly answered
                 if (window.answeredQuestions[q.id]) {
-                    if (window.answeredQuestions[q.id].isCorrect) {
-                        navItem.classList.add('answered-correctly');
-                        // Correctly answered questions are still clickable for review, but not for re-attempt
-                        navItem.onclick = () => {
-                            selectQuestionById(q.id);
-                        };
-                    } else {
-                        // Incorrectly answered questions now look like unanswered ones
-                        // and are clickable to re-attempt
-                        navItem.onclick = () => {
-                            selectQuestionById(q.id);
-                        };
-                    }
-                } else {
-                    // Unanswered questions are clickable
+                    navItem.classList.add('answered-correctly');
                     navItem.onclick = () => {
-                        selectQuestionById(q.id);
+                        window.selectQuestionById(q.id); // Allow reviewing correctly answered questions
+                    };
+                } else {
+                    // Unanswered or incorrectly answered questions are clickable
+                    navItem.onclick = () => {
+                        window.selectQuestionById(q.id);
                     };
                 }
 
@@ -1347,85 +1738,63 @@
         window.selectQuestionById = function(questionId) {
             const originalIndex = shuffledQuestions.findIndex(q => q.id === questionId);
             if (originalIndex !== -1) {
-                // Now call the existing selectQuestion with the original index
-                selectQuestion(originalIndex);
+                const selectedQuestion = shuffledQuestions[originalIndex];
+                window.currentQuestionIndex = originalIndex; // Set current question index immediately
+
+                // In this new flow, we always assume a participant is selected before reaching unit selection
+                // So, we can directly render the question.
+                renderCurrentQuestion();
             } else {
                 console.error("Question with ID not found:", questionId);
             }
         };
 
         /**
-         * Selects a question by its index and renders it.
-         * @param {number} index - The index of the question in the shuffledQuestions array.
-         */
-        window.selectQuestion = function(index) {
-            window.currentQuestionIndex = index; // This is the original index in shuffledQuestions
-            const q = shuffledQuestions[window.currentQuestionIndex];
-
-            // If the question was previously answered INCORRECTLY, clear its state to allow re-attempt
-            if (window.answeredQuestions[q.id] && !window.answeredQuestions[q.id].isCorrect) {
-                delete window.answeredQuestions[q.id];
-            }
-            
-            // If the question is already correctly answered, just display it for review
-            if (window.answeredQuestions[q.id] && window.answeredQuestions[q.id].isCorrect) {
-                quizContentContainer.classList.remove('hidden');
-                questionNavigationContainer.classList.add('hidden');
-                
-                fullscreenOverlay.classList.remove('hidden');
-                setTimeout(() => fullscreenOverlay.classList.add('show'), 10);
-                quizContentContainer.classList.add('fullscreen-active');
-
-                renderCurrentQuestion(); // This will render it as a reviewed question
-                hideFinalScore();
-                gridInstructionMessage.classList.add('hidden');
-                questionScreenInstructionMessage.classList.add('hidden');
-                return;
-            }
-
-            // For unanswered or re-attempted (previously incorrect) questions
-            quizContentContainer.classList.remove('hidden');
-            questionNavigationContainer.classList.add('hidden');
-            
-            fullscreenOverlay.classList.remove('hidden');
-            setTimeout(() => fullscreenOverlay.classList.add('show'), 10);
-            quizContentContainer.classList.add('fullscreen-active');
-
-            renderCurrentQuestion();
-            hideFinalScore();
-            gridInstructionMessage.classList.add('hidden');
-            questionScreenInstructionMessage.classList.add('hidden');
-        }
-
-        /**
-         * Returns to the question grid view from the quiz content.
+         * Returns to the participant management screen (leaderboard) from the quiz content or question grid.
+         * This function replaces the old returnToQuestionsGrid.
          */
         window.returnToQuestionsGrid = function() {
             quizContentContainer.classList.add('hidden');
-            questionNavigationContainer.classList.remove('hidden');
+            questionNavigationContainer.classList.add('hidden'); // Hide question navigation
+            gamePanel.classList.add('hidden'); // Hide game panel
             if (questionCounterDisplay) {
-                questionCounterDisplay.classList.remove('hidden');
+                questionCounterDisplay.classList.add('hidden');
             }
-            renderQuestionNumbers(); // Re-render to shuffle and update states
             hideFinalScore();
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
-            nextTurnButton.classList.add('hidden');
-            returnToQuestionGridButton.classList.add('hidden'); // Hide this button when returning to grid
             
-            nextTurnButton.textContent = "Sonraki Oyuncu";
-            nextTurnButton.onclick = window.moveToNextTurn;
-
-            updateScoreBoard();
-            gridInstructionMessage.classList.remove('hidden');
+            // Go back to participant management screen
+            participantManagementScreen.classList.remove('hidden');
+            renderLeaderboard(); // Update leaderboard
+            updateParticipantDisplay(); // Update current participant display on leaderboard screen
+            gridInstructionMessage.classList.add('hidden'); // Hide grid instructions
             questionScreenInstructionMessage.classList.add('hidden');
+            nextTurnButton.classList.add('hidden'); // Hide next turn button
 
-            setGameBackground(window.currentUnit);
+            setGameBackground('general');
 
             fullscreenOverlay.classList.remove('show');
             setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
             quizContentContainer.classList.remove('fullscreen-active');
         }
+
+        /**
+         * Moves to the next team's turn in team mode.
+         * This function is now largely unused in the new individual-focused flow.
+         */
+        window.moveToNextTurn = function() {
+            if (window.gameMode === 'team') {
+                const currentTeamIndex = window.teams.findIndex(t => t.id === window.currentTeamId);
+                const nextTeamIndex = (currentTeamIndex + 1) % window.teams.length;
+                window.currentTeamId = window.teams[nextTeamIndex].id;
+                // After moving to next turn, return to question grid (which now goes to leaderboard)
+                window.returnToQuestionsGrid(); // Call the global function
+            } else {
+                // In individual mode, this button is hidden, but if somehow clicked, go to leaderboard
+                window.returnToQuestionsGrid(); // Call the global function
+            }
+        };
 
         /**
          * Displays the final score screen.
@@ -1436,10 +1805,10 @@
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
             returnToQuestionGridButton.classList.add('hidden');
+            nextTurnButton.classList.add('hidden'); // Hide next turn button on final score
 
             finalScoreContainer.classList.remove('hidden');
             resetGameButton.classList.remove('hidden');
-            nextTurnButton.classList.add('hidden');
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
             setGameBackground(window.currentUnit);
@@ -1449,54 +1818,53 @@
             quizContentContainer.classList.remove('fullscreen-active');
 
             let maxScore = 0;
-            for (let i = 0; i < window.numTeams; i++) {
-                if (window.teamScores[i].score > maxScore) { // Access score property
-                    maxScore = window.teamScores[i].score;
-                }
+            if (window.teams.length > 0) {
+                maxScore = Math.max(...window.teams.map(p => p.score));
             }
 
             let winners = [];
-            for (let i = 0; i < window.numTeams; i++) {
-                if (window.teamScores[i].score === maxScore) { // Access score property
-                    winners.push(window.teamScores[i].name); 
-                }
+            if (window.teams.length > 0) {
+                winners = window.teams.filter(p => p.score === maxScore);
             }
 
             let winnerMessage = '';
             if (winners.length === 1) {
-                winnerMessage = `${winners[0]} kazandı! 🎉`;
+                winnerMessage = `${winners[0].name} kazandı! 🎉`;
                 overallResultDiv.classList.add('correct');
                 overallResultDiv.classList.remove('incorrect');
             } else if (winners.length > 1) {
-                winnerMessage = `${winners.join(' ve ')} berabere kaldı! 🤝`;
+                winnerMessage = `${winners.map(p => p.name).join(' ve ')} berabere kaldı! 🤝`;
                 overallResultDiv.classList.remove('correct', 'incorrect');
             } else {
-                winnerMessage = `Oyun berabere bitti! 🤝`;
+                winnerMessage = `Henüz kimse puan alamadı.`; // Should not happen if game is played
                 overallResultDiv.classList.remove('correct', 'incorrect');
             }
 
-            // Render final team scores in the new table format
-            finalTeamScoresDisplay.innerHTML = ''; // Clear previous content
+            // Render final participant/team scores in the new table format
+            finalParticipantScoresDisplay.innerHTML = ''; // Clear previous content
             const finalScoreTable = document.createElement('div');
             finalScoreTable.classList.add('score-table');
 
-            window.teamScores.forEach((team, index) => {
+            // Sort participants/teams by score for final display
+            const sortedEntities = [...window.teams].sort((a, b) => b.score - a.score);
+
+            sortedEntities.forEach((entity) => {
                 const scoreCell = document.createElement('div');
-                scoreCell.classList.add('score-cell', teamColors[index % teamColors.length]);
+                scoreCell.classList.add('score-cell');
                 scoreCell.innerHTML = `
                     <div class="flex flex-col items-center">
-                        <span class="team-name text-lg font-bold flex items-center gap-1">
-                            ${getTeamIcon(index)} ${team.name}
+                        <span class="participant-name text-lg font-bold flex items-center gap-1">
+                            ${entity.name}
                         </span>
                     </div>
                     <div class="flex flex-col items-center mt-2">
                         <span class="text-sm opacity-80 mb-1">Puan</span>
-                        <span class="team-score text-3xl font-extrabold">${team.score}</span>
+                        <span class="participant-score text-3xl font-extrabold">${entity.score}</span>
                     </div>
                 `;
                 finalScoreTable.appendChild(scoreCell);
             });
-            finalTeamScoresDisplay.appendChild(finalScoreTable);
+            finalParticipantScoresDisplay.appendChild(finalScoreTable);
 
 
             overallResultDiv.innerHTML = `<p class="mt-4 text-xl font-bold">${winnerMessage}</p>`;
@@ -1525,29 +1893,36 @@
         }
         
         /**
-         * Resets the game to its initial state (main menu).
+         * Resets the game to its initial state (participant management screen) and clears all data.
          */
         window.resetGame = function() {
-            window.teamScores = [];
-            window.numTeams = 0;
-            window.currentPlayer = 0;
+            window.teams = []; // Clear all teams/participants for a full reset
+            window.currentTeamId = null;
             window.currentQuestionIndex = 0;
             window.answeredQuestions = {};
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
             shuffledQuestions = [];
             window.currentUnit = null;
+            window.gameMode = null; // Reset game mode
+            window.selectedQuestionIdForModal = null; // Reset this too
+
+            localStorage.removeItem(LOCAL_STORAGE_KEY_TEAMS);
+            localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_UNIT);
+            localStorage.removeItem(LOCAL_STORAGE_KEY_GAME_MODE);
+            localStorage.removeItem(LOCAL_STORAGE_KEY_ANSWERED_QUESTIONS);
 
             quizContentContainer.classList.add('hidden');
             hideFinalScore();
             questionNavigationContainer.classList.add('hidden');
             gamePanel.classList.add('hidden');
-            playerSelectionScreen.classList.add('hidden');
-            teamNameInputScreen.classList.add('hidden'); // Hide team name input screen
-            mainMenuScreen.classList.remove('hidden');
+            unitSelectionScreen.classList.add('hidden'); // Ensure unit selection is hidden
+            gameModeSelectionScreen.classList.add('hidden'); // Ensure game mode selection is hidden
+            participantManagementScreen.classList.remove('hidden'); // Show participant management
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
             returnToQuestionGridButton.classList.add('hidden');
+            nextTurnButton.classList.add('hidden'); // Hide next turn button
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
             }
@@ -1557,43 +1932,48 @@
             setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
             quizContentContainer.classList.remove('fullscreen-active');
 
-            if (currentPlayerTurnDisplay) {
-                // Set default text for display, will be updated on game start
-                currentPlayerTurnDisplay.textContent = "Sıra: Takım 1"; 
-                // Remove specific classes that might be applied during game
-                currentPlayerTurnDisplay.classList.remove('text-gray-600', 'font-normal');
-                currentPlayerTurnDisplay.classList.add('current-turn');
+            if (currentParticipantDisplay) {
+                currentParticipantDisplay.textContent = "Sıra: Katılımcı/Takım Seçin"; 
+                currentParticipantDisplay.classList.remove('text-gray-600', 'font-normal');
+                currentParticipantDisplay.classList.add('current-participant-display');
             }
-            if (scoreBoardContainer) {
-                scoreBoardContainer.classList.remove('hidden');
-            }
+            // Removed: if (scoreBoardContainer) { scoreBoardContainer.classList.remove('hidden'); }
+            renderLeaderboard(); // Re-render empty leaderboard
             applyButtonColors();
         }
 
         /**
-         * Returns to the main menu (unit selection screen).
+         * Returns to the participant management screen.
          */
         window.returnToMainMenu = function() {
-            window.teamScores = [];
-            window.numTeams = 0;
-            window.currentPlayer = 0;
+            // This function now acts as 'return to participant management'
+            // It resets the *current game session* state but keeps participant data.
+            window.currentTeamId = null;
             window.currentQuestionIndex = 0;
-            window.answeredQuestions = {};
+            window.answeredQuestions = {}; // Clear answered questions for this session
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
             shuffledQuestions = [];
             window.currentUnit = null;
+            window.gameMode = null;
+            window.selectedQuestionIdForModal = null;
+
+            // Don't clear localStorage here, only resetGame() does that
+            localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_UNIT);
+            localStorage.removeItem(LOCAL_STORAGE_KEY_GAME_MODE);
+            localStorage.removeItem(LOCAL_STORAGE_KEY_ANSWERED_QUESTIONS);
 
             quizContentContainer.classList.add('hidden');
             hideFinalScore();
             questionNavigationContainer.classList.add('hidden');
             gamePanel.classList.add('hidden');
-            playerSelectionScreen.classList.add('hidden');
-            teamNameInputScreen.classList.add('hidden'); // Hide team name input screen
-            mainMenuScreen.classList.remove('hidden');
+            unitSelectionScreen.classList.add('hidden');
+            gameModeSelectionScreen.classList.add('hidden');
+            participantManagementScreen.classList.remove('hidden'); // Show participant management
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
             returnToQuestionGridButton.classList.add('hidden');
+            nextTurnButton.classList.add('hidden');
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
             }
@@ -1603,18 +1983,38 @@
             setTimeout(() => fullscreenOverlay.classList.add('hidden'), 300);
             quizContentContainer.classList.remove('fullscreen-active');
 
-            if (currentPlayerTurnDisplay) {
-                // Set default text for display, will be updated on game start
-                currentPlayerTurnDisplay.textContent = "Sıra: Takım 1"; 
-                // Remove specific classes that might be applied during game
-                currentPlayerTurnDisplay.classList.remove('text-gray-600', 'font-normal');
-                currentPlayerTurnDisplay.classList.add('current-turn');
+            if (currentParticipantDisplay) {
+                currentParticipantDisplay.textContent = "Sıra: Katılımcı/Takım Seçin"; 
+                currentParticipantDisplay.classList.remove('text-gray-600', 'font-normal');
+                currentParticipantDisplay.classList.add('current-participant-display');
             }
-            if (scoreBoardContainer) {
-                scoreBoardContainer.classList.remove('hidden');
-            }
+            // Removed: if (scoreBoardContainer) { scoreBoardContainer.classList.remove('hidden'); }
+            renderLeaderboard(); // Re-render leaderboard with current scores
             applyButtonColors();
         }
+
+        /**
+         * Returns to the unit selection screen from game mode selection.
+         * This function is now only called if explicitly navigated to, not from unit selection in the main flow.
+         */
+        window.returnToUnitSelection = function() { // Made global
+            gameModeSelectionScreen.classList.add('hidden');
+            unitSelectionScreen.classList.remove('hidden');
+            gameModeMessage.classList.add('hidden');
+            setGameBackground('general');
+            window.hideParticipantSelectionModal(); // Call the global function
+            window.hideTeamSetupModal(); // Call the global function
+        };
+
+        /**
+         * Returns to the participant management screen from unit selection.
+         */
+        window.returnToParticipantManagement = function() {
+            unitSelectionScreen.classList.add('hidden');
+            participantManagementScreen.classList.remove('hidden');
+            setGameBackground('general');
+            renderLeaderboard(); // Re-render leaderboard
+        };
 
         /**
          * Applies specific Tailwind CSS classes for button colors and shadows.
@@ -1630,9 +2030,8 @@
                     'bg-indigo-600', 'hover:bg-indigo-700', 'shadow-indigo-500/50',
                     'bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50',
                     'bg-teal-600', 'hover:bg-teal-700', 'shadow-teal-500/50',
-                    // Add all team colors here too if they are used on buttons
-                    'bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-purple-500',
-                    'bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50' // For the new button
+                    'bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50',
+                    'bg-orange-600', 'hover:bg-orange-700', 'shadow-orange-500/50'
                 ];
                 element.classList.remove(...allColors);
             };
@@ -1648,28 +2047,44 @@
                 ['bg-teal-600', 'hover:bg-teal-700', 'shadow-teal-500/50']
             ];
 
-            const unitButtons = document.querySelectorAll('#main-menu-screen .action-button'); 
+            const unitButtons = document.querySelectorAll('#unit-selection-screen .action-button'); 
             unitButtons.forEach((button, index) => {
                 removeAllButtonColors(button);
                 button.classList.add(...buttonColorSets[index % buttonColorSets.length]);
             });
 
-            const teamButtons = document.querySelectorAll('#player-selection-screen .action-button');
-            teamButtons.forEach((button, index) => {
-                removeAllButtonColors(button);
-                button.classList.add(...buttonColorSets[index % buttonColorSets.length]);
-            });
-
-            const startQuizButton = document.getElementById('start-quiz-button');
-            if (startQuizButton) {
-                removeAllButtonColors(startQuizButton);
-                startQuizButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+            // Participant Management Screen buttons
+            if (addNewParticipantMainButton) {
+                removeAllButtonColors(addNewParticipantMainButton);
+                addNewParticipantMainButton.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50');
+            }
+            if (showRegisteredUsersButton) {
+                removeAllButtonColors(showRegisteredUsersButton);
+                showRegisteredUsersButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+            }
+            if (goToMainSiteButton) {
+                removeAllButtonColors(goToMainSiteButton);
+                goToMainSiteButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
             }
 
-            if (nextTurnButton) {
-                removeAllButtonColors(nextTurnButton);
-                nextTurnButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+            // Game mode selection buttons
+            const individualModeButton = document.getElementById('individual-mode-button');
+            if (individualModeButton) {
+                removeAllButtonColors(individualModeButton);
+                individualModeButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
             }
+            const teamModeButton = document.getElementById('team-mode-button');
+            if (teamModeButton) {
+                removeAllButtonColors(teamModeButton);
+                teamModeButton.classList.add('bg-purple-600', 'hover:bg-purple-700', 'shadow-purple-500/50');
+            }
+            const returnToUnitSelectionButton = document.getElementById('return-to-unit-selection-button');
+            if (returnToUnitSelectionButton) {
+                removeAllButtonColors(returnToUnitSelectionButton);
+                returnToUnitSelectionButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
+            }
+
+            // Game panel buttons
             if (returnToQuestionGridButton) {
                 removeAllButtonColors(returnToQuestionGridButton);
                 returnToQuestionGridButton.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50');
@@ -1687,34 +2102,61 @@
                 removeAllButtonColors(finalReturnButton);
                 finalReturnButton.classList.add('bg-orange-600', 'hover:bg-orange-700', 'shadow-orange-500/50');
             }
-            // Apply color to the new "Siteye Dön" button
-            if (goToMainSiteButton) {
-                removeAllButtonColors(goToMainSiteButton);
-                goToMainSiteButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
-            }
-            // Apply color to the other "Siteye Dön" buttons
             const goToMainSiteButtons = document.querySelectorAll('[id^="go-to-main-site-button-"]');
             goToMainSiteButtons.forEach(button => {
                 removeAllButtonColors(button);
                 button.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
             });
+
+            // Modal buttons
+            if (nextTurnButton) {
+                removeAllButtonColors(nextTurnButton);
+                nextTurnButton.classList.add('bg-yellow-600', 'hover:bg-yellow-700', 'shadow-yellow-500/50');
+            }
+            const generateTeamNamesButton = document.getElementById('generate-team-names-button');
+            if (generateTeamNamesButton) {
+                removeAllButtonColors(generateTeamNamesButton);
+                generateTeamNamesButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+            }
+            const submitTeamSetupButton = document.getElementById('submit-team-setup-button');
+            if (submitTeamSetupButton) {
+                removeAllButtonColors(submitTeamSetupButton);
+                submitTeamSetupButton.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50');
+            }
+            const cancelTeamSetupButton = document.getElementById('cancel-team-setup-button');
+            if (cancelTeamSetupButton) {
+                removeAllButtonColors(cancelTeamSetupButton);
+                cancelTeamSetupButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
+            }
+            const selectExistingParticipantButtonElement = document.getElementById('select-existing-participant-button');
+            if (selectExistingParticipantButtonElement) {
+                removeAllButtonColors(selectExistingParticipantButtonElement);
+                selectExistingParticipantButtonElement.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+            }
+            const returnToParticipantManagementFromUnitButton = document.getElementById('return-to-participant-management-from-unit');
+            if (returnToParticipantManagementFromUnitButton) {
+                removeAllButtonColors(returnToParticipantManagementFromUnitButton);
+                returnToParticipantManagementFromUnitButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
+            }
         }
 
         // Initial setup on page load
         window.onload = async function() { 
             // Assign DOM elements here to ensure they are loaded
-            mainMenuScreen = document.getElementById('main-menu-screen');
-            playerSelectionScreen = document.getElementById('player-selection-screen'); 
-            teamNameInputScreen = document.getElementById('team-name-input-screen'); // New assignment
-            teamNameInputsContainer = document.getElementById('team-name-inputs-container'); // New assignment
+            participantManagementScreen = document.getElementById('participant-management-screen');
+            leaderboardContainer = document.getElementById('leaderboard-container');
+            newParticipantNameInputMain = document.getElementById('new-participant-name-input-main');
+            addNewParticipantMainButton = document.getElementById('add-new-participant-main-button');
+            showRegisteredUsersButton = document.getElementById('show-registered-users-button');
+            unitSelectionScreen = document.getElementById('unit-selection-screen');
+            gameModeSelectionScreen = document.getElementById('game-mode-selection-screen');
+            gameModeMessage = document.getElementById('game-mode-message');
             gamePanel = document.getElementById('game-panel');
-            scoreBoardContainer = document.getElementById('score-board-container'); // Updated ID
-            currentPlayerTurnDisplay = document.getElementById('current-player-turn');
+            scoreBoardContainer = document.getElementById('score-board-container');
+            currentParticipantDisplay = document.getElementById('current-participant-display');
             quizContentContainer = document.getElementById('quiz-content');
             questionContainer = document.getElementById('current-question-container');
             feedbackDiv = document.getElementById('current-question-feedback');
-            nextTurnButton = document.getElementById('next-turn-button'); 
-            
             finalScoreContainer = document.getElementById('final-score-container');
             overallResultDiv = document.getElementById('overall-result');
             resetGameButton = document.getElementById('reset-game-button');
@@ -1726,31 +2168,32 @@
             fullscreenOverlay = document.getElementById('fullscreen-overlay');
             returnToMainMenuGridButton = document.getElementById('return-to-main-menu-grid-button');
             returnToQuestionGridButton = document.getElementById('return-to-question-grid-button');
-            finalTeamScoresDisplay = document.getElementById('final-team-scores-display'); // New element
-            goToMainSiteButton = document.getElementById('go-to-main-site-button'); // Get the new button
+            finalParticipantScoresDisplay = document.getElementById('final-participant-scores-display');
+            goToMainSiteButton = document.getElementById('go-to-main-site-button');
+            participantSelectionModal = document.getElementById('participant-selection-modal');
+            existingParticipantsButtonsContainer = document.getElementById('existing-participants-buttons');
+            selectExistingParticipantButton = document.getElementById('select-existing-participant-button');
+            nextTurnButton = document.getElementById('next-turn-button');
+            teamSetupModal = document.getElementById('team-setup-modal');
+            numTeamsInput = document.getElementById('num-teams-input');
+            teamNameInputsContainer = document.getElementById('team-name-inputs-container');
 
-            // Initially hide all game-related panels and show main menu
-            if (gamePanel) {
-                gamePanel.classList.add('hidden');
-            }
-            if (playerSelectionScreen) {
-                playerSelectionScreen.classList.add('hidden');
-            }
-            if (teamNameInputScreen) { // Hide new screen
-                teamNameInputScreen.classList.add('hidden');
-            }
-            if (mainMenuScreen) {
-                mainMenuScreen.classList.remove('hidden');
-            }
-            if (questionCounterDisplay) {
-                questionCounterDisplay.classList.add('hidden');
-            }
-            if (returnToQuestionGridButton) {
-                returnToQuestionGridButton.classList.add('hidden');
-            }
+            // Load teams and game state
+            loadTeams();
+            loadGameState();
 
+            // Initially show participant management screen and hide all others
+            participantManagementScreen.classList.remove('hidden');
+            unitSelectionScreen.classList.add('hidden');
+            gameModeSelectionScreen.classList.add('hidden');
+            gamePanel.classList.add('hidden');
+            questionCounterDisplay.classList.add('hidden');
+            returnToQuestionGridButton.classList.add('hidden');
+            nextTurnButton.classList.add('hidden');
+            teamSetupModal.classList.add('hidden');
+            
             setGameBackground('general');
-
+            renderLeaderboard(); // Render leaderboard on initial load
             applyButtonColors();
 
             // Initialize Tone.js synthesizers
@@ -1765,51 +2208,89 @@
                     window.location.href = 'https://ozeme42.github.io/yunus/index.html';
                 });
             });
+
+            // Add event listeners for modal close buttons
+            document.getElementById('close-participant-modal').addEventListener('click', window.hideParticipantSelectionModal); // Call the global function
+            document.getElementById('close-team-modal').addEventListener('click', window.hideTeamSetupModal); // Call the global function
         };
     </script>
 </head>
 <body>
     <div id="fullscreen-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden opacity-0 transition-opacity duration-300"></div>
 
+    <div id="participant-selection-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-participant-modal" class="modal-close-button">✖</button>
+            <h3>Kayıtlı Katılımcı Seçimi</h3>
+            <div id="existing-participants-buttons" class="mb-4">
+                </div>
+            <div class="button-group mt-6">
+                <button id="select-existing-participant-button" class="action-button" onclick="selectExistingParticipant()">Seç ve Başla</button>
+                <button id="cancel-participant-selection-button" class="action-button" onclick="window.hideParticipantSelectionModal()">İptal Et</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="team-setup-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-team-modal" class="modal-close-button">✖</button>
+            <h3>Takım Ayarları</h3>
+            <label for="num-teams-input" class="block text-gray-700 text-lg font-medium mb-2">Takım Sayısı (2-10):</label>
+            <input type="number" id="num-teams-input" class="w-full p-2 border rounded mb-4" min="2" max="10" value="2" onchange="generateTeamNameInputs()">
+            <div class="button-group mb-4">
+                <button id="generate-team-names-button" class="action-button" onclick="generateTeamNameInputs()">İsimleri Oluştur</button>
+            </div>
+            <div id="team-name-inputs-container" class="team-name-inputs">
+                </div>
+            <div class="button-group mt-6">
+                <button id="submit-team-setup-button" class="action-button" onclick="submitTeamSetup()">Oyuna Başla</button>
+                <button id="cancel-team-setup-button" class="action-button" onclick="window.returnToUnitSelection()">İptal Et</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Din Kültürü ve Ahlak Bilgisi Bilgi Yarışması</h1>
 
-        <div id="main-menu-screen" class="player-selection-screen">
+        <div id="participant-management-screen" class="player-selection-screen">
+            <h2>Öğrenciler</h2>
+            <div id="leaderboard-container" class="score-table-container">
+                </div>
+
+            <div class="w-full max-w-md">
+                <input type="text" id="new-participant-name-input-main" class="w-full p-3 border-2 border-gray-300 rounded-lg text-lg mb-4 focus:outline-none focus:border-blue-500" placeholder="Yeni Öğrenci Adı">
+                <button id="add-new-participant-main-button" class="action-button w-full mb-4" onclick="addNewParticipantAndProceed()">Yeni Öğrenci Ekle ve Başla</button>
+                <button id="show-registered-users-button" class="action-button w-full" onclick="showRegisteredUsersScreen()">Kayıtlı Öğrenci Seç</button>
+            </div>
+            <button id="go-to-main-site-button" class="action-button mt-8">Siteye Dön</button>
+        </div>
+
+        <div id="unit-selection-screen" class="player-selection-screen hidden">
             <h2>Ünite Seçimi</h2>
-            <div class="team-selection-buttons">
+            <div class="selection-buttons">
                 <button class="action-button" onclick="selectUnit('unit1')">1. Ünite: Melek ve Ahiret İnancı</button>
                 <button class="action-button" onclick="selectUnit('unit2')">2. Ünite: Hac ve Kurban</button>
                 <button class="action-button" onclick="selectUnit('unit3')">3. Ünite: Ahlaki Davranışlar</button>
                 <button class="action-button" onclick="selectUnit('unit4')">4. Ünite: Allah'ın Kulu ve Elçisi Hz. Muhammed (s.a.v.)</button>
                 <button class="action-button" onclick="selectUnit('unit5')">5. Ünite: İslam Düşüncesinde Yorumlar</button>
             </div>
-            <button id="go-to-main-site-button" class="action-button mt-8">Siteye Dön</button>
+            <button id="return-to-participant-management-from-unit" class="action-button mt-8" onclick="returnToParticipantManagement()">Geri Dön</button>
         </div>
 
-        <div id="player-selection-screen" class="player-selection-screen hidden">
-            <h2>Kaç Takım Oynayacak?</h2>
-            <div class="team-selection-buttons">
-                <button class="action-button" onclick="selectNumTeams(1)">1 Takım</button>
-                <button class="action-button" onclick="selectNumTeams(2)">2 Takım</button>
-                <button class="action-button" onclick="selectNumTeams(3)">3 Takım</button>
-                <button class="action-button" onclick="selectNumTeams(4)">4 Takım</button>
-                <button class="action-button" onclick="selectNumTeams(5)">5 Takım</button>
+        <div id="game-mode-selection-screen" class="player-selection-screen hidden">
+            <h2>Oyun Modu Seçimi</h2>
+            <div class="selection-buttons">
+                <button id="individual-mode-button" class="action-button" onclick="selectGameMode('individual')">Bireysel Oyna</button>
+                <button id="team-mode-button" class="action-button" onclick="selectGameMode('team')">Takımlı Oyna</button>
             </div>
-            <button id="go-to-main-site-button-player-selection" class="action-button mt-8">Siteye Dön</button>
-        </div>
-
-        <div id="team-name-input-screen" class="player-selection-screen hidden">
-            <h2>Takım Adlarını Belirle</h2>
-            <div id="team-name-inputs-container" class="team-name-input-group">
-                </div>
-            <button id="start-quiz-button" class="action-button" onclick="setTeamNames()">Başla</button>
-            <button id="go-to-main-site-button-team-name" class="action-button mt-8">Siteye Dön</button>
+            <p id="game-mode-message" class="text-red-500 font-bold mt-4 hidden"></p>
+            <button id="return-to-unit-selection-button" class="action-button mt-8" onclick="window.returnToUnitSelection()">Ünite Seçimine Dön</button>
         </div>
 
         <div id="game-panel" class="hidden">
             <div id="score-board-container" class="score-table-container">
                 </div>
-            <div id="current-player-turn" class="current-turn">Sıra: A Takımı</div>
+            <div id="current-participant-display" class="current-participant-display">Sıra: Katılımcı Seçin</div>
 
             <div id="grid-instruction-message" class="text-center text-md font-medium text-gray-700 mb-4"></div>
             <div id="question-navigation" class="question-navigation">
@@ -1829,15 +2310,15 @@
                 </div>
                 <div id="current-question-feedback" class="feedback-message"></div>
                 <div class="button-group mt-4">
-                    <button id="next-turn-button" class="action-button hidden" onclick="moveToNextTurn()">Sonraki Oyuncu</button>
-                    <button id="return-to-question-grid-button" class="action-button hidden" onclick="returnToQuestionsGrid()">Soru Ekranına Dön</button>
+                    <button id="next-turn-button" class="action-button next-button hidden" onclick="moveToNextTurn()">Sonraki Oyuncu</button>
+                    <button id="return-to-question-grid-button" class="action-button return-button" onclick="window.returnToQuestionsGrid()">Soru Ekranına Dön</button>
                 </div>
                 <div id="question-screen-instruction-message" class="text-center text-md font-medium text-gray-700 mt-2 hidden"></div>
             </div>
 
             <div id="final-score-container" class="hidden">
                 <div id="overall-result" class="feedback-message"></div>
-                <div id="final-team-scores-display" class="score-table-container"></div>
+                <div id="final-participant-scores-display" class="score-table-container"></div>
                 <button id="reset-game-button" class="action-button" onclick="resetGame()">Yeniden Başla</button>
                 <button id="return-to-main-menu-from-final-button" class="action-button mt-4" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
                 <button id="go-to-main-site-button-final" class="action-button mt-4">Siteye Dön</button>
