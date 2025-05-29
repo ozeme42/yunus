@@ -593,238 +593,2749 @@
         }
 
         const unitQuestions = {
-    'unit1': [
-        { id: 'u1_tf1', type: 'trueFalse', question: "Evrendeki her şey tesadüfen oluşmuştur.", answer: "Y", explanation: "Evrendeki mükemmel düzen, bir yaratıcının varlığını gösterir.", theme: 'unit1', relatedConcept: "Allah'ın Varlığı" },
-        { id: 'u1_tf2', type: 'trueFalse', question: "Allah (cc) birdir ve eşi benzeri yoktur.", answer: "D", explanation: "Tevhit inancı, Allah'ın birliğini ifade eder.", theme: 'unit1', relatedConcept: "Tevhit" },
-        { id: 'u1_tf3', type: 'trueFalse', question: "Esma-ül Hüsna, Allah'ın güzel isimleridir.", answer: "D", explanation: "Esma-ül Hüsna, Allah'ın yüce sıfatlarını ve isimlerini ifade eder.", theme: 'unit1', relatedConcept: "Esma-ül Hüsna" },
-        { id: 'u1_tf4', type: 'trueFalse', question: "İhlas Suresi, Allah'ın birliğini anlatır.", answer: "D", explanation: "İhlas Suresi, Allah'ın tek ve benzersiz olduğunu vurgular.", theme: 'unit1', relatedConcept: "İhlas Suresi" },
-        { id: 'u1_tf5', type: 'trueFalse', question: "Allah'ın her şeyi görmesi ve bilmesi O'nın her şeye gücünün yettiğini gösterir.", answer: "D", explanation: "Allah'ın görmesi ve bilmesi, O'nın ilim ve basar sıfatlarıyla ilgilidir.", theme: 'unit1', relatedConcept: "Allah'ın Sıfatları" },
-        { id: 'u1_tf6', type: 'trueFalse', question: "İnsan, Allah'ı sadece akıl yoluyla tam olarak kavrayabilir.", answer: "Y", explanation: "İnsan, Allah'ı akıl yoluyla anlayabilir ancak O'nun yüceliğini ve sıfatlarını tam olarak kavramak için vahye de ihtiyacı duyar.", theme: 'unit1', relatedConcept: "Vahiy" },
-        { id: 'u1_tf7', type: 'trueFalse', question: "Allah'ın 'Rahman' ismi, O'nun çok merhametli olduğunu ifade eder.", answer: "D", explanation: "Rahman, Allah'ın dünyadaki tüm canlılara şefkatle muamele ettiğini gösteren ismidir.", theme: 'unit1', relatedConcept: "Rahman" },
-        { id: 'u1_tf8', type: 'trueFalse', question: "Allah'ın 'Semi' ismi, O'nın her şeyi işittiği anlamına gelir.", answer: "D", explanation: "Semi, Allah'ın her sesi, her fısıltıyı işittiğini ifade eden ismidir.", theme: 'unit1', relatedConcept: "Semi" },
-        { id: 'u1_tf9', type: 'trueFalse', question: "Evrendeki düzenin bozulması, Allah'ın varlığını etkilemez.", answer: "D", explanation: "Evrendeki düzen, Allah'ın varlığının bir delilidir, ancak düzenin bozulması Allah'ın kudretini veya varlığını etkilemez.", theme: 'unit1', relatedConcept: "Evrenin Düzeni" },
-        { id: 'u1_tf10', type: 'trueFalse', question: "Yaratılan her şey, Allah'a muhtaçtır.", answer: "D", explanation: "Allah, hiçbir şeye muhtaç olmayan tek varlıktır, her şey O'na muhtaçtır.", theme: 'unit1', relatedConcept: "Muhtaç Olma" },
-        { id: 'u1_fb1', type: 'fillInTheBlanks', question: "Evrendeki mükemmel düzen, Allah'ın ........................ ve kudretini gösterir.", answer: "varlığını", options: ["varlığını", "zayıflığını", "korkusunu", "öfkesini"], explanation: "Evrendeki her şey Allah'ın varlığını ve gücünü kanıtlar.", theme: 'unit1', relatedConcept: "Kudret" },
-        { id: 'u1_fb2', type: 'fillInTheBlanks', question: "Allah'ın eşi ve benzeri olmaması ........................ olarak adlandırılır.", answer: "tevhit", options: ["tevhit", "şirk", "putperestlik", "büyücülük"], explanation: "Tevhit, Allah'ın bir ve tek olması inancıdır.", theme: 'unit1', relatedConcept: "Tevhit" },
-        { id: 'u1_fb3', type: 'fillInTheBlanks', question: "Allah'ın her şeyi yaratan ve var eden olması O'nun ........................ sıfatıdır.", answer: "Halık", options: ["Halık", "Rezzak", "Semi", "Basar"], explanation: "Halık, Allah'ın her şeyi yaratan olduğu anlamına gelir.", theme: 'unit1', relatedConcept: "Halık" },
-        { id: 'u1_fb4', type: 'fillInTheBlanks', question: "İhlas Suresi, 'De ki: O Allah ........................' ayetiyle başlar.", answer: "bir", options: ["bir", "iki", "üç", "dört"], explanation: "Sure, Allah'ın birliğini net bir şekilde ifade eder.", theme: 'unit1', relatedConcept: "İhlas Suresi" },
-        { id: 'u1_fb5', type: 'fillInTheBlanks', question: "Allah'ın her şeyi rızıklandıran olması O'nun ........................ ismidir.", answer: "Rezzak", options: ["Rezzak", "Alim", "Kadir", "Rahim"], explanation: "Rezzak, Allah'ın tüm canlıların rızkını veren olduğu anlamına gelir.", theme: 'unit1', relatedConcept: "Rezzak" },
-        { id: 'u1_mc1', type: 'multipleChoice', question: "Aşağıdakilerden hangisi Allah'ın güzel isimlerinden biri değildir?", options: ["Rahman", "Rahim", "Zalim", "Settar"], answer: "Zalim", explanation: "Zalim, Allah'ın sıfatlarından biri değildir. Allah adildir.", theme: 'unit1', relatedConcept: "Esma-ül Hüsna" },
-        { id: 'u1_mc2', type: 'multipleChoice', question: "İhlas Suresi'nin ana mesajı nedir?", options: ["Namaz kılmak", "Zekat vermek", "Allah'ın birliği", "Oruç tutmak"], answer: "Allah'ın birliği", explanation: "İhlas Suresi, Allah'ın tek ve benzersiz olduğunu belirtir.", theme: 'unit1', relatedConcept: "İhlas Suresi" },
-        { id: 'u1_mc3', type: 'multipleChoice', question: "Allah'ın her şeyi bilmesi hangi ismiyle ifade edilir?", options: ["Kadir", "Alim", "Semi", "Basar"], answer: "Alim", explanation: "Alim, Allah'ın her şeyi eksiksiz ve kusursuz bilmesi anlamına gelir.", theme: 'unit1', relatedConcept: "Alim" },
-        { id: 'u1_mc4', type: 'multipleChoice', question: "Evrendeki düzenin korunmasından sorumlu olan kimdir?", options: ["İnsanlar", "Melekler", "Allah (cc)", "Doğa"], answer: "Allah (cc)", explanation: "Evrendeki tüm düzen ve denge Allah'ın kudretiyle sağlanır.", theme: 'unit1', relatedConcept: "Kudret" },
-        { id: 'u1_mc5', type: 'multipleChoice', question: "Aşağıdakilerden hangisi Allah'a karşı görevlerimizden biri değildir?", options: ["O'na inanmak", "O'na ibadet etmek", "O'na isyan etmek", "O'na şükretmek"], answer: "O'na isyan etmek", explanation: "Allah'a isyan etmek, O'na karşı görevlerimizden biri değildir, aksine günahtır.", theme: 'unit1', relatedConcept: "İbadet" }
-    ],
-    'unit2': [
-        { id: 'u2_tf1', type: 'trueFalse', question: "Namaz, İslam'ın beş şartından biridir.", answer: "D", explanation: "Namaz, kelime-i şehadetten sonra gelen en önemli ibadetlerdendir.", theme: 'unit2', relatedConcept: "Namaz" },
-        { id: 'u2_tf2', type: 'trueFalse', question: "Namaz kılmak için abdest almak şart değildir.", answer: "Y", explanation: "Namazın geçerli olması için abdest almak zorunludur.", theme: 'unit2', relatedConcept: "Abdest" },
-        { id: 'u2_tf3', type: 'trueFalse', question: "Namazda kıbleye dönmek şarttır.", answer: "D", explanation: "Namaz kılarken Kâbe'ye, yani kıbleye yönelmek namazın şartlarındandır.", theme: 'unit2', relatedConcept: "Kıble" },
-        { id: 'u2_tf4', type: 'trueFalse', question: "Namazda rükû, secde ve kıyam gibi bölümler bulunur.", answer: "D", explanation: "Rükû, secde ve kıyam (ayakta duruş), namazın temel rükünleridir.", theme: 'unit2', relatedConcept: "Namazın Rükünleri" },
-        { id: 'u2_tf5', type: 'trueFalse', question: "Namaz sadece bedenle yapılan bir ibadettir.", answer: "Y", explanation: "Namaz, bedenle (hareketler), kalple (niyet) ve dille (okumalar) yapılan bir ibadettir.", theme: 'unit2', relatedConcept: "İbadet" },
-        { id: 'u2_tf6', type: 'trueFalse', question: "Namaz, insanı kötülüklerden uzaklaştırır.", answer: "D", explanation: "Kur'an'da namazın insanı fahşa ve münkerden (kötülüklerden) alıkoyduğu belirtilir.", theme: 'unit2', relatedConcept: "Namazın Faydaları" },
-        { id: 'u2_tf7', type: 'trueFalse', question: "Namazda Fatiha Suresi'ni okumak farzdır.", answer: "D", explanation: "Her rekatta Fatiha Suresi'ni okumak farzdır.", theme: 'unit2', relatedConcept: "Fatiha Suresi" },
-        { id: 'u2_tf8', type: 'trueFalse', question: "Namazın ilk tekbirine iftitah tekbiri denir.", answer: "D", explanation: "Namazın başında alınan 'Allahu Ekber' tekbirine iftitah tekbiri denir.", theme: 'unit2', relatedConcept: "İftitah Tekbiri" },
-        { id: 'u2_tf9', type: 'trueFalse', question: "Namazda selam vermek, namazı bitirir.", answer: "D", explanation: "Namazın sonunda sağa ve sola selam vermekle namaz tamamlanır.", theme: 'unit2', relatedConcept: "Selam" },
-        { id: 'u2_tf10', type: 'trueFalse', question: "Cemaatle namaz kılmak tek başına kılmaktan daha az sevaptır.", answer: "Y", explanation: "Cemaatle namaz kılmak, tek başına kılmaktan daha faziletlidir.", theme: 'unit2', relatedConcept: "Cemaat" },
-        { id: 'u2_fb1', type: 'fillInTheBlanks', question: "Günde beş vakit namaz ........................ bir ibadettir.", answer: "farz", options: ["farz", "sünnet", "vacip", "müstehap"], explanation: "Namaz, müslümanlara farz kılınmış bir ibadettir.", theme: 'unit2', relatedConcept: "Farz" },
-        { id: 'u2_fb2', type: 'fillInTheBlanks', question: "Namazda okunan ........................ Duası, Allah'a selam ve övgü içerir.", answer: "Tahiyyat", options: ["Tahiyyat", "Sübhaneke", "Fatiha", "Kevser"], explanation: "Tahiyyat Duası, namazın oturuşlarında okunur.", theme: 'unit2', relatedConcept: "Tahiyyat Duası" },
-        { id: 'u2_fb3', type: 'fillInTheBlanks', question: "Namazın dışındaki şartlara ........................ denir.", answer: "şartları", options: ["şartları", "rükünleri", "vacipleri", "sünnetleri"], explanation: "Namazın dışındaki şartlar, namaza başlamadan önce yerine getirilmesi gerekenlerdir.", theme: 'unit2', relatedConcept: "Namazın Şartları" },
-        { id: 'u2_fb4', type: 'fillInTheBlanks', question: "Namazda kıyam, rükû ve ........................ gibi hareketler vardır.", answer: "secde", options: ["secde", "oturma", "yatma", "koşma"], explanation: "Secde, namazdaki en önemli hareketlerden biridir.", theme: 'unit2', relatedConcept: "Secde" },
-        { id: 'u2_fb5', type: 'fillInTheBlanks', question: "Namaz kılarken temiz bir yerde olmak ........................ şartlarından biridir.", answer: "namazın", options: ["namazın", "abdestin", "oruçun", "zekatın"], explanation: "Namaz kılınacak yerin temiz olması namazın şartlarındandır.", theme: 'unit2', relatedConcept: "Temizlik" },
-        { id: 'u2_mc1', type: 'multipleChoice', question: "Aşağıdakilerden hangisi namazın hazırlık şartlarından biri değildir?", options: ["Abdest almak", "Elbisenin temiz olması", "Vaktin girmesi", "Oruç tutmak"], answer: "Oruç tutmak", explanation: "Oruç tutmak, namazın değil, ayrı bir ibadetin şartıdır.", theme: 'unit2', relatedConcept: "Namazın Şartları" },
-        { id: 'u2_mc2', type: 'multipleChoice', question: "Namazın insana kazandırdıklarından biri aşağıdakilerden hangisidir?", options: ["Tembellik", "Sorumsuzluk", "Disiplin ve düzen", "Korku"], answer: "Disiplin ve düzen", explanation: "Namaz, kişiye düzenli olmayı ve disiplini öğretir.", theme: 'unit2', relatedConcept: "Namazın Faydaları" },
-        { id: 'u2_mc3', type: 'multipleChoice', question: "Namazda 'Sübhâneke' duasını okumak hangi bölümdedir?", options: ["Rükûda", "Secdede", "İlk rekatın başında", "Son oturuşta"], answer: "İlk rekatın başında", explanation: "Sübhâneke duası, namazın ilk rekatının başında okunur.", theme: 'unit2', relatedConcept: "Sübhaneke Duası" },
-        { id: 'u2_mc4', type: 'multipleChoice', question: "Namazda 'Allahü Ekber' diyerek eğilmeye ne denir?", options: ["Secde", "Kıyam", "Rükû", "Kade"], answer: "Rükû", explanation: "Rükû, namazda belden eğilerek yapılan harekettir.", theme: 'unit2', relatedConcept: "Rükû" },
-        { id: 'u2_mc5', type: 'multipleChoice', question: "Namazı bozan durumlardan biri aşağıdakilerden hangisidir?", options: ["Gülmek", "Tekbir almak", "Fatiha okumak", "Selam vermek"], answer: "Gülmek", explanation: "Namazda kahkaha ile gülmek namazı bozar.", theme: 'unit2', relatedConcept: "Namazı Bozan Durumlar" }
-    ],
-    'unit3': [
-        { id: 'u3_tf1', type: 'trueFalse', question: "Kur'an-ı Kerim'deki en küçük bölüme sure denir.", answer: "Y", explanation: "En küçük bölüm ayettir, sureler ayetlerden oluşur.", theme: 'unit3', relatedConcept: "Ayet" },
-        { id: 'u3_tf2', type: "trueFalse", question: "Kevser Suresi, Kur'an'ın en uzun suresidir.", answer: "Y", explanation: "Kevser Suresi, Kur'an'ın en kısa suresidir.", theme: 'unit3', relatedConcept: "Kevser Suresi" },
-        { id: 'u3_tf3', type: 'trueFalse', question: "Kur'an-ı Kerim, Hz. Muhammed (sav)'e indirilmiştir.", answer: "D", explanation: "Kur'an, son peygamber Hz. Muhammed'e vahyedilmiştir.", theme: 'unit3', relatedConcept: "Kur'an-ı Kerim" },
-        { id: 'u3_tf4', type: 'trueFalse', question: "Kur'an-ı Kerim'in tamamı bir kerede indirilmiştir.", answer: "Y", explanation: "Kur'an, 23 yıllık bir süreçte parça parça indirilmiştir.", theme: 'unit3', relatedConcept: "Vahiy" },
-        { id: 'u3_tf5', type: 'trueFalse', question: "Kur'an-ı Kerim'i okumak ibadettir.", answer: "D", explanation: "Kur'an okumak, Allah'ı anmak ve O'nun kelamını dinlemek olduğu için ibadettir.", theme: 'unit3', relatedConcept: "İbadet" },
-        { id: 'u3_tf6', type: 'trueFalse', question: "Kur'an-ı Kerim'in dili Arapçadır.", answer: "D", explanation: "Kur'an, Arapça olarak indirilmiştir.", theme: 'unit3', relatedConcept: "Arapça" },
-        { id: 'u3_tf7', type: 'trueFalse', question: "Kur'an-ı Kerim'in diğer adı Furkan'dır.", answer: "D", explanation: "Furkan, hakkı batıldan ayıran anlamına gelir ve Kur'an'ın isimlerindendir.", theme: 'unit3', relatedConcept: "Furkan" },
-        { id: 'u3_tf8', type: 'trueFalse', question: "Kur'an-ı Kerim'i ezberleyen kişiye hafız denir.", answer: "D", explanation: "Hafız, Kur'an'ın tamamını ezberlemiş kişidir.", theme: 'unit3', relatedConcept: "Hafız" },
-        { id: 'u3_tf9', type: 'trueFalse', question: "Kur'an-ı Kerim'in ilk suresi Fatiha'dır.", answer: "D", explanation: "Fatiha Suresi, Kur'an'ın açılış suresidir.", theme: 'unit3', relatedConcept: "Fatiha Suresi" },
-        { id: 'u3_tf10', type: 'trueFalse', question: "Kur'an-ı Kerim'de sadece dini konular yer alır.", answer: "Y", explanation: "Kur'an, dini konuların yanı sıra ahlak, hukuk, bilim ve sosyal yaşam gibi birçok konuyu içerir.", theme: 'unit3', relatedConcept: "Kur'an'ın Konuları" },
-        { id: 'u3_fb1', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim, ........................ ayetlerden oluşur.", answer: "ayet", options: ["ayet", "sure", "cüz", "hadis"], explanation: "Kur'an-ı Kerim, ayet adı verilen cümlelerden oluşur.", theme: 'unit3', relatedConcept: "Ayet" },
-        { id: 'u3_fb2', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'in ana konularından biri ........................dır.", answer: "ahlak", options: ["ahlak", "savaş", "ticaret", "eğlence"], explanation: "Kur'an, insanlara güzel ahlakı öğretir.", theme: 'unit3', relatedConcept: "Ahlak" },
-        { id: 'u3_fb3', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'in ilk inen ayetleri ........................ Suresi'ndedir.", answer: "Alak", options: ["Alak", "Fatiha", "Bakara", "Nas"], explanation: "Alak Suresi'nin ilk beş ayeti, Hz. Muhammed'e inen ilk vahiylerdir.", theme: 'unit3', relatedConcept: "Alak Suresi" },
-        { id: 'u3_fb4', type: 'fillInTheBlanks', question: "İhlas Suresi, 'De ki: O Allah ........................' ayetiyle başlar.", answer: "bir", options: ["bir", "iki", "üç", "dört"], explanation: "Sure, Allah'ın birliğini net bir şekilde ifade eder.", theme: 'unit3', relatedConcept: "İhlas Suresi" },
-        { id: 'u3_fb5', type: 'fillInTheBlanks', question: "Allah'ın her şeyi rızıklandıran olması O'nun ........................ ismidir.", answer: "Rezzak", options: ["Rezzak", "Alim", "Kadir", "Rahim"], explanation: "Rezzak, Allah'ın tüm canlıların rızkını veren olduğu anlamına gelir.", theme: 'unit3', relatedConcept: "Rezzak" },
-        { id: 'u3_mc1', type: 'multipleChoice', question: "Kur'an-ı Kerim'in bölümlerinden hangisi 20 sayfadan oluşur?", options: ["Ayet", "Sure", "Cüz", "Hizb"], answer: "Cüz", explanation: "Kur'an-ı Kerim 30 cüzden oluşur ve her cüz yaklaşık 20 sayfadır.", theme: 'unit3', relatedConcept: "Cüz" },
-        { id: 'u3_mc2', type: 'multipleChoice', question: "Kevser Suresi'nin temel mesajı nedir?", options: ["Allah'ın birliği", "Namaz kılmak", "Peygambere verilen nimetler", "Oruç tutmak"], answer: "Peygambere verilen nimetler", explanation: "Kevser Suresi, Hz. Muhammed'e verilen Kevser havuzunu ve nimetleri anlatır.", theme: 'unit3', relatedConcept: "Kevser Suresi" },
-        { id: 'u3_mc3', type: 'multipleChoice', question: "Kur'an-ı Kerim'i okumak için hangi temizlik şartı gereklidir?", options: ["Abdest", "Gusül", "Teyemmüm", "Hepsi"], answer: "Abdest", explanation: "Kur'an'a dokunmak ve onu okumak için abdestli olmak gerekir.", theme: 'unit3', relatedConcept: "Abdest" },
-        { id: 'u3_mc4', type: 'multipleChoice', question: "Kur'an-ı Kerim'in indirildiği ay hangisidir?", options: ["Ramazan", "Şaban", "Recep", "Muharrem"], answer: "Ramazan", explanation: "Kur'an-ı Kerim, Ramazan ayında Kadir Gecesi'nde indirilmeye başlanmıştır.", theme: 'unit3', relatedConcept: "Ramazan" },
-        { id: 'u3_mc5', type: 'multipleChoice', question: "Kur'an-ı Kerim'de kaç sure vardır?", options: ["113", "114", "115", "116"], answer: "114", explanation: "Kur'an-ı Kerim'de 114 sure bulunmaktadır.", theme: 'unit3', relatedConcept: "Sure" }
-    ],
-    'unit4': [
-        { id: 'tf1', type: 'trueFalse', question: "Peygamberler, Allah'ın (cc) insanlar için seçtiği öğretmenlerdir.", answer: "D", explanation: "Peygamberler, Allah'ın insanlara doğru yolu göstermesi için gönderdiği elçiler ve rehberlerdir.", theme: 'unit4', relatedConcept: "Nübüvvet" },
-        { id: 'tf2', type: 'trueFalse', question: "İnsan aklıyla ahiret konularını tam olarak kavrayabilir.", answer: "Y", explanation: "İnsan aklı evrenin yaratıcısını anlayabilir ancak yaratılış amacı, Allah'a karşı görevler ve ahiret gibi konularda peygamberlerin rehberliğine ihtiyaç duyar.", theme: 'unit4', relatedConcept: "Ahiret" },
-        { id: 'tf3', type: 'trueFalse', question: "Ülülazm, inkârcılara karşı büyük mücadeleler ve sabır göstermiş beş büyük peygamberlere verilen isimdir.", answer: "D", explanation: "Ülülazm peygamberler, Hz. Nuh, Hz. İbrahim, Hz. Musa, Hz. İsa ve Hz. Muhammed (sav)'dir.", theme: 'unit4', relatedConcept: "Ülülazm" },
-        { id: 'tf4', type: 'trueFalse', question: "Hz. Nuh'un kavminde onun davetini hemen kabul etmiştir.", answer: "Y", explanation: "Hz. Nuh'un kavmi onun davetini reddetmiş, alay etmiş ve inanmamakta direnmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'tf5', type: 'trueFalse', question: "Hz. İbrahim, ateşe atıldığında Allah'ın (cc) emriyle ateş ona zarar vermiştir.", answer: "Y", explanation: "Allah'ın (cc) emriyle ateş Hz. İbrahim'e zarar vermemiştir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'tf6', type: 'trueFalse', question: "Hz. Musa, İsrailoğullarına gönderilmiş bir peygamberdir ve ona İncil indirilmiştir.", answer: "Y", explanation: "Hz. Musa'ya Tevrat indirilmiştir. İncil ise Hz. İsa'ya indirilmiştir.", theme: 'unit4', relatedConcept: "Hz. Musa" },
-        { id: 'tf7', type: 'trueFalse', question: "Kureyş Suresi, Kureyş kabilesinin Kâbe'nin bakımını üstlenmesi ve ziyaretçilere hizmet etmesini konu alır.", answer: "D", explanation: "Kureyş Suresi, Kureyş kabilesine verilen nimetleri ve Kâbe'ye olan hizmetlerini vurgular.", theme: 'unit4', relatedConcept: "Kureyş" },
-        { id: 'tf8', type: 'trueFalse', question: "Peygamber kıssalarında iyilik ve kötülüğün ne olduğu anlatılarak insanlar doğru yola teşvik edilir.", answer: "D", explanation: "Peygamber kıssaları, insanlara öğüt vermek ve doğru yola teşvik etmek amacıyla anlatılır.", theme: 'unit4', relatedConcept: "Kıssa" },
-        { id: 'tf9', type: 'trueFalse', question: "Peygamberler, insanlara güzel ahlakı kendi hayatlarında uygulayarak örnek olmuşlardır.", answer: "D", explanation: "Peygamberler, dürüstlük, adalet, yardımseverlik gibi ahlaki ilkeleri bizzat yaşayarak insanlara örnek olmuşlardır.", theme: 'unit4', relatedConcept: "Ahlak" },
-        { id: 'tf10', type: 'trueFalse', question: "Peygamber göndermek, Allah'ın (cc) insanlara olan merhametini göstermez.", answer: "Y", explanation: "Allah'ın (cc) insanlara rehber olarak peygamber göndermesi, O'nın sevgi ve merhametini gösterir.", theme: 'unit4', relatedConcept: "Rahmet" },
-        { id: 'tf11', type: 'trueFalse', question: "Peygamberler, sadece bu dünyada mutlu olmanın yollarını bildirirler.", answer: "Y", explanation: "Peygamberler, insanlara hem bu dünyada hem de ahirette mutluluğa ve huzura kavuşmanın yollarını bildirirler.", theme: 'unit4', relatedConcept: "Ahiret" },
-        { id: 'tf12', type: 'trueFalse', question: "Kur'an-ı Kerim'deki peygamber kıssalarının amacı, sadece geçmiş olayları anlatmaktır.", answer: "Y", explanation: "Peygamber kıssalarının amacı, insanlara öğüt vermek ve ders çıkarmalarını sağlamaktır.", theme: 'unit4', relatedConcept: "Öğüt" },
-        { id: 'tf13', type: 'trueFalse', question: "Ülülazm peygamberler, inkârcılara karşı büyük mücadeleler vermişlerdir.", answer: "D", explanation: "Ülülazm, büyük mücadeleler ve sabır göstermiş peygamberlere verilen isimdir.", theme: 'unit4', relatedConcept: "Ülülazm" },
-        { id: 'tf14', type: 'trueFalse', question: "Hz. Nuh, kavmini yalnızca Allah'a (cc) inanmaya davet etmiştir.", answer: "D", explanation: "Hz. Nuh'un temel görevi, kavmini tevhit inancına davet etmekti.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'tf15', type: 'trueFalse', question: "Hz. Nuh'un kavminde onun davetini hemen kabul etmiştir.", answer: "Y", explanation: "Hz. Nuh'un kavmi onun davetini reddetmiş, alay etmiş ve inanmamakta direnmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'tf16', type: 'trueFalse', question: "Hz. İbrahim, putlara tapan Babil halkına gönderilmiştir.", answer: "D", explanation: "Hz. İbrahim, putperest Babil halkını tevhide davet etmiştir.", theme: 'unit4', relatedConcept: "Hz. İbrahim" },
-        { id: 'tf17', type: 'trueFalse', question: "Hz. İbrahim, putları kırdıktan sonra suçu en küçük puta atmıştır.", answer: "Y", explanation: "Hz. İbrahim, baltayı en büyük putun boynuna asmıştır.", theme: 'unit4', relatedConcept: "Hz. İbrahim" },
-        { id: 'tf18', type: 'trueFalse', question: "Hz. İbrahim, Kâbe'yi tek başına inşa etmiştir.", answer: "Y", explanation: "Hz. İbrahim, oğlu Hz. İsmail ile birlikte Kâbe'yi yeniden inşa etmiştir.", theme: 'unit4', relatedConcept: "Kâbe" },
-        { id: 'tf19', type: 'trueFalse', question: "Hz. Musa, Firavun'un sarayında büyümüştür.", answer: "D", explanation: "Allah (cc), Hz. Musa'nın annesine onu nehre bırakmasını ilham etmiş ve Firavun'un sarayında büyümesi sağlanmıştır.", theme: 'unit4', relatedConcept: "Hz. Musa" },
-        { id: 'tf20', type: 'trueFalse', question: "Hz. Harun, Hz. Musa'ya yardımcı olarak peygamber olarak görevlendirilmiştir.", answer: "D", explanation: "Hz. Harun, Hz. Musa'nın kardeşi ve yardımcısı olarak peygamberlik yapmıştır.", theme: 'unit4', relatedConcept: "Hz. Harun" },
-        { id: 'tf21', type: 'trueFalse', question: "Firavun ve ordusu, Kızıldeniz'i geçerek Hz. Musa'yı yakalamıştır.", answer: "Y", explanation: "Firavun ve ordusu Kızıldeniz'de boğulmuştur.", theme: 'unit4', relatedConcept: "Firavun" },
-        { id: 'tf22', type: 'trueFalse', question: "Hz. İsa, İsrailoğullarına gönderilmiş bir peygamberdir.", answer: "D", explanation: "Hz. İsa, İsrailoğullarına gönderilen peygamberlerden biridir.", theme: 'unit4', relatedConcept: "Hz. İsa" },
-        { id: 'tf23', type: 'trueFalse', question: "Hz. İsa, kendisinden sonra Hz. Muhammed'in (sav) peygamber olacağını müjdelemiştir.", answer: "D", explanation: "Hz. İsa, son peygamberin geleceğini haber vermiştir.", theme: 'unit4', relatedConcept: "Hz. Muhammed" },
-        { id: 'tf24', type: 'trueFalse', question: "Kureyş Suresi, Kureyş kabilesinin Kâbe'nin bakımını üstlenmesi ve ziyaretçilere hizmet etmesini konu alır.", answer: "D", explanation: "Kureyş Suresi, Kureyş kabilesine verilen nimetleri ve Kâbe'ye olan hizmetlerini vurgular.", theme: 'unit4', relatedConcept: "Kureyş" },
-        { id: 'tf25', type: 'trueFalse', question: "Kureyş kabilesi, Kâbe'nin asıl sahibinin Yüce Allah olduğunu unutmuşlardır.", answer: "Y", explanation: "Kureyş Suresi, Kâbe'nin asıl sahibinin Yüce Allah olduğu hatırlatılarak tevhit inancına vurgu yapar.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'tf26', type: 'trueFalse', question: "Peygamberler, insanlara sadece dini konularda rehberlik etmişlerdir.", answer: "Y", explanation: "Peygamberler, dini konuların yanı sıra sosyal, ahlaki ve hukuki konularda da rehberlik etmişlerdir.", theme: 'unit4', relatedConcept: "Nübüvvet" },
-        { id: 'tf27', 'type': 'trueFalse', question: "Her peygambere mutlaka bir kitap indirilmiştir.", answer: "Y", explanation: "Bazı peygamberlere kitap değil, sahifeler indirilmiştir veya önceki peygamberlerin kitaplarını tasdik etmişlerdir.", theme: 'unit4', relatedConcept: "Vahiy" },
-        { id: 'tf28', type: 'trueFalse', question: "Hz. Adem, ilk insan ve ilk peygamberdir.", answer: "D", explanation: "Hz. Adem, insanlığın babası ve Allah'ın ilk peygamberidir.", theme: 'unit4', relatedConcept: "Hz. Adem" },
-        { id: 'tf29', type: 'trueFalse', question: "Peygamberlerin hepsi aynı kavme gönderilmiştir.", answer: "Y", explanation: "Peygamberler farklı zamanlarda, farklı kavimlere veya tüm insanlığa gönderilmiştir.", theme: 'unit4', relatedConcept: "Nübüvvet" },
-        { id: 'tf42', type: 'trueFalse', question: "Peygamberlerin hepsi aynı mucizeye sahiptir.", answer: "Y", explanation: "Her peygambere, kendi dönemlerinin ve kavimlerinin ihtiyaçlarına göre farklı mucizeler verilmiştir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'tf43', type: 'trueFalse', question: "Peygamberler, insanüstü varlıklardır ve hiç hata yapmazlar.", answer: "Y", explanation: "Peygamberler de insandır, ancak Allah tarafından korunurlar ve büyük günah işlemezler.", theme: 'unit4', relatedConcept: "Nübüvvet" },
-        { id: 'tf44', type: 'trueFalse', question: "Kur'an-ı Kerim'de adı geçen tüm peygamberlerin kıssaları detaylıca anlatılmıştır.", answer: "Y", explanation: "Kur'an'da bazı peygamberlerin kıssaları detaylıca anlatılırken, bazılarının sadece isimleri zikredilmiştir.", theme: 'unit4', relatedConcept: "Kıssa" },
-        { id: 'tf45', type: 'trueFalse', question: "Peygamberlerin tebliğ ettiği dinin özü her zaman tevhit olmuştur.", answer: "D", explanation: "Tüm peygamberler, Allah'ın birliği ve O'na kulluk etme mesajını getirmişlerdir.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'tf46', type: 'trueFalse', question: "Peygamberler, insanlara sadece korku yoluyla tebliğde bulunmuşlardır.", answer: "Y", explanation: "Peygamberler, insanlara hem müjdeleyici hem de uyarıcı olarak gönderilmişlerdir.", theme: 'unit4', relatedConcept: "Tebliğ" },
-        { id: 'tf47', type: 'trueFalse', question: "Hz. Muhammed (sav), son peygamberdir.", answer: "D", explanation: "Hz. Muhammed (sav), peygamberlerin sonuncusu ve hatemü'l-enbiyadır.", theme: 'unit4', relatedConcept: "Hz. Muhammed" },
-        { id: 'tf48', type: 'trueFalse', question: "Peygamberlerin hepsi erkeklerden seçilmiştir.", answer: "D", explanation: "Kur'an'da adı geçen tüm peygamberler erkektir.", theme: 'unit4', relatedConcept: "Nübüvvet" },
-        { id: 'tf49', type: 'trueFalse', question: "Peygamberlerin gönderilme amacı, insanların kendi başlarına bulamayacakları bilgileri onlara ulaştırmaktır.", answer: "D", explanation: "Peygamberler, vahiy yoluyla insanlara ahiret, ibadet ve ahlak gibi konularda rehberlik ederler.", theme: 'unit4', relatedConcept: "Vahiy" },
-        { id: 'tf50', type: 'trueFalse', question: "Peygamberler, insanlara sadece ibadet etmeyi öğretmişlerdir.", answer: "Y", explanation: "Peygamberler, ibadetlerin yanı sıra sosyal ilişkiler, adalet ve güzel ahlak gibi konularda da öğretiler sunmuşlardır.", theme: 'unit4', relatedConcept: "İbadet" },
-        { id: 'tf51', type: 'trueFalse', question: "Hz. İsa, babasız dünyaya gelmiştir.", answer: "D", explanation: "Hz. İsa, Allah'ın (cc) mucizesi olarak babasız dünyaya gelmiştir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'tf52', type: 'trueFalse', question: "Peygamberler, insanlara örnek olmaları için gönderilmişlerdir.", answer: "D", explanation: "Peygamberler, sözleri ve davranışlarıyla insanlara rehberlik eden en güzel örneklerdir.", theme: 'unit4', relatedConcept: "Sünnet" },
-        { id: 'tf53', type: 'trueFalse', question: "Hz. Adem'in eşi Havva, cennette yasak ağacın meyvesinden yediği için cennetten çıkarılmıştır.", answer: "D", explanation: "Hz. Adem ve Havva'nın cennetten çıkarılma sebebi, yasak ağacın meyvesinden yemeleriidir.", theme: 'unit4', relatedConcept: "Hz. Adem" },
-        { id: 'tf54', type: 'trueFalse', question: "Nuh tufanı sadece Hz. Nuh'un yaşadığı bölgeyi etkilemiştir.", answer: "Y", explanation: "Nuh tufanı, yeryüzünün tamamını veya büyük bir kısmını etkileyen evrensel bir olaydır.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'tf55', type: 'trueFalse', question: "Hz. İbrahim, putları kırdıktan sonra ateşe atılmıştır.", answer: "D", explanation: "Hz. İbrahim, putperestliğe karşı mücadelesi nedeniyle ateşe atılmıştır.", theme: 'unit4', relatedConcept: "Hz. İbrahim" },
-        { id: 'tf56', type: 'trueFalse', question: "Hz. Musa'nın asası, yılanlara dönüşme mucizesine sahipti.", answer: "D", explanation: "Hz. Musa'nın asası, Firavun'un sihirbazlarına karşı yılanlara dönüşerek mucize göstermiştir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'tf60', type: 'trueFalse', question: "Peygamberlerin hepsi zengin ve güçlü kişilerdi.", answer: "Y", explanation: "Peygamberler arasında fakir olanlar da vardı. Önemli olan maddi durumları değil, Allah katındaki dereceleriydi.", theme: 'unit4', relatedConcept: "Nübüvvet" },
-        { id: 'tf61', type: 'trueFalse', question: "Hz. Yunus, balığın karnında iken tövbe etmiştir.", answer: "D", explanation: "Hz. Yunus, balığın karnında iken yaptığı hatadan dolayı pişman olup tövbe etmiştir.", theme: 'unit4', relatedConcept: "Tövbe" },
-        { id: 'tf62', type: 'trueFalse', question: "Hz. İbrahim'in babası da bir peygamberdi.", answer: "Y", explanation: "Hz. İbrahim'in babası putperest idi ve Hz. İbrahim onu tevhide davet etmiştir.", theme: 'unit4', relatedConcept: "Hz. İbrahim" },
-        { id: 'tf63', type: 'trueFalse', question: "Peygamberlerin sayısı Kur'an-ı Kerim'de açıkça belirtilmiştir.", answer: "Y", explanation: "Kur'an'da sadece bazı peygamberlerin isimleri zikredilmiştir, toplam sayıları belirtilmemiştir.", theme: 'unit4', relatedConcept: "Kıssa" },
-        { id: 'tf65', type: 'trueFalse', question: "Peygamberler, insanlara sadece mucizelerle inanmalarını sağlamışlardır.", answer: "Y", explanation: "Peygamberler, mucizelerin yanı sıra tebliğ, güzel ahlak ve örnek davranışlarıyla da insanları etkilemişlerdir.", theme: 'unit4', relatedConcept: "Tebliğ" },
-        { id: 'tf66', type: 'trueFalse', question: "Hz. Nuh, gemisine sadece ailesini almıştır.", answer: "Y", explanation: "Hz. Nuh, ailesinin yanı sıra inananları ve her canlıdan birer çifti de gemiye almıştır.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'fb1', type: 'fillInTheBlanks', question: "Peygamberler, Yüce Allah'tan ........................ getiren kimselerdir.", answer: "haber", options: ["haber", "para", "hediye", "emir"], explanation: "Peygamberler, Allah'ın vahyini insanlara ulaştıran elçileridir.", theme: 'unit4', relatedConcept: "Vahiy" },
-        { id: 'fb2', type: 'fillInTheBlanks', question: "Peygamberlik, Allah (cc) ile insanlar arasındaki bir ........................ görevidir.", answer: "elçilik", options: ["elçilik", "krallık", "ticaret", "öğretmenlik"], explanation: "Peygamberlik, Allah'ın mesajlarını insanlara iletme görevidir.", theme: 'unit4', relatedConcept: "Nübüvvet" },
-        { id: 'fb3', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'de Nebi ve Resul kelimeleri ........................ demektir.", answer: "peygamber", options: ["peygamber", "kitap", "melek", "mucize"], explanation: "Bu iki kelime, Kur'an'da peygamber anlamında kullanılır.", theme: 'unit4', relatedConcept: "Peygamber" },
-        { id: 'fb4', type: 'fillInTheBlanks', question: "Peygamberler, insanlara hem bu dünyada hem de ahirette ........................ ve huzura kavuşmanın yollarını bildirirler.", answer: "mutluluğa", options: ["mutluluğa", "zenginliğe", "güce", "şöhrete"], explanation: "Peygamberler, insanların dünya ve ahiret saadetini amaçlayan rehberlerdir.", theme: 'unit4', relatedConcept: "Ahiret" },
-        { id: 'fb5', type: 'fillInTheBlanks', question: "Kur'an-ı Kerim'deki peygamber kıssalarının amacı, insanlara öğüt vermek ve ........................ sağlamaktır.", answer: "ders çıkarmalarını", options: ["ders çıkarmalarını", "eğlenmelerini", "uyumalarını", "savaşmalarını"], explanation: "Kıssalar, geçmişten ibret almayı ve doğru yolu bulmayı hedefler.", theme: 'unit4', relatedConcept: "İbret" },
-        { id: 'fb6', type: 'fillInTheBlanks', question: "Ülülazm, inkârcılara karşı büyük mücadeleler ve ........................ göstermiş beş büyük peygambere verilen isimdir.", answer: "sabır", options: ["sabır", "öfke", "korku", "hırs"], explanation: "Ülülazm peygamberler, zorluklara karşı gösterdikleri sabırla bilinirler.", theme: 'unit4', relatedConcept: "Sabır" },
-        { id: 'fb7', type: 'fillInTheBlanks', question: "Hz. Nuh, ........................ inancından uzaklaşan kavmini doğru yola davet etmekle görevlendirilmiştir.", answer: "tevhit", options: ["tevhit", "putperestlik", "şirk", "büyücülük"], explanation: "Hz. Nuh'un ana görevi, kavmini Allah'ın birliğine inanmaya çağırmaktı.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'fb8', type: 'fillInTheBlanks', question: "Hz. Nuh ve ona inananlarla birlikte her hayvandan birer çift ........................ binmiştir.", answer: "gemiye", options: ["gemiye", "dağa", "ağaca", "mağaraya"], explanation: "Tufandan kurtulmak için gemiye binmeleri emredilmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'fb9', type: 'fillInTheBlanks', question: "Tufan sona erince gemi ........................ Dağı'na oturmuştur.", answer: "Cudi", options: ["Cudi", "Arafat", "Sina", "Uhud"], explanation: "Gemi, tufan sonrası Cudi Dağı'na yerleşmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'fb10', type: 'fillInTheBlanks', question: "Hz. İbrahim, putlara ve yıldızlara tapan ........................ halkını tevhit inancına davet etmekle görevlendirilmiştir.", answer: "Babil", options: ["Babil", "Mısır", "Medine", "Kudüs"], explanation: "Hz. İbrahim, Babil'deki putperest halka gönderilmiştir.", theme: 'unit4', relatedConcept: "Hz. İbrahim" },
-        { id: 'fb11', type: 'fillInTheBlanks', question: "Hz. İbrahim, oğlu Hz. İsmail'le birlikte ........................ yeniden inşa etmiştir.", answer: "Kâbe'yi", options: ["Kâbe'yi", "tapınağı", "sarayı", "piramiti"], explanation: "Kâbe, Hz. İbrahim ve Hz. İsmail tarafından yeniden inşa edilmiştir.", theme: 'unit4', relatedConcept: "Kâbe" },
-        { id: 'fb12', type: 'fillInTheBlanks', question: "Hz. İbrahim kıssasından çıkarılabilecek hisselerden biri, insanın inandığı değerleri savunurken ........................ ve kararlı olması gerektiğidir.", answer: "cesur", options: ["cesur", "korkak", "pasif", "çekingen"], explanation: "Hz. İbrahim'in putlara karşı mücadelesi cesaret örneğidir.", theme: 'unit4', relatedConcept: "İman" },
-        { id: 'fb13', type: 'fillInTheBlanks', question: "Hz. Musa, ........................ gönderilmiş bir peygamberdir.", answer: "İsrailoğullarına", options: ["İsrailoğullarına", "Kureyş'e", "Ad kavmine", "Semud kavmine"], explanation: "Hz. Musa, İsrailoğulları'nın peygamberidir.", theme: 'unit4', relatedConcept: "Hz. Musa" },
-        { id: 'fb14', type: 'fillInTheBlanks', question: "Hz. Musa'nın doğduğu dönemde Mısır'ı ........................ yönetmekteydi.", answer: "Firavun", options: ["Firavun", "Nemrut", "Karun", "Haman"], explanation: "Firavun, Hz. Musa zamanında Mısır'ın zalim hükümdarıydı.", theme: 'unit4', relatedConcept: "Firavun" },
-        { id: 'fb15', type: 'fillInTheBlanks', question: "Hz. Musa'ya ........................ indirilmiştir.", answer: "Tevrat", options: ["Tevrat", "İncil", "Zebur", "Suhuf"], explanation: "Tevrat, Hz. Musa'ya vahyedilen kutsal kitaptır.", theme: 'unit4', relatedConcept: "Tevrat" },
-        { id: 'fb16', type: 'fillInTheBlanks', question: "Firavun ve ordusu, Hz. Musa ve halkını takip ederken ........................ yarılmış ve İsrailoğulları karşıya geçmiştir.", answer: "Kızıldeniz", options: ["Kızıldeniz", "Akdeniz", "Nil Nehri", "Fırat Nehri"], explanation: "Kızıldeniz mucizesi, Hz. Musa kıssasının önemli bir olayıdır.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'fb17', type: 'fillInTheBlanks', question: "Hz. Musa kıssasından çıkarılabilecek hisselerden biri, insanlara doğru ve güzel olanı anlatırken ........................ ve nazik bir üslup kullanılması gerektiğidir.", answer: "yumuşak", options: ["yumuşak", "sert", "kaba", "agresif"], explanation: "Tebliğde yumuşak ve nazik olmak önemlidir.", theme: 'unit4', relatedConcept: "Tebliğ" },
-        { id: 'fb18', type: 'fillInTheBlanks', question: "Hz. İsa, Hz. ........................'nın oğludur.", answer: "Meryem", options: ["Meryem", "Havva", "Asiye", "Fatıma"], explanation: "Hz. İsa, annesi Hz. Meryem'den dünyaya gelmiştir.", theme: 'unit4', relatedConcept: "Hz. İsa" },
-        { id: 'fb19', type: 'fillInTheBlanks', question: "Allah (cc) Hz. İsa'ya ........................'i göndermiştir.", answer: "İncil", options: ["İncil", "Tevrat", "Zebur", "Kur'an"], explanation: "İncil, Hz. İsa'ya vahyedilen kutsal kitaptır.", theme: 'unit4', relatedConcept: "İncil" },
-        { id: 'fb20', type: 'fillInTheBlanks', question: "Hz. İsa, kendisinden sonra Hz. ........................ (sav) peygamber olacağını müjdelemiştir.", answer: "Muhammed'in", options: ["Muhammed'in", "Musa'nın", "İbrahim'in", "Nuh'un"], explanation: "Hz. İsa, son peygamberin geleceğini haber vermiştir.", theme: 'unit4', relatedConcept: "Hz. Muhammed" },
-        { id: 'fb21', type: 'fillInTheBlanks', question: "Peygamber kıssalarında peygamberlerin insanları ........................ daveti temel konudur.", answer: "tevhide", options: ["tevhide", "şirke", "putperestliğe", "büyücülüğe"], explanation: "Tüm peygamberlerin ortak daveti, Allah'ın birliğine inanmaktır.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'fb22', type: 'fillInTheBlanks', question: "Allah (cc), peygamberleri desteklemek için ........................ göndermiştir.", answer: "mucizeler", options: ["mucizeler", "savaşlar", "zenginlik", "binalar"], explanation: "Mucizeler, peygamberlerin hakikatini ispatlayan ilahi yardımlardır.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'fb23', type: 'fillInTheBlanks', question: "Kureyş kabilesi, ........................'nin bakımını üstlenmiş ve ziyaretçilere hizmet etmiştir.", answer: "Kâbe", options: ["Kâbe", "Mescid-i Aksa", "Medine", "Şam"], explanation: "Kureyş kabilesi, Kâbe'nin hizmetinden sorumluydu.", theme: 'unit4', relatedConcept: "Kâbe" },
-        { id: 'fb24', type: 'fillInTheBlanks', question: "Kureyş Suresi, Kureyş kabilesinin geçimini ........................ yolculuklarla sağladığına dikkat çeker.", answer: "ticari", options: ["ticari", "tarımsal", "hayvansal", "askeri"], explanation: "Kureyş kabilesi, ticari faaliyetlerle geçimini sağlıyordu.", theme: 'unit4', relatedConcept: "Kureyş" },
-        { id: 'fb25', type: 'fillInTheBlanks', question: "Kureyş halkının, Kâbe'nin sahibi olan Allah'a (cc) ........................ etmeye davet edilmesi Kureyş Suresi'nin temel konularındandır.", answer: "kulluk", options: ["kulluk", "isyan", "inkâr", "red"], explanation: "Sure, Kureyş'i Allah'a kulluk etmeye çağırır.", theme: 'unit4', relatedConcept: "İbadet" },
-        { id: 'fb34', type: 'fillInTheBlanks', question: "Hz. İbrahim'in ateşe atılmasına rağmen yanmaması, Allah'ın (cc) ........................ bir mucizesidir.", answer: "kudretinin", options: ["kudretinin", "zayıflığının", "korkusunun", "öfkesinin"], explanation: "Ateşin yakmaması, Allah'ın sınırsız gücünü gösterir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'fb35', type: 'fillInTheBlanks', question: "Hz. Musa'nın asası, ........................ dönüşerek Firavun'un sihirbazlarını mağlup etmiştir.", answer: "yılana", options: ["yılana", "kuşa", "taşa", "ağaca"], explanation: "Asanın yılana dönüşmesi, Hz. Musa'nın en bilinen mucizelerindendir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'fb36', type: 'fillInTheBlanks', question: "Hz. İsa'nın mucizelerinden biri, ........................ diriltmesidir.", answer: "ölüleri", options: ["ölüleri", "taşları", "ağaçları", "hayvanları"], explanation: "Hz. İsa, Allah'ın izniyle ölüleri diriltme mucizesine sahipti.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'fb37', type: 'fillInTheBlanks', question: "Peygamberlerin hepsi Allah'tan (cc) ........................ almışlardır.", answer: "vahiy", options: ["vahiy", "para", "hediye", "güç"], explanation: "Tüm peygamberler, Allah'tan vahiy yoluyla mesaj almışlardır.", theme: 'unit4', relatedConcept: "Vahiy" },
-        { id: 'fb38', type: 'fillInTheBlanks', question: "Hz. Nuh tufanı, ........................ inanmayanları helak etmiştir.", answer: "Allah'a", options: ["Allah'a", "peygambere", "kitaba", "meleklere"], explanation: "Tufan, Allah'ın birliğini inkâr edenleri cezalandırmak için gönderilmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'fb47', type: 'fillInTheBlanks', question: "Peygamberler, insanlara doğru yolu göstermek için Allah (cc) tarafından ........................ seçilmişlerdir.", answer: "özel olarak", options: ["özel olarak", "rastgele", "kendi istekleriyle", "toplum tarafından"], explanation: "Peygamberler, ilahi bir seçimle görevlendirilmişlerdir.", theme: 'unit4', relatedConcept: "Nübüvvet" },
-        { id: 'fb48', type: 'fillInTheBlanks', question: "Peygamberlerin getirdiği mesajlar, insanların ........................ ve ahiret hayatlarını düzenler.", answer: "dünya", options: ["dünya", "savaş", "ticaret", "eğlence"], explanation: "Peygamberler, hem dünya hem de ahiret için rehberlik ederler.", theme: 'unit4', relatedConcept: "İslam" },
-        { id: 'fb49', type: 'fillInTheBlanks', question: "Peygamberler, ........................ ve dürüstlük gibi ahlaki değerlere önem vermişlerdir.", answer: "adalet", options: ["adalet", "kurnazlık", "hırs", "korku"], explanation: "Peygamberler, yüksek ahlaki değerlere sahip olmuşlardır.", theme: 'unit4', relatedConcept: "Ahlak" },
-        { id: 'fb50', type: 'fillInTheBlanks', question: "Hz. Adem ve Havva, ........................ ağacın meyvesinden yedikleri için cennetten çıkarılmışlardır.", answer: "yasak", options: ["yasak", "elma", "hurma", "üzüm"], explanation: "Yasak ağacın meyvesi, onların cennetten çıkarılma sebebi olmuştur.", theme: 'unit4', relatedConcept: "Hz. Adem" },
-        { id: 'fb51', type: 'fillInTheBlanks', question: "Hz. Nuh'un gemisi, ........................ Dağı'na oturmuştur.", answer: "Cudi", options: ["Cudi", "Arafat", "Sina", "Uhud"], explanation: "Tufan sonrası gemi Cudi Dağı'na yerleşmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'fb52', type: 'fillInTheBlanks', question: "Hz. İbrahim, ........................ ve yıldızlara tapan kavmini tevhide davet etmiştir.", answer: "putlara", options: ["putlara", "insanlara", "hayvanlara", "bitkilere"], explanation: "Hz. İbrahim, putperestliğe karşı mücadele etmiştir.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'fb53', type: 'fillInTheBlanks', question: "Hz. Musa, ........................'dan İsrailoğullarını kurtarmıştır.", answer: "Firavun'un zulmünden", options: ["Firavun'un zulmünden", "açlıktan", "savaştan", "hastalıktan"], explanation: "Hz. Musa, İsrailoğullarını Firavun'un köleliğinden kurtarmıştır.", theme: 'unit4', relatedConcept: "Hz. Musa" },
-        { id: 'fb54', type: 'fillInTheBlanks', question: "Hz. İsa, Allah'ın (cc) ........................ ile babasız dünyaya gelmiştir.", answer: "mucizesiyle", options: ["mucizesiyle", "isteğiyle", "emriyle", "kudretiyle"], explanation: "Hz. İsa'nın doğumu, ilahi bir mucizedir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'fb55', type: 'fillInTheBlanks', question: "Hz. Muhammed (sav), ........................ peygamberdir.", answer: "son", options: ["son", "ilk", "ortanca", "ikinci"], explanation: "Hz. Muhammed (sav), peygamberlerin sonuncusudur.", theme: 'unit4', relatedConcept: "Hz. Muhammed" },
-        { id: 'fb56', type: 'fillInTheBlanks', question: "Peygamberlerin hayatları, Müslümanlar için ........................ bir örnektir.", answer: "güzel", options: ["güzel", "kötü", "sıradan", "önemsiz"], explanation: "Peygamberler, tüm insanlık için örnek alınacak şahsiyetlerdir.", theme: 'unit4', relatedConcept: "Sünnet" },
-        { id: 'fb57', type: 'fillInTheBlanks', question: "Peygamberler, insanlara ........................ ve ahiret konularında rehberlik etmişlerdir.", answer: "dünya", options: ["dünya", "savaş", "ticaret", "eğlence"], explanation: "Peygamberler, hem dünya hem de ahiret hayatı için yol göstermişlerdir.", theme: 'unit4', relatedConcept: "İslam" },
-        { id: 'fb58', type: 'fillInTheBlanks', question: "Peygamberler, ........................ ve dürüstlük gibi ahlaki değerlere önem vermişlerdir.", answer: "adalet", options: ["adalet", "kurnazlık", "hırs", "korku"], explanation: "Peygamberler, yüksek ahlaki değerlere sahip olmuşlardır.", theme: 'unit4', relatedConcept: "Ahlak" },
-        { id: 'fb59', type: 'fillInTheBlanks', question: "Hz. Nuh'un gemisi, ........................ ve inananları kurtarmıştır.", answer: "ailesini", options: ["ailesini", "düşmanlarını", "hayvanları", "bitkileri"], explanation: "Gemi, Hz. Nuh'un ailesini ve inananları tufandan kurtarmıştır.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'fb60', type: 'fillInTheBlanks', question: "Hz. İbrahim, ........................ ve İsmail ile birlikte Kâbe'yi inşa etmiştir.", answer: "oğlu", options: ["oğlu", "babası", "kardeşi", "amcası"], explanation: "Kâbe, Hz. İbrahim ve oğlu İsmail tarafından inşa edilmiştir.", theme: 'unit4', relatedConcept: "Kâbe" },
-        { id: 'fb61', type: 'fillInTheBlanks', question: "Hz. Musa, ........................'ya karşı mücadele etmiştir.", answer: "Firavun'a", options: ["Firavun'a", "Nemrut'a", "Karun'a", "Haman'a"], explanation: "Hz. Musa, zalim Firavun'a karşı mücadele etmiştir.", theme: 'unit4', relatedConcept: "Firavun" },
-        { id: 'fb62', type: 'fillInTheBlanks', question: "Hz. İsa, ........................'nın oğludur.", answer: "Meryem", options: ["Meryem", "Havva", "Asiye", "Fatıma"], explanation: "Hz. İsa, Hz. Meryem'in oğludur.", theme: 'unit4', relatedConcept: "Hz. İsa" },
-        { id: 'fb63', type: 'fillInTheBlanks', question: "Hz. Yusuf, kardeşleri tarafından ........................ atılmıştır.", answer: "kuyuya", options: ["kuyuya", "denize", "nehre", "göle"], explanation: "Hz. Yusuf, kıskanç kardeşleri tarafından kuyuya atılmıştır.", theme: 'unit4', relatedConcept: "Hz. Yusuf" },
-        { id: 'mc1', type: 'multipleChoice', question: "Aşağıdakilerden hangisi peygamberlerin görevlerinden biri değildir?", options: ["Allah'ın (cc) mesajlarını bildirmek", "Emirleri açıklamak", "Sadece kendi çıkarları için çalışmak", "Örnek olmak"], answer: "Sadece kendi çıkarları için çalışmak", explanation: "Peygamberler, insanlara rehberlik etmek ve Allah'ın emirlerini bildirmekle görevlidirler, kendi çıkarları için çalışmazlar.", theme: 'unit4', relatedConcept: "Nübüvvet" },
-        { id: 'mc2', type: 'multipleChoice', question: "İnsan aklıyla tam olarak kavranamayan konular arasında aşağıdakilerden hangisi bulunur?", options: ["Yemek pişirme yöntemleri", "Evrenin yaratıcısı", "Ahiret konuları", "Matematik problemleri"], answer: "Ahiret konuları", explanation: "İnsan aklı, ahiret gibi gaybi konuları peygamberlerin rehberliği olmadan tam olarak kavrayamaz.", theme: 'unit4', relatedConcept: "Ahiret" },
-        { id: 'mc3', type: 'multipleChoice', question: "Aşağıdaki peygamberlerden hangisi Ülülazm peygamberlerden biri değildir?", options: ["Hz. Nuh", "Hz. İbrahim", "Hz. Yusuf", "Hz. Musa"], answer: "Hz. Yusuf", explanation: "Ülülazm peygamberler Hz. Nuh, Hz. İbrahim, Hz. Musa, Hz. İsa ve Hz. Muhammed (sav)'dir. Hz. Yusuf bu gruba dahil değildir.", theme: 'unit4', relatedConcept: "Ülülazm" },
-        { id: 'mc4', type: 'multipleChoice', question: "Hz. Nuh kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?", options: ["İnsanlar arasında ayrımcılık yapılması gerektiği", "Allah'a (cc) hiçbir şey şirk koşulmaması gerektiği", "Peygamberlerin görevlerini yaparken karşılık beklemesi gerektiği", "İnsanın yaptığı işte azimli ve kararlı olmaması gerektiği"], answer: "Allah'a (cc) hiçbir şey şirk koşulmaması gerektiği", explanation: "Hz. Nuh'un tevhit mücadelesi, Allah'a ortak koşmamanın önemini gösterir.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'mc5', type: 'multipleChoice', question: "Hz. Nuh'un gemisine kimler binmiştir?", options: ["Sadece Hz. Nuh", "Hz. Nuh ve inananlar", "Hz. Nuh, inananlar ve her hayvandan birer çift", "Sadece inkarcılar"], answer: "Hz. Nuh, inananlar ve her canlı türünden birer çift", explanation: "Tufan sırasında gemiye Hz. Nuh, ona inananlar ve her canlı türünden birer çift binmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'mc6', type: 'multipleChoice', question: "Hz. İbrahim'in putları kırmasından sonra halkın putların konuşamayacağını itiraf etmesi hangi hisseyi vurgular?", options: ["Ataların körü körüne taklit edilmesi gerektiği", "Putlara tapmanın anlamsızlığını", "Hz. İbrahim'in zayıf olduğunu", "Halkın putlara daha çok inanması gerektiğini"], answer: "Putlara tapmanın anlamsızlığını", explanation: "Bu olay, putların acizliğini ve onlara tapmanın boşluğunu ortaya koymuştur.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'mc7', type: 'multipleChoice', question: "Hz. İbrahim ve oğlu Hz. İsmail'in birlikte inşa ettiği yapı aşağıdakilerden hangisidir?", options: ["Mescid-i Aksa", "Kâbe", "Kudüs Tapınağı", "Babil Kulesi"], answer: "Kâbe", explanation: "Kâbe, Hz. İbrahim ve Hz. İsmail tarafından yeniden inşa edilen kutsal bir yapıdır.", theme: 'unit4', relatedConcept: "Kâbe" },
-        { id: 'mc8', type: 'multipleChoice', question: "Yüce Allah dilerse imkansız görünen şeylerin gerçekleşebileceği", options: ["İnsanın inandığı değerleri savunurken korkak olması gerektiği", "En yakınlar şirke bulaşmış olsa bile bunun en büyük günah olmadığı", "Yüce Allah dilerse imkansız görünen şeylerin gerçekleşebileceği", "Ataların her zaman doğru yolda olduğu"], answer: "Yüce Allah dilerse imkansız görünen şeylerin gerçekleşebileceği", explanation: "Ateşin Hz. İbrahim'e zarar vermemesi, Allah'ın kudretinin bir göstergesidir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'mc9', type: 'multipleChoice', question: "Hz. Musa'ya hangi kutsal kitap indirilmiştir?", options: ["İncil", "Zebur", "Tevrat", "Kur'an-ı Kerim"], answer: "Tevrat", explanation: "Tevrat, Hz. Musa'ya vahyedilen ilahi kitaptır.", theme: 'unit4', relatedConcept: "Tevrat" },
-        { id: 'mc10', type: 'multipleChoice', question: "Hz. Musa'nın doğduğu dönemde Mısır'ı yöneten zalim yönetici kimdir?", options: ["Nemrut", "Firavun", "Karun", "Ebu Cehil"], answer: "Firavun", explanation: "Firavun, İsrailoğullarına zulmeden Mısır hükümdarıydı.", theme: 'unit4', relatedConcept: "Firavun" },
-        { id: 'mc11', type: 'multipleChoice', question: "Hz. Musa ve İsrailoğulları Firavun'dan kaçarken hangi deniz yarılmıştır?", options: ["Akdeniz", "Karadeniz", "Kızıldeniz", "Marmara Denizi"], answer: "Kızıldeniz", explanation: "Kızıldeniz'in yarılması, Hz. Musa'nın mucizelerinden biridir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'mc12', type: 'multipleChoice', question: "Hz. Musa kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?", options: ["İnsanlara sert bir üslupla yaklaşılması gerektiği", "Allah'ın (cc) zulüm ve haksızlık edenleri cezalandıracağı", "Peygamberlerin toplumlara öncülük etmemesi gerektiği", "Firavun'un doğru yolda olduğu"], answer: "Allah'ın (cc) zulüm ve haksızlık edenleri cezalandıracağı", explanation: "Firavun'un boğulması, zalimlerin akıbetine bir örnektir.", theme: 'unit4', relatedConcept: "Adalet" },
-        { id: 'mc13', type: 'multipleChoice', question: "Hz. İsa'ya hangi kutsal kitap indirilmiştir?", options: ["Tevrat", "Zebur", "İncil", "Kur'an-ı Kerim"], answer: "İncil", explanation: "İncil, Hz. İsa'ya vahyedilen kutsal kitaptır.", theme: 'unit4', relatedConcept: "İncil" },
-        { id: 'mc14', type: 'multipleChoice', question: "Hz. İsa'nın annesi kimdir?", options: ["Hz. Hatice", "Hz. Ayşe", "Hz. Meryem", "Hz. Fatıma"], answer: "Hz. Meryem", explanation: "Hz. İsa, Hz. Meryem'in oğludur.", theme: 'unit4', relatedConcept: "Hz. İsa" },
-        { id: 'mc15', type: 'multipleChoice', question: "Hz. İsa kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?", options: ["Peygamberlerin tehditlere boyun eğmesi gerektiği", "İnsanın görevini yerine getirirken sabırsız olması gerektiği", "İnanmayanların tehditlerine aldırmamak gerektiği", "Hz. İsa'nın bir tanrı olduğu"], answer: "İnanmayanların tehditlerine aldırmamak gerektiği", explanation: "Peygamberler, görevlerini yerine getirirken tehditlere aldırış etmezler.", theme: 'unit4', relatedConcept: "İman" },
-        { id: 'mc16', type: 'multipleChoice', question: "Kureyş Suresi ismini nereden almıştır?", options: ["Hz. Muhammed'in doğduğu şehirden", "Hz. Muhammed'in ailesinin mensup olduğu kabileden", "Kâbe'nin bulunduğu yerden", "Ticaret yollarından"], answer: "Hz. Muhammed'in ailesinin mensup olduğu kabileden", explanation: "Sure, Hz. Muhammed'in de mensup olduğu Kureyş kabilesine ithafen isimlendirilmiştir.", theme: 'unit4', relatedConcept: "Kureyş" },
-        { id: 'mc17', type: 'multipleChoice', question: "Kureyş kabilesinin temel görevlerinden biri aşağıdakilerden hangisidir?", options: ["Savaşlar düzenlemek", "Kâbe'nin bakımını üstlenmek", "Ticari tekel oluşturmak", "Putlara tapmayı yaymak"], answer: "Kâbe'nin bakımını üstlenmek", explanation: "Kureyş kabilesi, Kâbe'nin hizmetinden sorumluydu.", theme: 'unit4', relatedConcept: "Kâbe" },
-        { id: 'mc18', type: 'multipleChoice', question: "Kureyş Suresi'ni okuyan bir Müslüman, nimet verenin yalnızca kim olduğunu bilir?	Peygamberler	İnsanlar	Allah (cc)	Melekler", answer: "Allah (cc)", explanation: "Sure, tüm nimetlerin Allah'tan geldiğini hatırlatır.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'mc19', type: 'multipleChoice', question: "Peygamber kıssalarında verilen mesajlardan biri aşağıdakilerden hangisidir?", options: ["Geçmiş toplumların hatalarının tekrarlanması gerektiği", "Peygamberlerin insanları tevhide daveti temel konu değildir", "Kıssalarda iyilik ve kötülüğün ne olduğu anlatılmaz", "Müslümanlar, peygamberlerin çabalarını örnek alabilirler"], answer: "Müslümanlar, peygamberlerin çabalarını örnek alabilirler", explanation: "Peygamberlerin hayatları, Müslümanlar için güzel bir örnektir.", theme: 'unit4', relatedConcept: "Sünnet" },
-        { id: 'mc20', type: 'multipleChoice', question: "Peygamberlerin insanlara rehber olarak gönderilmesi Allah'ın hangi sıfatını gösterir?", options: ["Kudret", "İrade", "Sevgi ve Merhamet", "Yaratıcılık"], answer: "Sevgi ve Merhamet", explanation: "Peygamber göndermek, Allah'ın insanlara olan sevgisinin ve merhametinin bir göstergesidir.", theme: 'unit4', relatedConcept: "Rahmet" },
-        { id: 'mc21', type: 'multipleChoice', question: "Peygamberlerin söz ve davranışlarını öğrenip uygulayarak neye sahip olunabilir?", options: ["Zenginliğe", "Güzel ahlaka", "Güce", "Ün şöhrete"], answer: "Güzel ahlaka", explanation: "Peygamberlerin ahlakı, insanlara güzel ahlak edinme yolunda rehberlik eder.", theme: 'unit4', relatedConcept: "Ahlak" },
-        { id: 'mc22', type: 'multipleChoice', question: "Kur'an-ı Kerim'deki peygamber kıssalarının amacı nedir?", options: ["Sadece tarihi olayları anlatmak", "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak", "Peygamberlerin üstünlüklerini göstermek", "İnsanları korkutmak"], answer: "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak", explanation: "Kıssalar, ibret almak ve doğru yolu bulmak için anlatılır.", theme: 'unit4', relatedConcept: "Öğüt" },
-        { id: 'mc23', type: 'multipleChoice', question: "Peygamberlerin dürüstlük, adalet gibi ahlaki ilkeleri kendi hayatlarında uygulamaları ne anlama gelir?", options: ["Sadece kendileri için yaşadıkları", "İnsanlara örnek oldukları", "Bu ilkelerin sadece peygamberlere özel olduğu", "This is an important topic.", "Bu ilkelerin önemsiz olduğu"], answer: "İnsanlara örnek oldukları", explanation: "Peygamberler, ahlaki değerleri yaşayarak insanlara yol gösterirler.", theme: 'unit4', relatedConcept: "Sünnet" },
-        { id: 'mc24', type':'multipleChoice', question: "Kureyş Suresi'nin temel konularından biri Kureyş'in geçimini nasıl sağladığına dikkat çekmesidir. Bu geçim şekli nedir?", options: ["Tarım", "Hayvancılık", "Ticari yolculuklar", "Balıkçılık"], answer: "Ticari yolculuklar", explanation: "Kureyş kabilesi, yaz ve kış ticari yolculuklar yaparak geçimini sağlamıştır.", theme: 'unit4', relatedConcept: "Kureyş" },
-        { id: 'mc25', type: 'multipleChoice', question: "Peygamberlerin de sıkıntılar yaşadığının anlaşılması, Müslümanlara ne kazandırır?", options: ["İnanç uğruna mücadele etmemeyi", "Cesaret ve sabırla mücadele etmeyi", "Sıkıntılardan kaçınmayı", "Peygamberlere isyan etmeyi"], answer: "Cesaret ve sabırla mücadele etmeyi", explanation: "Peygamberlerin yaşadığı zorluklar, Müslümanlara inanç uğruna sabır ve cesaretle mücadele etme ilhamı verir.", theme: 'unit4', relatedConcept: "Sabır" },
-        { id: 'mc34', type: 'multipleChoice', question: "Peygamberlerin insanlara gönderilmesinin temel amacı nedir?", options: ["Sadece mucize göstermek", "İnsanları eğlendirmek", "Doğru yolu göstermek ve rehberlik etmek", "Dünya malı kazandırmak"], answer: "Doğru yolu göstermek ve rehberlik etmek", explanation: "Peygamberler, Allah'ın mesajlarını insanlara ulaştırarak onlara dünya ve ahiret için rehberlik ederler.", theme: 'unit4', relatedConcept: "Tebliğ" },
-        { id: 'mc35', type: 'multipleChoice', question: "Hz. Adem ve Havva'nın cennetten çıkarılma sebebi nedir?", options: ["Allah'a isyan etmeleri", "Yasak ağacın meyvesinden yemeleri", "Birbirleriyle kavga etmeleri", "Cennetten sıkılmaları"], answer: "Yasak ağacın meyvesinden yemeleri", explanation: "Allah'ın yasakladığı ağacın meyvesinden yemeleri, cennetten çıkarılmalarına sebep olmuştur.", theme: 'unit4', relatedConcept: "Hz. Adem" },
-        { id: 'mc36', type: 'multipleChoice', question: "Nuh tufanından kimler kurtulmuştur?", options: ["Tüm insanlar", "Sadece Hz. Nuh ve ailesi", "Hz. Nuh, inananlar ve her canlıdan birer çift", "Sadece hayvanlar"], answer: "Hz. Nuh, inananlar ve her canlıdan birer çift", explanation: "Tufan sırasında gemiye Hz. Nuh, ona inananlar ve her canlı türünden birer çift binmiştir.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'mc37', type: 'multipleChoice', question: "Hz. İbrahim'in ateşe atılmasına rağmen yanmaması hangi özelliği vurgular?", options: ["Hz. İbrahim'in gücü", "Ateşin zayıflığı", "Allah'ın (cc) kudreti", "İnsanların inançsızlığı"], answer: "Allah'ın (cc) kudreti", explanation: "Ateşin Hz. İbrahim'e zarar vermemesi, Allah'ın sınırsız gücünün ve mucizesinin bir göstergesidir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'mc38', type: 'multipleChoice', question: "Hz. Musa'nın Firavun'a karşı gösterdiği en bilinen mucizelerden biri nedir?", options: ["Ölüleri diriltmek", "Ayı ikiye bölmek", "Asasının yılana dönüşmesi", "Kuşlarla konuşmak"], answer: "Asasının yılana dönüşmesi", explanation: "Hz. Musa'nın asasının yılana dönüşmesi, Firavun'un sihirbazlarına karşı gösterdiği en büyük mucizelerdendir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'mc43', type: 'multipleChoice', question: "Peygamberlerin insanlara rehberlik etmesinin amacı nedir?", options: ["İnsanları köleleştirmek", "İnsanları korkutmak", "İnsanları dünya hayatında zengin etmek", " "], answer: "İnsanlara doğru yolu göstermek ve onları kurtuluşa erdirmek", explanation: "Peygamberler, Allah'ın emir ve yasaklarını bildirerek onları hem dünya hem de ahiret saadetine ulaştırırlar.", theme: 'unit4', relatedConcept: "Tebliğ" },
-        { id: 'mc47', type: 'multipleChoice', question: "Peygamberlerin insanlara örnek olmaları ne anlama gelir?", options: ["Sadece sözleriyle öğretmeleri", "Sadece mucizeleriyle etkilemeleri", "Hem sözleriyle hem de davranışlarıyla rehberlik etmeleri", "Sadece dini konularda örnek olmaları"], answer: "Hem sözleriyle hem de davranışlarıyla rehberlik etmeleri", explanation: "Peygamberler, hayatlarının her alanında insanlara örnek teşkil etmişlerdir.", theme: 'unit4', relatedConcept: "Sünnet" },
-        { id: 'mc48', type: 'multipleChoice', question: "Hz. Muhammed (sav)'in peygamberliği hangi özelliği taşır?", options: ["Sadece Araplara özgü olması", "Belirli bir zaman dilimiyle sınırlı olması", "Evrensel ve son peygamber olması", "Sadece erkeklere hitap etmesi"], answer: "Evrensel ve son peygamber olması", explanation: "Hz. Muhammed (sav), tüm insanlığa gönderilen son peygamberdir.", theme: 'unit4', relatedConcept: "Hz. Muhammed" },
-        { id: 'mc49', type: 'multipleChoice', question: "Peygamber kıssalarının en önemli faydalarından biri nedir?", options: ["Geçmişi merak gidermek", "Tarih bilgisi vermek", "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak", "Eğlence sunmak"], answer: "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak", explanation: "Peygamber kıssaları, insanlara ibret alacakları ve hayatlarına uygulayacakları dersler sunar.", theme: 'unit4', relatedConcept: "İbret" },
-        { id: 'mc50', type: 'multipleChoice', question: "Peygamberlerin tebliğ ettiği dinin özü nedir?", options: ["Çok tanrılı inanç", "Putperestlik", "Allah'ın birliği (Tevhit)", "Doğaüstü güçlere inanma"], answer: "Allah'ın birliği (Tevhit)", explanation: "Tüm peygamberler, ortak mesajı, Allah'ın birliği ve sadece O'na kulluk etmektir.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'mc51', type: 'multipleChoice', question: "Peygamberlerin insanlara hangi konularda rehberlik etmişlerdir?", options: ["Sadece ibadet", "Sadece ahlak", "Sadece hukuk", "Dini, ahlaki, sosyal ve hukuki tüm konularda"], answer: "Dini, ahlaki, sosyal ve hukuki tüm konularda", explanation: "Peygamberler, insan hayatının her alanında rehberlik etmişlerdir.", theme: 'unit4', relatedConcept: "İslam" },
-        { id: 'mc52', type: 'multipleChoice', question: "Hz. İsa'nın babasız doğumu hangi kavramla açıklanır?", options: ["Doğal olay", "Bilimsel açıklama", "Mucize", "Tesadüf"], answer: "Mucize", explanation: "Hz. İsa'nın babasız doğumu, Allah'ın (cc) kudretinin bir mucizesidir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'mc53', type: 'multipleChoice', question: "Peygamberlerin insanlara karşı tutumları genellikle nasıldı?", options: ["Sert ve acımasız", "Korkutucu ve tehditkar", "Şefkatli, merhametli ve sabırlı", "Kaygısız ve umursamaz"], answer: "Şefkatli, merhametli ve sabırlı", explanation: "Peygamberler, kavimlerine karşı her zaman şefkat ve merhametle yaklaşmışlardır.", theme: 'unit4', relatedConcept: "Merhamet" },
-        { id: 'mc54', type: 'multipleChoice', question: "Hz. Adem ve Havva'nın cennetten çıkarıldıktan sonraki pişmanlıkları neyi gösterir?", options: ["Allah'a isyan etmeyi", "Günahın affedilebilirliğini", "Sadece kendi hatalarını", "Cennete geri dönemeyeceklerini"], answer: "Günahın affedilebilirliğini", explanation: "Tövbe ve pişmanlıkları, Allah'ın (cc) affedici olduğunu ve tövbeleri kabul ettiğini gösterir.", theme: 'unit4', relatedConcept: "Tövbe" },
-        { id: 'mc55', type: 'multipleChoice', question: "Hz. Nuh'un gemisinin Cudi Dağı'na oturması neyi simgeler?", options: ["Tufanın sona erdiğini", "Yeni bir başlangıcı", "Allah'ın (cc) rahmetini", "Hepsi"], answer: "Hepsi", explanation: "Cudi Dağı'na oturması, tufanın sona erdiğini, yeni bir hayatın başladığını ve Allah'ın rahmetini simgeler.", theme: 'unit4', relatedConcept: "Hz. Nuh" },
-        { id: 'mc56', type: 'multipleChoice', question: "Hz. İbrahim'in putlara karşı mücadelesi hangi inancın temelini oluşturur?", options: ["Putperestlik", "Şirk", "Tevhit", "Ateizm"], answer: "Tevhit", explanation: "Hz. İbrahim'in mücadelesi, Allah'ın birliği (tevhit) inancının önemini vurgular.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'mc57', type: 'multipleChoice', question: "Hz. Musa'nın Kızıldeniz'i yarması hangi ilahi sıfatı gösterir?", options: ["Adalet", "Hikmet", "Kudret", "İrade"], answer: "Kudret", explanation: "Kızıldeniz'in yarılması, Allah'ın (cc) sınırsız gücünün ve mucizesinin bir göstergesidir.", theme: 'unit4', relatedConcept: "Mucize" },
-        { id: 'mc62', type: 'multipleChoice', question: "Peygamberlerin hepsi hangi dine davet etmişlerdir?", options: ["Hristiyanlık", "Yahudilik", "İslam", "Tevhit inancına"], answer: "Tevhit inancına", explanation: "Tüm peygamberler, temelde Allah'ın birliği ve O'na kulluk etme (tevhit) inancına davet etmişlerdir.", theme: 'unit4', relatedConcept: "Tevhit" },
-        { id: 'mc66', type: 'multipleChoice', question: "Peygamberlerin insanlara gönderilmesi, Allah'ın (cc) hangi sıfatının bir tecellisidir?", options: ["Kudret", "İrade", "Rahmet ve Hikmet", "Yaratıcılık"], answer: "Rahmet ve Hikmet", explanation: "Peygamberlerin gönderilmesi, Allah'ın insanlara olan rahmetinin ve her şeyi bir hikmetle yaratmasının bir göstergesidir.", theme: 'unit4', relatedConcept: "Hikmet" }
-    ],
-    'unit5': [
-        { id: 'u5_tf1', type: 'trueFalse', question: "Cami mimarisinde kubbe, gök kubbeyi ve evrenin birliğini temsil eder.", answer: "D", explanation: "Kubbe, cami mimarisinde merkezi bir öğe olup, manevi ve sembolik anlamlar taşır.", theme: 'unit5', relatedConcept: "Cami Mimarisi" },
-        { id: 'u5_tf2', type: 'trueFalse', question: "Minaresiz cami olmaz.", answer: "Y", explanation: "Bazı küçük mescitlerde veya tarihi camilerde minare bulunmayabilir.", theme: 'unit5', relatedConcept: "Minare" },
-        { id: 'u5_tf3', type: 'trueFalse', question: "Hat sanatı, İslam sanatında yazıya güzellik katma sanatıdır.", answer: "D", explanation: "Hat sanatı, Kur'an ayetlerinin ve güzel sözlerin estetik bir şekilde yazılmasıdır.", theme: 'unit5', relatedConcept: "Hat Sanatı" },
-        { id: 'u5_tf4', type: 'trueFalse', question: "Çini sanatı, sadece cami iç süslemelerinde kullanılır.", answer: "Y", explanation: "Çini sanatı, camilerin yanı sıra saraylarda, türbelerde ve evlerde de kullanılır.", theme: 'unit5', relatedConcept: "Çini Sanatı" },
-        { id: 'u5_tf5', type: 'trueFalse', question: "Ebru sanatı, su üzerine renklerin serpilmesiyle yapılır.", answer: "D", explanation: "Ebru, özel bir yoğunlaştırılmış su üzerine boyaların serpilmesiyle desenler oluşturma sanatıdır.", theme: 'unit5', relatedConcept: "Ebru Sanatı" },
-        { id: 'u5_tf6', type: 'trueFalse', question: "Minyatür sanatı, büyük boyutlu resimler yapma sanatıdır.", answer: "Y", explanation: "Minyatür, küçük boyutlu, detaylı ve ince işlenmiş resim sanatıdır.", theme: 'unit5', relatedConcept: "Minyatür Sanatı" },
-        { id: 'u5_tf7', type: 'trueFalse', question: "Türk İslam sanatında insan figürleri sıkça kullanılır.", answer: "Y", explanation: "İslam sanatında genellikle canlı figürlerden kaçınılır, bunun yerine bitkisel motifler, geometrik şekiller ve hat sanatı kullanılır.", theme: 'unit5', relatedConcept: "İslam Sanatı" },
-        { id: 'u5_tf8', type: 'trueFalse', question: "Kündekari, ahşap işçiliğinde kullanılan bir tekniktir.", answer: "D", explanation: "Kündekari, ahşap parçaların birbirine geçirilmesiyle yapılan bir süsleme tekniğidir.", theme: 'unit5', relatedConcept: "Kündekari" },
-        { id: 'u5_tf9', type: 'trueFalse', question: "Tezhip sanatı, kitap süsleme sanatıdır.", answer: "D", explanation: "Tezhip, genellikle el yazması kitapların kenarlarını altın ve renklerle süsleme sanatıdır.", theme: 'unit5', relatedConcept: "Tezhip Sanatı" },
-        { id: 'u5_tf10', type: 'trueFalse', question: "Şadırvanlar, sadece estetik amaçlı yapılır.", answer: "Y", explanation: "Şadırvanlar, hem estetik hem de abdest alma gibi dini temizlik amaçlı kullanılır.", theme: 'unit5', relatedConcept: "Şadırvan" },
-        { id: 'u5_fb1', type: 'fillInTheBlanks', question: "Cami mimarisinde, namaz kılınan yere ........................ denir.", answer: "harim", options: ["harim", "avlu", "şadırvan", "minare"], explanation: "Harim, caminin ana ibadet alanıdır.", theme: 'unit5', relatedConcept: "Cami Mimarisi" },
-        { id: 'u5_fb2', type: 'fillInTheBlanks', question: "Minareler, ........................ okumak için kullanılır.", answer: "ezan", options: ["ezan", "sela", "salavat", "tekbir"], explanation: "Minarelerden müezzinler ezan okur.", theme: 'unit5', relatedConcept: "Minare" },
-        { id: 'u5_fb3', type: 'fillInTheBlanks', question: "İslam sanatında yazıya güzellik katma sanatına ........................ denir.", answer: "hat", options: ["hat", "tezhip", "minyatür", "ebru"], explanation: "Hat sanatı, Arap harflerinin estetik bir biçimde yazılmasıdır.", theme: 'unit5', relatedConcept: "Hat Sanatı" },
-        { id: 'u5_fb4', type: 'fillInTheBlanks', question: "Duvar ve kubbe süslemelerinde kullanılan sırlı seramik kaplama sanatına ........................ denir.", answer: "çini", options: ["çini", "tezhip", "ebru", "kalemişi"], explanation: "Çini, özellikle cami ve saraylarda kullanılan renkli seramik süsleme sanatıdır.", theme: 'unit5', relatedConcept: "Çini Sanatı" },
-        { id: 'u5_fb5', type: 'fillInTheBlanks', question: "Su üzerine boyaların serpilmesiyle yapılan geleneksel Türk sanatına ........................ denir.", answer: "ebru", options: ["ebru", "tezhip", "minyatür", "hat"], explanation: "Ebru sanatı, suyun yüzeyinde desenler oluşturma tekniğidir.", theme: 'unit5', relatedConcept: "Ebru Sanatı" },
-        { id: 'u5_mc1', type: 'multipleChoice', question: "Cami mimarisinde, cemaatin namaz kılarken yöneldiği duvar nişine ne ad verilir?", options: ["Minber", "Mihrap", "Kürsü", "Şadırvan"], answer: "Mihrap", explanation: "Mihrap, camide kıbleyi gösteren niştir.", theme: 'unit5', relatedConcept: "Mihrap" },
-        { id: 'u5_mc2', type: 'multipleChoice', question: "Cami içinde vaaz ve hutbe okumak için kullanılan yüksek yere ne denir?", options: ["Mihrap", "Minber", "Kürsü", "Şadırvan"], answer: "Minber", explanation: "Minber, imamın hutbe okuduğu yerdir.", theme: 'unit5', relatedConcept: "Minber" },
-        { id: 'u5_mc3', type: 'multipleChoice', question: "Aşağıdakilerden hangisi İslam sanatında sıkça kullanılan bir motif değildir?", options: ["Geometrik desenler", "Bitkisel motifler", "İnsan figürleri", "Hat yazıları"], answer: "İnsan figürleri", explanation: "İslam sanatında genellikle canlı figürlerden kaçınılır.", theme: 'unit5', relatedConcept: "İslam Sanatı" },
-        { id: 'u5_mc4', type: 'multipleChoice', question: "El yazması kitapların kenarlarını altın ve renklerle süsleme sanatına ne denir?", options: ["Hat", "Tezhip", "Ebru", "Minyatür"], answer: "Tezhip", explanation: "Tezhip, kitap süsleme sanatıdır.", theme: 'unit5', relatedConcept: "Tezhip Sanatı" },
-        { id: 'u5_mc5', type: 'multipleChoice', question: "Cami avlusunda abdest almak için yapılan çeşmeli yapıya ne denir?", options: ["Minare", "Kubbe", "Şadırvan", "Mihrap"], answer: "Şadırvan", explanation: "Şadırvan, cami avlularında abdest almak için kullanılan yapıdır.", theme: 'unit5', relatedConcept: "Şadırvan" }
-    ]
-};
+  "unit1": [
+    {
+      "id": "u1_tf1",
+      "type": "trueFalse",
+      "question": "Evrendeki her şey tesadüfen oluşmuştur.",
+      "answer": "Y",
+      "explanation": "Evrendeki mükemmel düzen, bir yaratıcının varlığını gösterir.",
+      "theme": "unit1",
+      "relatedConcept": "Allah'ın Varlığı"
+    },
+    {
+      "id": "u1_tf2",
+      "type": "trueFalse",
+      "question": "Allah (cc) birdir ve eşi benzeri yoktur.",
+      "answer": "D",
+      "explanation": "Tevhit inancı, Allah'ın birliğini ifade eder.",
+      "theme": "unit1",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "u1_tf3",
+      "type": "trueFalse",
+      "question": "Esma-ül Hüsna, Allah'ın güzel isimleridir.",
+      "answer": "D",
+      "explanation": "Esma-ül Hüsna, Allah'ın yüce sıfatlarını ve isimlerini ifade eder.",
+      "theme": "unit1",
+      "relatedConcept": "Esma-ül Hüsna"
+    },
+    {
+      "id": "u1_tf4",
+      "type": "trueFalse",
+      "question": "İhlas Suresi, Allah'ın birliğini anlatır.",
+      "answer": "D",
+      "explanation": "İhlas Suresi, Allah'ın tek ve benzersiz olduğunu vurgular.",
+      "theme": "unit1",
+      "relatedConcept": "İhlas Suresi"
+    },
+    {
+      "id": "u1_tf5",
+      "type": "trueFalse",
+      "question": "Allah'ın her şeyi görmesi ve bilmesi O'nın her şeye gücünün yettiğini gösterir.",
+      "answer": "D",
+      "explanation": "Allah'ın görmesi ve bilmesi, O'nın ilim ve basar sıfatlarıyla ilgilidir.",
+      "theme": "unit1",
+      "relatedConcept": "Allah'ın Sıfatları"
+    },
+    {
+      "id": "u1_tf6",
+      "type": "trueFalse",
+      "question": "İnsan, Allah'ı sadece akıl yoluyla tam olarak kavrayabilir.",
+      "answer": "Y",
+      "explanation": "İnsan, Allah'ı akıl yoluyla anlayabilir ancak O'nun yüceliğini ve sıfatlarını tam olarak kavramak için vahye de ihtiyacı duyar.",
+      "theme": "unit1",
+      "relatedConcept": "Vahiy"
+    },
+    {
+      "id": "u1_tf7",
+      "type": "trueFalse",
+      "question": "Allah'ın 'Rahman' ismi, O'nun çok merhametli olduğunu ifade eder.",
+      "answer": "D",
+      "explanation": "Rahman, Allah'ın dünyadaki tüm canlılara şefkatle muamele ettiğini gösteren ismidir.",
+      "theme": "unit1",
+      "relatedConcept": "Rahman"
+    },
+    {
+      "id": "u1_tf8",
+      "type": "trueFalse",
+      "question": "Allah'ın 'Semi' ismi, O'nın her şeyi işittiği anlamına gelir.",
+      "answer": "D",
+      "explanation": "Semi, Allah'ın her sesi, her fısıltıyı işittiğini ifade eden ismidir.",
+      "theme": "unit1",
+      "relatedConcept": "Semi"
+    },
+    {
+      "id": "u1_tf9",
+      "type": "trueFalse",
+      "question": "Evrendeki düzenin bozulması, Allah'ın varlığını etkilemez.",
+      "answer": "D",
+      "explanation": "Evrendeki düzen, Allah'ın varlığının bir delilidir, ancak düzenin bozulması Allah'ın kudretini veya varlığını etkilemez.",
+      "theme": "unit1",
+      "relatedConcept": "Evrenin Düzeni"
+    },
+    {
+      "id": "u1_tf10",
+      "type": "trueFalse",
+      "question": "Yaratılan her şey, Allah'a muhtaçtır.",
+      "answer": "D",
+      "explanation": "Allah, hiçbir şeye muhtaç olmayan tek varlıktır, her şey O'na muhtaçtır.",
+      "theme": "unit1",
+      "relatedConcept": "Muhtaç Olma"
+    },
+    {
+      "id": "u1_fb1",
+      "type": "fillInTheBlanks",
+      "question": "Evrendeki mükemmel düzen, Allah'ın ........................ ve kudretini gösterir.",
+      "answer": "varlığını",
+      "options": [
+        "varlığını",
+        "zayıflığını",
+        "korkusunu",
+        "öfkesini"
+      ],
+      "explanation": "Evrendeki her şey Allah'ın varlığını ve gücünü kanıtlar.",
+      "theme": "unit1",
+      "relatedConcept": "Kudret"
+    },
+    {
+      "id": "u1_fb2",
+      "type": "fillInTheBlanks",
+      "question": "Allah'ın eşi ve benzeri olmaması ........................ olarak adlandırılır.",
+      "answer": "tevhit",
+      "options": [
+        "tevhit",
+        "şirk",
+        "putperestlik",
+        "büyücülük"
+      ],
+      "explanation": "Tevhit, Allah'ın bir ve tek olması inancıdır.",
+      "theme": "unit1",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "u1_fb3",
+      "type": "fillInTheBlanks",
+      "question": "Allah'ın her şeyi yaratan ve var eden olması O'nun ........................ sıfatıdır.",
+      "answer": "Halık",
+      "options": [
+        "Halık",
+        "Rezzak",
+        "Semi",
+        "Basar"
+      ],
+      "explanation": "Halık, Allah'ın her şeyi yaratan olduğu anlamına gelir.",
+      "theme": "unit1",
+      "relatedConcept": "Halık"
+    },
+    {
+      "id": "u1_fb4",
+      "type": "fillInTheBlanks",
+      "question": "İhlas Suresi, 'De ki: O Allah ........................' ayetiyle başlar.",
+      "answer": "bir",
+      "options": [
+        "bir",
+        "iki",
+        "üç",
+        "dört"
+      ],
+      "explanation": "Sure, Allah'ın birliğini net bir şekilde ifade eder.",
+      "theme": "unit1",
+      "relatedConcept": "İhlas Suresi"
+    },
+    {
+      "id": "u1_fb5",
+      "type": "fillInTheBlanks",
+      "question": "Allah'ın her şeyi rızıklandıran olması O'nun ........................ ismidir.",
+      "answer": "Rezzak",
+      "options": [
+        "Rezzak",
+        "Alim",
+        "Kadir",
+        "Rahim"
+      ],
+      "explanation": "Rezzak, Allah'ın tüm canlıların rızkını veren olduğu anlamına gelir.",
+      "theme": "unit1",
+      "relatedConcept": "Rezzak"
+    },
+    {
+      "id": "u1_mc1",
+      "type": "multipleChoice",
+      "question": "Aşağıdakilerden hangisi Allah'ın güzel isimlerinden biri değildir?",
+      "options": [
+        "Rahman",
+        "Rahim",
+        "Zalim",
+        "Settar"
+      ],
+      "answer": "Zalim",
+      "explanation": "Zalim, Allah'ın sıfatlarından biri değildir. Allah adildir.",
+      "theme": "unit1",
+      "relatedConcept": "Esma-ül Hüsna"
+    },
+    {
+      "id": "u1_mc2",
+      "type": "multipleChoice",
+      "question": "İhlas Suresi'nin ana mesajı nedir?",
+      "options": [
+        "Namaz kılmak",
+        "Zekat vermek",
+        "Allah'ın birliği",
+        "Oruç tutmak"
+      ],
+      "answer": "Allah'ın birliği",
+      "explanation": "İhlas Suresi, Allah'ın tek ve benzersiz olduğunu belirtir.",
+      "theme": "unit1",
+      "relatedConcept": "İhlas Suresi"
+    },
+    {
+      "id": "u1_mc3",
+      "type": "multipleChoice",
+      "question": "Allah'ın her şeyi bilmesi hangi ismiyle ifade edilir?",
+      "options": [
+        "Kadir",
+        "Alim",
+        "Semi",
+        "Basar"
+      ],
+      "answer": "Alim",
+      "explanation": "Alim, Allah'ın her şeyi eksiksiz ve kusursuz bilmesi anlamına gelir.",
+      "theme": "unit1",
+      "relatedConcept": "Alim"
+    },
+    {
+      "id": "u1_mc4",
+      "type": "multipleChoice",
+      "question": "Evrendeki düzenin korunmasından sorumlu olan kimdir?",
+      "options": [
+        "İnsanlar",
+        "Melekler",
+        "Allah (cc)",
+        "Doğa"
+      ],
+      "answer": "Allah (cc)",
+      "explanation": "Evrendeki tüm düzen ve denge Allah'ın kudretiyle sağlanır.",
+      "theme": "unit1",
+      "relatedConcept": "Kudret"
+    },
+    {
+      "id": "u1_mc5",
+      "type": "multipleChoice",
+      "question": "Aşağıdakilerden hangisi Allah'a karşı görevlerimizden biri değildir?",
+      "options": [
+        "O'na inanmak",
+        "O'na ibadet etmek",
+        "O'na isyan etmek",
+        "O'na şükretmek"
+      ],
+      "answer": "O'na isyan etmek",
+      "explanation": "Allah'a isyan etmek, O'na karşı görevlerimizden biri değildir, aksine günahtır.",
+      "theme": "unit1",
+      "relatedConcept": "İbadet"
+    }
+  ],
+  "unit2": [
+    {
+      "id": "u2_tf1",
+      "type": "trueFalse",
+      "question": "Namaz, İslam'ın beş şartından biridir.",
+      "answer": "D",
+      "explanation": "Namaz, kelime-i şehadetten sonra gelen en önemli ibadetlerdendir.",
+      "theme": "unit2",
+      "relatedConcept": "Namaz"
+    },
+    {
+      "id": "u2_tf2",
+      "type": "trueFalse",
+      "question": "Namaz kılmak için abdest almak şart değildir.",
+      "answer": "Y",
+      "explanation": "Namazın geçerli olması için abdest almak zorunludur.",
+      "theme": "unit2",
+      "relatedConcept": "Abdest"
+    },
+    {
+      "id": "u2_tf3",
+      "type": "trueFalse",
+      "question": "Namazda kıbleye dönmek şarttır.",
+      "answer": "D",
+      "explanation": "Namaz kılarken Kâbe'ye, yani kıbleye yönelmek namazın şartlarındandır.",
+      "theme": "unit2",
+      "relatedConcept": "Kıble"
+    },
+    {
+      "id": "u2_tf4",
+      "type": "trueFalse",
+      "question": "Namazda rükû, secde ve kıyam gibi bölümler bulunur.",
+      "answer": "D",
+      "explanation": "Rükû, secde ve kıyam (ayakta duruş), namazın temel rükünleridir.",
+      "theme": "unit2",
+      "relatedConcept": "Namazın Rükünleri"
+    },
+    {
+      "id": "u2_tf5",
+      "type": "trueFalse",
+      "question": "Namaz sadece bedenle yapılan bir ibadettir.",
+      "answer": "Y",
+      "explanation": "Namaz, bedenle (hareketler), kalple (niyet) ve dille (okumalar) yapılan bir ibadettir.",
+      "theme": "unit2",
+      "relatedConcept": "İbadet"
+    },
+    {
+      "id": "u2_tf6",
+      "type": "trueFalse",
+      "question": "Namaz, insanı kötülüklerden uzaklaştırır.",
+      "answer": "D",
+      "explanation": "Kur'an'da namazın insanı fahşa ve münkerden (kötülüklerden) alıkoyduğu belirtilir.",
+      "theme": "unit2",
+      "relatedConcept": "Namazın Faydaları"
+    },
+    {
+      "id": "u2_tf7",
+      "type": "trueFalse",
+      "question": "Namazda Fatiha Suresi'ni okumak farzdır.",
+      "answer": "D",
+      "explanation": "Her rekatta Fatiha Suresi'ni okumak farzdır.",
+      "theme": "unit2",
+      "relatedConcept": "Fatiha Suresi"
+    },
+    {
+      "id": "u2_tf8",
+      "type": "trueFalse",
+      "question": "Namazın ilk tekbirine iftitah tekbiri denir.",
+      "answer": "D",
+      "explanation": "Namazın başında alınan 'Allahu Ekber' tekbirine iftitah tekbiri denir.",
+      "theme": "unit2",
+      "relatedConcept": "İftitah Tekbiri"
+    },
+    {
+      "id": "u2_tf9",
+      "type": "trueFalse",
+      "question": "Namazda selam vermek, namazı bitirir.",
+      "answer": "D",
+      "explanation": "Namazın sonunda sağa ve sola selam vermekle namaz tamamlanır.",
+      "theme": "unit2",
+      "relatedConcept": "Selam"
+    },
+    {
+      "id": "u2_tf10",
+      "type": "trueFalse",
+      "question": "Cemaatle namaz kılmak tek başına kılmaktan daha az sevaptır.",
+      "answer": "Y",
+      "explanation": "Cemaatle namaz kılmak, tek başına kılmaktan daha faziletlidir.",
+      "theme": "unit2",
+      "relatedConcept": "Cemaat"
+    },
+    {
+      "id": "u2_fb1",
+      "type": "fillInTheBlanks",
+      "question": "Günde beş vakit namaz ........................ bir ibadettir.",
+      "answer": "farz",
+      "options": [
+        "farz",
+        "sünnet",
+        "vacip",
+        "müstehap"
+      ],
+      "explanation": "Namaz, müslümanlara farz kılınmış bir ibadettir.",
+      "theme": "unit2",
+      "relatedConcept": "Farz"
+    },
+    {
+      "id": "u2_fb2",
+      "type": "fillInTheBlanks",
+      "question": "Namazda okunan ........................ Duası, Allah'a selam ve övgü içerir.",
+      "answer": "Tahiyyat",
+      "options": [
+        "Tahiyyat",
+        "Sübhaneke",
+        "Fatiha",
+        "Kevser"
+      ],
+      "explanation": "Tahiyyat Duası, namazın oturuşlarında okunur.",
+      "theme": "unit2",
+      "relatedConcept": "Tahiyyat Duası"
+    },
+    {
+      "id": "u2_fb3",
+      "type": "fillInTheBlanks",
+      "question": "Namazın dışındaki şartlara ........................ denir.",
+      "answer": "şartları",
+      "options": [
+        "şartları",
+        "rükünleri",
+        "vacipleri",
+        "sünnetleri"
+      ],
+      "explanation": "Namazın dışındaki şartlar, namaza başlamadan önce yerine getirilmesi gerekenlerdir.",
+      "theme": "unit2",
+      "relatedConcept": "Namazın Şartları"
+    },
+    {
+      "id": "u2_fb4",
+      "type": "fillInTheBlanks",
+      "question": "Namazda kıyam, rükû ve ........................ gibi hareketler vardır.",
+      "answer": "secde",
+      "options": [
+        "secde",
+        "oturma",
+        "yatma",
+        "koşma"
+      ],
+      "explanation": "Secde, namazdaki en önemli hareketlerden biridir.",
+      "theme": "unit2",
+      "relatedConcept": "Secde"
+    },
+    {
+      "id": "u2_fb5",
+      "type": "fillInTheBlanks",
+      "question": "Namaz kılarken temiz bir yerde olmak ........................ şartlarından biridir.",
+      "answer": "namazın",
+      "options": [
+        "namazın",
+        "abdestin",
+        "oruçun",
+        "zekatın"
+      ],
+      "explanation": "Namaz kılınacak yerin temiz olması namazın şartlarındandır.",
+      "theme": "unit2",
+      "relatedConcept": "Temizlik"
+    },
+    {
+      "id": "u2_mc1",
+      "type": "multipleChoice",
+      "question": "Aşağıdakilerden hangisi namazın hazırlık şartlarından biri değildir?",
+      "options": [
+        "Abdest almak",
+        "Elbisenin temiz olması",
+        "Vaktin girmesi",
+        "Oruç tutmak"
+      ],
+      "answer": "Oruç tutmak",
+      "explanation": "Oruç tutmak, namazın değil, ayrı bir ibadetin şartıdır.",
+      "theme": "unit2",
+      "relatedConcept": "Namazın Şartları"
+    },
+    {
+      "id": "u2_mc2",
+      "type": "multipleChoice",
+      "question": "Namazın insana kazandırdıklarından biri aşağıdakilerden hangisidir?",
+      "options": [
+        "Tembellik",
+        "Sorumsuzluk",
+        "Disiplin ve düzen",
+        "Korku"
+      ],
+      "answer": "Disiplin ve düzen",
+      "explanation": "Namaz, kişiye düzenli olmayı ve disiplini öğretir.",
+      "theme": "unit2",
+      "relatedConcept": "Namazın Faydaları"
+    },
+    {
+      "id": "u2_mc3",
+      "type": "multipleChoice",
+      "question": "Namazda 'Sübhâneke' duasını okumak hangi bölümdedir?",
+      "options": [
+        "Rükûda",
+        "Secdede",
+        "İlk rekatın başında",
+        "Son oturuşta"
+      ],
+      "answer": "İlk rekatın başında",
+      "explanation": "Sübhâneke duası, namazın ilk rekatının başında okunur.",
+      "theme": "unit2",
+      "relatedConcept": "Sübhaneke Duası"
+    },
+    {
+      "id": "u2_mc4",
+      "type": "multipleChoice",
+      "question": "Namazda 'Allahü Ekber' diyerek eğilmeye ne denir?",
+      "options": [
+        "Secde",
+        "Kıyam",
+        "Rükû",
+        "Kade"
+      ],
+      "answer": "Rükû",
+      "explanation": "Rükû, namazda belden eğilerek yapılan harekettir.",
+      "theme": "unit2",
+      "relatedConcept": "Rükû"
+    },
+    {
+      "id": "u2_mc5",
+      "type": "multipleChoice",
+      "question": "Namazı bozan durumlardan biri aşağıdakilerden hangisidir?",
+      "options": [
+        "Gülmek",
+        "Tekbir almak",
+        "Fatiha okumak",
+        "Selam vermek"
+      ],
+      "answer": "Gülmek",
+      "explanation": "Namazda kahkaha ile gülmek namazı bozar.",
+      "theme": "unit2",
+      "relatedConcept": "Namazı Bozan Durumlar"
+    }
+  ],
+  "unit3": [
+    {
+      "id": "u3_tf1",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'deki en küçük bölüme sure denir.",
+      "answer": "Y",
+      "explanation": "En küçük bölüm ayettir, sureler ayetlerden oluşur.",
+      "theme": "unit3",
+      "relatedConcept": "Ayet"
+    },
+    {
+      "id": "u3_tf2",
+      "type": "trueFalse",
+      "question": "Kevser Suresi, Kur'an'ın en uzun suresidir.",
+      "answer": "Y",
+      "explanation": "Kevser Suresi, Kur'an'ın en kısa suresidir.",
+      "theme": "unit3",
+      "relatedConcept": "Kevser Suresi"
+    },
+    {
+      "id": "u3_tf3",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim, Hz. Muhammed (sav)'e indirilmiştir.",
+      "answer": "D",
+      "explanation": "Kur'an, son peygamber Hz. Muhammed'e vahyedilmiştir.",
+      "theme": "unit3",
+      "relatedConcept": "Kur'an-ı Kerim"
+    },
+    {
+      "id": "u3_tf4",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'in tamamı bir kerede indirilmiştir.",
+      "answer": "Y",
+      "explanation": "Kur'an, 23 yıllık bir süreçte parça parça indirilmiştir.",
+      "theme": "unit3",
+      "relatedConcept": "Vahiy"
+    },
+    {
+      "id": "u3_tf5",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'i okumak ibadettir.",
+      "answer": "D",
+      "explanation": "Kur'an okumak, Allah'ı anmak ve O'nun kelamını dinlemek olduğu için ibadettir.",
+      "theme": "unit3",
+      "relatedConcept": "İbadet"
+    },
+    {
+      "id": "u3_tf6",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'in dili Arapçadır.",
+      "answer": "D",
+      "explanation": "Kur'an, Arapça olarak indirilmiştir.",
+      "theme": "unit3",
+      "relatedConcept": "Arapça"
+    },
+    {
+      "id": "u3_tf7",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'in diğer adı Furkan'dır.",
+      "answer": "D",
+      "explanation": "Furkan, hakkı batıldan ayıran anlamına gelir ve Kur'an'ın isimlerindendir.",
+      "theme": "unit3",
+      "relatedConcept": "Furkan"
+    },
+    {
+      "id": "u3_tf8",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'i ezberleyen kişiye hafız denir.",
+      "answer": "D",
+      "explanation": "Hafız, Kur'an'ın tamamını ezberlemiş kişidir.",
+      "theme": "unit3",
+      "relatedConcept": "Hafız"
+    },
+    {
+      "id": "u3_tf9",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'in ilk suresi Fatiha'dır.",
+      "answer": "D",
+      "explanation": "Fatiha Suresi, Kur'an'ın açılış suresidir.",
+      "theme": "unit3",
+      "relatedConcept": "Fatiha Suresi"
+    },
+    {
+      "id": "u3_tf10",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'de sadece dini konular yer alır.",
+      "answer": "Y",
+      "explanation": "Kur'an, dini konuların yanı sıra ahlak, hukuk, bilim ve sosyal yaşam gibi birçok konuyu içerir.",
+      "theme": "unit3",
+      "relatedConcept": "Kur'an'ın Konuları"
+    },
+    {
+      "id": "u3_fb1",
+      "type": "fillInTheBlanks",
+      "question": "Kur'an-ı Kerim, ........................ ayetlerden oluşur.",
+      "answer": "ayet",
+      "options": [
+        "ayet",
+        "sure",
+        "cüz",
+        "hadis"
+      ],
+      "explanation": "Kur'an-ı Kerim, ayet adı verilen cümlelerden oluşur.",
+      "theme": "unit3",
+      "relatedConcept": "Ayet"
+    },
+    {
+      "id": "u3_fb2",
+      "type": "fillInTheBlanks",
+      "question": "Kur'an-ı Kerim'in ana konularından biri ........................dır.",
+      "answer": "ahlak",
+      "options": [
+        "ahlak",
+        "savaş",
+        "ticaret",
+        "eğlence"
+      ],
+      "explanation": "Kur'an, insanlara güzel ahlakı öğretir.",
+      "theme": "unit3",
+      "relatedConcept": "Ahlak"
+    },
+    {
+      "id": "u3_fb3",
+      "type": "fillInTheBlanks",
+      "question": "Kur'an-ı Kerim'in ilk inen ayetleri ........................ Suresi'ndedir.",
+      "answer": "Alak",
+      "options": [
+        "Alak",
+        "Fatiha",
+        "Bakara",
+        "Nas"
+      ],
+      "explanation": "Alak Suresi'nin ilk beş ayeti, Hz. Muhammed'e inen ilk vahiylerdir.",
+      "theme": "unit3",
+      "relatedConcept": "Alak Suresi"
+    },
+    {
+      "id": "u3_fb4",
+      "type": "fillInTheBlanks",
+      "question": "İhlas Suresi, 'De ki: O Allah ........................' ayetiyle başlar.",
+      "answer": "bir",
+      "options": [
+        "bir",
+        "iki",
+        "üç",
+        "dört"
+      ],
+      "explanation": "Sure, Allah'ın birliğini net bir şekilde ifade eder.",
+      "theme": "unit3",
+      "relatedConcept": "İhlas Suresi"
+    },
+    {
+      "id": "u3_fb5",
+      "type": "fillInTheBlanks",
+      "question": "Allah'ın her şeyi rızıklandıran olması O'nun ........................ ismidir.",
+      "answer": "Rezzak",
+      "options": [
+        "Rezzak",
+        "Alim",
+        "Kadir",
+        "Rahim"
+      ],
+      "explanation": "Rezzak, Allah'ın tüm canlıların rızkını veren olduğu anlamına gelir.",
+      "theme": "unit3",
+      "relatedConcept": "Rezzak"
+    },
+    {
+      "id": "u3_mc1",
+      "type": "multipleChoice",
+      "question": "Kur'an-ı Kerim'in bölümlerinden hangisi 20 sayfadan oluşur?",
+      "options": [
+        "Ayet",
+        "Sure",
+        "Cüz",
+        "Hizb"
+      ],
+      "answer": "Cüz",
+      "explanation": "Kur'an-ı Kerim 30 cüzden oluşur ve her cüz yaklaşık 20 sayfadır.",
+      "theme": "unit3",
+      "relatedConcept": "Cüz"
+    },
+    {
+      "id": "u3_mc2",
+      "type": "multipleChoice",
+      "question": "Kevser Suresi'nin temel mesajı nedir?",
+      "options": [
+        "Allah'ın birliği",
+        "Namaz kılmak",
+        "Peygambere verilen nimetler",
+        "Oruç tutmak"
+      ],
+      "answer": "Peygambere verilen nimetler",
+      "explanation": "Kevser Suresi, Hz. Muhammed'e verilen Kevser havuzunu ve nimetleri anlatır.",
+      "theme": "unit3",
+      "relatedConcept": "Kevser Suresi"
+    },
+    {
+      "id": "u3_mc3",
+      "type": "multipleChoice",
+      "question": "Kur'an-ı Kerim'i okumak için hangi temizlik şartı gereklidir?",
+      "options": [
+        "Abdest",
+        "Gusül",
+        "Teyemmüm",
+        "Hepsi"
+      ],
+      "answer": "Abdest",
+      "explanation": "Kur'an'a dokunmak ve onu okumak için abdestli olmak gerekir.",
+      "theme": "unit3",
+      "relatedConcept": "Abdest"
+    },
+    {
+      "id": "u3_mc4",
+      "type": "multipleChoice",
+      "question": "Kur'an-ı Kerim'in indirildiği ay hangisidir?",
+      "options": [
+        "Ramazan",
+        "Şaban",
+        "Recep",
+        "Muharrem"
+      ],
+      "answer": "Ramazan",
+      "explanation": "Kur'an-ı Kerim, Ramazan ayında Kadir Gecesi'nde indirilmeye başlanmıştır.",
+      "theme": "unit3",
+      "relatedConcept": "Ramazan"
+    },
+    {
+      "id": "u3_mc5",
+      "type": "multipleChoice",
+      "question": "Kur'an-ı Kerim'de kaç sure vardır?",
+      "options": [
+        "113",
+        "114",
+        "115",
+        "116"
+      ],
+      "answer": "114",
+      "explanation": "Kur'an-ı Kerim'de 114 sure bulunmaktadır.",
+      "theme": "unit3",
+      "relatedConcept": "Sure"
+    }
+  ],
+  "unit4": [
+    {
+      "id": "tf1",
+      "type": "trueFalse",
+      "question": "Peygamberler, Allah'ın (cc) insanlar için seçtiği öğretmenlerdir.",
+      "answer": "D",
+      "explanation": "Peygamberler, Allah'ın insanlara doğru yolu göstermesi için gönderdiği elçiler ve rehberlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Nübüvvet"
+    },
+    {
+      "id": "tf2",
+      "type": "trueFalse",
+      "question": "İnsan aklıyla ahiret konularını tam olarak kavrayabilir.",
+      "answer": "Y",
+      "explanation": "İnsan aklı evrenin yaratıcısını anlayabilir ancak yaratılış amacı, Allah'a karşı görevler ve ahiret gibi konularda peygamberlerin rehberliğine ihtiyaç duyar.",
+      "theme": "unit4",
+      "relatedConcept": "Ahiret"
+    },
+    {
+      "id": "tf3",
+      "type": "trueFalse",
+      "question": "Ülülazm, inkârcılara karşı büyük mücadeleler ve sabır göstermiş beş büyük peygamberlere verilen isimdir.",
+      "answer": "D",
+      "explanation": "Ülülazm peygamberler, Hz. Nuh, Hz. İbrahim, Hz. Musa, Hz. İsa ve Hz. Muhammed (sav)'dir.",
+      "theme": "unit4",
+      "relatedConcept": "Ülülazm"
+    },
+    {
+      "id": "tf4",
+      "type": "trueFalse",
+      "question": "Hz. Nuh'un kavminde onun davetini hemen kabul etmiştir.",
+      "answer": "Y",
+      "explanation": "Hz. Nuh'un kavmi onun davetini reddetmiş, alay etmiş ve inanmamakta direnmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "tf5",
+      "type": "trueFalse",
+      "question": "Hz. İbrahim, ateşe atıldığında Allah'ın (cc) emriyle ateş ona zarar vermiştir.",
+      "answer": "Y",
+      "explanation": "Allah'ın (cc) emriyle ateş Hz. İbrahim'e zarar vermemiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "tf6",
+      "type": "trueFalse",
+      "question": "Hz. Musa, İsrailoğullarına gönderilmiş bir peygamberdir ve ona İncil indirilmiştir.",
+      "answer": "Y",
+      "explanation": "Hz. Musa'ya Tevrat indirilmiştir. İncil ise Hz. İsa'ya indirilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Musa"
+    },
+    {
+      "id": "tf7",
+      "type": "trueFalse",
+      "question": "Kureyş Suresi, Kureyş kabilesinin Kâbe'nin bakımını üstlenmesi ve ziyaretçilere hizmet etmesini konu alır.",
+      "answer": "D",
+      "explanation": "Kureyş Suresi, Kureyş kabilesine verilen nimetleri ve Kâbe'ye olan hizmetlerini vurgular.",
+      "theme": "unit4",
+      "relatedConcept": "Kureyş"
+    },
+    {
+      "id": "tf8",
+      "type": "trueFalse",
+      "question": "Peygamber kıssalarında iyilik ve kötülüğün ne olduğu anlatılarak insanlar doğru yola teşvik edilir.",
+      "answer": "D",
+      "explanation": "Peygamber kıssaları, insanlara öğüt vermek ve doğru yola teşvik etmek amacıyla anlatılır.",
+      "theme": "unit4",
+      "relatedConcept": "Kıssa"
+    },
+    {
+      "id": "tf9",
+      "type": "trueFalse",
+      "question": "Peygamberler, insanlara güzel ahlakı kendi hayatlarında uygulayarak örnek olmuşlardır.",
+      "answer": "D",
+      "explanation": "Peygamberler, dürüstlük, adalet, yardımseverlik gibi ahlaki ilkeleri bizzat yaşayarak insanlara örnek olmuşlardır.",
+      "theme": "unit4",
+      "relatedConcept": "Ahlak"
+    },
+    {
+      "id": "tf10",
+      "type": "trueFalse",
+      "question": "Peygamber göndermek, Allah'ın (cc) insanlara olan merhametini göstermez.",
+      "answer": "Y",
+      "explanation": "Allah'ın (cc) insanlara rehber olarak peygamber göndermesi, O'nın sevgi ve merhametini gösterir.",
+      "theme": "unit4",
+      "relatedConcept": "Rahmet"
+    },
+    {
+      "id": "tf11",
+      "type": "trueFalse",
+      "question": "Peygamberler, sadece bu dünyada mutlu olmanın yollarını bildirirler.",
+      "answer": "Y",
+      "explanation": "Peygamberler, insanlara hem bu dünyada hem de ahirette mutluluğa ve huzura kavuşmanın yollarını bildirirler.",
+      "theme": "unit4",
+      "relatedConcept": "Ahiret"
+    },
+    {
+      "id": "tf12",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'deki peygamber kıssalarının amacı, sadece geçmiş olayları anlatmaktır.",
+      "answer": "Y",
+      "explanation": "Peygamber kıssalarının amacı, insanlara öğüt vermek ve ders çıkarmalarını sağlamaktır.",
+      "theme": "unit4",
+      "relatedConcept": "Öğüt"
+    },
+    {
+      "id": "tf13",
+      "type": "trueFalse",
+      "question": "Ülülazm peygamberler, inkârcılara karşı büyük mücadeleler vermişlerdir.",
+      "answer": "D",
+      "explanation": "Ülülazm, büyük mücadeleler ve sabır göstermiş peygamberlere verilen isimdir.",
+      "theme": "unit4",
+      "relatedConcept": "Ülülazm"
+    },
+    {
+      "id": "tf14",
+      "type": "trueFalse",
+      "question": "Hz. Nuh, kavmini yalnızca Allah'a (cc) inanmaya davet etmiştir.",
+      "answer": "D",
+      "explanation": "Hz. Nuh'un temel görevi, kavmini tevhit inancına davet etmekti.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "tf15",
+      "type": "trueFalse",
+      "question": "Hz. Nuh'un kavminde onun davetini hemen kabul etmiştir.",
+      "answer": "Y",
+      "explanation": "Hz. Nuh'un kavmi onun davetini reddetmiş, alay etmiş ve inanmamakta direnmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "tf16",
+      "type": "trueFalse",
+      "question": "Hz. İbrahim, putlara tapan Babil halkına gönderilmiştir.",
+      "answer": "D",
+      "explanation": "Hz. İbrahim, putperest Babil halkını tevhide davet etmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. İbrahim"
+    },
+    {
+      "id": "tf17",
+      "type": "trueFalse",
+      "question": "Hz. İbrahim, putları kırdıktan sonra suçu en küçük puta atmıştır.",
+      "answer": "Y",
+      "explanation": "Hz. İbrahim, baltayı en büyük putun boynuna asmıştır.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. İbrahim"
+    },
+    {
+      "id": "tf18",
+      "type": "trueFalse",
+      "question": "Hz. İbrahim, Kâbe'yi tek başına inşa etmiştir.",
+      "answer": "Y",
+      "explanation": "Hz. İbrahim, oğlu Hz. İsmail ile birlikte Kâbe'yi yeniden inşa etmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Kâbe"
+    },
+    {
+      "id": "tf19",
+      "type": "trueFalse",
+      "question": "Hz. Musa, Firavun'un sarayında büyümüştür.",
+      "answer": "D",
+      "explanation": "Allah (cc), Hz. Musa'nın annesine onu nehre bırakmasını ilham etmiş ve Firavun'un sarayında büyümesi sağlanmıştır.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Musa"
+    },
+    {
+      "id": "tf20",
+      "type": "trueFalse",
+      "question": "Hz. Harun, Hz. Musa'ya yardımcı olarak peygamber olarak görevlendirilmiştir.",
+      "answer": "D",
+      "explanation": "Hz. Harun, Hz. Musa'nın kardeşi ve yardımcısı olarak peygamberlik yapmıştır.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Harun"
+    },
+    {
+      "id": "tf21",
+      "type": "trueFalse",
+      "question": "Firavun ve ordusu, Kızıldeniz'i geçerek Hz. Musa'yı yakalamıştır.",
+      "answer": "Y",
+      "explanation": "Firavun ve ordusu Kızıldeniz'de boğulmuştur.",
+      "theme": "unit4",
+      "relatedConcept": "Firavun"
+    },
+    {
+      "id": "tf22",
+      "type": "trueFalse",
+      "question": "Hz. İsa, İsrailoğullarına gönderilmiş bir peygamberdir.",
+      "answer": "D",
+      "explanation": "Hz. İsa, İsrailoğullarına gönderilen peygamberlerden biridir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. İsa"
+    },
+    {
+      "id": "tf23",
+      "type": "trueFalse",
+      "question": "Hz. İsa, kendisinden sonra Hz. Muhammed'in (sav) peygamber olacağını müjdelemiştir.",
+      "answer": "D",
+      "explanation": "Hz. İsa, son peygamberin geleceğini haber vermiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Muhammed"
+    },
+    {
+      "id": "tf24",
+      "type": "trueFalse",
+      "question": "Kureyş Suresi, Kureyş kabilesinin Kâbe'nin bakımını üstlenmesi ve ziyaretçilere hizmet etmesini konu alır.",
+      "answer": "D",
+      "explanation": "Kureyş Suresi, Kureyş kabilesine verilen nimetleri ve Kâbe'ye olan hizmetlerini vurgular.",
+      "theme": "unit4",
+      "relatedConcept": "Kureyş"
+    },
+    {
+      "id": "tf25",
+      "type": "trueFalse",
+      "question": "Kureyş kabilesi, Kâbe'nin asıl sahibinin Yüce Allah olduğunu unutmuşlardır.",
+      "answer": "Y",
+      "explanation": "Kureyş Suresi, Kâbe'nin asıl sahibinin Yüce Allah olduğu hatırlatılarak tevhit inancına vurgu yapar.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "tf26",
+      "type": "trueFalse",
+      "question": "Peygamberler, insanlara sadece dini konularda rehberlik etmişlerdir.",
+      "answer": "Y",
+      "explanation": "Peygamberler, dini konuların yanı sıra sosyal, ahlaki ve hukuki konularda da rehberlik etmişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Nübüvvet"
+    },
+    {
+      "id": "tf27",
+      "type": "trueFalse",
+      "question": "Her peygambere mutlaka bir kitap indirilmiştir.",
+      "answer": "Y",
+      "explanation": "Bazı peygamberlere kitap değil, sahifeler indirilmiştir veya önceki peygamberlerin kitaplarını tasdik etmişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Vahiy"
+    },
+    {
+      "id": "tf28",
+      "type": "trueFalse",
+      "question": "Hz. Adem, ilk insan ve ilk peygamberdir.",
+      "answer": "D",
+      "explanation": "Hz. Adem, insanlığın babası ve Allah'ın ilk peygamberidir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Adem"
+    },
+    {
+      "id": "tf29",
+      "type": "trueFalse",
+      "question": "Peygamberlerin hepsi aynı kavme gönderilmiştir.",
+      "answer": "Y",
+      "explanation": "Peygamberler farklı zamanlarda, farklı kavimlere veya tüm insanlığa gönderilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Nübüvvet"
+    },
+    {
+      "id": "tf42",
+      "type": "trueFalse",
+      "question": "Peygamberlerin hepsi aynı mucizeye sahiptir.",
+      "answer": "Y",
+      "explanation": "Her peygambere, kendi dönemlerinin ve kavimlerinin ihtiyaçlarına göre farklı mucizeler verilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "tf43",
+      "type": "trueFalse",
+      "question": "Peygamberler, insanüstü varlıklardır ve hiç hata yapmazlar.",
+      "answer": "Y",
+      "explanation": "Peygamberler de insandır, ancak Allah tarafından korunurlar ve büyük günah işlemezler.",
+      "theme": "unit4",
+      "relatedConcept": "Nübüvvet"
+    },
+    {
+      "id": "tf44",
+      "type": "trueFalse",
+      "question": "Kur'an-ı Kerim'de adı geçen tüm peygamberlerin kıssaları detaylıca anlatılmıştır.",
+      "answer": "Y",
+      "explanation": "Kur'an'da bazı peygamberlerin kıssaları detaylıca anlatılırken, bazılarının sadece isimleri zikredilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Kıssa"
+    },
+    {
+      "id": "tf45",
+      "type": "trueFalse",
+      "question": "Peygamberlerin tebliğ ettiği dinin özü her zaman tevhit olmuştur.",
+      "answer": "D",
+      "explanation": "Tüm peygamberler, Allah'ın birliği ve O'na kulluk etme mesajını getirmişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "tf46",
+      "type": "trueFalse",
+      "question": "Peygamberler, insanlara sadece korku yoluyla tebliğde bulunmuşlardır.",
+      "answer": "Y",
+      "explanation": "Peygamberler, insanlara hem müjdeleyici hem de uyarıcı olarak gönderilmişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Tebliğ"
+    },
+    {
+      "id": "tf47",
+      "type": "trueFalse",
+      "question": "Hz. Muhammed (sav), son peygamberdir.",
+      "answer": "D",
+      "explanation": "Hz. Muhammed (sav), peygamberlerin sonuncusu ve hatemü'l-enbiyadır.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Muhammed"
+    },
+    {
+      "id": "tf48",
+      "type": "trueFalse",
+      "question": "Kur'an'da adı geçen peygamberlerin hepsi erkeklerden seçilmiştir.",
+      "answer": "D",
+      "explanation": "Kur'an'da adı geçen tüm peygamberler erkektir.",
+      "theme": "unit4",
+      "relatedConcept": "Nübüvvet"
+    },
+    {
+      "id": "tf49",
+      "type": "trueFalse",
+      "question": "Peygamberlerin gönderilme amacı, insanların kendi başlarına bulamayacakları bilgileri onlara ulaştırmaktır.",
+      "answer": "D",
+      "explanation": "Peygamberler, vahiy yoluyla insanlara ahiret, ibadet ve ahlak gibi konularda rehberlik ederler.",
+      "theme": "unit4",
+      "relatedConcept": "Vahiy"
+    },
+    {
+      "id": "tf50",
+      "type": "trueFalse",
+      "question": "Peygamberler, insanlara sadece ibadet etmeyi öğretmişlerdir.",
+      "answer": "Y",
+      "explanation": "Peygamberler, ibadetlerin yanı sıra sosyal ilişkiler, adalet ve güzel ahlak gibi konularda da öğretiler sunmuşlardır.",
+      "theme": "unit4",
+      "relatedConcept": "İbadet"
+    },
+    {
+      "id": "tf51",
+      "type": "trueFalse",
+      "question": "Hz. İsa, babasız dünyaya gelmiştir.",
+      "answer": "D",
+      "explanation": "Hz. İsa, Allah'ın (cc) mucizesi olarak babasız dünyaya gelmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "tf52",
+      "type": "trueFalse",
+      "question": "Peygamberler, insanlara örnek olmaları için gönderilmişlerdir.",
+      "answer": "D",
+      "explanation": "Peygamberler, sözleri ve davranışlarıyla insanlara rehberlik eden en güzel örneklerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Sünnet"
+    },
+    {
+      "id": "tf53",
+      "type": "trueFalse",
+      "question": "Hz. Adem'in eşi Havva, cennette yasak ağacın meyvesinden yediği için cennetten çıkarılmıştır.",
+      "answer": "D",
+      "explanation": "Hz. Adem ve Havva'nın cennetten çıkarılma sebebi, yasak ağacın meyvesinden yemeleriidir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Adem"
+    },
+    {
+      "id": "tf54",
+      "type": "trueFalse",
+      "question": "Nuh tufanı sadece Hz. Nuh'un yaşadığı bölgeyi etkilemiştir.",
+      "answer": "Y",
+      "explanation": "Nuh tufanı, yeryüzünün tamamını veya büyük bir kısmını etkileyen evrensel bir olaydır.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "tf55",
+      "type": "trueFalse",
+      "question": "Hz. İbrahim, putları kırdıktan sonra ateşe atılmıştır.",
+      "answer": "D",
+      "explanation": "Hz. İbrahim, putperestliğe karşı mücadelesi nedeniyle ateşe atılmıştır.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. İbrahim"
+    },
+    {
+      "id": "tf56",
+      "type": "trueFalse",
+      "question": "Hz. Musa'nın asası, yılanlara dönüşme mucizesine sahipti.",
+      "answer": "D",
+      "explanation": "Hz. Musa'nın asası, Firavun'un sihirbazlarına karşı yılanlara dönüşerek mucize göstermiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "tf60",
+      "type": "trueFalse",
+      "question": "Peygamberlerin hepsi zengin ve güçlü kişilerdi.",
+      "answer": "Y",
+      "explanation": "Peygamberler arasında fakir olanlar da vardı. Önemli olan maddi durumları değil, Allah katındaki dereceleriydi.",
+      "theme": "unit4",
+      "relatedConcept": "Nübüvvet"
+    },
+    {
+      "id": "tf62",
+      "type": "trueFalse",
+      "question": "Hz. İbrahim'in babası da bir peygamberdi.",
+      "answer": "Y",
+      "explanation": "Hz. İbrahim'in babası putperest idi ve Hz. İbrahim onu tevhide davet etmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. İbrahim"
+    },
+    {
+      "id": "tf63",
+      "type": "trueFalse",
+      "question": "Peygamberlerin sayısı Kur'an-ı Kerim'de açıkça belirtilmiştir.",
+      "answer": "Y",
+      "explanation": "Kur'an'da sadece bazı peygamberlerin isimleri zikredilmiştir, toplam sayıları belirtilmemiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Kıssa"
+    },
+    {
+      "id": "tf65",
+      "type": "trueFalse",
+      "question": "Peygamberler, insanlara sadece mucizelerle inanmalarını sağlamışlardır.",
+      "answer": "Y",
+      "explanation": "Peygamberler, mucizelerin yanı sıra tebliğ, güzel ahlak ve örnek davranışlarıyla da insanları etkilemişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Tebliğ"
+    },
+    {
+      "id": "tf66",
+      "type": "trueFalse",
+      "question": "Hz. Nuh, gemisine sadece ailesini almıştır.",
+      "answer": "Y",
+      "explanation": "Hz. Nuh, ailesinin yanı sıra inananları ve her canlıdan birer çifti de gemiye almıştır.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "fb1",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberler, Yüce Allah'tan ........................ getiren kimselerdir.",
+      "answer": "haber",
+      "options": [
+        "haber",
+        "para",
+        "hediye",
+        "emir"
+      ],
+      "explanation": "Peygamberler, Allah'ın vahyini insanlara ulaştıran elçileridir.",
+      "theme": "unit4",
+      "relatedConcept": "Vahiy"
+    },
+    {
+      "id": "fb2",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberlik, Allah (cc) ile insanlar arasındaki bir ........................ görevidir.",
+      "answer": "elçilik",
+      "options": [
+        "elçilik",
+        "krallık",
+        "ticaret",
+        "öğretmenlik"
+      ],
+      "explanation": "Peygamberlik, Allah'ın mesajlarını insanlara iletme görevidir.",
+      "theme": "unit4",
+      "relatedConcept": "Nübüvvet"
+    },
+    {
+      "id": "fb3",
+      "type": "fillInTheBlanks",
+      "question": "Kur'an-ı Kerim'de Nebi ve Resul kelimeleri ........................ demektir.",
+      "answer": "peygamber",
+      "options": [
+        "peygamber",
+        "kitap",
+        "melek",
+        "mucize"
+      ],
+      "explanation": "Bu iki kelime, Kur'an'da peygamber anlamında kullanılır.",
+      "theme": "unit4",
+      "relatedConcept": "Peygamber"
+    },
+    {
+      "id": "fb4",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberler, insanlara hem bu dünyada hem de ahirette ........................ ve huzura kavuşmanın yollarını bildirirler.",
+      "answer": "mutluluğa",
+      "options": [
+        "mutluluğa",
+        "zenginliğe",
+        "güce",
+        "şöhrete"
+      ],
+      "explanation": "Peygamberler, insanların dünya ve ahiret saadetini amaçlayan rehberlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Ahiret"
+    },
+    {
+      "id": "fb5",
+      "type": "fillInTheBlanks",
+      "question": "Kur'an-ı Kerim'deki peygamber kıssalarının amacı, insanlara öğüt vermek ve ........................ sağlamaktır.",
+      "answer": "ders çıkarmalarını",
+      "options": [
+        "ders çıkarmalarını",
+        "eğlenmelerini",
+        "uyumalarını",
+        "savaşmalarını"
+      ],
+      "explanation": "Kıssalar, geçmişten ibret almayı ve doğru yolu bulmayı hedefler.",
+      "theme": "unit4",
+      "relatedConcept": "İbret"
+    },
+    {
+      "id": "fb6",
+      "type": "fillInTheBlanks",
+      "question": "Ülülazm, inkârcılara karşı büyük mücadeleler ve ........................ göstermiş beş büyük peygambere verilen isimdir.",
+      "answer": "sabır",
+      "options": [
+        "sabır",
+        "öfke",
+        "korku",
+        "hırs"
+      ],
+      "explanation": "Ülülazm peygamberler, zorluklara karşı gösterdikleri sabırla bilinirler.",
+      "theme": "unit4",
+      "relatedConcept": "Sabır"
+    },
+    {
+      "id": "fb7",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Nuh, ........................ inancından uzaklaşan kavmini doğru yola davet etmekle görevlendirilmiştir.",
+      "answer": "tevhit",
+      "options": [
+        "tevhit",
+        "putperestlik",
+        "şirk",
+        "büyücülük"
+      ],
+      "explanation": "Hz. Nuh'un ana görevi, kavmini Allah'ın birliğine inanmaya çağırmaktı.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "fb8",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Nuh ve ona inananlarla birlikte her hayvandan birer çift ........................ binmiştir.",
+      "answer": "gemiye",
+      "options": [
+        "gemiye",
+        "dağa",
+        "ağaca",
+        "mağaraya"
+      ],
+      "explanation": "Tufandan kurtulmak için gemiye binmeleri emredilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "fb9",
+      "type": "fillInTheBlanks",
+      "question": "Tufan sona erince gemi ........................ Dağı'na oturmuştur.",
+      "answer": "Cudi",
+      "options": [
+        "Cudi",
+        "Arafat",
+        "Sina",
+        "Uhud"
+      ],
+      "explanation": "Gemi, tufan sonrası Cudi Dağı'na yerleşmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "fb10",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İbrahim, putlara ve yıldızlara tapan ........................ halkını tevhit inancına davet etmekle görevlendirilmiştir.",
+      "answer": "Babil",
+      "options": [
+        "Babil",
+        "Mısır",
+        "Medine",
+        "Kudüs"
+      ],
+      "explanation": "Hz. İbrahim, Babil'deki putperest halka gönderilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. İbrahim"
+    },
+    {
+      "id": "fb11",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İbrahim, oğlu Hz. İsmail'le birlikte ........................ yeniden inşa etmiştir.",
+      "answer": "Kâbe'yi",
+      "options": [
+        "Kâbe'yi",
+        "tapınağı",
+        "sarayı",
+        "piramiti"
+      ],
+      "explanation": "Kâbe, Hz. İbrahim ve Hz. İsmail tarafından yeniden inşa edilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Kâbe"
+    },
+    {
+      "id": "fb12",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İbrahim kıssasından çıkarılabilecek hisselerden biri, insanın inandığı değerleri savunurken ........................ ve kararlı olması gerektiğidir.",
+      "answer": "cesur",
+      "options": [
+        "cesur",
+        "korkak",
+        "pasif",
+        "çekingen"
+      ],
+      "explanation": "Hz. İbrahim'in putlara karşı mücadelesi cesaret örneğidir.",
+      "theme": "unit4",
+      "relatedConcept": "İman"
+    },
+    {
+      "id": "fb13",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Musa, ........................ gönderilmiş bir peygamberdir.",
+      "answer": "İsrailoğullarına",
+      "options": [
+        "İsrailoğullarına",
+        "Kureyş'e",
+        "Ad kavmine",
+        "Semud kavmine"
+      ],
+      "explanation": "Hz. Musa, İsrailoğulları'nın peygamberidir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Musa"
+    },
+    {
+      "id": "fb14",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Musa'nın doğduğu dönemde Mısır'ı ........................ yönetmekteydi.",
+      "answer": "Firavun",
+      "options": [
+        "Firavun",
+        "Nemrut",
+        "Karun",
+        "Haman"
+      ],
+      "explanation": "Firavun, Hz. Musa zamanında Mısır'ın zalim hükümdarıydı.",
+      "theme": "unit4",
+      "relatedConcept": "Firavun"
+    },
+    {
+      "id": "fb15",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Musa'ya ........................ indirilmiştir.",
+      "answer": "Tevrat",
+      "options": [
+        "Tevrat",
+        "İncil",
+        "Zebur",
+        "Suhuf"
+      ],
+      "explanation": "Tevrat, Hz. Musa'ya vahyedilen kutsal kitaptır.",
+      "theme": "unit4",
+      "relatedConcept": "Tevrat"
+    },
+    {
+      "id": "fb16",
+      "type": "fillInTheBlanks",
+      "question": "Firavun ve ordusu, Hz. Musa ve halkını takip ederken ........................ yarılmış ve İsrailoğulları karşıya geçmiştir.",
+      "answer": "Kızıldeniz",
+      "options": [
+        "Kızıldeniz",
+        "Akdeniz",
+        "Nil Nehri",
+        "Fırat Nehri"
+      ],
+      "explanation": "Kızıldeniz mucizesi, Hz. Musa kıssasının önemli bir olayıdır.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "fb17",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Musa kıssasından çıkarılabilecek hisselerden biri, insanlara doğru ve güzel olanı anlatırken ........................ ve nazik bir üslup kullanılması gerektiğidir.",
+      "answer": "yumuşak",
+      "options": [
+        "yumuşak",
+        "sert",
+        "kaba",
+        "agresif"
+      ],
+      "explanation": "Tebliğde yumuşak ve nazik olmak önemlidir.",
+      "theme": "unit4",
+      "relatedConcept": "Tebliğ"
+    },
+    {
+      "id": "fb18",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İsa, Hz. ........................'nın oğludur.",
+      "answer": "Meryem",
+      "options": [
+        "Meryem",
+        "Havva",
+        "Asiye",
+        "Fatıma"
+      ],
+      "explanation": "Hz. İsa, annesi Hz. Meryem'den dünyaya gelmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. İsa"
+    },
+    {
+      "id": "fb19",
+      "type": "fillInTheBlanks",
+      "question": "Allah (cc) Hz. İsa'ya ........................'i göndermiştir.",
+      "answer": "İncil",
+      "options": [
+        "İncil",
+        "Tevrat",
+        "Zebur",
+        "Kur'an"
+      ],
+      "explanation": "İncil, Hz. İsa'ya vahyedilen kutsal kitaptır.",
+      "theme": "unit4",
+      "relatedConcept": "İncil"
+    },
+    {
+      "id": "fb20",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İsa, kendisinden sonra Hz. ........................ (sav) peygamber olacağını müjdelemiştir.",
+      "answer": "Muhammed'in",
+      "options": [
+        "Muhammed'in",
+        "Musa'nın",
+        "İbrahim'in",
+        "Nuh'un"
+      ],
+      "explanation": "Hz. İsa, son peygamberin geleceğini haber vermiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Muhammed"
+    },
+    {
+      "id": "fb21",
+      "type": "fillInTheBlanks",
+      "question": "Peygamber kıssalarında peygamberlerin insanları ........................ daveti temel konudur.",
+      "answer": "tevhide",
+      "options": [
+        "tevhide",
+        "şirke",
+        "putperestliğe",
+        "büyücülüğe"
+      ],
+      "explanation": "Tüm peygamberlerin ortak daveti, Allah'ın birliğine inanmaktır.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "fb22",
+      "type": "fillInTheBlanks",
+      "question": "Allah (cc), peygamberleri desteklemek için ........................ göndermiştir.",
+      "answer": "mucizeler",
+      "options": [
+        "mucizeler",
+        "savaşlar",
+        "zenginlik",
+        "binalar"
+      ],
+      "explanation": "Mucizeler, peygamberlerin hakikatini ispatlayan ilahi yardımlardır.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "fb23",
+      "type": "fillInTheBlanks",
+      "question": "Kureyş kabilesi, ........................'nin bakımını üstlenmiş ve ziyaretçilere hizmet etmiştir.",
+      "answer": "Kâbe",
+      "options": [
+        "Kâbe",
+        "Mescid-i Aksa",
+        "Medine",
+        "Şam"
+      ],
+      "explanation": "Kureyş kabilesi, Kâbe'nin hizmetinden sorumluydu.",
+      "theme": "unit4",
+      "relatedConcept": "Kâbe"
+    },
+    {
+      "id": "fb24",
+      "type": "fillInTheBlanks",
+      "question": "Kureyş Suresi, Kureyş kabilesinin geçimini ........................ yolculuklarla sağladığına dikkat çeker.",
+      "answer": "ticari",
+      "options": [
+        "ticari",
+        "tarımsal",
+        "hayvansal",
+        "askeri"
+      ],
+      "explanation": "Kureyş kabilesi, ticari faaliyetlerle geçimini sağlıyordu.",
+      "theme": "unit4",
+      "relatedConcept": "Kureyş"
+    },
+    {
+      "id": "fb25",
+      "type": "fillInTheBlanks",
+      "question": "Kureyş halkının, Kâbe'nin sahibi olan Allah'a (cc) ........................ etmeye davet edilmesi Kureyş Suresi'nin temel konularındandır.",
+      "answer": "kulluk",
+      "options": [
+        "kulluk",
+        "isyan",
+        "inkâr",
+        "red"
+      ],
+      "explanation": "Sure, Kureyş'i Allah'a kulluk etmeye çağırır.",
+      "theme": "unit4",
+      "relatedConcept": "İbadet"
+    },
+    {
+      "id": "fb34",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İbrahim'in ateşe atılmasına rağmen yanmaması, Allah'ın (cc) ........................ bir mucizesidir.",
+      "answer": "kudretinin",
+      "options": [
+        "kudretinin",
+        "zayıflığının",
+        "korkusunun",
+        "öfkesinin"
+      ],
+      "explanation": "Ateşin yakmaması, Allah'ın sınırsız gücünü gösterir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "fb35",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Musa'nın asası, ........................ dönüşerek Firavun'un sihirbazlarını mağlup etmiştir.",
+      "answer": "yılana",
+      "options": [
+        "yılana",
+        "kuşa",
+        "taşa",
+        "ağaca"
+      ],
+      "explanation": "Asanın yılana dönüşmesi, Hz. Musa'nın en bilinen mucizelerindendir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "fb36",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İsa'nın mucizelerinden biri, ........................ diriltmesidir.",
+      "answer": "ölüleri",
+      "options": [
+        "ölüleri",
+        "taşları",
+        "ağaçları",
+        "hayvanları"
+      ],
+      "explanation": "Hz. İsa, Allah'ın izniyle ölüleri diriltme mucizesine sahipti.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "fb37",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberlerin hepsi Allah'tan (cc) ........................ almışlardır.",
+      "answer": "vahiy",
+      "options": [
+        "vahiy",
+        "para",
+        "hediye",
+        "güç"
+      ],
+      "explanation": "Tüm peygamberler, Allah'tan vahiy yoluyla mesaj almışlardır.",
+      "theme": "unit4",
+      "relatedConcept": "Vahiy"
+    },
+    {
+      "id": "fb38",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Nuh tufanı, ........................ inanmayanları helak etmiştir.",
+      "answer": "Allah'a",
+      "options": [
+        "Allah'a",
+        "peygambere",
+        "kitaba",
+        "meleklere"
+      ],
+      "explanation": "Tufan, Allah'ın birliğini inkâr edenleri cezalandırmak için gönderilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "fb47",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberler, insanlara doğru yolu göstermek için Allah (cc) tarafından ........................ seçilmişlerdir.",
+      "answer": "özel olarak",
+      "options": [
+        "özel olarak",
+        "rastgele",
+        "kendi istekleriyle",
+        "toplum tarafından"
+      ],
+      "explanation": "Peygamberler, ilahi bir seçimle görevlendirilmişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Nübüvvet"
+    },
+    {
+      "id": "fb48",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberlerin getirdiği mesajlar, insanların ........................ ve ahiret hayatlarını düzenler.",
+      "answer": "dünya",
+      "options": [
+        "dünya",
+        "savaş",
+        "ticaret",
+        "eğlence"
+      ],
+      "explanation": "Peygamberler, hem dünya hem de ahiret için rehberlik ederler.",
+      "theme": "unit4",
+      "relatedConcept": "İslam"
+    },
+    {
+      "id": "fb49",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberler, ........................ ve dürüstlük gibi ahlaki değerlere önem vermişlerdir.",
+      "answer": "adalet",
+      "options": [
+        "adalet",
+        "kurnazlık",
+        "hırs",
+        "korku"
+      ],
+      "explanation": "Peygamberler, yüksek ahlaki değerlere sahip olmuşlardır.",
+      "theme": "unit4",
+      "relatedConcept": "Ahlak"
+    },
+    {
+      "id": "fb50",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Adem ve Havva, ........................ ağacın meyvesinden yedikleri için cennetten çıkarılmışlardır.",
+      "answer": "yasak",
+      "options": [
+        "yasak",
+        "elma",
+        "hurma",
+        "üzüm"
+      ],
+      "explanation": "Yasak ağacın meyvesi, onların cennetten çıkarılma sebebi olmuştur.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Adem"
+    },
+    {
+      "id": "fb51",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Nuh'un gemisi, ........................ Dağı'na oturmuştur.",
+      "answer": "Cudi",
+      "options": [
+        "Cudi",
+        "Arafat",
+        "Sina",
+        "Uhud"
+      ],
+      "explanation": "Tufan sonrası gemi Cudi Dağı'na yerleşmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "fb52",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İbrahim, ........................ ve yıldızlara tapan kavmini tevhide davet etmiştir.",
+      "answer": "putlara",
+      "options": [
+        "putlara",
+        "insanlara",
+        "hayvanlara",
+        "bitkilere"
+      ],
+      "explanation": "Hz. İbrahim, putperestliğe karşı mücadele etmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "fb53",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Musa, ........................'dan İsrailoğullarını kurtarmıştır.",
+      "answer": "Firavun'un zulmünden",
+      "options": [
+        "Firavun'un zulmünden",
+        "açlıktan",
+        "savaştan",
+        "hastalıktan"
+      ],
+      "explanation": "Hz. Musa, İsrailoğullarını Firavun'un köleliğinden kurtarmıştır.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Musa"
+    },
+    {
+      "id": "fb54",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İsa, Allah'ın (cc) ........................ ile babasız dünyaya gelmiştir.",
+      "answer": "mucizesiyle",
+      "options": [
+        "mucizesiyle",
+        "isteğiyle",
+        "emriyle",
+        "kudretiyle"
+      ],
+      "explanation": "Hz. İsa'nın doğumu, ilahi bir mucizedir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "fb55",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Muhammed (sav), ........................ peygamberdir.",
+      "answer": "son",
+      "options": [
+        "son",
+        "ilk",
+        "ortanca",
+        "ikinci"
+      ],
+      "explanation": "Hz. Muhammed (sav), peygamberlerin sonuncusudur.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Muhammed"
+    },
+    {
+      "id": "fb56",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberlerin hayatları, Müslümanlar için ........................ bir örnektir.",
+      "answer": "güzel",
+      "options": [
+        "güzel",
+        "kötü",
+        "sıradan",
+        "önemsiz"
+      ],
+      "explanation": "Peygamberler, tüm insanlık için örnek alınacak şahsiyetlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Sünnet"
+    },
+    {
+      "id": "fb57",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberler, insanlara ........................ ve ahiret konularında rehberlik etmişlerdir.",
+      "answer": "dünya",
+      "options": [
+        "dünya",
+        "savaş",
+        "ticaret",
+        "eğlence"
+      ],
+      "explanation": "Peygamberler, hem dünya hem de ahiret hayatı için yol göstermişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "İslam"
+    },
+    {
+      "id": "fb58",
+      "type": "fillInTheBlanks",
+      "question": "Peygamberler, ........................ ve dürüstlük gibi ahlaki değerlere önem vermişlerdir.",
+      "answer": "adalet",
+      "options": [
+        "adalet",
+        "kurnazlık",
+        "hırs",
+        "korku"
+      ],
+      "explanation": "Peygamberler, yüksek ahlaki değerlere sahip olmuşlardır.",
+      "theme": "unit4",
+      "relatedConcept": "Ahlak"
+    },
+    {
+      "id": "fb59",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Nuh'un gemisi, ........................ ve inananları kurtarmıştır.",
+      "answer": "ailesini",
+      "options": [
+        "ailesini",
+        "düşmanlarını",
+        "hayvanları",
+        "bitkileri"
+      ],
+      "explanation": "Gemi, Hz. Nuh'un ailesini ve inananları tufandan kurtarmıştır.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "fb60",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İbrahim, ........................ ve İsmail ile birlikte Kâbe'yi inşa etmiştir.",
+      "answer": "oğlu",
+      "options": [
+        "oğlu",
+        "babası",
+        "kardeşi",
+        "amcası"
+      ],
+      "explanation": "Kâbe, Hz. İbrahim ve oğlu İsmail tarafından inşa edilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Kâbe"
+    },
+    {
+      "id": "fb61",
+      "type": "fillInTheBlanks",
+      "question": "Hz. Musa, ........................'ya karşı mücadele etmiştir.",
+      "answer": "Firavun'a",
+      "options": [
+        "Firavun'a",
+        "Nemrut'a",
+        "Karun'a",
+        "Haman'a"
+      ],
+      "explanation": "Hz. Musa, zalim Firavun'a karşı mücadele etmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Firavun"
+    },
+    {
+      "id": "fb62",
+      "type": "fillInTheBlanks",
+      "question": "Hz. İsa, ........................'nın oğludur.",
+      "answer": "Meryem",
+      "options": [
+        "Meryem",
+        "Havva",
+        "Asiye",
+        "Fatıma"
+      ],
+      "explanation": "Hz. İsa, Hz. Meryem'in oğludur.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. İsa"
+    },
+    {
+      "id": "mc1",
+      "type": "multipleChoice",
+      "question": "Aşağıdakilerden hangisi peygamberlerin görevlerinden biri değildir?",
+      "options": [
+        "Allah'ın (cc) mesajlarını bildirmek",
+        "Emirleri açıklamak",
+        "Sadece kendi çıkarları için çalışmak",
+        "Örnek olmak"
+      ],
+      "answer": "Sadece kendi çıkarları için çalışmak",
+      "explanation": "Peygamberler, insanlara rehberlik etmek ve Allah'ın emirlerini bildirmekle görevlidirler, kendi çıkarları için çalışmazlar.",
+      "theme": "unit4",
+      "relatedConcept": "Nübüvvet"
+    },
+    {
+      "id": "mc2",
+      "type": "multipleChoice",
+      "question": "İnsan aklıyla tam olarak kavranamayan konular arasında aşağıdakilerden hangisi bulunur?",
+      "options": [
+        "Yemek pişirme yöntemleri",
+        "Evrenin yaratıcısı",
+        "Ahiret konuları",
+        "Matematik problemleri"
+      ],
+      "answer": "Ahiret konuları",
+      "explanation": "İnsan aklı, ahiret gibi gaybi konuları peygamberlerin rehberliği olmadan tam olarak kavrayamaz.",
+      "theme": "unit4",
+      "relatedConcept": "Ahiret"
+    },
+    {
+      "id": "mc3",
+      "type": "multipleChoice",
+      "question": "Aşağıdaki peygamberlerden hangisi Ülülazm peygamberlerden biri değildir?",
+      "options": [
+        "Hz. Nuh",
+        "Hz. İbrahim",
+        "Hz. Yusuf",
+        "Hz. Musa"
+      ],
+      "answer": "Hz. Yusuf",
+      "explanation": "Ülülazm peygamberler Hz. Nuh, Hz. İbrahim, Hz. Musa, Hz. İsa ve Hz. Muhammed (sav)'dir. Hz. Yusuf bu gruba dahil değildir.",
+      "theme": "unit4",
+      "relatedConcept": "Ülülazm"
+    },
+    {
+      "id": "mc4",
+      "type": "multipleChoice",
+      "question": "Hz. Nuh kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?",
+      "options": [
+        "İnsanlar arasında ayrımcılık yapılması gerektiği",
+        "Allah'a (cc) hiçbir şey şirk koşulmaması gerektiği",
+        "Peygamberlerin görevlerini yaparken karşılık beklemesi gerektiği",
+        "İnsanın yaptığı işte azimli ve kararlı olmaması gerektiği"
+      ],
+      "answer": "Allah'a (cc) hiçbir şey şirk koşulmaması gerektiği",
+      "explanation": "Hz. Nuh'un tevhit mücadelesi, Allah'a ortak koşmamanın önemini gösterir.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "mc5",
+      "type": "multipleChoice",
+      "question": "Hz. Nuh'un gemisine kimler binmiştir?",
+      "options": [
+        "Sadece Hz. Nuh",
+        "Hz. Nuh ve inananlar",
+        "Hz. Nuh, inananlar ve her hayvandan birer çift",
+        "Sadece inkarcılar"
+      ],
+      "answer": "Hz. Nuh, inananlar ve her canlı türünden birer çift",
+      "explanation": "Tufan sırasında gemiye Hz. Nuh, ona inananlar ve her canlı türünden birer çift binmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "mc6",
+      "type": "multipleChoice",
+      "question": "Hz. İbrahim'in putları kırmasından sonra halkın putların konuşamayacağını itiraf etmesi hangi hisseyi vurgular?",
+      "options": [
+        "Ataların körü körüne taklit edilmesi gerektiği",
+        "Putlara tapmanın anlamsızlığını",
+        "Hz. İbrahim'in zayıf olduğunu",
+        "Halkın putlara daha çok inanması gerektiğini"
+      ],
+      "answer": "Putlara tapmanın anlamsızlığını",
+      "explanation": "Bu olay, putların acizliğini ve onlara tapmanın boşluğunu ortaya koymuştur.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "mc7",
+      "type": "multipleChoice",
+      "question": "Hz. İbrahim ve oğlu Hz. İsmail'in birlikte inşa ettiği yapı aşağıdakilerden hangisidir?",
+      "options": [
+        "Mescid-i Aksa",
+        "Kâbe",
+        "Kudüs Tapınağı",
+        "Babil Kulesi"
+      ],
+      "answer": "Kâbe",
+      "explanation": "Kâbe, Hz. İbrahim ve Hz. İsmail tarafından yeniden inşa edilen kutsal bir yapıdır.",
+      "theme": "unit4",
+      "relatedConcept": "Kâbe"
+    },
+    {
+      "id": "mc8",
+      "type": "multipleChoice",
+      "question": "Yüce Allah dilerse imkansız görünen şeylerin gerçekleşebileceği",
+      "options": [
+        "İnsanın inandığı değerleri savunurken korkak olması gerektiği",
+        "En yakınlar şirke bulaşmış olsa bile bunun en büyük günah olmadığı",
+        "Yüce Allah dilerse imkansız görünen şeylerin gerçekleşebileceği",
+        "Ataların her zaman doğru yolda olduğu"
+      ],
+      "answer": "Yüce Allah dilerse imkansız görünen şeylerin gerçekleşebileceği",
+      "explanation": "Ateşin Hz. İbrahim'e zarar vermemesi, Allah'ın kudretinin bir göstergesidir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "mc9",
+      "type": "multipleChoice",
+      "question": "Hz. Musa'ya hangi kutsal kitap indirilmiştir?",
+      "options": [
+        "İncil",
+        "Zebur",
+        "Tevrat",
+        "Kur'an-ı Kerim"
+      ],
+      "answer": "Tevrat",
+      "explanation": "Tevrat, Hz. Musa'ya vahyedilen ilahi kitaptır.",
+      "theme": "unit4",
+      "relatedConcept": "Tevrat"
+    },
+    {
+      "id": "mc10",
+      "type": "multipleChoice",
+      "question": "Hz. Musa'nın doğduğu dönemde Mısır'ı yöneten zalim yönetici kimdir?",
+      "options": [
+        "Nemrut",
+        "Firavun",
+        "Karun",
+        "Ebu Cehil"
+      ],
+      "answer": "Firavun",
+      "explanation": "Firavun, İsrailoğullarına zulmeden Mısır hükümdarıydı.",
+      "theme": "unit4",
+      "relatedConcept": "Firavun"
+    },
+    {
+      "id": "mc11",
+      "type": "multipleChoice",
+      "question": "Hz. Musa ve İsrailoğulları Firavun'dan kaçarken hangi deniz yarılmıştır?",
+      "options": [
+        "Akdeniz",
+        "Karadeniz",
+        "Kızıldeniz",
+        "Marmara Denizi"
+      ],
+      "answer": "Kızıldeniz",
+      "explanation": "Kızıldeniz'in yarılması, Hz. Musa'nın mucizelerinden biridir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "mc12",
+      "type": "multipleChoice",
+      "question": "Hz. Musa kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?",
+      "options": [
+        "İnsanlara sert bir üslupla yaklaşılması gerektiği",
+        "Allah'ın (cc) zulüm ve haksızlık edenleri cezalandıracağı",
+        "Peygamberlerin toplumlara öncülük etmemesi gerektiği",
+        "Firavun'un doğru yolda olduğu"
+      ],
+      "answer": "Allah'ın (cc) zulüm ve haksızlık edenleri cezalandıracağı",
+      "explanation": "Firavun'un boğulması, zalimlerin akıbetine bir örnektir.",
+      "theme": "unit4",
+      "relatedConcept": "Adalet"
+    },
+    {
+      "id": "mc13",
+      "type": "multipleChoice",
+      "question": "Hz. İsa'ya hangi kutsal kitap indirilmiştir?",
+      "options": [
+        "Tevrat",
+        "Zebur",
+        "İncil",
+        "Kur'an-ı Kerim"
+      ],
+      "answer": "İncil",
+      "explanation": "İncil, Hz. İsa'ya vahyedilen kutsal kitaptır.",
+      "theme": "unit4",
+      "relatedConcept": "İncil"
+    },
+    {
+      "id": "mc14",
+      "type": "multipleChoice",
+      "question": "Hz. İsa'nın annesi kimdir?",
+      "options": [
+        "Hz. Hatice",
+        "Hz. Ayşe",
+        "Hz. Meryem",
+        "Hz. Fatıma"
+      ],
+      "answer": "Hz. Meryem",
+      "explanation": "Hz. İsa, Hz. Meryem'in oğludur.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. İsa"
+    },
+    {
+      "id": "mc15",
+      "type": "multipleChoice",
+      "question": "Hz. İsa kıssasından çıkarılabilecek hisselerden biri aşağıdakilerden hangisidir?",
+      "options": [
+        "Peygamberlerin tehditlere boyun eğmesi gerektiği",
+        "İnsanın görevini yerine getirirken sabırsız olması gerektiği",
+        "İnanmayanların tehditlerine aldırmamak gerektiği",
+        "Hz. İsa'nın bir tanrı olduğu"
+      ],
+      "answer": "İnanmayanların tehditlerine aldırmamak gerektiği",
+      "explanation": "Peygamberler, görevlerini yerine getirirken tehditlere aldırış etmezler.",
+      "theme": "unit4",
+      "relatedConcept": "İman"
+    },
+    {
+      "id": "mc16",
+      "type": "multipleChoice",
+      "question": "Kureyş Suresi ismini nereden almıştır?",
+      "options": [
+        "Hz. Muhammed'in doğduğu şehirden",
+        "Hz. Muhammed'in ailesinin mensup olduğu kabileden",
+        "Kâbe'nin bulunduğu yerden",
+        "Ticaret yollarından"
+      ],
+      "answer": "Hz. Muhammed'in ailesinin mensup olduğu kabileden",
+      "explanation": "Sure, Hz. Muhammed'in de mensup olduğu Kureyş kabilesine ithafen isimlendirilmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Kureyş"
+    },
+    {
+      "id": "mc17",
+      "type": "multipleChoice",
+      "question": "Kureyş kabilesinin temel görevlerinden biri aşağıdakilerden hangisidir?",
+      "options": [
+        "Savaşlar düzenlemek",
+        "Kâbe'nin bakımını üstlenmek",
+        "Ticari tekel oluşturmak",
+        "Putlara tapmayı yaymak"
+      ],
+      "answer": "Kâbe'nin bakımını üstlenmek",
+      "explanation": "Kureyş kabilesi, Kâbe'nin hizmetinden sorumluydu.",
+      "theme": "unit4",
+      "relatedConcept": "Kâbe"
+    },
+    {
+      "id": "mc18",
+      "type": "multipleChoice",
+      "question": "Kureyş Suresi'ni okuyan bir Müslüman, nimet verenin yalnızca kim olduğunu bilir?\tPeygamberler\tİnsanlar\tAllah (cc)\tMelekler",
+      "answer": "Allah (cc)",
+      "explanation": "Sure, tüm nimetlerin Allah'tan geldiğini hatırlatır.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "mc19",
+      "type": "multipleChoice",
+      "question": "Peygamber kıssalarında verilen mesajlardan biri aşağıdakilerden hangisidir?",
+      "options": [
+        "Geçmiş toplumların hatalarının tekrarlanması gerektiği",
+        "Peygamberlerin insanları tevhide daveti temel konu değildir",
+        "Kıssalarda iyilik ve kötülüğün ne olduğu anlatılmaz",
+        "Müslümanlar, peygamberlerin çabalarını örnek alabilirler"
+      ],
+      "answer": "Müslümanlar, peygamberlerin çabalarını örnek alabilirler",
+      "explanation": "Peygamberlerin hayatları, Müslümanlar için güzel bir örnektir.",
+      "theme": "unit4",
+      "relatedConcept": "Sünnet"
+    },
+    {
+      "id": "mc20",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin insanlara rehber olarak gönderilmesi Allah'ın hangi sıfatını gösterir?",
+      "options": [
+        "Kudret",
+        "İrade",
+        "Sevgi ve Merhamet",
+        "Yaratıcılık"
+      ],
+      "answer": "Sevgi ve Merhamet",
+      "explanation": "Peygamber göndermek, Allah'ın insanlara olan sevgisinin ve merhametinin bir göstergesidir.",
+      "theme": "unit4",
+      "relatedConcept": "Rahmet"
+    },
+    {
+      "id": "mc21",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin söz ve davranışlarını öğrenip uygulayarak neye sahip olunabilir?",
+      "options": [
+        "Zenginliğe",
+        "Güzel ahlaka",
+        "Güce",
+        "Ün şöhrete"
+      ],
+      "answer": "Güzel ahlaka",
+      "explanation": "Peygamberlerin ahlakı, insanlara güzel ahlak edinme yolunda rehberlik eder.",
+      "theme": "unit4",
+      "relatedConcept": "Ahlak"
+    },
+    {
+      "id": "mc22",
+      "type": "multipleChoice",
+      "question": "Kur'an-ı Kerim'deki peygamber kıssalarının amacı nedir?",
+      "options": [
+        "Sadece tarihi olayları anlatmak",
+        "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak",
+        "Peygamberlerin üstünlüklerini göstermek",
+        "İnsanları korkutmak"
+      ],
+      "answer": "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak",
+      "explanation": "Kıssalar, ibret almak ve doğru yolu bulmak için anlatılır.",
+      "theme": "unit4",
+      "relatedConcept": "Öğüt"
+    },
+    {
+      "id": "mc23",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin dürüstlük, adalet gibi ahlaki ilkeleri kendi hayatlarında uygulamaları ne anlama gelir?",
+      "options": [
+        "Sadece kendileri için yaşadıkları",
+        "İnsanlara örnek oldukları",
+        "Bu ilkelerin sadece peygamberlere özel olduğu",
+        "This is an important topic.",
+        "Bu ilkelerin önemsiz olduğu"
+      ],
+      "answer": "İnsanlara örnek oldukları",
+      "explanation": "Peygamberler, ahlaki değerleri yaşayarak insanlara yol gösterirler.",
+      "theme": "unit4",
+      "relatedConcept": "Sünnet"
+    },
+    {
+      "id": "mc24",
+      "type": "multipleChoice",
+      "question": "Kureyş Suresi'nin temel konularından biri Kureyş'in geçimini nasıl sağladığına dikkat çekmesidir. Bu geçim şekli nedir?",
+      "options": [
+        "Tarım",
+        "Hayvancılık",
+        "Ticari yolculuklar",
+        "Balıkçılık"
+      ],
+      "answer": "Ticari yolculuklar",
+      "explanation": "Kureyş kabilesi, yaz ve kış ticari yolculuklar yaparak geçimini sağlamıştır.",
+      "theme": "unit4",
+      "relatedConcept": "Kureyş"
+    },
+    {
+      "id": "mc25",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin de sıkıntılar yaşadığının anlaşılması, Müslümanlara ne kazandırır?",
+      "options": [
+        "İnanç uğruna mücadele etmemeyi",
+        "Cesaret ve sabırla mücadele etmeyi",
+        "Sıkıntılardan kaçınmayı",
+        "Peygamberlere isyan etmeyi"
+      ],
+      "answer": "Cesaret ve sabırla mücadele etmeyi",
+      "explanation": "Peygamberlerin yaşadığı zorluklar, Müslümanlara inanç uğruna sabır ve cesaretle mücadele etme ilhamı verir.",
+      "theme": "unit4",
+      "relatedConcept": "Sabır"
+    },
+    {
+      "id": "mc34",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin insanlara gönderilmesinin temel amacı nedir?",
+      "options": [
+        "Sadece mucize göstermek",
+        "İnsanları eğlendirmek",
+        "Doğru yolu göstermek ve rehberlik etmek",
+        "Dünya malı kazandırmak"
+      ],
+      "answer": "Doğru yolu göstermek ve rehberlik etmek",
+      "explanation": "Peygamberler, Allah'ın mesajlarını insanlara ulaştırarak onlara dünya ve ahiret için rehberlik ederler.",
+      "theme": "unit4",
+      "relatedConcept": "Tebliğ"
+    },
+    {
+      "id": "mc35",
+      "type": "multipleChoice",
+      "question": "Hz. Adem ve Havva'nın cennetten çıkarılma sebebi nedir?",
+      "options": [
+        "Allah'a isyan etmeleri",
+        "Yasak ağacın meyvesinden yemeleri",
+        "Birbirleriyle kavga etmeleri",
+        "Cennetten sıkılmaları"
+      ],
+      "answer": "Yasak ağacın meyvesinden yemeleri",
+      "explanation": "Allah'ın yasakladığı ağacın meyvesinden yemeleri, cennetten çıkarılmalarına sebep olmuştur.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Adem"
+    },
+    {
+      "id": "mc36",
+      "type": "multipleChoice",
+      "question": "Nuh tufanından kimler kurtulmuştur?",
+      "options": [
+        "Tüm insanlar",
+        "Sadece Hz. Nuh ve ailesi",
+        "Hz. Nuh, inananlar ve her canlıdan birer çift",
+        "Sadece hayvanlar"
+      ],
+      "answer": "Hz. Nuh, inananlar ve her canlıdan birer çift",
+      "explanation": "Tufan sırasında gemiye Hz. Nuh, ona inananlar ve her canlı türünden birer çift binmiştir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "mc37",
+      "type": "multipleChoice",
+      "question": "Hz. İbrahim'in ateşe atılmasına rağmen yanmaması hangi özelliği vurgular?",
+      "options": [
+        "Hz. İbrahim'in gücü",
+        "Ateşin zayıflığı",
+        "Allah'ın (cc) kudreti",
+        "İnsanların inançsızlığı"
+      ],
+      "answer": "Allah'ın (cc) kudreti",
+      "explanation": "Ateşin Hz. İbrahim'e zarar vermemesi, Allah'ın sınırsız gücünün ve mucizesinin bir göstergesidir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "mc38",
+      "type": "multipleChoice",
+      "question": "Hz. Musa'nın Firavun'a karşı gösterdiği en bilinen mucizelerden biri nedir?",
+      "options": [
+        "Ölüleri diriltmek",
+        "Ayı ikiye bölmek",
+        "Asasının yılana dönüşmesi",
+        "Kuşlarla konuşmak"
+      ],
+      "answer": "Asasının yılana dönüşmesi",
+      "explanation": "Hz. Musa'nın asasının yılana dönüşmesi, Firavun'un sihirbazlarına karşı gösterdiği en büyük mucizelerdendir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "mc43",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin insanlara rehberlik etmesinin amacı nedir?",
+      "options": [
+        "İnsanları köleleştirmek",
+        "İnsanları korkutmak",
+        "İnsanları dünya hayatında zengin etmek",
+        " "
+      ],
+      "answer": "İnsanlara doğru yolu göstermek ve onları kurtuluşa erdirmek",
+      "explanation": "Peygamberler, Allah'ın emir ve yasaklarını bildirerek onları hem dünya hem de ahiret saadetine ulaştırırlar.",
+      "theme": "unit4",
+      "relatedConcept": "Tebliğ"
+    },
+    {
+      "id": "mc47",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin insanlara örnek olmaları ne anlama gelir?",
+      "options": [
+        "Sadece sözleriyle öğretmeleri",
+        "Sadece mucizeleriyle etkilemeleri",
+        "Hem sözleriyle hem de davranışlarıyla rehberlik etmeleri",
+        "Sadece dini konularda örnek olmaları"
+      ],
+      "answer": "Hem sözleriyle hem de davranışlarıyla rehberlik etmeleri",
+      "explanation": "Peygamberler, hayatlarının her alanında insanlara örnek teşkil etmişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Sünnet"
+    },
+    {
+      "id": "mc48",
+      "type": "multipleChoice",
+      "question": "Hz. Muhammed (sav)'in peygamberliği hangi özelliği taşır?",
+      "options": [
+        "Sadece Araplara özgü olması",
+        "Belirli bir zaman dilimiyle sınırlı olması",
+        "Evrensel ve son peygamber olması",
+        "Sadece erkeklere hitap etmesi"
+      ],
+      "answer": "Evrensel ve son peygamber olması",
+      "explanation": "Hz. Muhammed (sav), tüm insanlığa gönderilen son peygamberdir.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Muhammed"
+    },
+    {
+      "id": "mc49",
+      "type": "multipleChoice",
+      "question": "Peygamber kıssalarının en önemli faydalarından biri nedir?",
+      "options": [
+        "Geçmişi merak gidermek",
+        "Tarih bilgisi vermek",
+        "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak",
+        "Eğlence sunmak"
+      ],
+      "answer": "İnsanlara öğüt vermek ve ders çıkarmalarını sağlamak",
+      "explanation": "Peygamber kıssaları, insanlara ibret alacakları ve hayatlarına uygulayacakları dersler sunar.",
+      "theme": "unit4",
+      "relatedConcept": "İbret"
+    },
+    {
+      "id": "mc50",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin tebliğ ettiği dinin özü nedir?",
+      "options": [
+        "Çok tanrılı inanç",
+        "Putperestlik",
+        "Allah'ın birliği (Tevhit)",
+        "Doğaüstü güçlere inanma"
+      ],
+      "answer": "Allah'ın birliği (Tevhit)",
+      "explanation": "Tüm peygamberler, ortak mesajı, Allah'ın birliği ve sadece O'na kulluk etmektir.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "mc51",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin insanlara hangi konularda rehberlik etmişlerdir?",
+      "options": [
+        "Sadece ibadet",
+        "Sadece ahlak",
+        "Sadece hukuk",
+        "Dini, ahlaki, sosyal ve hukuki tüm konularda"
+      ],
+      "answer": "Dini, ahlaki, sosyal ve hukuki tüm konularda",
+      "explanation": "Peygamberler, insan hayatının her alanında rehberlik etmişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "İslam"
+    },
+    {
+      "id": "mc52",
+      "type": "multipleChoice",
+      "question": "Hz. İsa'nın babasız doğumu hangi kavramla açıklanır?",
+      "options": [
+        "Doğal olay",
+        "Bilimsel açıklama",
+        "Mucize",
+        "Tesadüf"
+      ],
+      "answer": "Mucize",
+      "explanation": "Hz. İsa'nın babasız doğumu, Allah'ın (cc) kudretinin bir mucizesidir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "mc53",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin insanlara karşı tutumları genellikle nasıldı?",
+      "options": [
+        "Sert ve acımasız",
+        "Korkutucu ve tehditkar",
+        "Şefkatli, merhametli ve sabırlı",
+        "Kaygısız ve umursamaz"
+      ],
+      "answer": "Şefkatli, merhametli ve sabırlı",
+      "explanation": "Peygamberler, kavimlerine karşı her zaman şefkat ve merhametle yaklaşmışlardır.",
+      "theme": "unit4",
+      "relatedConcept": "Merhamet"
+    },
+    {
+      "id": "mc54",
+      "type": "multipleChoice",
+      "question": "Hz. Adem ve Havva'nın cennetten çıkarıldıktan sonraki pişmanlıkları neyi gösterir?",
+      "options": [
+        "Allah'a isyan etmeyi",
+        "Günahın affedilebilirliğini",
+        "Sadece kendi hatalarını",
+        "Cennete geri dönemeyeceklerini"
+      ],
+      "answer": "Günahın affedilebilirliğini",
+      "explanation": "Tövbe ve pişmanlıkları, Allah'ın (cc) affedici olduğunu ve tövbeleri kabul ettiğini gösterir.",
+      "theme": "unit4",
+      "relatedConcept": "Tövbe"
+    },
+    {
+      "id": "mc55",
+      "type": "multipleChoice",
+      "question": "Hz. Nuh'un gemisinin Cudi Dağı'na oturması neyi simgeler?",
+      "options": [
+        "Tufanın sona erdiğini",
+        "Yeni bir başlangıcı",
+        "Allah'ın (cc) rahmetini",
+        "Hepsi"
+      ],
+      "answer": "Hepsi",
+      "explanation": "Cudi Dağı'na oturması, tufanın sona erdiğini, yeni bir hayatın başladığını ve Allah'ın rahmetini simgeler.",
+      "theme": "unit4",
+      "relatedConcept": "Hz. Nuh"
+    },
+    {
+      "id": "mc56",
+      "type": "multipleChoice",
+      "question": "Hz. İbrahim'in putlara karşı mücadelesi hangi inancın temelini oluşturur?",
+      "options": [
+        "Putperestlik",
+        "Şirk",
+        "Tevhit",
+        "Ateizm"
+      ],
+      "answer": "Tevhit",
+      "explanation": "Hz. İbrahim'in mücadelesi, Allah'ın birliği (tevhit) inancının önemini vurgular.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+    {
+      "id": "mc57",
+      "type": "multipleChoice",
+      "question": "Hz. Musa'nın Kızıldeniz'i yarması hangi ilahi sıfatı gösterir?",
+      "options": [
+        "Adalet",
+        "Hikmet",
+        "Kudret",
+        "İrade"
+      ],
+      "answer": "Kudret",
+      "explanation": "Kızıldeniz'in yarılması, Allah'ın (cc) sınırsız gücünün ve mucizesinin bir göstergesidir.",
+      "theme": "unit4",
+      "relatedConcept": "Mucize"
+    },
+    {
+      "id": "mc62",
+      "type": "multipleChoice",
+      "question": "Peygamberlerin hepsi hangi dine davet etmişlerdir?",
+      "options": [
+        "Hristiyanlık",
+        "Yahudilik",
+        "İslam",
+        "Tevhit inancına"
+      ],
+      "answer": "Tevhit inancına",
+      "explanation": "Tüm peygamberler, temelde Allah'ın birliği ve O'na kulluk etme (tevhit) inancına davet etmişlerdir.",
+      "theme": "unit4",
+      "relatedConcept": "Tevhit"
+    },
+  ],
+  "unit5": [
+    {
+      "id": "u5_tf1",
+      "type": "trueFalse",
+      "question": "Cami mimarisinde kubbe, gök kubbeyi ve evrenin birliğini temsil eder.",
+      "answer": "D",
+      "explanation": "Kubbe, cami mimarisinde merkezi bir öğe olup, manevi ve sembolik anlamlar taşır.",
+      "theme": "unit5",
+      "relatedConcept": "Cami Mimarisi"
+    },
+    {
+      "id": "u5_tf2",
+      "type": "trueFalse",
+      "question": "Minaresiz cami olmaz.",
+      "answer": "Y",
+      "explanation": "Bazı küçük mescitlerde veya tarihi camilerde minare bulunmayabilir.",
+      "theme": "unit5",
+      "relatedConcept": "Minare"
+    },
+    {
+      "id": "u5_tf3",
+      "type": "trueFalse",
+      "question": "Hat sanatı, İslam sanatında yazıya güzellik katma sanatıdır.",
+      "answer": "D",
+      "explanation": "Hat sanatı, Kur'an ayetlerinin ve güzel sözlerin estetik bir şekilde yazılmasıdır.",
+      "theme": "unit5",
+      "relatedConcept": "Hat Sanatı"
+    },
+    {
+      "id": "u5_tf4",
+      "type": "trueFalse",
+      "question": "Çini sanatı, sadece cami iç süslemelerinde kullanılır.",
+      "answer": "Y",
+      "explanation": "Çini sanatı, camilerin yanı sıra saraylarda, türbelerde ve evlerde de kullanılır.",
+      "theme": "unit5",
+      "relatedConcept": "Çini Sanatı"
+    },
+    {
+      "id": "u5_tf5",
+      "type": "trueFalse",
+      "question": "Ebru sanatı, su üzerine renklerin serpilmesiyle yapılır.",
+      "answer": "D",
+      "explanation": "Ebru, özel bir yoğunlaştırılmış su üzerine boyaların serpilmesiyle desenler oluşturma sanatıdır.",
+      "theme": "unit5",
+      "relatedConcept": "Ebru Sanatı"
+    },
+    {
+      "id": "u5_tf6",
+      "type": "trueFalse",
+      "question": "Minyatür sanatı, büyük boyutlu resimler yapma sanatıdır.",
+      "answer": "Y",
+      "explanation": "Minyatür, küçük boyutlu, detaylı ve ince işlenmiş resim sanatıdır.",
+      "theme": "unit5",
+      "relatedConcept": "Minyatür Sanatı"
+    },
+    {
+      "id": "u5_tf7",
+      "type": "trueFalse",
+      "question": "Türk İslam sanatında insan figürleri sıkça kullanılır.",
+      "answer": "Y",
+      "explanation": "İslam sanatında genellikle canlı figürlerden kaçınılır, bunun yerine bitkisel motifler, geometrik şekiller ve hat sanatı kullanılır.",
+      "theme": "unit5",
+      "relatedConcept": "İslam Sanatı"
+    },
+    {
+      "id": "u5_tf8",
+      "type": "trueFalse",
+      "question": "Kündekari, ahşap işçiliğinde kullanılan bir tekniktir.",
+      "answer": "D",
+      "explanation": "Kündekari, ahşap parçaların birbirine geçirilmesiyle yapılan bir süsleme tekniğidir.",
+      "theme": "unit5",
+      "relatedConcept": "Kündekari"
+    },
+    {
+      "id": "u5_tf9",
+      "type": "trueFalse",
+      "question": "Tezhip sanatı, kitap süsleme sanatıdır.",
+      "answer": "D",
+      "explanation": "Tezhip, genellikle el yazması kitapların kenarlarını altın ve renklerle süsleme sanatıdır.",
+      "theme": "unit5",
+      "relatedConcept": "Tezhip Sanatı"
+    },
+    {
+      "id": "u5_tf10",
+      "type": "trueFalse",
+      "question": "Şadırvanlar, sadece estetik amaçlı yapılır.",
+      "answer": "Y",
+      "explanation": "Şadırvanlar, hem estetik hem de abdest alma gibi dini temizlik amaçlı kullanılır.",
+      "theme": "unit5",
+      "relatedConcept": "Şadırvan"
+    },
+    {
+      "id": "u5_fb1",
+      "type": "fillInTheBlanks",
+      "question": "Cami mimarisinde, namaz kılınan yere ........................ denir.",
+      "answer": "harim",
+      "options": [
+        "harim",
+        "avlu",
+        "şadırvan",
+        "minare"
+      ],
+      "explanation": "Harim, caminin ana ibadet alanıdır.",
+      "theme": "unit5",
+      "relatedConcept": "Cami Mimarisi"
+    },
+    {
+      "id": "u5_fb2",
+      "type": "fillInTheBlanks",
+      "question": "Minareler, ........................ okumak için kullanılır.",
+      "answer": "ezan",
+      "options": [
+        "ezan",
+        "sela",
+        "salavat",
+        "tekbir"
+      ],
+      "explanation": "Minarelerden müezzinler ezan okur.",
+      "theme": "unit5",
+      "relatedConcept": "Minare"
+    },
+    {
+      "id": "u5_fb3",
+      "type": "fillInTheBlanks",
+      "question": "İslam sanatında yazıya güzellik katma sanatına ........................ denir.",
+      "answer": "hat",
+      "options": [
+        "hat",
+        "tezhip",
+        "minyatür",
+        "ebru"
+      ],
+      "explanation": "Hat sanatı, Arap harflerinin estetik bir biçimde yazılmasıdır.",
+      "theme": "unit5",
+      "relatedConcept": "Hat Sanatı"
+    },
+    {
+      "id": "u5_fb4",
+      "type": "fillInTheBlanks",
+      "question": "Duvar ve kubbe süslemelerinde kullanılan sırlı seramik kaplama sanatına ........................ denir.",
+      "answer": "çini",
+      "options": [
+        "çini",
+        "tezhip",
+        "ebru",
+        "kalemişi"
+      ],
+      "explanation": "Çini, özellikle cami ve saraylarda kullanılan renkli seramik süsleme sanatıdır.",
+      "theme": "unit5",
+      "relatedConcept": "Çini Sanatı"
+    },
+    {
+      "id": "u5_fb5",
+      "type": "fillInTheBlanks",
+      "question": "Su üzerine boyaların serpilmesiyle yapılan geleneksel Türk sanatına ........................ denir.",
+      "answer": "ebru",
+      "options": [
+        "ebru",
+        "tezhip",
+        "minyatür",
+        "hat"
+      ],
+      "explanation": "Ebru sanatı, suyun yüzeyinde desenler oluşturma tekniğidir.",
+      "theme": "unit5",
+      "relatedConcept": "Ebru Sanatı"
+    },
+    {
+      "id": "u5_mc1",
+      "type": "multipleChoice",
+      "question": "Cami mimarisinde, cemaatin namaz kılarken yöneldiği duvar nişine ne ad verilir?",
+      "options": [
+        "Minber",
+        "Mihrap",
+        "Kürsü",
+        "Şadırvan"
+      ],
+      "answer": "Mihrap",
+      "explanation": "Mihrap, camide kıbleyi gösteren niştir.",
+      "theme": "unit5",
+      "relatedConcept": "Mihrap"
+    },
+    {
+      "id": "u5_mc2",
+      "type": "multipleChoice",
+      "question": "Cami içinde vaaz ve hutbe okumak için kullanılan yüksek yere ne denir?",
+      "options": [
+        "Mihrap",
+        "Minber",
+        "Kürsü",
+        "Şadırvan"
+      ],
+      "answer": "Minber",
+      "explanation": "Minber, imamın hutbe okuduğu yerdir.",
+      "theme": "unit5",
+      "relatedConcept": "Minber"
+    },
+    {
+      "id": "u5_mc3",
+      "type": "multipleChoice",
+      "question": "Aşağıdakilerden hangisi İslam sanatında sıkça kullanılan bir motif değildir?",
+      "options": [
+        "Geometrik desenler",
+        "Bitkisel motifler",
+        "İnsan figürleri",
+        "Hat yazıları"
+      ],
+      "answer": "İnsan figürleri",
+      "explanation": "İslam sanatında genellikle canlı figürlerden kaçınılır.",
+      "theme": "unit5",
+      "relatedConcept": "İslam Sanatı"
+    },
+    {
+      "id": "u5_mc4",
+      "type": "multipleChoice",
+      "question": "El yazması kitapların kenarlarını altın ve renklerle süsleme sanatına ne denir?",
+      "options": [
+        "Hat",
+        "Tezhip",
+        "Ebru",
+        "Minyatür"
+      ],
+      "answer": "Tezhip",
+      "explanation": "Tezhip, kitap süsleme sanatıdır.",
+      "theme": "unit5",
+      "relatedConcept": "Tezhip Sanatı"
+    },
+    {
+      "id": "u5_mc5",
+      "type": "multipleChoice",
+      "question": "Cami avlusunda abdest almak için yapılan çeşmeli yapıya ne denir?",
+      "options": [
+        "Minare",
+        "Kubbe",
+        "Şadırvan",
+        "Mihrap"
+      ],
+      "answer": "Şadırvan",
+      "explanation": "Şadırvan, cami avlularında abdest almak için kullanılan yapıdır.",
+      "theme": "unit5",
+      "relatedConcept": "Şadırvan"
+    }
+  ]
+}
+
         function ensureOneHundredQuestions(questionsArray) {
             let currentQuestions = [...questionsArray];
             const targetCount = 100;
