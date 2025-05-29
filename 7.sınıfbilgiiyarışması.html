@@ -983,6 +983,7 @@
         let teamSetupModal; // Modal for team setup
         let numTeamsInput; // Input for number of teams
         let teamNameInputsContainer; // Container for dynamic team name inputs
+        let startOverButton; // New button for starting over
 
         /**
          * Generates a unique ID (UUID v4).
@@ -2066,6 +2067,11 @@
                 removeAllButtonColors(goToMainSiteButton);
                 goToMainSiteButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
             }
+            // New "Baştan Başla" button
+            if (startOverButton) {
+                removeAllButtonColors(startOverButton);
+                startOverButton.classList.add('bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50');
+            }
 
             // Game mode selection buttons
             const individualModeButton = document.getElementById('individual-mode-button');
@@ -2148,6 +2154,7 @@
             newParticipantNameInputMain = document.getElementById('new-participant-name-input-main');
             addNewParticipantMainButton = document.getElementById('add-new-participant-main-button');
             showRegisteredUsersButton = document.getElementById('show-registered-users-button');
+            startOverButton = document.getElementById('start-over-button'); // Assign new button
             unitSelectionScreen = document.getElementById('unit-selection-screen');
             gameModeSelectionScreen = document.getElementById('game-mode-selection-screen');
             gameModeMessage = document.getElementById('game-mode-message');
@@ -2260,7 +2267,8 @@
             <div class="w-full max-w-md">
                 <input type="text" id="new-participant-name-input-main" class="w-full p-3 border-2 border-gray-300 rounded-lg text-lg mb-4 focus:outline-none focus:border-blue-500" placeholder="Yeni Öğrenci Adı">
                 <button id="add-new-participant-main-button" class="action-button w-full mb-4" onclick="addNewParticipantAndProceed()">Yeni Öğrenci Ekle ve Başla</button>
-                <button id="show-registered-users-button" class="action-button w-full" onclick="showRegisteredUsersScreen()">Kayıtlı Öğrenci Seç</button>
+                <button id="show-registered-users-button" class="action-button w-full mb-4" onclick="showRegisteredUsersScreen()">Kayıtlı Öğrenci Seç</button>
+                <button id="start-over-button" class="action-button w-full" onclick="resetGame()">Baştan Başla</button>
             </div>
             <button id="go-to-main-site-button" class="action-button mt-8">Siteye Dön</button>
         </div>
