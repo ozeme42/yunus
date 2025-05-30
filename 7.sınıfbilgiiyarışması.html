@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
-        /* Ensure html and body take full height */
+        /* HTML ve body'nin tam yüksekliği kaplamasını sağla */
         html, body {
             height: 100%;
             margin: 0;
@@ -21,10 +21,10 @@
             line-height: 1.6;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align to start to allow scrolling if content overflows */
-            min-height: 100vh; /* Use min-height to ensure it takes full height */
+            align-items: flex-start; /* İçerik taşarsa kaydırmaya izin vermek için başlangıca hizala */
+            min-height: 100vh; /* Tam yüksekliği kaplamasını sağlamak için min-height kullan */
             padding: 2rem 1rem;
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            box-sizing: border-box; /* Padding ve border'ı elementin toplam genişlik ve yüksekliğine dahil et */
             background-size: cover; /* Görselin tüm alanı kaplamasını sağlar */
             background-position: center; /* Görseli ortalar */
             background-repeat: no-repeat; /* Görselin tekrarlanmasını engeller */
@@ -34,14 +34,14 @@
         }
         .container {
             width: 100%;
-            max-width: 900px; /* Increased max-width for the main container */
+            max-width: 900px; /* Ana konteyner için maksimum genişlik artırıldı */
             padding: 2rem;
             background-color: #e6f0f5; /* Beyaz arka plan rengi değiştirildi */
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            flex-grow: 1; /* Allow container to grow within the flex parent */
-            display: flex; /* Use flex for internal layout of container */
-            flex-direction: column; /* Stack children vertically */
+            flex-grow: 1; /* Esnek ebeveyn içinde konteynerin büyümesine izin ver */
+            display: flex; /* Konteynerin iç düzeni için flex kullan */
+            flex-direction: column; /* Çocukları dikey olarak yığınla */
         }
         h1 {
             color: #2c3e50;
@@ -50,7 +50,7 @@
             margin-bottom: 2rem;
             font-size: 2.8rem; /* Başlık boyutu büyütüldü */
         }
-        /* START: Score Board Styles */
+        /* BAŞLANGIÇ: Skor Tablosu Stilleri */
         .score-table-container {
             margin-top: 1rem;
             margin-bottom: 1rem;
@@ -60,8 +60,8 @@
         }
         .score-table {
             display: flex;
-            justify-content: center; /* Center the participants */
-            gap: 1rem; /* Space between participant score cards */
+            justify-content: center; /* Katılımcıları ortala */
+            gap: 1rem; /* Katılımcı skor kartları arasındaki boşluk */
             border-radius: 0.75rem;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -70,129 +70,156 @@
             font-weight: 600;
             color: white;
             flex-wrap: wrap;
-            padding: 0.5rem; /* Add some padding around the entire score table */
+            padding: 0.5rem; /* Tüm skor tablosu etrafına biraz padding ekle */
         }
         .score-cell {
-            padding: 1rem 1.5rem; /* Increased padding */
+            padding: 1rem 1.5rem; /* Padding artırıldı */
             display: flex;
-            flex-direction: column; /* Stack name and score vertically */
+            flex-direction: column; /* İsim ve skoru dikey olarak yığınla */
             align-items: center;
             justify-content: center;
-            min-width: 140px; /* Increased min-width */
+            min-width: 140px; /* Minimum genişlik artırıldı */
             box-sizing: border-box;
-            border-radius: 0.5rem; /* Rounded corners for individual cells */
-            transition: all 0.3s ease; /* Smooth transition for active state */
+            border-radius: 0.5rem; /* Bireysel hücreler için yuvarlak köşeler */
+            transition: all 0.3s ease; /* Aktif durum için yumuşak geçiş */
             position: relative;
-            z-index: 1; /* Ensure cells are above each other for shadow/outline */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for each cell */
-            background-color: #3b82f6; /* Default blue for participants */
+            z-index: 1; /* Hücrelerin gölge/çerçeve için üst üste olmasını sağla */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Her hücre için hafif gölge */
+            background-color: #3b82f6; /* Katılımcılar için varsayılan mavi */
         }
         .score-cell.active-participant {
-            transform: translateY(-5px); /* Lift up active active-participant */
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* More prominent shadow for active active-participant */
-            outline: 4px solid #fcd34d; /* Thicker yellow outline */
+            transform: translateY(-5px); /* Aktif katılımcıyı yukarı kaldır */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* Aktif katılımcı için daha belirgin gölge */
+            outline: 4px solid #fcd34d; /* Daha kalın sarı çerçeve */
             outline-offset: -4px;
-            z-index: 2; /* Bring active active-participant further to front */
+            z-index: 2; /* Aktif katılımcıyı daha öne getir */
         }
         .score-cell .participant-name {
-            font-size: 1.1em; /* Slightly larger for name */
-            margin-bottom: 0.5rem; /* More space below name */
-            opacity: 1; /* Full opacity for name */
+            font-size: 1.1em; /* İsim için biraz daha büyük */
+            margin-bottom: 0.5rem; /* İsim altında daha fazla boşluk */
+            opacity: 1; /* İsim için tam opaklık */
             display: flex;
             align-items: center;
-            gap: 0.5rem; /* Space between icon and name */
+            gap: 0.5rem; /* İkon ve isim arasındaki boşluk */
         }
         .score-cell .participant-score {
-            font-size: 2.5em; /* Significantly larger for score */
-            font-weight: 900; /* Extra bold */
-            line-height: 1; /* Adjust line height for large numbers */
+            font-size: 2.5em; /* Skor için önemli ölçüde daha büyük */
+            font-weight: 900; /* Ekstra kalın */
+            line-height: 1; /* Büyük sayılar için satır yüksekliğini ayarla */
         }
-        /* END: Score Board Styles */
+        /* SON: Skor Tablosu Stilleri */
 
-        /* START: Leaderboard List Styles */
+        /* BAŞLANGIÇ: Lider Tablosu Listesi Stilleri */
         .leaderboard-list {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            max-width: 400px; /* Adjusted max-width for list */
-            margin: 0 auto;
+            display: grid; /* Sütun düzeni için ızgaraya değiştirildi */
+            grid-template-columns: repeat(5, minmax(150px, 1fr)); /* Duyarlı 5 sütunlu düzen */
+            gap: 1rem; /* Izgara öğeleri arasındaki boşluk */
+            width: 100%; /* %100 genişliği koru */
+            padding: 0.6rem 1rem; /* Daha küçük yükseklik için padding daha da azaltıldı */
             background-color: #ffffff;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            overflow: hidden; /* İçeriğin sınırlar içinde kalmasını sağla */
+        }
+        @media (max-width: 768px) {
+            .leaderboard-list {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Daha küçük ekranlar için min-width'i ayarla */
+            }
         }
         .leaderboard-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 1.2rem;
-            color: #333;
-            transition: background-color 0.2s ease;
+            display: flex; /* Yatay düzenleme için tekrar flex'e değiştirildi */
+            justify-content: space-between; /* Öğeleri yatay olarak dağıt */
+            align-items: center; /* Öğeleri dikey olarak ortala */
+            padding: 0.6rem 1rem; /* Daha küçük yükseklik için padding daha da azaltıldı */
+            border: 1px solid #e2e8f0; /* Tüm kenarları çevreleyen çerçeveye değiştirildi */
+            border-radius: 8px; /* Her öğe için yuvarlak köşeler */
+            font-size: 0.95rem; /* Genel yükseklik için font boyutu daha da azaltıldı */
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Her öğe için hafif gölge */
+            flex-grow: 1; /* Öğelerin alanı doldurmak için büyümesine izin ver */
+            min-width: 0; /* İçeriğin doğal genişliğinin altına küçülmesine izin ver */
         }
-        .leaderboard-item:last-child {
-            border-bottom: none;
-        }
-        .leaderboard-item:nth-child(odd) {
-            background-color: #f8fafc;
-        }
-        .leaderboard-item:nth-child(even) {
-            background-color: #ffffff;
-        }
+        /* Lider tablosu öğeleri için yeni renk sınıfları */
+        .leaderboard-item.color-0 { background-color: #e0f7fa; color: #006064; border-color: #80deea; } /* Camgöbeği */
+        .leaderboard-item.color-1 { background-color: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; } /* Yeşil */
+        .leaderboard-item.color-2 { background-color: #f3e5f5; color: #6a1b9a; border-color: #ce93d8; } /* Mor */
+        .leaderboard-item.color-3 { background-color: #fff3e0; color: #ef6c00; border-color: #ffcc80; } /* Turuncu */
+        .leaderboard-item.color-4 { background-color: #ffebee; color: #c62828; border-color: #ef9a9a; } /* Kırmızı */
+        .leaderboard-item.color-5 { background-color: #e3f2fd; color: #1565c0; border-color: #90caf9; } /* Mavi */
+        .leaderboard-item.color-6 { background-color: #fbe9e7; color: #d84315; border-color: #ffab91; } /* Koyu Turuncu */
+        .leaderboard-item.color-7 { background-color: #f1f8e9; color: #558b2f; border-color: #c5e1a5; } /* Açık Yeşil */
+        .leaderboard-item.color-8 { background-color: #ede7f6; color: #4527a0; border-color: #b39ddb; } /* Koyu Mor */
+        .leaderboard-item.color-9 { background-color: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; } /* Yeşil (tekrar) */
+
+
         .leaderboard-item.active-participant {
-            background-color: #e0f2fe; /* Light blue for active active-participant */
+            background-color: #fcd34d !important; /* Aktif katılımcı için sarı */
             font-weight: 600;
-            border-left: 5px solid #3b82f6; /* Blue highlight */
+            border: 2px solid #d97706 !important; /* Daha koyu sarı vurgu */
+            box-shadow: 0 4px 10px rgba(252, 211, 77, 0.4); /* Daha belirgin gölge */
+            transform: translateY(-3px); /* Hafif kaldırma */
         }
         .leaderboard-rank {
             font-weight: 700;
-            color: #6366f1;
-            margin-right: 1rem;
-            min-width: 25px; /* Ensure space for rank numbers */
+            color: inherit; /* Ebeveyninden rengi miras al */
+            margin-right: 0.6rem; /* Sıralama sonrası boşluk azaltıldı */
+            min-width: 20px; /* Sıralama numaraları için boşluk sağla */
             text-align: right;
+            font-size: 0.9em; /* Font boyutu daha da ayarlandı */
+            flex-shrink: 0; /* Küçülmeyi önle */
         }
         .leaderboard-name {
             flex-grow: 1;
-            font-weight: 500;
+            font-weight: 600; /* Daha kalın isim */
+            font-size: 1em; /* Font boyutu daha da ayarlandı */
+            margin-right: 0.6rem; /* İsim sonrası boşluk azaltıldı */
+            text-align: left;
+            white-space: nowrap; /* İsmi tek satırda tut */
+            overflow: hidden; /* Taşmayı gizle */
+            text-overflow: ellipsis; /* Taşma için üç nokta ekle */
+            min-width: 50px; /* İsim için minimum genişlik sağla */
         }
         .leaderboard-score {
-            font-weight: 700;
-            color: #2c3e50;
-            margin-left: 1rem;
+            font-weight: 800; /* Daha da kalın skor */
+            color: inherit; /* Ebeveyninden rengi miras al */
+            font-size: 1.2em; /* Daha iyi uyum için font boyutu hafifçe azaltıldı */
+            white-space: nowrap; /* Skorun sarılmasını önle */
+            flex-shrink: 0; /* Küçülmeyi önle */
+            min-width: 60px; /* Skor için minimum genişlik sağla */
+            text-align: right; /* Skoru sağa hizala */
         }
-        /* END: Leaderboard List Styles */
+        /* SON: Lider Tablosu Listesi Stilleri */
 
 
         .current-participant-display {
             font-size: 1.5rem; /* Metin boyutu büyütüldü */
             font-weight: 700;
             color: #6366f1;
-            margin: 0.5rem; /* Space around display */
-            text-align: center; /* Center the display */
+            margin: 0.5rem; /* Ekran etrafında boşluk */
+            text-align: center; /* Ekranı ortala */
         }
         .question-area {
-            min-height: 180px; /* Minimum height for the question area increased */
+            min-height: 180px; /* Soru alanı için minimum yükseklik artırıldı */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             margin-bottom: 0; /* Boşluk kaldırıldı */
-            flex-grow: 1; /* Allow question area to grow */
+            flex-grow: 1; /* Soru alanının büyümesine izin ver */
         }
         .question-block {
-            padding: 2rem; /* Increased padding for question block */
-            background-color: #e3f2fd; /* New color for the question area */
+            padding: 2rem; /* Soru bloğu için padding artırıldı */
+            background-color: #e3f2fd; /* Soru alanı için yeni renk */
             border-radius: 8px;
-            border: 1px solid #90caf9; /* More distinct border */
+            border: 1px solid #90caf9; /* Daha belirgin çerçeve */
             width: 100%;
             box-sizing: border-box;
-            /* Added for "box-opening" effect */
+            /* "Kutu açma" efekti için eklendi */
             opacity: 1;
             transform: scale(1);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            margin-bottom: 1.5rem; /* Added margin to separate from feedback */
+            margin-bottom: 1.5rem; /* Geri bildirimden ayırmak için margin eklendi */
         }
         .question-block.question-block-closed {
             opacity: 0;
@@ -210,85 +237,85 @@
             color: #4a5568;
             margin-bottom: 1rem;
             padding: 0.5rem 1rem;
-            background-color: #d1e7dd; /* Light green background for points */
+            background-color: #d1e7dd; /* Puanlar için açık yeşil arka plan */
             border-radius: 6px;
-            display: inline-block; /* To make padding effective */
+            display: inline-block; /* Padding'in etkili olması için */
         }
         .options-container {
             display: flex;
-            flex-direction: row; /* Options side-by-side */
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            justify-content: center; /* Center options horizontally */
-            gap: 1.2rem; /* Space between boxes increased */
+            flex-direction: row; /* Seçenekler yan yana */
+            flex-wrap: wrap; /* Daha küçük ekranlarda sarılmaya izin ver */
+            justify-content: center;
+            gap: 1.2rem; /* Kutular arasındaki boşluk artırıldı */
             margin-top: 1.5rem;
         }
         .option-label {
-            display: flex; /* Keep flex for centering content within the box */
+            display: flex; /* İçeriği kutu içinde ortalamak için flex'i koru */
             align-items: center;
-            justify-content: center; /* Center text and radio button */
+            justify-content: center; /* Metin ve radyo düğmesini ortala */
             cursor: pointer;
-            padding: 1.2rem 1.8rem; /* Increased padding for box feel */
-            border-radius: 10px; /* More rounded corners */
-            transition: all 0.2s ease-in-out; /* Smooth transition for hover/active */
-            flex-basis: calc(50% - 0.6rem); /* Exactly half minus half the gap */
-            max-width: calc(50% - 0.6rem); /* Ensures no more than two per row */
-            min-width: 200px; /* Minimum width for each option box increased */
+            padding: 1.2rem 1.8rem; /* Kutu hissi için padding artırıldı */
+            border-radius: 10px; /* Daha yuvarlak köşeler */
+            transition: all 0.2s ease-in-out; /* Hover/aktif için yumuşak geçiş */
+            flex-basis: calc(50% - 0.6rem); /* Tam olarak yarısı eksi boşluğun yarısı */
+            max-width: calc(50% - 0.6rem); /* Bir satırda en fazla iki tane olmasını sağlar */
+            min-width: 200px; /* Her seçenek kutusu için minimum genişlik artırıldı */
             box-sizing: border-box;
             font-size: 1.35rem; /* Cevap metni boyutu daha da büyütüldü */
             font-weight: 500;
-            text-align: center; /* Ensure text is centered */
-            border: 2px solid transparent; /* Default transparent border */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+            text-align: center; /* Metnin ortalanmasını sağla */
+            border: 2px solid transparent; /* Varsayılan şeffaf çerçeve */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Hafif gölge */
         }
         .option-label:hover {
-            transform: translateY(-3px); /* Lift effect on hover */
+            transform: translateY(-3px); /* Hover'da kaldırma efekti */
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
         }
         .option-label input[type="radio"] {
-            /* Visually hide the radio button, but keep it functional */
+            /* Radyo düğmesini görsel olarak gizle, ancak işlevsel tut */
             position: absolute;
             opacity: 0;
             width: 0;
             height: 0;
-            pointer-events: none; /* Ensure clicks go through to the label */
+            pointer-events: none; /* Tıklamaların etikete geçmesini sağla */
         }
 
-        /* New classes for option box colors */
-        .option-color-1 { background-color: #dbeafe; border-color: #93c5fd; color: #1e40af; } /* Blue */
-        .option-color-2 { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; } /* Green */
-        .option-color-3 { background-color: #ffe4e6; border-color: #fca5a5; color: #be123c; } /* Red */
-        .option-color-4 { background-color: #fffbeb; border-color: #fcd34d; color: #92400e; } /* Yellow */
-        .option-color-5 { background-color: #e0e7ff; border-color: #a78bfa; color: #4338ca; } /* Indigo */
+        /* Seçenek kutusu renkleri için yeni sınıflar */
+        .option-color-1 { background-color: #dbeafe; border-color: #93c5fd; color: #1e40af; } /* Mavi */
+        .option-color-2 { background-color: #d1fae5; border-color: #6ee7b7; color: #065f46; } /* Yeşil */
+        .option-color-3 { background-color: #ffe4e6; border-color: #fca5a5; color: #be123c; } /* Kırmızı */
+        .option-color-4 { background-color: #fffbeb; border-color: #fcd34d; color: #92400e; } /* Sarı */
+        .option-color-5 { background-color: #e0e7ff; border-color: #a78bfa; color: #4338ca; } /* İndigo */
 
 
-        /* Adjust correct/incorrect highlights for new box style */
+        /* Yeni kutu stili için doğru/yanlış vurgularını ayarla */
         .option-label.correct-option-highlight {
-            background-color: #a7f3d0 !important; /* Brighter green for correct */
-            border-color: #065f46 !important; /* Darker green border */
+            background-color: #a7f3d0 !important; /* Doğru için daha parlak yeşil */
+            border-color: #065f46 !important; /* Daha koyu yeşil çerçeve */
             color: #065f46 !important;
-            transform: none; /* No lift on highlight */
+            transform: none; /* Vurguda kaldırma yok */
             box-shadow: 0 4px 10px rgba(6, 95, 70, 0.2);
         }
         .option-label.incorrect-selected-option {
-            background-color: #fecaca !important; /* Light red for incorrect selected */
-            border-color: #991b1b !important; /* Darker red border */
+            background-color: #fecaca !important; /* Yanlış seçilen için açık kırmızı */
+            border-color: #991b1b !important; /* Daha koyu kırmızı çerçeve */
             color: #991b1b !important;
-            transform: none; /* No lift on highlight */
+            transform: none; /* Vurguda kaldırma yok */
             box-shadow: 0 4px 10px rgba(153, 27, 27, 0.2);
         }
 
-        /* Ensure the text is visible and centered */
+        /* Metnin görünür ve ortalanmış olmasını sağla */
         .option-label span {
             display: block;
             width: 100%;
         }
 
-        /* Responsive adjustments for smaller screens */
+        /* Daha küçük ekranlar için duyarlı ayarlamalar */
         @media (max-width: 640px) {
             .option-label {
-                max-width: 100%; /* Full width on small screens */
+                max-width: 100%; /* Küçük ekranlarda tam genişlik */
                 min-width: unset;
-                flex-basis: 100%; /* Full width on small screens */
+                flex-basis: 100%; /* Küçük ekranlarda tam genişlik */
             }
         }
         .button-group {
@@ -306,7 +333,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); /* Default shadow, overridden by specific button styles */
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); /* Varsayılan gölge, belirli buton stilleri tarafından geçersiz kılınır */
         }
         .action-button:hover {
             transform: translateY(-2px);
@@ -322,24 +349,24 @@
         }
         .feedback-message {
             text-align: center;
-            margin-top: 1.5rem; /* Ensure space from the question block */
+            margin-top: 1.5rem; /* Soru bloğundan boşluk sağla */
             font-size: 1.3rem; /* Geri bildirim metin boyutu büyütüldü */
             font-weight: 600;
             padding: 0.9rem; /* Geri bildirim paddingi büyütüldü */
             border-radius: 8px;
             opacity: 0;
             transition: opacity 0.5s ease;
-            display: flex; /* Use flex to center content */
+            display: flex; /* İçeriği ortalamak için flex kullan */
             align-items: center;
             justify-content: center;
-            gap: 0.5rem; /* Space between icon and text */
+            gap: 0.5rem; /* İkon ve metin arasındaki boşluk */
         }
         .feedback-message.show {
             opacity: 1;
         }
         .feedback-message.incorrect {
-            background-color: #fee2e2; /* Light Red */
-            color: #b91c1c; /* Darker Red */
+            background-color: #fee2e2; /* Açık Kırmızı */
+            color: #b91c1c; /* Daha Koyu Kırmızı */
             border: 1px solid #fca5a5;
         }
         .feedback-message.correct {
@@ -373,7 +400,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 0.9rem; /* Space between boxes increased */
+            gap: 0.9rem; /* Kutular arasındaki boşluk artırıldı */
             margin-bottom: 2.2rem;
             padding: 1.2rem;
             background-color: #e0f2fe;
@@ -384,9 +411,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 50px; /* Box width increased */
-            height: 50px; /* Box height increased */
-            border-radius: 8px; /* More rounded corners */
+            width: 50px; /* Kutu genişliği artırıldı */
+            height: 50px; /* Kutu yüksekliği artırıldı */
+            border-radius: 8px; /* Daha yuvarlak köşeler */
             background-color: #bfdbfe;
             color: #1e40af;
             font-weight: 600;
@@ -408,21 +435,21 @@
             transform: translateY(-2px);
         }
         .question-nav-item.answered-correctly {
-            background-color: #a7f3d0; /* Green-200 */
-            color: #065f46; /* Green-800 */
+            background-color: #a7f3d0; /* Yeşil-200 */
+            color: #065f46; /* Yeşil-800 */
         }
-        /* Removed .answered-incorrectly styling to make it look like an unanswered question */
+        /* .answered-incorrectly stilini kaldırıldı, cevaplanmamış bir soru gibi görünmesini sağlamak için */
         /* .question-nav-item.answered-incorrectly {
             background-color: #fecaca;
             color: #991b1b;
         } */
-        /* Removed disabled-selection for answered-incorrectly to allow re-selection */
+        /* answered-incorrectly için disabled-selection kaldırıldı, yeniden seçime izin vermek için */
         /* .question-nav-item.disabled-selection {
             cursor: not-allowed;
             opacity: 0.6;
         } */
         .hidden {
-            display: none !important; /* Added !important to ensure it overrides other styles */
+            display: none !important; /* Diğer stilleri geçersiz kıldığını sağla */
         }
         .feedback-icon {
             font-size: 1.3em;
@@ -431,17 +458,17 @@
         .timer-display {
             font-size: 1.3rem; /* Zamanlayıcı metin boyutu büyütüldü */
             font-weight: 600;
-            color: #ef4444; /* Red color for timer */
+            color: #ef4444; /* Zamanlayıcı için kırmızı renk */
             margin-bottom: 1.1rem;
             text-align: center;
         }
         .timer-display.warning {
-            color: #f59e0b; /* Orange for warning */
+            color: #f59e0b; /* Uyarı için turuncu */
         }
         .timer-display.critical {
-            color: #dc2626; /* Darker red for critical */
+            color: #dc2626; /* Kritik için daha koyu kırmızı */
         }
-        .player-selection-screen { /* Renamed to .main-screen-layout for general use */
+        .player-selection-screen { /* Genel kullanım için .main-screen-layout olarak yeniden adlandırıldı */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -458,13 +485,13 @@
         .player-selection-screen .action-button {
             min-width: 220px;
         }
-        .selection-buttons { /* Renamed to .selection-buttons */
+        .selection-buttons { /* .selection-buttons olarak yeniden adlandırıldı */
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 1.5rem;
         }
-        /* New styles for LLM explanation */
+        /* LLM açıklaması için yeni stiller */
         .detailed-explanation-container {
             margin-top: 1.8rem;
             padding: 1.2rem;
@@ -478,36 +505,36 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         .loading-spinner {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #3498db; /* Blue */
+            border: 4px solid #f3f3f3; /* Açık gri */
+            border-top: 44px solid #3498db; /* Mavi */
             border-radius: 50%;
             width: 28px; /* Spinner boyutu büyütüldü */
             height: 28px; /* Spinner boyutu büyütüldü */
             animation: spin 1s linear infinite;
             margin: 1.2rem auto;
-            display: none; /* Hidden by default */
+            display: none; /* Varsayılan olarak gizli */
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        /* Fullscreen overlay for question */
+        /* Soru için tam ekran kaplama */
         #fullscreen-overlay {
             position: fixed;
             inset: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            background-color: rgba(0, 0, 0, 0.5); /* Yarı şeffaf siyah */
             z-index: 40;
             opacity: 0;
-            visibility: hidden; /* Changed to hidden for initial state */
+            visibility: hidden; /* Başlangıç durumu için gizli olarak değiştirildi */
             transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
         }
         #fullscreen-overlay.show {
             opacity: 1;
-            visibility: visible; /* Changed to visible when shown */
+            visibility: visible; /* Gösterildiğinde görünür olarak değiştirildi */
         }
 
-        /* Fullscreen question container */
+        /* Tam ekran soru konteyneri */
         #quiz-content.fullscreen-active {
             position: fixed;
             top: 0;
@@ -515,63 +542,63 @@
             width: 100vw;
             height: 100vh;
             z-index: 50;
-            background-color: #e6f0f5; /* Match container background */
-            border-radius: 0; /* No rounded corners for full screen */
-            box-shadow: none; /* No shadow for full screen */
+            background-color: #e6f0f5; /* Konteyner arka planıyla eşleş */
+            border-radius: 0; /* Tam ekran için yuvarlak köşeler yok */
+            box-shadow: none; /* Tam ekran için gölge yok */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Content starts from top */
-            padding: 2.5rem 1.5rem; /* Responsive padding increased */
-            overflow-y: auto; /* Enable scrolling for long questions */
+            justify-content: flex-start; /* İçerik yukarıdan başlar */
+            padding: 2.5rem 1.5rem; /* Duyarlı padding artırıldı */
+            overflow-y: auto; /* Uzun sorular için kaydırmayı etkinleştir */
             transition: all 0.5s ease-in-out;
         }
 
         #quiz-content.fullscreen-active #timer-display {
-            margin-top: 1.2rem; /* Space from top of the screen */
-            margin-bottom: 1.2rem; /* Space before question block */
-            font-size: 2rem; /* Timer font size in fullscreen */
+            margin-top: 1.2rem; /* Ekranın üstünden boşluk */
+            margin-bottom: 1.2rem; /* Soru bloğundan önce boşluk */
+            font-size: 2rem; /* Tam ekranda zamanlayıcı font boyutu */
             width: 100%;
             text-align: center;
-            color: #ef4444; /* Keep timer color */
+            color: #ef4444; /* Zamanlayıcı rengini koru */
         }
 
         #quiz-content.fullscreen-active .question-area {
-            flex-grow: 1; /* Take available space */
+            flex-grow: 1; /* Mevcut alanı kapla */
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Vertically center content if space allows */
+            justify-content: center; /* Alan izin verirse içeriği dikey olarak ortala */
             align-items: center;
             width: 100%;
-            max-width: 900px; /* Max width for the question content increased */
-            margin: 0 auto; /* Center the question content horizontally */
+            max-width: 900px; /* Tam ekranda soru içeriği için maksimum genişlik artırıldı */
+            margin: 0 auto; /* Soru içeriğini yatay olarak ortala */
         }
 
         #quiz-content.fullscreen-active .question-block {
-            width: 100%; /* Ensure question block fills its parent */
-            padding: 2rem; /* Increased padding for question block in fullscreen */
-            box-sizing: border-box; /* Include padding in width */
+            width: 100%; /* Soru bloğunun ebeveynini doldurmasını sağla */
+            padding: 2rem; /* Tam ekranda soru bloğu için padding artırıldı */
+            box-sizing: border-box; /* Genişliğe padding'i dahil et */
             background-color: #e3f2fd;
             border-radius: 8px;
             border: 1px solid #90caf9;
-            /* Keep the opening animation styles */
+            /* Açılış animasyon stillerini koru */
             opacity: 1;
             transform: scale(1);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            margin-bottom: 1.5rem; /* Added margin to separate from feedback */
+            margin-bottom: 1.5rem; /* Geri bildirimden ayırmak için margin eklendi */
         }
 
         #quiz-content.fullscreen-active .button-group {
-            margin-top: 2.5rem; /* Increased margin-top for buttons in fullscreen */
-            width: 100%; /* Ensure buttons are centered in the fullscreen view */
-            max-width: 900px; /* Max width for buttons in fullscreen */
+            margin-top: 2.5rem; /* Tam ekranda butonlar için margin-top artırıldı */
+            width: 100%; /* Butonların tam ekran görünümünde ortalanmasını sağla */
+            max-width: 900px; /* Tam ekranda butonlar için maksimum genişlik */
         }
         .question-screen-instruction-message {
             text-align: center;
-            font-size: 1.1rem; /* Adjusted for consistency */
+            font-size: 1.1rem; /* Tutarlılık için ayarlandı */
             font-weight: 500;
             color: #555;
-            margin-top: 1rem; /* Increased margin for better spacing */
+            margin-top: 1rem; /* Daha iyi boşluk için margin artırıldı */
         }
 
         .option-label.selected-animation {
@@ -637,7 +664,7 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
 
-        /* Participant Selection Modal Styles */
+        /* Katılımcı Seçim Modalı Stilleri */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -661,12 +688,12 @@
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 500px;
+            width: 95%; /* Genişlik artırıldı */
+            max-width: 1000px; /* Modal için maksimum genişlik artırıldı */
             text-align: center;
             transform: translateY(-20px);
             transition: transform 0.3s ease;
-            position: relative; /* Needed for absolute positioning of close button */
+            position: relative; /* Kapatma düğmesinin mutlak konumlandırılması için gerekli */
         }
 
         .modal-overlay.show .modal-content {
@@ -681,7 +708,8 @@
         }
 
         .modal-content select,
-        .modal-content input[type="text"] {
+        .modal-content input[type="text"],
+        .modal-content input[type="number"] { /* Sayı girişi stili eklendi */
             width: 100%;
             padding: 0.8rem;
             margin-bottom: 1rem;
@@ -701,7 +729,7 @@
             font-size: 1.1rem;
         }
 
-        /* New styles for team setup modal */
+        /* Takım kurulum modalı için yeni stiller */
         #team-setup-modal .team-name-inputs {
             display: flex;
             flex-direction: column;
@@ -709,7 +737,7 @@
             margin-top: 1rem;
         }
 
-        /* Close button for modals */
+        /* Modallar için kapatma düğmesi */
         .modal-close-button {
             position: absolute;
             top: 1rem;
@@ -721,70 +749,134 @@
             color: #666;
             transition: color 0.2s ease;
             padding: 0.5rem;
-            line-height: 1; /* Adjust line height to center 'X' */
+            line-height: 1; /* 'X'i ortalamak için satır yüksekliğini ayarla */
         }
 
         .modal-close-button:hover {
             color: #333;
         }
 
-        /* Styles for existing participants buttons */
+        /* Mevcut katılımcı butonları için stiller */
         #existing-participants-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid; /* Daha iyi kontrol için ızgaraya değiştirildi */
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Duyarlı sütunlar */
             gap: 0.8rem;
             margin-bottom: 1.5rem;
-            max-height: 200px; /* Limit height and add scroll */
+            max-height: 300px; /* Daha fazla giriş için yükseklik artırıldı */
             overflow-y: auto;
             padding: 0.5rem;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             background-color: #f8fafc;
         }
-        #existing-participants-buttons .action-button {
-            flex-grow: 1; /* Allow buttons to grow and fill space */
-            min-width: 120px; /* Minimum width for buttons */
-            max-width: 48%; /* Max width to allow two per row */
-            box-sizing: border-box;
-            font-size: 1rem;
-            padding: 0.7rem 1rem;
+        .participant-item-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.8rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            position: relative; /* Seçili gösterge için konumlandırma */
         }
-        #existing-participants-buttons .action-button.selected-participant {
-            background-color: #3b82f6;
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
-            transform: translateY(-2px);
-            outline: 3px solid #fcd34d; /* Yellow outline for selected */
-            outline-offset: -3px;
+        .participant-item-wrapper.selected-participant {
+            background-color: #e0f2fe; /* Seçili için açık mavi arka plan */
+            border-color: #90caf9; /* Seçili için mavi çerçeve */
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+        }
+        .participant-item-wrapper.selected-participant::after {
+            content: '✓'; /* Seçili için onay işareti */
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            color: #10b981; /* Yeşil onay işareti */
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .participant-name-display {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            word-break: break-word; /* Uzun isimlerin kırılmasına izin ver */
+            overflow-wrap: break-word; /* Uzun kelimelerin sarılmasını sağla */
+        }
+        .participant-edit-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            justify-content: center;
+            width: 100%;
+        }
+        .participant-edit-controls .action-button {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+            min-width: unset; /* Genel action-button'dan min-width'i geçersiz kıl */
+            flex-grow: 1;
+        }
+        .edit-participant-modal-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: #333;
+            background-color: #ffffff;
+            margin-bottom: 1rem;
+        }
+        .edit-participant-modal-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Ana ekran butonları için metni küçültmek ve tek satırda tutmak için özel stiller */
+        .main-action-button {
+            font-size: 0.9rem; /* Daha küçük font boyutu */
+            padding: 0.6rem 1rem; /* Azaltılmış padding */
+            flex-shrink: 0; /* Küçülmeyi önle */
+            white-space: nowrap; /* Metni tek satırda tut */
+        }
+
+        @media (max-width: 640px) {
+            .main-action-button {
+                font-size: 0.8rem; /* Çok küçük ekranlarda daha da küçük */
+                padding: 0.5rem 0.8rem;
+            }
         }
     </style>
     <script type="module">
-        // Local Storage Keys
+        // Yerel Depolama Anahtarları
         const LOCAL_STORAGE_KEY_TEAMS = 'quizGameTeams';
         const LOCAL_STORAGE_KEY_CURRENT_UNIT = 'quizGameCurrentUnit';
         const LOCAL_STORAGE_KEY_GAME_MODE = 'quizGameMode';
         const LOCAL_STORAGE_KEY_ANSWERED_QUESTIONS = 'quizGameAnsweredQuestions';
 
-        // Global Game State Variables
-        window.teams = []; // Array to store objects like { id: 'uuid', name: 'Takım Adı', score: 0 }
-        window.currentTeamId = null; // ID of the currently active team
-        window.currentQuestionIndex = 0; // This will now be the index in the `shuffledQuestions` array
-        window.answeredQuestions = {}; // Stores {questionId: {solvedByTeamId: teamId, userAnswer: string, timeTaken: number}}
-        let timer = 30; // Timer set to 30 seconds
+        // Genel Oyun Durumu Değişkenleri
+        window.teams = []; // { id: 'uuid', name: 'Takım Adı', score: 0 } gibi nesneleri saklamak için dizi
+        window.currentTeamId = null; // Şu anda aktif olan takımın ID'si
+        window.currentQuestionIndex = 0; // Bu, artık `shuffledQuestions` dizisindeki indeks olacak
+        window.answeredQuestions = {}; // {questionId: {solvedByTeamId: teamId, userAnswer: string, timeTaken: number}} saklar
+        let timer = 30; // Zamanlayıcı 30 saniyeye ayarlandı
         let timerInterval;
-        let shuffledQuestions = []; // This array holds the questions for the current unit, shuffled
+        let shuffledQuestions = []; // Bu dizi, mevcut ünite için karıştırılmış soruları tutar
         window.currentUnit = null;
-        let initialTimerValue = 30; // Initial timer value set to 30 seconds
-        window.gameMode = null; // 'individual' or 'team'
-        window.selectedQuestionIdForModal = null; // New global variable to store the ID of the clicked question
-        let selectedParticipantIdInModal = null; // To track selection in participant selection modal
+        let initialTimerValue = 30; // Başlangıç zamanlayıcı değeri 30 saniyeye ayarlandı
+        window.gameMode = null; // 'individual' veya 'team'
+        window.selectedQuestionIdForModal = null; // Tıklanan sorunun ID'sini saklamak için yeni genel değişken
+        let selectedParticipantIdInModal = null; // Katılımcı seçim modalında seçimi izlemek için
+        let participantIdToEdit = null; // Düzenlenen katılımcıyı izlemek için
 
-        // Tone.js sound synthesizers
+        // Tone.js ses sentezleyicileri
         let correctSynth;
         let incorrectSynth;
         let timerSynth;
 
-        // Background themes mapping for each unit
+        // Her ünite için arka plan temaları eşlemesi
         const backgroundThemes = {
             'unit1': 'url("https://placehold.co/1920x1080/81D4FA/000000?text=Melek+ve+Ahiret+%C4%B0nanc%C4%B1")',
             'unit2': 'url("https://placehold.co/1920x1080/FFCDD2/000000?text=Hac+ve+Kurban")',
@@ -795,15 +887,15 @@
         };
 
         /**
-         * Sets the background image of the body based on the provided theme key.
-         * @param {string} themeKey - The key corresponding to the background theme.
+         * Gövdenin arka plan resmini sağlanan tema anahtarına göre ayarlar.
+         * @param {string} themeKey - Arka plan temasına karşılık gelen anahtar.
          */
         function setGameBackground(themeKey) {
             const imageUrl = backgroundThemes[themeKey] || backgroundThemes['general'];
             document.body.style.backgroundImage = imageUrl;
         }
 
-        // Questions for each unit (7. Sınıf DKAB müfredatına göre güncellendi)
+        // Her ünite için sorular (7. Sınıf DKAB müfredatına göre güncellendi)
         const unitQuestions = {
             'unit1': [ // 1. ÜNİTE: Melek ve Ahiret İnancı
                 { id: 'u1_tf1', type: 'trueFalse', question: "Gayb alemi, akıl ve duyularla bilinebilen varlık alanıdır.", answer: "Y", explanation: "Gayb alemi, akıl ve duyular yoluyla hakkında bilgi edinilemeyen varlık alanıdır.", theme: 'unit1', relatedConcept: "Gayb Alemi" },
@@ -855,7 +947,7 @@
                 { id: 'u3_tf3', type: 'trueFalse', question: "Sabır, hoşa gitmeyen olaylar karşısında şikayet etmek demektir.", answer: "Y", explanation: "Sabır, zorluklar karşısında dayanmak, Allah'a güvenmek ve isyan etmemektir.", theme: 'unit3', relatedConcept: "Sabır" },
                 { id: 'u3_tf4', type: 'trueFalse', question: "İsar, kişinin kendi ihtiyacı varken başkalarına yardımda bulunmasıdır.", answer: "D", explanation: "İsar, cömertlik ve özverinin en üst düzeyidir.", theme: 'unit3', relatedConcept: "İsar" },
                 { id: 'u3_tf5', type: 'trueFalse', question: "Sadaka, sadece maddi yardımları kapsar.", answer: "Y", explanation: "Sadaka, maddi ve manevi her türlü iyiliği kapsar.", theme: 'unit3', relatedConcept: "Sadaka" },
-                { id: 'u3_tf6', type: 'trueFalse', question: "Sorumluluk, kişinin tutum ve davranışlarının sonuçlarını üstlenmesidir.", answer: "D", explanation: "Sorumluluk, bireyin eylemlerinin bilincinde olması ve sonuçlarını kabul etmesidir.", theme: 'unit3', relatedConcept: "Sorumluluk" },
+                { id: 'u3_tf6', type: 'trueFalse', question: "Sorumluluk, kişinin tutum ve davranışlarının sonuçlarını üstlenmesidir.", answer: "D", explanation: "Sorumluluk, bireyin eylemlerinin bilincinde olması ve ve sonuçlarını kabul etmesidir.", theme: 'unit3', relatedConcept: "Sorumluluk" },
                 { id: 'u3_tf7', type: 'trueFalse', question: "Vatanseverlik, sadece kendi ülkesini sevmekle sınırlıdır.", answer: "Y", explanation: "Vatanseverlik, ülkesini sevmekle birlikte, ona faydalı olmak ve korumak için çaba göstermektir.", theme: 'unit3', relatedConcept: "Vatanseverlik" },
                 { id: 'u3_tf8', type: 'trueFalse', question: "Hz. Salih, Semud kavmine gönderilen bir peygamberdir.", answer: "D", explanation: "Hz. Salih, Semud kavmini tevhide davet etmiştir.", theme: 'unit3', relatedConcept: "Hz. Salih" },
                 { id: 'u3_tf9', type: 'trueFalse', question: "Felak Suresi, her türlü kötülükten Allah'a sığınmayı anlatır.", answer: "D", explanation: "Felak Suresi, Allah'tan korunma dilemeyi öğretir.", theme: 'unit3', relatedConcept: "Felak Suresi" },
@@ -871,8 +963,8 @@
                 { id: 'u3_mc4', type: 'multipleChoice', question: "Kur'an-ı Kerim'in 113. suresi aşağıdakilerden hangisidir?", options: ["Nas Suresi", "İhlas Suresi", "Felak Suresi", "Kevser Suresi"], answer: "Felak Suresi", explanation: "Felak Suresi, kötülüklerden Allah'a sığınma duasıdır.", theme: 'unit3', relatedConcept: "Felak Suresi" },
                 { id: 'u3_mc5', type: 'multipleChoice', question: "Yaratmak anlamına gelen kelime hangisidir?", options: ["Hâsid", "Gâsık", "Halk", "Vesvâs"], answer: "Halk", explanation: "Halk, Allah'ın yaratma sıfatını ifade eder.", theme: 'unit3', relatedConcept: "Halk" }
             ],
-            'unit4': [ // 4. ÜNİTE: Allah'ın Kulu ve Elçisi Hz. Muhammed (s.a.v.) - UPDATED
-                // True / False
+            'unit4': [ // 4. ÜNİTE: Allah'ın Kulu ve Elçisi Hz. Muhammed (s.a.v.) - GÜNCELLENDİ
+                // Doğru / Yanlış
                 { id: 'u4_tf1', type: 'trueFalse', question: "Hz. Muhammed (s.a.v.), diğer insanlar gibi bir beşer olup, yeme, içme, uyuma gibi insani özelliklere sahipti.", answer: "D", explanation: "Hz. Muhammed (s.a.v.) de bir insandı ve insani ihtiyaçları vardı. Onu ayıran vahiy almasıydı.", theme: 'unit4', relatedConcept: "Beşeriyet" },
                 { id: 'u4_tf2', type: 'trueFalse', question: "Hz. Muhammed'i (s.a.v.) diğer insanlardan ayıran en temel özellik çok zengin olmasıydı.", answer: "Y", explanation: "Hz. Muhammed'i (s.a.v.) diğer insanlardan ayıran en temel özellik Allah'tan (c.c.) vahiy almasıydı.", theme: 'unit4', relatedConcept: "Vahiy" },
                 { id: 'u4_tf3', type: 'trueFalse', question: "'Üsve-i Hasene' tabiri, Hz. Muhammed'in (s.a.v.) en güzel örnek olduğunu ifade eder.", answer: "D", explanation: "Kur'an-ı Kerim, Hz. Muhammed'i (s.a.v.) Müslümanlar için en güzel örnek (Üsve-i Hasene) olarak tanıtır.", theme: 'unit4', relatedConcept: "Üsve-i Hasene" },
@@ -883,13 +975,13 @@
                 { id: 'u4_tf8', type: 'trueFalse', question: "Hz. Muhammed (s.a.v.) 'Hatemü'l-Enbiya' yani peygamberlerin sonuncusudur.", answer: "D", explanation: "İslam inancına göre Hz. Muhammed (s.a.v.), Allah'ın (c.c.) gönderdiği peygamberler zincirinin son halkasıdır.", theme: 'unit4', relatedConcept: "Hatemü'l-Enbiya" },
                 { id: 'u4_tf9', type: 'trueFalse', question: "Kâfirûn Suresi, Müslümanlara diğer inançlara hoşgörülü olmalarını ancak kendi inançlarından taviz vermemelerini öğretir.", answer: "D", explanation: "Kâfirûn Suresi, inanç konusunda net bir duruş sergilemeyi ve başkalarının inançlarına saygı duymayı ifade eder.", theme: 'unit4', relatedConcept: "Kâfirûn Suresi" },
                 { id: 'u4_tf10', type: 'trueFalse', question: "Hz. Muhammed (s.a.v.) sadece Arap toplumuna gönderilmiş bir peygamberdir.", answer: "Y", explanation: "Hz. Muhammed'in (s.a.v.) peygamberliği evrenseldir; o, bütün insanlığa rahmet olarak gönderilmiştir.", theme: 'unit4', relatedConcept: "Evrensellik" },
-                // Fill in the Blanks
+                // Boşluk Doldurma
                 { id: 'u4_fb1', type: 'fillInTheBlanks', question: "Hz. Muhammed'e (s.a.v.) peygamberlik görevinin verildiği ilk vahiy ........................ Mağarası'nda gelmiştir.", answer: "Hira", options: ["Hira", "Sevr", "Uhud", "Nur"], explanation: "İlk vahiy, Nur Dağı'ndaki Hira Mağarası'nda gelmiştir.", theme: 'unit4', relatedConcept: "Hira Mağarası" },
                 { id: 'u4_fb2', type: 'fillInTheBlanks', question: "Hz. Muhammed'in (s.a.v.) sözlerine, davranışlarına ve onayladığı uygulamalara genel olarak ........................ denir.", answer: "Sünnet", options: ["Sünnet", "Hadis", "Fıkıh", "Kelam"], explanation: "Sünnet, Hz. Peygamber'in yoludur ve Müslümanlar için önemli bir rehberdir.", theme: 'unit4', relatedConcept: "Sünnet" },
                 { id: 'u4_fb3', type: 'fillInTheBlanks', question: "Mekke'den Medine'ye göç eden Müslümanlara ........................ denir.", answer: "Muhacir", options: ["Muhacir", "Ensar", "Sahabe", "Tabiin"], explanation: "Muhacirler, dinleri uğruna yurtlarını terk eden ilk Müslümanlardır.", theme: 'unit4', relatedConcept: "Muhacir" },
                 { id: 'u4_fb4', type: 'fillInTheBlanks', question: "Hz. Muhammed'in (s.a.v.) Allah'tan (c.c.) aldığı mesajları eksiksiz olarak insanlara bildirmesine ........................ denir.", answer: "Tebliğ", options: ["Tebliğ", "Emanet", "Sıdk", "Fetanet"], explanation: "Tebliğ, peygamberlerin temel görevlerinden biridir ve mesajı olduğu gibi ulaştırmak anlamına gelir.", theme: 'unit4', relatedConcept: "Tebliğ" },
                 { id: 'u4_fb5', type: 'fillInTheBlanks', question: "Hz. Muhammed'in (s.a.v.) Veda Hutbesi'nde insan hakları, kadın hakları ve ........................ gibi evrensel mesajlar bulunmaktadır.", answer: "eşitlik", options: ["eşitlik", "zenginlik", "savaş", "ayrımcılık"], explanation: "Veda Hutbesi, insanlığa yönelik evrensel değerleri içeren önemli bir konuşmadır; eşitlik ve kardeşlik bu mesajların temelini oluşturur.", theme: 'unit4', relatedConcept: "Veda Hutbesi" },
-                // Multiple Choice
+                // Çoktan Seçmeli
                 { id: 'u4_mc1', type: 'multipleChoice', question: "Aşağıdakilerden hangisi Hz. Muhammed'in (s.a.v.) insani yönünü ifade eden bir durum değildir?", options: ["Pazarda alışveriş yapması", "Hasta olduğunda tedavi olması", "Mucizeler göstermesi", "Ailesiyle ilgilenmesi"], answer: "Mucizeler göstermesi", explanation: "Mucizeler, peygamberliğinin bir delili olmakla birlikte, onun beşeri özelliklerinden ziyade Allah'ın (c.c.) ona verdiği özel bir güçtür. Diğer seçenekler onun insani yönünü yansıtır.", theme: 'unit4', relatedConcept: "Beşeriyet" },
                 { id: 'u4_mc2', type: 'multipleChoice', question: "Hz. Muhammed'in (s.a.v.) peygamberlik görevini ifade eden 'Risalet' kelimesinin anlamı nedir?", options: ["Güvenilirlik", "Elçilik, mesaj taşıma", "Doğruluk", "Akıllı ve zeki olma"], answer: "Elçilik, mesaj taşıma", explanation: "Risalet, peygamberin Allah'tan (c.c.) aldığı mesajları insanlara ulaştırma görevi, yani elçiliğidir.", theme: 'unit4', relatedConcept: "Risalet" },
                 { id: 'u4_mc3', type: 'multipleChoice', question: "Aşağıdakilerden hangisi Hz. Muhammed'in (s.a.v.) Mekke döneminde karşılaştığı zorluklardan biri değildir?", options: ["Müşriklerin baskı ve işkenceleri", "Boykot uygulaması", "Medine Sözleşmesi'nin imzalanması", "Yakınlarının bir kısmını kaybetmesi (Hüzün Yılı)"], answer: "Medine Sözleşmesi'nin imzalanması", explanation: "Medine Sözleşmesi, Hicret'ten sonra Medine döneminde yapılmıştır. Diğerleri Mekke dönemindeki zorluklardır.", theme: 'unit4', relatedConcept: "Mekke Dönemi" },
@@ -921,44 +1013,44 @@
         };
 
         /**
-         * Ensures that the given array of questions contains exactly 100 questions.
-         * If the array has fewer than 100 questions, it duplicates existing questions randomly
-         * until the count reaches 100. If it has more, it truncates to 100.
-         * @param {Array<Object>} questionsArray The array of questions for a unit.
-         * @returns {Array<Object>} An array containing exactly 100 questions.
+         * Verilen soru dizisinin tam olarak 100 soru içerdiğinden emin olur.
+         * Dizi 100'den az soru içeriyorsa, sayı 100'e ulaşana kadar mevcut soruları rastgele çoğaltır.
+         * Daha fazla soru içeriyorsa, 100'e kadar keser.
+         * @param {Array<Object>} questionsArray - Bir ünite için sorular dizisi.
+         * @returns {Array<Object>} Tam olarak 100 soru içeren bir dizi.
          */
         function ensureOneHundredQuestions(questionsArray) {
-            let currentQuestions = [...questionsArray]; // Create a shallow copy to avoid modifying the original
+            let currentQuestions = [...questionsArray]; // Orijinali değiştirmemek için sığ bir kopya oluştur
             const targetCount = 100;
 
             if (currentQuestions.length >= targetCount) {
-                return currentQuestions.slice(0, targetCount); // If already 100 or more, just take the first 100
+                return currentQuestions.slice(0, targetCount); // Zaten 100 veya daha fazlaysa, ilk 100'ü al
             }
 
-            // If less than 100, duplicate questions randomly until it reaches 100
+            // 100'den azsa, 100'e ulaşana kadar soruları rastgele çoğalt
             const originalLength = currentQuestions.length;
             while (currentQuestions.length < targetCount) {
                 const randomIndex = Math.floor(Math.random() * originalLength);
                 const questionToDuplicate = currentQuestions[randomIndex];
-                // Create a new object for the duplicated question to ensure unique IDs if needed later,
-                // and to prevent unintended modifications if question objects are mutable.
+                // Daha sonra benzersiz kimlikler gerekiyorsa, ve soru nesneleri değiştirilebilirse,
+                // kopyalanan soru için yeni bir nesne oluştur.
                 currentQuestions.push({ ...questionToDuplicate, id: `${questionToDuplicate.id}_copy_${currentQuestions.length}` });
             }
             return currentQuestions;
         }
 
-        // DOM elements (declared globally but assigned in onload)
-        let participantManagementScreen; // New main screen
-        let leaderboardContainer; // Container for the leaderboard
-        let newParticipantNameInputMain; // Input for new participant on main screen
-        let addNewParticipantMainButton; // Button for adding new participant on main screen
-        let showRegisteredUsersButton; // Button to show registered users modal
-        let unitSelectionScreen; // New screen for unit selection
-        let gameModeSelectionScreen; // Existing screen for game mode selection
-        let gameModeMessage; // Message display for game mode selection
-        let gamePanel; // Main game area (score, grid, quiz content)
-        let scoreBoardContainer; // Main container for the score board
-        let currentParticipantDisplay; // Display for current participant's name and score
+        // DOM öğeleri (genel olarak bildirildi ancak onload'da atandı)
+        let participantManagementScreen; // Yeni ana ekran
+        let leaderboardContainer; // Lider tablosu için konteyner
+        let newParticipantNameInputMain; // Ana ekranda yeni katılımcı girişi
+        let addNewParticipantMainButton; // Ana ekranda yeni katılımcı ekleme düğmesi
+        let showRegisteredUsersButton; // Kayıtlı kullanıcıları gösterme düğmesi
+        let unitSelectionScreen; // Ünite seçim ekranı için yeni ekran
+        let gameModeSelectionScreen; // Oyun modu seçimi için mevcut ekran
+        let gameModeMessage; // Oyun modu seçimi için mesaj gösterimi
+        let gamePanel; // Ana oyun alanı (skor, ızgara, quiz içeriği)
+        let scoreBoardContainer; // Skor tablosu için ana konteyner
+        let currentParticipantDisplay; // Mevcut katılımcının adı ve skoru için gösterim
         let quizContentContainer;
         let questionContainer;
         let feedbackDiv;
@@ -971,23 +1063,33 @@
         let gridInstructionMessage;
         let questionScreenInstructionMessage;
         let fullscreenOverlay;
-        let returnToMainMenuGridButton; // Button to return to main menu from question grid
-        let returnToQuestionGridButton; // Button to return to question grid from quiz content
-        let finalParticipantScoresDisplay; // Container for final participant scores table
-        let goToMainSiteButton; // Button to go to external main site from main menu
-        let participantSelectionModal; // Modal for participant selection
-        let existingParticipantsButtonsContainer; // Container for participant buttons in modal
-        let selectExistingParticipantButton; // Button to select participant in modal
-        let newParticipantNameInput; // Input in modal (removed from HTML, but keeping variable for reference)
-        let nextTurnButton; // Button for next turn in team mode
-        let teamSetupModal; // Modal for team setup
-        let numTeamsInput; // Input for number of teams
-        let teamNameInputsContainer; // Container for dynamic team name inputs
-        let startOverButton; // New button for starting over
+        let returnToMainMenuGridButton; // Soru ızgarasından ana menüye dönme düğmesi
+        let returnToQuestionGridButton; // Quiz içeriğinden soru ızgarasına dönme düğmesi
+        let finalParticipantScoresDisplay; // Son katılımcı skor tablosu için konteyner
+        let goToMainSiteButton; // Ana siteye gitme düğmesi (ana menüden)
+        let participantSelectionModal; // Katılımcı seçimi için modal
+        let existingParticipantsButtonsContainer; // Modalda katılımcı butonları için konteyner
+        let selectExistingParticipantButton; // Modalda katılımcı seçme düğmesi
+        let editSelectedParticipantButton; // Yeni: Modalda seçili katılımcıyı düzenleme düğmesi
+        let newParticipantNameInput; // Modalda giriş (HTML'den kaldırıldı, ancak referans için değişken tutuldu)
+        let nextTurnButton; // Takım modunda sonraki tur için düğme
+        let teamSetupModal; // Takım kurulumu için modal
+        let numTeamsInput; // Takım sayısı için giriş
+        let teamNameInputsContainer; // Dinamik takım adı girişleri için konteyner
+        let startOverButton; // Baştan başlama için yeni düğme
+        let confirmResetModal; // Yeni onay modalı
+        let confirmResetYesButton; // Onay modalında evet düğmesi
+        let confirmResetNoButton; // Onay modalında hayır düğmesi
+        let editParticipantModal; // Yeni katılımcı düzenleme modalı
+        let editParticipantNameInput; // Katılımcı düzenleme modalında giriş alanı
+        let editParticipantScoreInput; // Düzenleme modalında skor için yeni giriş
+        let editParticipantErrorMessage; // Katılımcı düzenleme modalında hata mesajı
+        let editParticipantScoreErrorMessage; // Düzenleme modalında skor için yeni hata mesajı
+
 
         /**
-         * Generates a unique ID (UUID v4).
-         * @returns {string} A unique ID.
+         * Benzersiz bir ID (UUID v4) oluşturur.
+         * @returns {string} Benzersiz bir ID.
          */
         function generateUUID() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -997,26 +1099,26 @@
         }
 
         /**
-         * Loads teams from localStorage.
+         * Takımları localStorage'dan yükler.
          */
         function loadTeams() {
             const storedTeams = localStorage.getItem(LOCAL_STORAGE_KEY_TEAMS);
             if (storedTeams) {
                 window.teams = JSON.parse(storedTeams);
             } else {
-                window.teams = []; // Initialize empty if nothing found
+                window.teams = []; // Bulunamazsa boş başlat
             }
         }
 
         /**
-         * Saves teams to localStorage.
+         * Takımları localStorage'a kaydeder.
          */
         function saveTeams() {
             localStorage.setItem(LOCAL_STORAGE_KEY_TEAMS, JSON.stringify(window.teams));
         }
 
         /**
-         * Loads game state (current unit, mode, answered questions) from localStorage.
+         * Oyun durumunu (mevcut ünite, mod, cevaplanmış sorular) localStorage'dan yükler.
          */
         function loadGameState() {
             window.currentUnit = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT_UNIT);
@@ -1030,7 +1132,7 @@
         }
 
         /**
-         * Saves game state to localStorage.
+         * Oyun durumunu localStorage'a kaydeder.
          */
         function saveGameState() {
             localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT_UNIT, window.currentUnit);
@@ -1039,26 +1141,35 @@
         }
 
         /**
-         * Renders the leaderboard on the participant management screen.
+         * Katılımcı yönetimi ekranında lider tablosunu render eder.
          */
         function renderLeaderboard() {
-            leaderboardContainer.innerHTML = ''; // Clear previous content
+            leaderboardContainer.innerHTML = ''; // Önceki içeriği temizle
             if (window.teams.length === 0) {
-                leaderboardContainer.innerHTML = '<p class="text-gray-600 text-center">Henüz öğrenci yok.</p>'; // Changed text here
+                leaderboardContainer.innerHTML = '<p class="text-gray-600 text-center">Henüz öğrenci yok.</p>'; // Metin burada değiştirildi
                 return;
             }
 
             const leaderboardList = document.createElement('div');
             leaderboardList.classList.add('leaderboard-list');
 
-            // Sort participants by score in descending order
+            // Lider tablosu öğeleri için bir renk kümesi tanımla
+            const leaderboardItemColors = [
+                'color-0', 'color-1', 'color-2', 'color-3', 'color-4',
+                'color-5', 'color-6', 'color-7', 'color-8', 'color-9'
+            ];
+
+            // Katılımcıları puana göre azalan sırada sırala
             const sortedParticipants = [...window.teams].sort((a, b) => b.score - a.score);
 
             sortedParticipants.forEach((p, index) => {
                 const listItem = document.createElement('div');
                 listItem.classList.add('leaderboard-item');
+                // Dinamik olarak bir renk sınıfı ata
+                listItem.classList.add(leaderboardItemColors[index % leaderboardItemColors.length]);
+
                 if (p.id === window.currentTeamId) {
-                    listItem.classList.add('active-participant'); // Highlight active participant
+                    listItem.classList.add('active-participant'); // Aktif katılımcıyı vurgula
                 }
                 listItem.innerHTML = `
                     <span class="leaderboard-rank">${index + 1}.</span>
@@ -1071,7 +1182,7 @@
         }
 
         /**
-         * Handles adding a new participant from the main screen and proceeds to unit selection.
+         * Ana ekrandan yeni bir katılımcı ekler ve ünite seçimine devam eder.
          */
         window.addNewParticipantAndProceed = function() {
             const newName = newParticipantNameInputMain.value.trim();
@@ -1082,80 +1193,171 @@
                     participantToAdd = existing;
                 } else {
                     participantToAdd = { id: generateUUID(), name: newName, score: 0 };
-                    window.teams.push(participantToAdd); // Add to teams array
+                    window.teams.push(participantToAdd); // Takımlar dizisine ekle
                 }
                 
                 window.currentTeamId = participantToAdd.id;
-                saveTeams(); // Save updated teams
-                newParticipantNameInputMain.value = ''; // Clear input
+                saveTeams(); // Güncellenmiş takımları kaydet
+                newParticipantNameInputMain.value = ''; // Girişi temizle
 
                 participantManagementScreen.classList.add('hidden');
                 unitSelectionScreen.classList.remove('hidden');
-                setGameBackground('general'); // Reset background to general for unit selection
-                updateParticipantDisplay(); // Update current participant display
+                setGameBackground('general'); // Arka planı ünite seçimi için genele sıfırla
+                updateParticipantDisplay(); // Mevcut katılımcı gösterimini güncelle
             } else {
                 console.warn("Lütfen yeni katılımcı adını girin.");
             }
         };
 
         /**
-         * Shows the modal for selecting existing registered users.
+         * Mevcut kayıtlı kullanıcıları seçmek için modalı gösterir.
          */
         window.showRegisteredUsersScreen = function() {
-            existingParticipantsButtonsContainer.innerHTML = ''; // Clear previous buttons
-            selectedParticipantIdInModal = null; // Reset selection
+            existingParticipantsButtonsContainer.innerHTML = ''; // Önceki butonları temizle
+            selectedParticipantIdInModal = null; // Seçimi sıfırla
 
-            // Define a set of color classes for the buttons
-            const participantButtonColors = [
-                ['bg-blue-500', 'hover:bg-blue-600', 'shadow-blue-500/50'],
-                ['bg-green-500', 'hover:bg-green-600', 'shadow-green-500/50'],
-                ['bg-purple-500', 'hover:bg-purple-600', 'shadow-purple-500/50'],
-                ['bg-yellow-500', 'hover:bg-yellow-600', 'shadow-yellow-500/50'],
-                ['bg-pink-500', 'hover:bg-pink-600', 'shadow-pink-500/50'],
-                ['bg-indigo-500', 'hover:bg-indigo-600', 'shadow-indigo-500/50'],
-                ['bg-red-500', 'hover:bg-red-600', 'shadow-red-500/50'],
-                ['bg-teal-500', 'hover:bg-teal-600', 'shadow-teal-500/50']
-            ];
+            // Düzenle butonunu başlangıçta devre dışı bırak
+            editSelectedParticipantButton.disabled = true;
+            selectExistingParticipantButton.disabled = true; // Seç butonunu da başlangıçta devre dışı bırak
 
             if (window.teams.length > 0) {
                 window.teams.forEach((p, index) => {
-                    const button = document.createElement('button');
-                    button.type = 'button';
-                    
-                    // Apply dynamic color classes
-                    const colorSet = participantButtonColors[index % participantButtonColors.length];
-                    button.classList.add('action-button', ...colorSet);
+                    const wrapper = document.createElement('div');
+                    wrapper.classList.add('participant-item-wrapper');
+                    wrapper.dataset.participantId = p.id;
 
-                    button.textContent = p.name;
-                    button.dataset.participantId = p.id; // Store ID for selection
-                    button.onclick = () => {
-                        // Remove 'selected-participant' from all buttons
-                        document.querySelectorAll('#existing-participants-buttons .action-button').forEach(btn => {
-                            btn.classList.remove('selected-participant');
+                    const nameDisplay = document.createElement('span');
+                    nameDisplay.classList.add('participant-name-display');
+                    nameDisplay.textContent = p.name;
+                    wrapper.appendChild(nameDisplay);
+
+                    // Seçim için sarmalayıcıya tıklama dinleyicisi ekle
+                    wrapper.onclick = () => {
+                        // Tüm sarmalayıcılardan 'selected-participant' sınıfını kaldır
+                        document.querySelectorAll('#existing-participants-buttons .participant-item-wrapper').forEach(item => {
+                            item.classList.remove('selected-participant');
                         });
-                        // Add 'selected-participant' to the clicked button
-                        button.classList.add('selected-participant');
+                        // Tıklanan sarmalayıcıya 'selected-participant' sınıfını ekle
+                        wrapper.classList.add('selected-participant');
                         selectedParticipantIdInModal = p.id;
-                        selectExistingParticipantButton.disabled = false; // Enable "Seç ve Başla" button
+                        selectExistingParticipantButton.disabled = false; // "Seç ve Başla" butonunu etkinleştir
+                        editSelectedParticipantButton.disabled = false; // "Düzenle" butonunu etkinleştir
                     };
-                    existingParticipantsButtonsContainer.appendChild(button);
+
+                    // Zaten seçiliyse vurgula
+                    if (window.currentTeamId === p.id) {
+                        wrapper.classList.add('selected-participant');
+                        selectedParticipantIdInModal = p.id; // Zaten seçiliyse ayarlandığından emin ol
+                        selectExistingParticipantButton.disabled = false;
+                        editSelectedParticipantButton.disabled = false; // Zaten seçiliyse "Düzenle"yi etkinleştir
+                    }
+
+                    existingParticipantsButtonsContainer.appendChild(wrapper);
                 });
             } else {
-                existingParticipantsButtonsContainer.innerHTML = '<p class="text-gray-600 text-sm">Henüz kayıtlı öğrenci yok.</p>'; // Changed text here
+                existingParticipantsButtonsContainer.innerHTML = '<p class="text-gray-600 text-sm col-span-full">Henüz kayıtlı öğrenci yok.</p>'; // Metin burada değiştirildi
             }
-            selectExistingParticipantButton.disabled = true; // Disable "Seç ve Başla" until a participant is chosen
             participantSelectionModal.classList.remove('hidden');
             participantSelectionModal.classList.add('show');
         };
 
         /**
-         * Handles selection of an existing participant from the modal.
+         * Bir katılımcının adını ve skorunu düzenlemek için modalı gösterir.
+         * @param {string} id - Düzenlenecek katılımcının ID'si.
+         */
+        window.showEditParticipantModal = function(id) {
+            participantIdToEdit = id;
+            const participant = window.teams.find(p => p.id === id);
+            if (participant) {
+                editParticipantNameInput.value = participant.name;
+                editParticipantScoreInput.value = participant.score; // Skoru doldur
+                editParticipantErrorMessage.textContent = ''; // Önceki hatayı temizle
+                editParticipantErrorMessage.classList.add('hidden'); // Hata mesajını gizle
+                editParticipantScoreErrorMessage.textContent = ''; // Önceki hatayı temizle
+                editParticipantScoreErrorMessage.classList.add('hidden'); // Hata mesajını gizle
+                editParticipantModal.classList.remove('hidden');
+                editParticipantModal.classList.add('show');
+            }
+        };
+
+        /**
+         * Bir katılımcının adını ve skorunu düzenlemek için modalı gizler.
+         */
+        window.hideEditParticipantModal = function() {
+            editParticipantModal.classList.remove('show');
+            setTimeout(() => {
+                editParticipantModal.classList.add('hidden');
+            }, 300);
+            participantIdToEdit = null; // Düzenlenen katılımcının ID'sini temizle
+        };
+
+        /**
+         * Düzenlenen katılımcı adını ve skorunu kaydeder.
+         */
+        window.saveEditedParticipantName = function() {
+            const newName = editParticipantNameInput.value.trim();
+            const newScore = parseInt(editParticipantScoreInput.value); // Skoru tam sayı olarak al
+
+            let hasError = false;
+
+            if (!newName) {
+                editParticipantErrorMessage.textContent = 'İsim boş bırakılamaz.';
+                editParticipantErrorMessage.classList.remove('hidden');
+                hasError = true;
+            } else {
+                editParticipantErrorMessage.textContent = '';
+                editParticipantErrorMessage.classList.add('hidden');
+            }
+
+            const existingParticipantWithSameName = window.teams.find(p => p.name.toLowerCase() === newName.toLowerCase() && p.id !== participantIdToEdit);
+            if (existingParticipantWithSameName) {
+                editParticipantErrorMessage.textContent = 'Bu isimde başka bir katılımcı zaten var.';
+                editParticipantErrorMessage.classList.remove('hidden');
+                hasError = true;
+            }
+
+            if (isNaN(newScore) || newScore < 0) { // Skoru doğrula
+                editParticipantScoreErrorMessage.textContent = 'Puan geçerli bir sayı olmalı ve negatif olamaz.';
+                editParticipantScoreErrorMessage.classList.remove('hidden');
+                hasError = true;
+            } else {
+                editParticipantScoreErrorMessage.textContent = '';
+                editParticipantScoreErrorMessage.classList.add('hidden');
+            }
+
+            if (hasError) {
+                return;
+            }
+
+            const participantIndex = window.teams.findIndex(p => p.id === participantIdToEdit);
+            if (participantIndex !== -1) {
+                window.teams[participantIndex].name = newName;
+                window.teams[participantIndex].score = newScore; // Skoru güncelle
+                saveTeams();
+                renderLeaderboard(); // Ana lider tablosunu yeniden render et
+                showRegisteredUsersScreen(); // Katılımcı seçim ekranını yeniden render et
+                window.hideEditParticipantModal();
+            } else {
+                editParticipantErrorMessage.textContent = 'Katılımcı bulunamadı.'; // Yedek hata
+                editParticipantErrorMessage.classList.remove('hidden');
+            }
+        };
+
+        /**
+         * Bir katılımcının adını ve skorunu düzenlemeyi iptal eder.
+         */
+        window.cancelEditParticipantName = function() {
+            window.hideEditParticipantModal();
+        };
+
+        /**
+         * Modal'dan mevcut bir katılımcının seçimini yönetir.
          */
         window.selectExistingParticipant = function() {
             if (selectedParticipantIdInModal) {
                 window.currentTeamId = selectedParticipantIdInModal;
-                saveTeams(); // Save currentTeamId (part of teams state)
-                window.hideParticipantSelectionModal(); // Call the global function
+                saveTeams(); // currentTeamId'yi kaydet (takımlar durumunun bir parçası)
+                window.hideParticipantSelectionModal(); // Genel fonksiyonu çağır
                 participantManagementScreen.classList.add('hidden');
                 unitSelectionScreen.classList.remove('hidden');
                 setGameBackground('general');
@@ -1166,9 +1368,9 @@
         };
 
         /**
-         * Hides the participant selection modal.
+         * Katılımcı seçim modalını gizler.
          */
-        window.hideParticipantSelectionModal = function() { // Made global
+        window.hideParticipantSelectionModal = function() { // Genel yapıldı
             participantSelectionModal.classList.remove('show');
             setTimeout(() => {
                 participantSelectionModal.classList.add('hidden');
@@ -1176,39 +1378,39 @@
         }
 
         /**
-         * Handles unit selection, hides unit selection screen, and shows the game mode selection.
-         * @param {string} unitId - The ID of the selected unit.
+         * Ünite seçimini yönetir, ünite seçim ekranını gizler ve oyun modu seçimini gösterir.
+         * @param {string} unitId - Seçilen ünitenin ID'si.
          */
         window.selectUnit = async function(unitId) {
             window.currentUnit = unitId;
-            // Directly proceed to game panel, implicitly setting gameMode to 'individual'
+            // Doğrudan oyun paneline geç, oyun modunu örtük olarak 'individual' olarak ayarla
             window.gameMode = 'individual'; 
             unitSelectionScreen.classList.add('hidden');
-            gameModeSelectionScreen.classList.add('hidden'); // Ensure this is always hidden in this flow
-            gamePanel.classList.remove('hidden'); // Show game panel
+            gameModeSelectionScreen.classList.add('hidden'); // Bunun her zaman gizli olduğundan emin ol
+            gamePanel.classList.remove('hidden'); // Oyun panelini göster
             setGameBackground(unitId);
             gameModeMessage.classList.add('hidden');
-            saveGameState(); // Save selected unit and game mode
-            startGame(); // Start the game directly
+            saveGameState(); // Seçilen ünite ve oyun modunu kaydet
+            startGame(); // Oyunu doğrudan başlat
         };
 
         /**
-         * Handles game mode selection (Individual or Team).
-         * This function is now only called if explicitly navigated to, not from unit selection.
-         * @param {string} mode - The selected game mode ('individual' or 'team').
+         * Oyun modu seçimini yönetir (Bireysel veya Takım).
+         * Bu fonksiyon artık sadece açıkça yönlendirildiğinde çağrılır, ünite seçiminden değil.
+         * @param {string} mode - Seçilen oyun modu ('individual' veya 'team').
          */
         window.selectGameMode = function(mode) {
             window.gameMode = mode;
             gameModeSelectionScreen.classList.add('hidden');
-            saveGameState(); // Save game mode
+            saveGameState(); // Oyun modunu kaydet
 
             if (mode === 'individual') {
                 gamePanel.classList.remove('hidden');
                 startGame();
             } else if (mode === 'team') {
                 if (window.teams.length < 2 || window.teams.some(t => t.id.startsWith('player'))) { 
-                    window.teams = []; // Clear individual players for team setup
-                    window.showTeamSetupModal(); // Call the global function
+                    window.teams = []; // Takım kurulumu için bireysel oyuncuları temizle
+                    window.showTeamSetupModal(); // Genel fonksiyonu çağır
                 } else {
                     gamePanel.classList.remove('hidden');
                     startGame();
@@ -1217,19 +1419,19 @@
         };
 
         /**
-         * Shows the team setup modal.
+         * Takım kurulum modalını gösterir.
          */
-        window.showTeamSetupModal = function() { // Made global
+        window.showTeamSetupModal = function() { // Genel yapıldı
             teamSetupModal.classList.remove('hidden');
             teamSetupModal.classList.add('show');
-            numTeamsInput.value = ''; // Clear previous input
-            teamNameInputsContainer.innerHTML = ''; // Clear dynamic inputs
+            numTeamsInput.value = ''; // Önceki girişi temizle
+            teamNameInputsContainer.innerHTML = ''; // Dinamik girişleri temizle
         }
 
         /**
-         * Hides the team setup modal.
+         * Takım kurulum modalını gizler.
          */
-        window.hideTeamSetupModal = function() { // Made global
+        window.hideTeamSetupModal = function() { // Genel yapıldı
             teamSetupModal.classList.remove('show');
             setTimeout(() => {
                 teamSetupModal.classList.add('hidden');
@@ -1237,13 +1439,13 @@
         }
 
         /**
-         * Generates team name input fields based on the number of teams entered.
+         * Girilen takım sayısına göre takım adı giriş alanları oluşturur.
          */
         window.generateTeamNameInputs = function() {
             const num = parseInt(numTeamsInput.value);
-            teamNameInputsContainer.innerHTML = ''; // Clear existing inputs
+            teamNameInputsContainer.innerHTML = ''; // Mevcut girişleri temizle
 
-            if (isNaN(num) || num < 2 || num > 10) { // Limit teams between 2 and 10
+            if (isNaN(num) || num < 2 || num > 10) { // Takımları 2 ile 10 arasında sınırla
                 teamNameInputsContainer.innerHTML = '<p class="text-red-500 text-sm">Lütfen 2 ile 10 arasında bir takım sayısı girin.</p>';
                 return;
             }
@@ -1254,16 +1456,16 @@
                 input.id = `team-name-input-${i}`;
                 input.classList.add('w-full', 'p-2', 'border', 'rounded', 'team-name-input');
                 input.placeholder = `Takım ${i + 1} Adı`;
-                input.value = `Takım ${i + 1}`; // Default name
+                input.value = `Takım ${i + 1}`; // Varsayılan isim
                 teamNameInputsContainer.appendChild(input);
             }
         };
 
         /**
-         * Submits the team names and starts the game in team mode.
+         * Takım adlarını gönderir ve oyunu takım modunda başlatır.
          */
         window.submitTeamSetup = function() {
-            window.teams = []; // Clear existing participants for new team setup
+            window.teams = []; // Yeni takım kurulumu için mevcut katılımcıları temizle
             let allNamesValid = true;
             const teamNameInputs = teamNameInputsContainer.querySelectorAll('.team-name-input');
 
@@ -1287,30 +1489,30 @@
                 return;
             }
 
-            saveTeams(); // Save newly created teams
-            window.hideTeamSetupModal(); // Call the global function
-            gamePanel.classList.remove('hidden'); // Show the main game panel
+            saveTeams(); // Yeni oluşturulan takımları kaydet
+            window.hideTeamSetupModal(); // Genel fonksiyonu çağır
+            gamePanel.classList.remove('hidden'); // Ana oyun panelini göster
             startGame();
         };
 
         /**
-         * Initializes the game state, shuffles questions, and displays the question grid.
-         * @param {boolean} resuming - True if resuming a game, false for a new game.
+         * Oyun durumunu başlatır, soruları karıştırır ve soru ızgarasını görüntüler.
+         * @param {boolean} resuming - Oyuna devam ediliyorsa true, yeni bir oyunsa false.
          */
         window.startGame = function(resuming = false) {
             if (!resuming) {
                 window.currentQuestionIndex = 0;
-                window.answeredQuestions = {}; // Reset answered questions for new game
+                window.answeredQuestions = {}; // Yeni oyun için cevaplanmış soruları sıfırla
                 if (window.gameMode === 'team') {
-                    window.teams.forEach(team => team.score = 0); // Reset scores for new team game
+                    window.teams.forEach(team => team.score = 0); // Yeni takım oyunu için skorları sıfırla
                 } 
-                // IMPORTANT: For individual mode, we no longer reset the score here.
-                // Scores will accumulate across sessions for individual players.
+                // ÖNEMLİ: Bireysel mod için, skoru burada sıfırlamıyoruz.
+                // Skorlar bireysel oyuncular için oturumlar arasında birikecek.
                 
-                window.currentTeamId = window.currentTeamId || (window.teams.length > 0 ? window.teams[0].id : null); // Ensure currentTeamId is set
+                window.currentTeamId = window.currentTeamId || (window.teams.length > 0 ? window.teams[0].id : null); // currentTeamId'nin ayarlandığından emin ol
                 
-                saveTeams(); // Save initial scores/state (if team mode, scores are reset; if individual, they persist)
-                saveGameState(); // Save answered questions (empty for new game)
+                saveTeams(); // Başlangıç skorlarını/durumunu kaydet (takım modundaysa skorlar sıfırlanır; bireysel moddaysa kalır)
+                saveGameState(); // Cevaplanmış soruları kaydet (yeni oyun için boş)
             }
             
             shuffledQuestions = shuffleArray(ensureOneHundredQuestions(unitQuestions[window.currentUnit]));
@@ -1319,34 +1521,34 @@
             finalScoreContainer.classList.add('hidden');
             questionNavigationContainer.classList.remove('hidden');
             
-            // Hide score board and current participant display on the game panel
+            // Oyun panelinde skor tablosunu ve mevcut katılımcı gösterimini gizle
             scoreBoardContainer.classList.add('hidden'); 
             currentParticipantDisplay.classList.add('hidden');
             
-            updateParticipantDisplay(); // This will still update the hidden elements, which is fine.
-            renderQuestionNumbers(); // Initial render of question numbers
+            updateParticipantDisplay(); // Bu, gizli öğeleri hala güncelleyecek, sorun değil.
+            renderQuestionNumbers(); // Soru numaralarının ilk render'ı
             gridInstructionMessage.classList.remove('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.remove('hidden');
             }
             setGameBackground(window.currentUnit);
-            nextTurnButton.classList.add('hidden'); // Hide next turn button initially
+            nextTurnButton.classList.add('hidden'); // Sonraki tur butonunu başlangıçta gizle
         };
 
         /**
-         * Updates the participant/team display with current participant's/team's name and score.
+         * Katılımcı/takım gösterimini mevcut katılımcının/takımın adı ve skoruyla günceller.
          */
         function updateParticipantDisplay() {
-            // Removed: if (scoreBoardContainer) scoreBoardContainer.classList.remove('hidden');
-            // This element is now intentionally hidden on the game panel.
+            // Kaldırıldı: if (scoreBoardContainer) scoreBoardContainer.classList.remove('hidden');
+            // Bu öğe artık oyun panelinde kasıtlı olarak gizlenmiştir.
 
             if (scoreBoardContainer && currentParticipantDisplay) {
-                scoreBoardContainer.innerHTML = ''; // Clear previous content
+                scoreBoardContainer.innerHTML = ''; // Önceki içeriği temizle
                 const scoreTable = document.createElement('div');
                 scoreTable.classList.add('score-table');
 
-                // Sort participants/teams by score in descending order
+                // Katılımcıları/takımları puana göre azalan sırada sırala
                 const sortedEntities = [...window.teams].sort((a, b) => b.score - a.score);
 
                 sortedEntities.forEach((entity) => {
@@ -1388,17 +1590,17 @@
         }
 
         /**
-         * Renders the current question, its options, and sets up the timer.
+         * Mevcut soruyu, seçeneklerini render eder ve zamanlayıcıyı ayarlar.
          */
         function renderCurrentQuestion() {
-            // Ensure quiz content container is visible and fullscreen overlay is active
+            // Quiz içerik konteynerinin görünür ve tam ekran kaplamasının aktif olduğundan emin ol
             quizContentContainer.classList.remove('hidden');
             questionNavigationContainer.classList.add('hidden');
             fullscreenOverlay.classList.remove('hidden');
             setTimeout(() => fullscreenOverlay.classList.add('show'), 10);
             quizContentContainer.classList.add('fullscreen-active');
-            hideFinalScore(); // Ensure final score is hidden when a question is opened
-            gridInstructionMessage.classList.add('hidden'); // Hide grid instructions
+            hideFinalScore(); // Bir soru açıldığında son skorun gizlendiğinden emin ol
+            gridInstructionMessage.classList.add('hidden'); // Izgara talimatlarını gizle
 
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
@@ -1410,19 +1612,19 @@
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
-            nextTurnButton.classList.add('hidden'); // Hide next turn button
+            nextTurnButton.classList.add('hidden'); // Sonraki tur butonunu gizle
 
             const q = shuffledQuestions[window.currentQuestionIndex];
             
-            // If the question was previously answered correctly, hide the return to grid button
-            // If it's a fresh attempt or previously incorrect, show it.
-            if (window.answeredQuestions[q.id]) { // Only checks if correctly answered
-                returnToQuestionGridButton.classList.remove('hidden'); // Always show return to grid for review
+            // Soru daha önce doğru cevaplandıysa, ızgaraya dönme butonunu gizle
+            // Yeni bir deneme veya daha önce yanlışsa, göster.
+            if (window.answeredQuestions[q.id]) { // Sadece doğru cevaplandıysa kontrol eder
+                returnToQuestionGridButton.classList.remove('hidden'); // İnceleme için her zaman ızgaraya dönme butonunu göster
             } else {
                 returnToQuestionGridButton.classList.remove('hidden');
             }
 
-            // Check if all questions are correctly answered to show final score
+            // Tüm soruların doğru cevaplanıp cevaplanmadığını kontrol et ve son skoru göster
             const allCorrectlyAnswered = shuffledQuestions.every(q => window.answeredQuestions[q.id]);
             if (allCorrectlyAnswered) {
                 showFinalScore();
@@ -1434,7 +1636,7 @@
             
             questionContainer.classList.add('question-block-closed');
 
-            // Calculate points for the current question
+            // Mevcut soru için puanları hesapla
             let questionPoints = 0;
             if (q.type === 'trueFalse') {
                 questionPoints = 5;
@@ -1442,7 +1644,7 @@
                 questionPoints = 10;
             }
 
-            let questionHtml = `<p class="question-points">${questionPoints} Puan</p>`; // Display points
+            let questionHtml = `<p class="question-points">${questionPoints} Puan</p>`; // Puanları göster
             questionHtml += `<p class="question-text">${q.question}</p>`;
             let optionsHtml = '<div class="options-container">';
             let optionsToShuffle = [];
@@ -1450,12 +1652,12 @@
             if (q.type === 'trueFalse') {
                 optionsToShuffle = ["Doğru", "Yanlış"];
             } else if (q.type === 'fillInTheBlanks' || q.type === 'multipleChoice') {
-                // Ensure only 4 options are used
+                // Sadece 4 seçeneğin kullanıldığından emin ol
                 optionsToShuffle = [...q.options.slice(0, 4)]; 
             }
             
             const shuffledOptions = shuffleArray(optionsToShuffle);
-            // Use only the first 4 colors for options
+            // Seçenekler için sadece ilk 4 rengi kullan
             const optionColors = [
                 'option-color-1', 'option-color-2', 'option-color-3', 'option-color-4' 
             ];
@@ -1478,7 +1680,7 @@
                 questionContainer.classList.remove('question-block-closed');
             }, 50);
 
-            // Check if the question was previously answered (correctly)
+            // Soru daha önce cevaplandıysa (doğru bir şekilde) kontrol et
             if (window.answeredQuestions[q.id]) {
                 const currentAnswerState = window.answeredQuestions[q.id]; 
                 
@@ -1488,8 +1690,8 @@
                 }
                 document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
-                // Always show correct feedback and explanation for solved questions
-                displayFeedback(true, q.answer, q.explanation); // Pass original correct answer and explanation
+                // Çözülmüş sorular için her zaman doğru geri bildirim ve açıklama göster
+                displayFeedback(true, q.answer, q.explanation); // Orijinal doğru cevabı ve açıklamayı geç
                 
                 let correctOptionValue = q.answer;
                 if (q.type === 'trueFalse') {
@@ -1508,8 +1710,8 @@
                 
                 questionScreenInstructionMessage.textContent = `Bu soru ${answeredByTeamName} tarafından doğru cevaplandı. Soru ekranına dönmek için 'Soru Ekranına Dön' butonuna tıklayın.`;
                 questionScreenInstructionMessage.classList.remove('hidden');
-                nextTurnButton.classList.add('hidden'); // No next turn if already solved
-            } else { // If the question is not in answeredQuestions, it's a fresh attempt (or previously incorrect)
+                nextTurnButton.classList.add('hidden'); // Zaten çözüldüyse sonraki tur yok
+            } else { // Soru answeredQuestions'ta değilse, yeni bir deneme (veya daha önce yanlış)
                 startTimer();
                 const currentEntity = window.teams.find(p => p.id === window.currentTeamId);
                 questionScreenInstructionMessage.textContent = `Sıra ${currentEntity ? currentEntity.name : 'sizde'}'de! Soruyu cevaplamak için süreniz var.`;
@@ -1521,7 +1723,7 @@
         }
 
         /**
-         * Starts the countdown timer for the current question.
+         * Mevcut soru için geri sayım zamanlayıcısını başlatır.
          */
         function startTimer() {
             timer = initialTimerValue;
@@ -1536,13 +1738,13 @@
                 if (timer <= 10 && timer > 5) {
                     timerDisplay.classList.add('warning');
                     timerDisplay.classList.remove('critical');
-                    Tone.start(); // Ensure audio context is started
-                    timerSynth.triggerAttackRelease("A4", "16n"); // Play warning sound
+                    Tone.start(); // Ses bağlamının başladığından emin ol
+                    timerSynth.triggerAttackRelease("A4", "16n"); // Uyarı sesi çal
                 } else if (timer <= 5) {
                     timerDisplay.classList.add('critical');
                     timerDisplay.classList.remove('warning');
-                    Tone.start(); // Ensure audio context is started
-                    timerSynth.triggerAttackRelease("A4", "16n"); // Play critical warning sound
+                    Tone.start(); // Ses bağlamının başladığından emin ol
+                    timerSynth.triggerAttackRelease("A4", "16n"); // Kritik uyarı sesi çal
                 } else {
                     timerDisplay.classList.remove('warning', 'critical');
                 }
@@ -1554,27 +1756,27 @@
         }
 
         /**
-         * Handles the case when the timer runs out.
+         * Zamanlayıcı bittiğinde durumu yönetir.
          */
         async function handleTimeout() {
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
-            Tone.start(); // Ensure audio context is started
-            incorrectSynth.triggerAttackRelease("C3", "8n"); // Play incorrect sound
+            Tone.start(); // Ses bağlamının başladığından emin ol
+            incorrectSynth.triggerAttackRelease("C3", "8n"); // Yanlış sesi çal
 
             const q = shuffledQuestions[window.currentQuestionIndex];
             
             document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
-            // Only show "Süre Doldu." feedback, no correct answer or explanation
+            // Sadece "Süre Doldu." geri bildirimi göster, doğru cevap veya açıklama yok
             displayFeedback(false, null, null); 
 
-            // After timeout, always return to leaderboard
-            window.returnToQuestionsGrid(); // This function now leads to leaderboard
+            // Zaman aşımından sonra her zaman lider tablosuna dön
+            window.returnToQuestionsGrid(); // Bu fonksiyon artık lider tablosuna götürür
         }
 
         /**
-         * Checks the user's selected answer against the correct answer.
+         * Kullanıcının seçtiği cevabı doğru cevapla karşılaştırır.
          */
         window.checkCurrentAnswer = async function() {
             clearInterval(timerInterval);
@@ -1610,16 +1812,16 @@
                         pointsToAdd = 10;
                     }
                     
-                    currentEntity.score += pointsToAdd; // Update score for the team/participant
-                    // Bonus points for answering quickly (within first 10 seconds)
+                    currentEntity.score += pointsToAdd; // Takım/katılımcı için skoru güncelle
+                    // Hızlı cevaplama için bonus puanlar (ilk 10 saniye içinde)
                     if (timeTaken <= 10) {
                         currentEntity.score += 5; // Bonus 5 puan
                     }
                 }
-                Tone.start(); // Ensure audio context is started
-                correctSynth.triggerAttackRelease("C5", "8n"); // Play correct sound
+                Tone.start(); // Ses bağlamının başladığından emin ol
+                correctSynth.triggerAttackRelease("C5", "8n"); // Doğru sesi çal
 
-                // Highlight correct option ONLY IF answered correctly
+                // Sadece doğru cevaplandıysa doğru seçeneği vurgula
                 let correctOptionValue = q.answer;
                 if (q.type === 'trueFalse') {
                     correctOptionValue = (q.answer === 'D' ? 'Doğru' : 'Yanlış');
@@ -1632,45 +1834,45 @@
                         correctLabel.classList.add('correct-animation');
                     }
                 }
-                // Store as correctly answered
+                // Doğru cevaplandı olarak sakla
                 window.answeredQuestions[q.id] = { solvedByTeamId: window.currentTeamId, userAnswer: userAnswer, timeTaken: timeTaken };
 
-            } else { // If incorrect
-                Tone.start(); // Ensure audio context is started
-                incorrectSynth.triggerAttackRelease("C3", "8n"); // Play incorrect sound
+            } else { // Yanlışsa
+                Tone.start(); // Ses bağlamının başladığından emin ol
+                incorrectSynth.triggerAttackRelease("C3", "8n"); // Yanlış sesi çal
 
                 const selectedLabel = selected.closest('label');
                 if (selectedLabel) {
                     selectedLabel.classList.add('incorrect-selected-option');
                     selectedLabel.classList.add('incorrect-animation');
                 }
-                // Do NOT highlight correct answer if incorrect (for both modes now)
-                // Do NOT store incorrect answers in window.answeredQuestions
+                // Yanlışsa doğru cevabı vurgulama (artık her iki mod için de)
+                // Yanlış cevapları window.answeredQuestions'ta saklama
             }
 
-            // Display feedback (with or without explanation based on game mode and correctness)
+            // Geri bildirimi göster (oyun moduna ve doğruluğa göre açıklama ile veya açıklamasız)
             if (isCorrect) {
-                displayFeedback(true, q.answer, q.explanation); // Always show correct answer and explanation for correct answers
+                displayFeedback(true, q.answer, q.explanation); // Doğru cevaplar için her zaman doğru cevabı ve açıklamayı göster
             } else {
-                displayFeedback(false, null, null); // Only show "Yanlış" feedback for incorrect answers
+                displayFeedback(false, null, null); // Yanlış cevaplar için sadece "Yanlış" geri bildirimi göster
             }
             
             document.querySelectorAll(`input[name="${q.id}"]`).forEach(radio => radio.disabled = true);
 
             updateParticipantDisplay();
             renderQuestionNumbers();
-            saveTeams(); // Save updated scores
-            saveGameState(); // Save answered questions
+            saveTeams(); // Güncellenmiş skorları kaydet
+            saveGameState(); // Cevaplanmış soruları kaydet
             
-            // Always return to leaderboard after answering
-            window.returnToQuestionsGrid(); // This function now leads to leaderboard
+            // Cevapladıktan sonra her zaman lider tablosuna dön
+            window.returnToQuestionsGrid(); // Bu fonksiyon artık lider tablosuna götürür
         }
 
         /**
-         * Displays feedback (correct/incorrect) to the user.
-         * @param {boolean} isCorrect - True if the answer was correct, false otherwise.
-         * @param {string} correctAnswer - The correct answer string (optional, for individual mode).
-         * @param {string} explanation - The explanation for the answer (optional, for individual mode).
+         * Kullanıcıya geri bildirim (doğru/yanlış) görüntüler.
+         * @param {boolean} isCorrect - Cevap doğruysa true, aksi takdirde false.
+         * @param {string} correctAnswer - Doğru cevap metni (isteğe bağlı, bireysel mod için).
+         * @param {string} explanation - Cevabın açıklaması (isteğe bağlı, bireysel mod için).
          */
         function displayFeedback(isCorrect, correctAnswer, explanation) {
             feedbackDiv.classList.add('show'); 
@@ -1680,7 +1882,7 @@
                 feedbackDiv.classList.add('correct');
                 let icon = '✅';
                 feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Doğru!`;
-                // Always show explanation for correct answers, regardless of game mode
+                // Oyun modundan bağımsız olarak doğru cevaplar için her zaman açıklama göster
                 if (explanation) { 
                     feedbackDiv.innerHTML += `<p class="explanation-text">${explanation}</p>`;
                 }
@@ -1688,13 +1890,13 @@
                 feedbackDiv.classList.add('incorrect');
                 let icon = '❌';
                 feedbackDiv.innerHTML = `<span class="feedback-icon">${icon}</span> Yanlış.`;
-                // Do NOT show correct answer or explanation for incorrect answers
+                // Yanlış cevaplar için doğru cevabı veya açıklamayı gösterme
             }
             feedbackDiv.classList.add('animate-in');
         }
 
         /**
-         * Renders the question navigation grid.
+         * Soru navigasyon ızgarasını render eder.
          */
         function renderQuestionNumbers() {
             questionNavigationContainer.innerHTML = '';
@@ -1708,20 +1910,20 @@
                 
                 navItem.dataset.questionId = q.id; 
 
-                // Check if the question is correctly answered
+                // Sorunun doğru cevaplanıp cevaplanmadığını kontrol et
                 if (window.answeredQuestions[q.id]) {
                     navItem.classList.add('answered-correctly');
                     navItem.onclick = () => {
-                        window.selectQuestionById(q.id); // Allow reviewing correctly answered questions
+                        window.selectQuestionById(q.id); // Doğru cevaplanmış soruları incelemeye izin ver
                     };
                 } else {
-                    // Unanswered or incorrectly answered questions are clickable
+                    // Cevaplanmamış veya yanlış cevaplanmış sorular tıklanabilir
                     navItem.onclick = () => {
                         window.selectQuestionById(q.id);
                     };
                 }
 
-                // If the question is currently displayed in quiz-content, mark it active
+                // Soru şu anda quiz içeriğinde görüntüleniyorsa, aktif olarak işaretle
                 if (q.id === shuffledQuestions[window.currentQuestionIndex]?.id && !quizContentContainer.classList.contains('hidden')) {
                     navItem.classList.add('active-question');
                 } else {
@@ -1733,31 +1935,31 @@
         }
 
         /**
-         * Selects a question by its ID and renders it.
-         * @param {string} questionId - The ID of the question to select.
+         * ID'sine göre bir soru seçer ve render eder.
+         * @param {string} questionId - Seçilecek sorunun ID'si.
          */
         window.selectQuestionById = function(questionId) {
             const originalIndex = shuffledQuestions.findIndex(q => q.id === questionId);
             if (originalIndex !== -1) {
                 const selectedQuestion = shuffledQuestions[originalIndex];
-                window.currentQuestionIndex = originalIndex; // Set current question index immediately
+                window.currentQuestionIndex = originalIndex; // Mevcut soru indeksini hemen ayarla
 
-                // In this new flow, we always assume a participant is selected before reaching unit selection
-                // So, we can directly render the question.
+                // Bu yeni akışta, ünite seçimine ulaşmadan önce bir katılımcının seçildiği varsayılır.
+                // Bu nedenle, soruyu doğrudan render edebiliriz.
                 renderCurrentQuestion();
             } else {
-                console.error("Question with ID not found:", questionId);
+                console.error("ID'si bulunamayan soru:", questionId);
             }
         };
 
         /**
-         * Returns to the participant management screen (leaderboard) from the quiz content or question grid.
-         * This function replaces the old returnToQuestionsGrid.
+         * Quiz içeriğinden veya soru ızgarasından katılımcı yönetimi ekranına (lider tablosu) döner.
+         * Bu fonksiyon eski returnToQuestionsGrid'in yerini alır.
          */
         window.returnToQuestionsGrid = function() {
             quizContentContainer.classList.add('hidden');
-            questionNavigationContainer.classList.add('hidden'); // Hide question navigation
-            gamePanel.classList.add('hidden'); // Hide game panel
+            questionNavigationContainer.classList.add('hidden'); // Soru navigasyonunu gizle
+            gamePanel.classList.add('hidden'); // Oyun panelini gizle
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
             }
@@ -1765,13 +1967,13 @@
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
             
-            // Go back to participant management screen
+            // Katılımcı yönetimi ekranına geri dön
             participantManagementScreen.classList.remove('hidden');
-            renderLeaderboard(); // Update leaderboard
-            updateParticipantDisplay(); // Update current participant display on leaderboard screen
-            gridInstructionMessage.classList.add('hidden'); // Hide grid instructions
+            renderLeaderboard(); // Lider tablosunu güncelle
+            updateParticipantDisplay(); // Lider tablosu ekranında mevcut katılımcı gösterimini güncelle
+            gridInstructionMessage.classList.add('hidden'); // Izgara talimatlarını gizle
             questionScreenInstructionMessage.classList.add('hidden');
-            nextTurnButton.classList.add('hidden'); // Hide next turn button
+            nextTurnButton.classList.add('hidden'); // Sonraki tur butonunu gizle
 
             setGameBackground('general');
 
@@ -1781,24 +1983,24 @@
         }
 
         /**
-         * Moves to the next team's turn in team mode.
-         * This function is now largely unused in the new individual-focused flow.
+         * Takım modunda sıradaki takımın sırasına geçer.
+         * Bu fonksiyon artık yeni bireysel odaklı akışta büyük ölçüde kullanılmaz.
          */
         window.moveToNextTurn = function() {
             if (window.gameMode === 'team') {
                 const currentTeamIndex = window.teams.findIndex(t => t.id === window.currentTeamId);
                 const nextTeamIndex = (currentTeamIndex + 1) % window.teams.length;
                 window.currentTeamId = window.teams[nextTeamIndex].id;
-                // After moving to next turn, return to question grid (which now goes to leaderboard)
-                window.returnToQuestionsGrid(); // Call the global function
+                // Sonraki tura geçtikten sonra, soru ızgarasına (şimdi lider tablosuna gider) dön
+                window.returnToQuestionsGrid(); // Genel fonksiyonu çağır
             } else {
-                // In individual mode, this button is hidden, but if somehow clicked, go to leaderboard
-                window.returnToQuestionsGrid(); // Call the global function
+                // Bireysel modda, bu düğme gizlidir, ancak bir şekilde tıklanırsa, lider tablosuna git
+                window.returnToQuestionsGrid(); // Genel fonksiyonu çağır
             }
         };
 
         /**
-         * Displays the final score screen.
+         * Son skor ekranını görüntüler.
          */
         function showFinalScore() {
             quizContentContainer.classList.add('hidden');
@@ -1806,7 +2008,7 @@
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
             returnToQuestionGridButton.classList.add('hidden');
-            nextTurnButton.classList.add('hidden'); // Hide next turn button on final score
+            nextTurnButton.classList.add('hidden'); // Son skorda sonraki tur butonunu gizle
 
             finalScoreContainer.classList.remove('hidden');
             resetGameButton.classList.remove('hidden');
@@ -1837,16 +2039,16 @@
                 winnerMessage = `${winners.map(p => p.name).join(' ve ')} berabere kaldı! 🤝`;
                 overallResultDiv.classList.remove('correct', 'incorrect');
             } else {
-                winnerMessage = `Henüz kimse puan alamadı.`; // Should not happen if game is played
+                winnerMessage = `Henüz kimse puan alamadı.`; // Oyun oynandıysa olmamalı
                 overallResultDiv.classList.remove('correct', 'incorrect');
             }
 
-            // Render final participant/team scores in the new table format
-            finalParticipantScoresDisplay.innerHTML = ''; // Clear previous content
+            // Son katılımcı/takım skorlarını yeni tablo formatında render et
+            finalParticipantScoresDisplay.innerHTML = ''; // Önceki içeriği temizle
             const finalScoreTable = document.createElement('div');
             finalScoreTable.classList.add('score-table');
 
-            // Sort participants/teams by score for final display
+            // Son gösterim için katılımcıları/takımları puana göre sırala
             const sortedEntities = [...window.teams].sort((a, b) => b.score - a.score);
 
             sortedEntities.forEach((entity) => {
@@ -1873,7 +2075,7 @@
         }
 
         /**
-         * Hides the final score screen.
+         * Son skor ekranını gizler.
          */
         function hideFinalScore() {
             finalScoreContainer.classList.add('hidden');
@@ -1881,9 +2083,9 @@
         }
 
         /**
-         * Shuffles an array randomly.
-         * @param {Array} array - The array to shuffle.
-         * @returns {Array} The shuffled array.
+         * Bir diziyi rastgele karıştırır.
+         * @param {Array} array - Karıştırılacak dizi.
+         * @returns {Array} Karıştırılmış dizi.
          */
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -1894,10 +2096,29 @@
         }
         
         /**
-         * Resets the game to its initial state (participant management screen) and clears all data.
+         * Oyunu sıfırlamak için onay modalını gösterir.
          */
-        window.resetGame = function() {
-            window.teams = []; // Clear all teams/participants for a full reset
+        window.showResetConfirmation = function() {
+            confirmResetModal.classList.remove('hidden');
+            confirmResetModal.classList.add('show');
+        };
+
+        /**
+         * Oyunu sıfırlamak için onay modalını gizler.
+         */
+        window.hideResetConfirmation = function() {
+            confirmResetModal.classList.remove('show');
+            setTimeout(() => {
+                confirmResetModal.classList.add('hidden');
+            }, 300);
+        };
+
+        /**
+         * Oyunu başlangıç durumuna (katılımcı yönetimi ekranı) sıfırlar ve tüm verileri temizler.
+         * Bu fonksiyon artık onay modalının "Evet" düğmesi tarafından çağrılır.
+         */
+        window.confirmResetGame = function() {
+            window.teams = []; // Tam sıfırlama için tüm takımları/katılımcıları temizle
             window.currentTeamId = null;
             window.currentQuestionIndex = 0;
             window.answeredQuestions = {};
@@ -1905,8 +2126,8 @@
             timerDisplay.classList.add('hidden');
             shuffledQuestions = [];
             window.currentUnit = null;
-            window.gameMode = null; // Reset game mode
-            window.selectedQuestionIdForModal = null; // Reset this too
+            window.gameMode = null; // Oyun modunu sıfırla
+            window.selectedQuestionIdForModal = null; // Bunu da sıfırla
 
             localStorage.removeItem(LOCAL_STORAGE_KEY_TEAMS);
             localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_UNIT);
@@ -1917,13 +2138,13 @@
             hideFinalScore();
             questionNavigationContainer.classList.add('hidden');
             gamePanel.classList.add('hidden');
-            unitSelectionScreen.classList.add('hidden'); // Ensure unit selection is hidden
-            gameModeSelectionScreen.classList.add('hidden'); // Ensure game mode selection is hidden
-            participantManagementScreen.classList.remove('hidden'); // Show participant management
+            unitSelectionScreen.classList.add('hidden'); // Ünite seçiminin gizli olduğundan emin ol
+            gameModeSelectionScreen.classList.add('hidden'); // Oyun modu seçiminin gizli olduğundan emin ol
+            participantManagementScreen.classList.remove('hidden'); // Katılımcı yönetimini göster
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
             returnToQuestionGridButton.classList.add('hidden');
-            nextTurnButton.classList.add('hidden'); // Hide next turn button
+            nextTurnButton.classList.add('hidden'); // Sonraki tur butonunu gizle
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
             }
@@ -1938,20 +2159,20 @@
                 currentParticipantDisplay.classList.remove('text-gray-600', 'font-normal');
                 currentParticipantDisplay.classList.add('current-participant-display');
             }
-            // Removed: if (scoreBoardContainer) { scoreBoardContainer.classList.remove('hidden'); }
-            renderLeaderboard(); // Re-render empty leaderboard
+            renderLeaderboard(); // Boş lider tablosunu yeniden render et
             applyButtonColors();
+            window.hideResetConfirmation(); // Sıfırlamadan sonra onay modalını gizle
         }
 
         /**
-         * Returns to the participant management screen.
+         * Katılımcı yönetimi ekranına döner.
          */
         window.returnToMainMenu = function() {
-            // This function now acts as 'return to participant management'
-            // It resets the *current game session* state but keeps participant data.
+            // Bu fonksiyon artık 'katılımcı yönetimine dön' olarak işlev görür.
+            // Mevcut oyun oturumu durumunu sıfırlar, ancak katılımcı verilerini korur.
             window.currentTeamId = null;
             window.currentQuestionIndex = 0;
-            window.answeredQuestions = {}; // Clear answered questions for this session
+            window.answeredQuestions = {}; // Bu oturum için cevaplanmış soruları temizle
             clearInterval(timerInterval);
             timerDisplay.classList.add('hidden');
             shuffledQuestions = [];
@@ -1959,7 +2180,7 @@
             window.gameMode = null;
             window.selectedQuestionIdForModal = null;
 
-            // Don't clear localStorage here, only resetGame() does that
+            // Burada localStorage'ı temizleme, sadece resetGame() bunu yapar
             localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT_UNIT);
             localStorage.removeItem(LOCAL_STORAGE_KEY_GAME_MODE);
             localStorage.removeItem(LOCAL_STORAGE_KEY_ANSWERED_QUESTIONS);
@@ -1970,7 +2191,7 @@
             gamePanel.classList.add('hidden');
             unitSelectionScreen.classList.add('hidden');
             gameModeSelectionScreen.classList.add('hidden');
-            participantManagementScreen.classList.remove('hidden'); // Show participant management
+            participantManagementScreen.classList.remove('hidden'); // Katılımcı yönetimini göster
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
             returnToQuestionGridButton.classList.add('hidden');
@@ -1989,36 +2210,36 @@
                 currentParticipantDisplay.classList.remove('text-gray-600', 'font-normal');
                 currentParticipantDisplay.classList.add('current-participant-display');
             }
-            // Removed: if (scoreBoardContainer) { scoreBoardContainer.classList.remove('hidden'); }
-            renderLeaderboard(); // Re-render leaderboard with current scores
+            // Kaldırıldı: if (scoreBoardContainer) { scoreBoardContainer.classList.remove('hidden'); }
+            renderLeaderboard(); // Mevcut skorlarla lider tablosunu yeniden render et
             applyButtonColors();
         }
 
         /**
-         * Returns to the unit selection screen from game mode selection.
-         * This function is now only called if explicitly navigated to, not from unit selection in the main flow.
+         * Oyun modu seçiminden ünite seçim ekranına döner.
+         * Bu fonksiyon artık sadece açıkça yönlendirildiğinde çağrılır, ana akışta ünite seçiminden değil.
          */
-        window.returnToUnitSelection = function() { // Made global
+        window.returnToUnitSelection = function() { // Genel yapıldı
             gameModeSelectionScreen.classList.add('hidden');
             unitSelectionScreen.classList.remove('hidden');
             gameModeMessage.classList.add('hidden');
             setGameBackground('general');
-            window.hideParticipantSelectionModal(); // Call the global function
-            window.hideTeamSetupModal(); // Call the global function
+            window.hideParticipantSelectionModal(); // Genel fonksiyonu çağır
+            window.hideTeamSetupModal(); // Genel fonksiyonu çağır
         };
 
         /**
-         * Returns to the participant management screen from unit selection.
+         * Ünite seçiminden katılımcı yönetimi ekranına döner.
          */
         window.returnToParticipantManagement = function() {
             unitSelectionScreen.classList.add('hidden');
             participantManagementScreen.classList.remove('hidden');
             setGameBackground('general');
-            renderLeaderboard(); // Re-render leaderboard
+            renderLeaderboard(); // Lider tablosunu yeniden render et
         };
 
         /**
-         * Applies specific Tailwind CSS classes for button colors and shadows.
+         * Buton renkleri ve gölgeleri için belirli Tailwind CSS sınıflarını uygular.
          */
         function applyButtonColors() {
             const removeAllButtonColors = (element) => {
@@ -2054,26 +2275,26 @@
                 button.classList.add(...buttonColorSets[index % buttonColorSets.length]);
             });
 
-            // Participant Management Screen buttons
+            // Katılımcı Yönetimi Ekranı butonları
             if (addNewParticipantMainButton) {
                 removeAllButtonColors(addNewParticipantMainButton);
-                addNewParticipantMainButton.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50');
+                addNewParticipantMainButton.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50', 'main-action-button'); /* main-action-button eklendi */
             }
             if (showRegisteredUsersButton) {
                 removeAllButtonColors(showRegisteredUsersButton);
-                showRegisteredUsersButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
+                showRegisteredUsersButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50', 'main-action-button'); /* main-action-button eklendi */
             }
             if (goToMainSiteButton) {
                 removeAllButtonColors(goToMainSiteButton);
                 goToMainSiteButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
             }
-            // New "Baştan Başla" button
+            // Yeni "Baştan Başla" düğmesi
             if (startOverButton) {
                 removeAllButtonColors(startOverButton);
                 startOverButton.classList.add('bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50');
             }
 
-            // Game mode selection buttons
+            // Oyun modu seçim butonları
             const individualModeButton = document.getElementById('individual-mode-button');
             if (individualModeButton) {
                 removeAllButtonColors(individualModeButton);
@@ -2090,7 +2311,7 @@
                 returnToUnitSelectionButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
             }
 
-            // Game panel buttons
+            // Oyun paneli butonları
             if (returnToQuestionGridButton) {
                 removeAllButtonColors(returnToQuestionGridButton);
                 returnToQuestionGridButton.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50');
@@ -2114,7 +2335,7 @@
                 button.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
             });
 
-            // Modal buttons
+            // Modal butonları
             if (nextTurnButton) {
                 removeAllButtonColors(nextTurnButton);
                 nextTurnButton.classList.add('bg-yellow-600', 'hover:bg-yellow-700', 'shadow-yellow-500/50');
@@ -2139,22 +2360,56 @@
                 removeAllButtonColors(selectExistingParticipantButtonElement);
                 selectExistingParticipantButtonElement.classList.add('bg-blue-600', 'hover:bg-blue-700', 'shadow-blue-500/50');
             }
+            // Katılımcı seçim modalında yeni düzenle düğmesi
+            if (editSelectedParticipantButton) {
+                removeAllButtonColors(editSelectedParticipantButton);
+                editSelectedParticipantButton.classList.add('bg-yellow-500', 'hover:bg-yellow-600', 'shadow-yellow-500/50');
+            }
+            // Katılımcı seçim modalında "İptal Et" düğmesi için renk
+            const cancelParticipantSelectionButton = document.getElementById('cancel-participant-selection-button');
+            if (cancelParticipantSelectionButton) {
+                removeAllButtonColors(cancelParticipantSelectionButton);
+                cancelParticipantSelectionButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
+            }
+
             const returnToParticipantManagementFromUnitButton = document.getElementById('return-to-participant-management-from-unit');
             if (returnToParticipantManagementFromUnitButton) {
                 removeAllButtonColors(returnToParticipantManagementFromUnitButton);
                 returnToParticipantManagementFromUnitButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
             }
+
+            // Onay modalı butonları
+            if (confirmResetYesButton) {
+                removeAllButtonColors(confirmResetYesButton);
+                confirmResetYesButton.classList.add('bg-red-600', 'hover:bg-red-700', 'shadow-red-500/50');
+            }
+            if (confirmResetNoButton) {
+                removeAllButtonColors(confirmResetNoButton);
+                confirmResetNoButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
+            }
+            
+            // Katılımcı düzenleme modalı butonları
+            const saveEditParticipantButton = document.getElementById('save-edit-participant-button');
+            if (saveEditParticipantButton) {
+                removeAllButtonColors(saveEditParticipantButton);
+                saveEditParticipantButton.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-green-500/50');
+            }
+            const cancelEditParticipantButton = document.getElementById('cancel-edit-participant-button');
+            if (cancelEditParticipantButton) {
+                removeAllButtonColors(cancelEditParticipantButton);
+                cancelEditParticipantButton.classList.add('bg-gray-600', 'hover:bg-gray-700', 'shadow-gray-500/50');
+            }
         }
 
-        // Initial setup on page load
+        // Sayfa yüklendiğinde ilk kurulum
         window.onload = async function() { 
-            // Assign DOM elements here to ensure they are loaded
+            // DOM öğelerini burada ata, yüklendiğinden emin olmak için
             participantManagementScreen = document.getElementById('participant-management-screen');
             leaderboardContainer = document.getElementById('leaderboard-container');
             newParticipantNameInputMain = document.getElementById('new-participant-name-input-main');
             addNewParticipantMainButton = document.getElementById('add-new-participant-main-button');
             showRegisteredUsersButton = document.getElementById('show-registered-users-button');
-            startOverButton = document.getElementById('start-over-button'); // Assign new button
+            startOverButton = document.getElementById('start-over-button'); // Yeni düğmeyi ata
             unitSelectionScreen = document.getElementById('unit-selection-screen');
             gameModeSelectionScreen = document.getElementById('game-mode-selection-screen');
             gameModeMessage = document.getElementById('game-mode-message');
@@ -2164,8 +2419,8 @@
             quizContentContainer = document.getElementById('quiz-content');
             questionContainer = document.getElementById('current-question-container');
             feedbackDiv = document.getElementById('current-question-feedback');
+            overallResultDiv = document.getElementById('overall-result'); 
             finalScoreContainer = document.getElementById('final-score-container');
-            overallResultDiv = document.getElementById('overall-result');
             resetGameButton = document.getElementById('reset-game-button');
             questionCounterDisplay = document.getElementById('question-counter');
             questionNavigationContainer = document.getElementById('question-navigation');
@@ -2180,16 +2435,25 @@
             participantSelectionModal = document.getElementById('participant-selection-modal');
             existingParticipantsButtonsContainer = document.getElementById('existing-participants-buttons');
             selectExistingParticipantButton = document.getElementById('select-existing-participant-button');
+            editSelectedParticipantButton = document.getElementById('edit-selected-participant-button'); // Yeni düzenle düğmesini ata
             nextTurnButton = document.getElementById('next-turn-button');
             teamSetupModal = document.getElementById('team-setup-modal');
             numTeamsInput = document.getElementById('num-teams-input');
             teamNameInputsContainer = document.getElementById('team-name-inputs-container');
+            confirmResetModal = document.getElementById('confirm-reset-modal'); // Yeni modalı ata
+            confirmResetYesButton = document.getElementById('confirm-reset-yes'); // Yeni düğmeleri ata
+            confirmResetNoButton = document.getElementById('confirm-reset-no'); // Yeni düğmeleri ata
+            editParticipantModal = document.getElementById('edit-participant-modal'); // Yeni düzenleme modalını ata
+            editParticipantNameInput = document.getElementById('edit-participant-name-input'); // Yeni girişi ata
+            editParticipantScoreInput = document.getElementById('edit-participant-score-input'); // Yeni skor girişini ata
+            editParticipantErrorMessage = document.getElementById('edit-participant-error-message'); // Yeni hata mesajını ata
+            editParticipantScoreErrorMessage = document.getElementById('edit-participant-score-error-message'); // Yeni skor hata mesajını ata
 
-            // Load teams and game state
+            // Takımları ve oyun durumunu yükle
             loadTeams();
             loadGameState();
 
-            // Initially show participant management screen and hide all others
+            // Başlangıçta katılımcı yönetimi ekranını göster ve diğerlerini gizle
             participantManagementScreen.classList.remove('hidden');
             unitSelectionScreen.classList.add('hidden');
             gameModeSelectionScreen.classList.add('hidden');
@@ -2198,17 +2462,19 @@
             returnToQuestionGridButton.classList.add('hidden');
             nextTurnButton.classList.add('hidden');
             teamSetupModal.classList.add('hidden');
+            confirmResetModal.classList.add('hidden'); // Onay modalının gizli olduğundan emin ol
+            editParticipantModal.classList.add('hidden'); // Katılımcı düzenleme modalının gizli olduğundan emin ol
             
             setGameBackground('general');
-            renderLeaderboard(); // Render leaderboard on initial load
+            renderLeaderboard(); // İlk yüklemede lider tablosunu render et
             applyButtonColors();
 
-            // Initialize Tone.js synthesizers
+            // Tone.js sentezleyicilerini başlat
             correctSynth = new Tone.Synth().toDestination();
             incorrectSynth = new Tone.Synth().toDestination();
             timerSynth = new Tone.Synth().toDestination();
 
-            // Add event listeners for "Siteye Dön" buttons
+            // "Siteye Dön" butonları için olay dinleyicileri ekle
             const allGoToSiteButtons = document.querySelectorAll('[id^="go-to-main-site-button"]');
             allGoToSiteButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -2216,9 +2482,20 @@
                 });
             });
 
-            // Add event listeners for modal close buttons
-            document.getElementById('close-participant-modal').addEventListener('click', window.hideParticipantSelectionModal); // Call the global function
-            document.getElementById('close-team-modal').addEventListener('click', window.hideTeamSetupModal); // Call the global function
+            // Modal kapatma butonları için olay dinleyicileri ekle
+            document.getElementById('close-participant-modal').addEventListener('click', window.hideParticipantSelectionModal); // Genel fonksiyonu çağır
+            document.getElementById('close-team-modal').addEventListener('click', window.hideTeamSetupModal); // Genel fonksiyonu çağır
+            document.getElementById('close-reset-modal').addEventListener('click', window.hideResetConfirmation); // Sıfırlama modalı için kapatma düğmesi
+            document.getElementById('close-edit-participant-modal').addEventListener('click', window.hideEditParticipantModal); // Katılımcı düzenleme modalı için kapatma düğmesi
+
+            // Katılımcı seçim modalında yeni "Düzenle" düğmesi için olay dinleyicisi ekle
+            if (editSelectedParticipantButton) {
+                editSelectedParticipantButton.addEventListener('click', () => {
+                    if (selectedParticipantIdInModal) {
+                        window.showEditParticipantModal(selectedParticipantIdInModal);
+                    }
+                });
+            }
         };
     </script>
 </head>
@@ -2233,7 +2510,26 @@
                 </div>
             <div class="button-group mt-6">
                 <button id="select-existing-participant-button" class="action-button" onclick="selectExistingParticipant()">Seç ve Başla</button>
-                <button id="cancel-participant-selection-button" class="action-button" onclick="window.hideParticipantSelectionModal()">İptal Et</button>
+                <button id="edit-selected-participant-button" class="action-button" disabled>Düzenle</button> <button id="cancel-participant-selection-button" class="action-button" onclick="window.hideParticipantSelectionModal()">İptal Et</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-participant-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-edit-participant-modal" class="modal-close-button">✖</button>
+            <h3>Katılımcı Adını Düzenle</h3>
+            <label for="edit-participant-name-input" class="block text-gray-700 text-base font-medium mb-1 text-left">Adı:</label>
+            <input type="text" id="edit-participant-name-input" class="edit-participant-modal-input" placeholder="Yeni Katılımcı Adı">
+            <p id="edit-participant-error-message" class="text-red-500 text-sm mt-0 mb-2 text-left hidden"></p>
+
+            <label for="edit-participant-score-input" class="block text-gray-700 text-base font-medium mb-1 text-left">Puanı:</label>
+            <input type="number" id="edit-participant-score-input" class="edit-participant-modal-input" placeholder="Yeni Puan">
+            <p id="edit-participant-score-error-message" class="text-red-500 text-sm mt-0 mb-2 text-left hidden"></p>
+
+            <div class="button-group mt-6">
+                <button id="save-edit-participant-button" class="action-button" onclick="saveEditedParticipantName()">Kaydet</button>
+                <button id="cancel-edit-participant-button" class="action-button" onclick="cancelEditParticipantName()">İptal Et</button>
             </div>
         </div>
     </div>
@@ -2256,21 +2552,36 @@
         </div>
     </div>
 
+    <div id="confirm-reset-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-reset-modal" class="modal-close-button">✖</button>
+            <h3>Oyunu Baştan Başlat</h3>
+            <p class="text-gray-700 text-xl mb-6">Tüm kayıtlı öğrenci verileri ve puanları silinecektir. Emin misiniz?</p>
+            <div class="button-group">
+                <button id="confirm-reset-yes" class="action-button" onclick="confirmResetGame()">Evet, Eminim</button>
+                <button id="confirm-reset-no" class="action-button" onclick="hideResetConfirmation()">Hayır, İptal Et</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Din Kültürü ve Ahlak Bilgisi Bilgi Yarışması</h1>
 
         <div id="participant-management-screen" class="player-selection-screen">
-            <h2>Öğrenciler</h2>
             <div id="leaderboard-container" class="score-table-container">
                 </div>
 
-            <div class="w-full max-w-md">
+            <div class="w-full max-w-lg">
                 <input type="text" id="new-participant-name-input-main" class="w-full p-3 border-2 border-gray-300 rounded-lg text-lg mb-4 focus:outline-none focus:border-blue-500" placeholder="Yeni Öğrenci Adı">
-                <button id="add-new-participant-main-button" class="action-button w-full mb-4" onclick="addNewParticipantAndProceed()">Yeni Öğrenci Ekle ve Başla</button>
-                <button id="show-registered-users-button" class="action-button w-full mb-4" onclick="showRegisteredUsersScreen()">Kayıtlı Öğrenci Seç</button>
-                <button id="start-over-button" class="action-button w-full" onclick="resetGame()">Baştan Başla</button>
+                <div class="flex justify-center gap-4 mb-4">
+                    <button id="add-new-participant-main-button" class="action-button flex-1 main-action-button" onclick="addNewParticipantAndProceed()">Yeni Öğrenci Ekle ve Başla</button>
+                    <button id="show-registered-users-button" class="action-button flex-1 main-action-button" onclick="showRegisteredUsersScreen()">Kayıtlı Öğrenci Seç</button>
+                </div>
             </div>
-            <button id="go-to-main-site-button" class="action-button mt-8">Siteye Dön</button>
+            <div class="button-group mt-8 w-full max-w-2xl mx-auto">
+                <button id="start-over-button" class="action-button flex-1" onclick="showResetConfirmation()">Baştan Başla</button>
+                <button id="go-to-main-site-button" class="action-button flex-1" onclick="window.location.href = 'https://ozeme42.github.io/yunus/index.html';">Siteye Dön</button>
+            </div>
         </div>
 
         <div id="unit-selection-screen" class="player-selection-screen hidden">
@@ -2306,7 +2617,7 @@
             
             <div class="button-group mt-4" id="question-grid-buttons">
                 <button id="return-to-main-menu-grid-button" class="action-button" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
-                <button id="go-to-main-site-button-grid" class="action-button">Siteye Dön</button>
+                <button id="go-to-main-site-button-grid" class="action-button" onclick="window.location.href = 'https://ozeme42.github.io/yunus/index.html';">Siteye Dön</button>
             </div>
 
             <div id="quiz-content" class="hidden">
@@ -2329,7 +2640,7 @@
                 <div id="final-participant-scores-display" class="score-table-container"></div>
                 <button id="reset-game-button" class="action-button" onclick="resetGame()">Yeniden Başla</button>
                 <button id="return-to-main-menu-from-final-button" class="action-button mt-4" onclick="returnToMainMenu()">Ana Sayfaya Dön</button>
-                <button id="go-to-main-site-button-final" class="action-button mt-4">Siteye Dön</button>
+                <button id="go-to-main-site-button-final" class="action-button mt-4" onclick="window.location.href = 'https://ozeme42.github.io/yunus/index.html';">Siteye Dön</button>
             </div>
         </div>
     </div>
