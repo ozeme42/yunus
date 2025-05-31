@@ -324,6 +324,14 @@
             gap: 1rem;
             margin-top: 0; /* Boşluk kaldırıldı */
         }
+        /* Make button groups stack vertically on small screens */
+        @media (max-width: 640px) {
+            .button-group {
+                flex-direction: column;
+                gap: 0.8rem; /* Slightly smaller gap when stacked */
+            }
+        }
+
         .action-button {
             padding: 0.9rem 2.2rem; /* Buton paddingi büyütüldü */
             color: white;
@@ -508,6 +516,17 @@
                 padding: 0.8rem 1.5rem; /* Reduced padding */
                 min-width: unset; /* Allow buttons to shrink */
                 width: 100%; /* Take full width of the grid column */
+            }
+            /* Adjust main action buttons on small screens */
+            .main-action-button {
+                font-size: 0.9rem; /* Even smaller on very small screens */
+                padding: 0.5rem 0.8rem;
+                width: 100%; /* Ensure they take full width when stacked */
+            }
+            .player-selection-screen .button-group {
+                flex-direction: column; /* Stack buttons vertically */
+                gap: 0.8rem; /* Space between stacked buttons */
+                width: 100%; /* Ensure button group takes full width */
             }
         }
         /* New styles for LLM explanation */
@@ -861,10 +880,11 @@
             white-space: nowrap; /* Keep text on a single line */
         }
 
+        /* Ensure all buttons take full width when stacked on mobile */
         @media (max-width: 640px) {
-            .main-action-button {
-                font-size: 0.8rem; /* Even smaller on very small screens */
-                padding: 0.5rem 0.8rem;
+            .action-button {
+                min-width: unset; /* Remove minimum width constraint */
+                width: 100%; /* Make them take full width */
             }
         }
     </style>
