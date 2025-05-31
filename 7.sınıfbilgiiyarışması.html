@@ -494,6 +494,22 @@
             max-width: 800px; /* Optional: limit max width for very large screens */
             margin: 0 auto; /* Center the grid */
         }
+        /* New media query for mobile adjustments */
+        @media (max-width: 640px) {
+            .selection-buttons {
+                grid-template-columns: 1fr; /* Single column on small screens */
+                gap: 1rem; /* Slightly reduced gap */
+                padding: 0 0.5rem; /* Add horizontal padding to prevent edge-to-edge touch */
+            }
+
+            /* Adjust unit selection buttons specifically for mobile */
+            #unit-selection-screen .action-button {
+                font-size: 1.1rem; /* Smaller font size */
+                padding: 0.8rem 1.5rem; /* Reduced padding */
+                min-width: unset; /* Allow buttons to shrink */
+                width: 100%; /* Take full width of the grid column */
+            }
+        }
         /* New styles for LLM explanation */
         .detailed-explanation-container {
             margin-top: 1.8rem;
