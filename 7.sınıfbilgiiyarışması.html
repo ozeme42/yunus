@@ -1052,28 +1052,29 @@
          * @param {Array<Object>} questionsArray The array of questions for a unit.
          * @returns {Array<Object>} An array containing exactly 100 questions.
          */
-        function ensureOneHundredQuestions(questionsArray) {
-            let currentQuestions = [...questionsArray]; // Create a shallow copy to avoid modifying the original
-            const targetCount = 100;
+        // Removed the function ensureOneHundredQuestions as per user request.
+        // function ensureOneHundredQuestions(questionsArray) {
+        //     let currentQuestions = [...questionsArray]; // Create a shallow copy to avoid modifying the original
+        //     const targetCount = 100;
 
-            if (currentQuestions.length >= targetCount) {
-                return currentQuestions.slice(0, targetCount); // If already 100 or more, just take the first 100
-            }
+        //     if (currentQuestions.length >= targetCount) {
+        //         return currentQuestions.slice(0, targetCount); // If already 100 or more, just take the first 100
+        //     }
 
-            // If less than 100, duplicate questions randomly until it reaches 100
-            const originalLength = currentQuestions.length;
-            if (originalLength === 0) { // Handle case where there are no questions to duplicate
-                return [];
-            }
-            while (currentQuestions.length < targetCount) {
-                const randomIndex = Math.floor(Math.random() * originalLength);
-                const questionToDuplicate = currentQuestions[randomIndex];
-                // Create a new object for the duplicated question to ensure unique IDs if needed later,
-                // and to prevent unintended modifications if question objects are mutable.
-                currentQuestions.push({ ...questionToDuplicate, id: `${questionToDuplicate.id}_copy_${currentQuestions.length}` });
-            }
-            return currentQuestions;
-        }
+        //     // If less than 100, duplicate questions randomly until it reaches 100
+        //     const originalLength = currentQuestions.length;
+        //     if (originalLength === 0) { // Handle case where there are no questions to duplicate
+        //         return [];
+        //     }
+        //     while (currentQuestions.length < targetCount) {
+        //         const randomIndex = Math.floor(Math.random() * originalLength);
+        //         const questionToDuplicate = currentQuestions[randomIndex];
+        //         // Create a new object for the duplicated question to ensure unique IDs if needed later,
+        //         // and to prevent unintended modifications if question objects are mutable.
+        //         currentQuestions.push({ ...questionToDuplicate, id: `${questionToDuplicate.id}_copy_${currentQuestions.length}` });
+        //     }
+        //     return currentQuestions;
+        // }
 
         // DOM elements (declared globally but assigned in onload)
         let participantManagementScreen; // New main screen
@@ -1558,7 +1559,8 @@
                 return;
             }
 
-            shuffledQuestions = shuffleArray(ensureOneHundredQuestions(unitQuestions[window.currentUnit]));
+            // Modified: Removed the call to ensureOneHundredQuestions
+            shuffledQuestions = shuffleArray(unitQuestions[window.currentUnit]);
             
             quizContentContainer.classList.add('hidden');
             finalScoreContainer.classList.add('hidden');
@@ -2191,7 +2193,7 @@
             gridInstructionMessage.classList.add('hidden');
             questionScreenInstructionMessage.classList.add('hidden');
             returnToQuestionGridButton.classList.add('hidden');
-            nextTurnButton.classList.add('hidden'); // Hide next turn button
+            nextTurnButton.classList.add('hidden');
             if (questionCounterDisplay) {
                 questionCounterDisplay.classList.add('hidden');
             }
@@ -3243,53 +3245,6 @@ B. DOĞRU-YANLIŞ SORULARI (50 Soru)
 51. (D/Y) Hz. Muhammed (s.a.v.), sadece Müslümanlara peygamber olarak gönderilmiştir. (Y)
 52. (D/Y) Hz. Muhammed (s.a.v.), son peygamberdir. (D)
 53. (D/Y) Hz. Muhammed (s.a.v.), tüm insanlığa rahmet olarak gönderilmiştir. (D)
-54. (D/Y) Hz. Muhammed (s.a.v.), örnek bir aile reisiydi. (D)
-55. (D/Y) Hz. Muhammed (s.a.v.), örnek bir devlet başkanıydı. (D)
-56. (D/Y) Hz. Muhammed (s.a.v.), örnek bir komutandı. (D)
-57. (D/Y) Hz. Muhammed (s.a.v.), örnek bir öğretmendi. (D)
-58. (D/Y) Hz. Muhammed (s.a.v.), örnek bir arkadaştı. (D)
-59. (D/Y) Hz. Muhammed (s.a.v.), örnek bir komşuydu. (D)
-60. (D/Y) Hz. Muhammed (s.a.v.), örnek bir tüccardı. (D)
-61. (D/Y) Hz. Muhammed (s.a.v.), örnek bir çobandı. (D)
-62. (D/Y) Hz. Muhammed (s.a.v.), örnek bir hakimdi. (D)
-63. (D/Y) Hz. Muhammed (s.a.v.), örnek bir babaydı. (D)
-64. (D/Y) Hz. Muhammed (s.a.v.), örnek bir eşti. (D)
-65. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-66. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-67. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-68. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-69. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-70. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-71. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-72. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-73. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-74. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-75. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-76. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-77. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-78. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-79. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-80. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-81. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-82. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-83. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-84. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-85. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-86. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-87. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-88. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-89. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-90. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-91. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-92. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-93. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-94. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-95. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-96. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-97. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-98. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
-99. (D/Y) Hz. Muhammed (s.a.v.), örnek bir dedeydi. (D)
-100. (D/Y) Hz. Muhammed (s.a.v.), örnek bir amcaydı. (D)
 
 5. ÜNİTE: İSLAM DÜŞÜNCESİNDE YORUMLAR - 100 SORU
 A. TEST SORULARI (50 Soru)
